@@ -1,0 +1,167 @@
+{
+  "variation": "V4 metric + window sensitivity",
+  "a_metric_agreement": {
+    "n": 14,
+    "spearman_macro_vs_pearson": {
+      "rho": 0.3450549450549451,
+      "p": 0.2269486800417004
+    },
+    "sign_agreement": "10/14",
+    "note": "macro is the canonical primary metric; pearson is the legacy secondary",
+    "rows": [
+      {
+        "title": "Evergrande Group",
+        "drop_macro": 0.613300129115392,
+        "drop_pearson": 0.17880561305206588
+      },
+      {
+        "title": "Diego Maradona",
+        "drop_macro": 0.5700163462323877,
+        "drop_pearson": 0.32667183591368665
+      },
+      {
+        "title": "Volodymyr Zelenskyy",
+        "drop_macro": 0.4449175412247487,
+        "drop_pearson": 0.40923431302723234
+      },
+      {
+        "title": "Queen Elizabeth II",
+        "drop_macro": 0.40641226952840437,
+        "drop_pearson": 0.18970453977477786
+      },
+      {
+        "title": "Donald Trump",
+        "drop_macro": 0.3527943628158535,
+        "drop_pearson": 0.3375743676125219
+      },
+      {
+        "title": "Boeing 737 MAX",
+        "drop_macro": 0.2905451980540399,
+        "drop_pearson": 0.44495951279878465
+      },
+      {
+        "title": "Bitcoin",
+        "drop_macro": 0.2218618442201682,
+        "drop_pearson": 0.42049359664518604
+      },
+      {
+        "title": "Joe Biden",
+        "drop_macro": 0.164129217484964,
+        "drop_pearson": -0.21420052725339467
+      },
+      {
+        "title": "Notre-Dame de Paris",
+        "drop_macro": 0.1439835447377441,
+        "drop_pearson": 0.07099893957212411
+      },
+      {
+        "title": "Credit Suisse",
+        "drop_macro": 0.07086426996722428,
+        "drop_pearson": 0.13007089930312055
+      },
+      {
+        "title": "Twitter",
+        "drop_macro": 0.02983284933751873,
+        "drop_pearson": 0.28506582155891325
+      },
+      {
+        "title": "NATO",
+        "drop_macro": -0.024306380313868114,
+        "drop_pearson": 0.26044002178811654
+      },
+      {
+        "title": "Kobe Bryant",
+        "drop_macro": -0.26557731387059214,
+        "drop_pearson": 0.22351220951823858
+      },
+      {
+        "title": "Suez Canal",
+        "drop_macro": -0.40388975225010726,
+        "drop_pearson": 0.12701626017962797
+      }
+    ]
+  },
+  "b_sensitivity": {
+    "frozen_cell": "bucket3_base49 (= the reported 0.19)",
+    "grid": {
+      "bucket2_base35": {
+        "bucket_days": 2,
+        "baseline_days": 35,
+        "median_event_drop": 0.23059947916787704,
+        "n": 14
+      },
+      "bucket2_base49": {
+        "bucket_days": 2,
+        "baseline_days": 49,
+        "median_event_drop": 0.15050746773502682,
+        "n": 14
+      },
+      "bucket2_base70": {
+        "bucket_days": 2,
+        "baseline_days": 70,
+        "median_event_drop": -0.03549862203487919,
+        "n": 14
+      },
+      "bucket3_base35": {
+        "bucket_days": 3,
+        "baseline_days": 35,
+        "median_event_drop": 0.2559870462525311,
+        "n": 14
+      },
+      "bucket3_base49": {
+        "bucket_days": 3,
+        "baseline_days": 49,
+        "median_event_drop": 0.1929955308525661,
+        "n": 14
+      },
+      "bucket3_base70": {
+        "bucket_days": 3,
+        "baseline_days": 70,
+        "median_event_drop": 0.076041676686941,
+        "n": 14
+      },
+      "bucket5_base35": {
+        "bucket_days": 5,
+        "baseline_days": 35,
+        "median_event_drop": 0.15362656719899498,
+        "n": 14
+      },
+      "bucket5_base49": {
+        "bucket_days": 5,
+        "baseline_days": 49,
+        "median_event_drop": 0.24305328613683963,
+        "n": 14
+      },
+      "bucket5_base70": {
+        "bucket_days": 5,
+        "baseline_days": 70,
+        "median_event_drop": 0.12092331684453878,
+        "n": 14
+      },
+      "bucket7_base35": {
+        "bucket_days": 7,
+        "baseline_days": 35,
+        "median_event_drop": 0.24772954949428955,
+        "n": 14
+      },
+      "bucket7_base49": {
+        "bucket_days": 7,
+        "baseline_days": 49,
+        "median_event_drop": 0.17412117156991974,
+        "n": 14
+      },
+      "bucket7_base70": {
+        "bucket_days": 7,
+        "baseline_days": 70,
+        "median_event_drop": 0.14998410475526286,
+        "n": 14
+      }
+    },
+    "median_range": [
+      -0.03549862203487919,
+      0.2559870462525311
+    ],
+    "median_of_medians": 0.16387386938445736,
+    "all_below_f030": true
+  }
+}

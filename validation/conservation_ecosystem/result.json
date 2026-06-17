@@ -1,0 +1,94 @@
+{
+  "test": "pre-registration (i) conservation / zero-sum attention, ECOSYSTEM scale",
+  "proxy": "weekly submission count (activity proxy for attention-minutes)",
+  "thresholds": {
+    "X_drift_bound": 0.15,
+    "Y_churn_floor": 0.4
+  },
+  "basket": [
+    "wallstreetbets",
+    "investing",
+    "stocks",
+    "StockMarket",
+    "options",
+    "pennystocks",
+    "CryptoCurrency",
+    "GME",
+    "amcstock",
+    "Superstonk"
+  ],
+  "calm_window": {
+    "weeks": [
+      "2020-10-05",
+      "2020-10-12",
+      "2020-10-19",
+      "2020-10-26",
+      "2020-11-02",
+      "2020-11-09",
+      "2020-11-16",
+      "2020-11-23"
+    ]
+  },
+  "mania_window": {
+    "weeks": [
+      "2021-01-18",
+      "2021-01-25",
+      "2021-02-01",
+      "2021-02-08",
+      "2021-02-15",
+      "2021-02-22",
+      "2021-03-01",
+      "2021-03-08"
+    ]
+  },
+  "per_sub_mean_weekly_calm": {
+    "wallstreetbets": 5102.0,
+    "investing": 864.8,
+    "stocks": 1274.2,
+    "StockMarket": 343.5,
+    "options": 421.1,
+    "pennystocks": 581.8,
+    "CryptoCurrency": 3311.4,
+    "GME": 0.8,
+    "amcstock": 0.0,
+    "Superstonk": 0.0
+  },
+  "per_sub_mean_weekly_mania": {
+    "wallstreetbets": 123512.1,
+    "investing": 3145.1,
+    "stocks": 5500.2,
+    "StockMarket": 2713.5,
+    "options": 1639.8,
+    "pennystocks": 5414.0,
+    "CryptoCurrency": 10826.2,
+    "GME": 12701.9,
+    "amcstock": 5206.9,
+    "Superstonk": 0.0
+  },
+  "calm_total_mean_weekly": 11899.5,
+  "mania_total_mean_weekly": 170659.8,
+  "total_drift": 13.3418,
+  "total_drift_pct": 1334.2,
+  "composition_churn_TV": 0.3999,
+  "composition_churn_pct": 40.0,
+  "full_basket_verdict": "CONTRADICTED",
+  "verdict_note": "basket total ballooned by >X during the mania; aggregate activity in this basket is NOT conserved at this scale",
+  "incumbent_only": {
+    "note": "subset of subs that already existed in the CALM window (drops amcstock/Superstonk which were born during the mania); isolates redistribution among pre-existing channels from the import created by brand-new subreddits",
+    "subs": [
+      "wallstreetbets",
+      "investing",
+      "stocks",
+      "StockMarket",
+      "options",
+      "pennystocks",
+      "CryptoCurrency",
+      "GME"
+    ],
+    "drift": 12.9042,
+    "drift_pct": 1290.4,
+    "churn_TV": 0.3945,
+    "churn_pct": 39.4
+  },
+  "scale_caveat": "Submission count is an activity proxy for attention-minutes, not a direct measure. This finance/meme basket is NOT the whole attention economy; a balloon here can be genuine import of attention from outside the basket (people reallocating from non-finance subs and from offline) rather than a refutation of the GLOBAL sub-generational-budget claim. The pre-registered global test fixes the scale to the top-N platform total, which this single-ecosystem basket does not span."
+}

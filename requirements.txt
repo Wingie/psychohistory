@@ -1,0 +1,12 @@
+# Core engine + simulations (the verified psychohistory engine, sims_v2.py, the skill)
+systems            # lethain stock-and-flow DSL (the L1 slow-stock layer)
+numpy
+matplotlib
+scipy
+
+# Pipeline v0.3 observation-layer upgrades (validation/pipeline_v03/)
+networkx           # interaction-graph community detection (blind N_eff)
+python-louvain     # Louvain community detection
+sentence-transformers   # local all-MiniLM-L6-v2 embeddings for semantic critical-slowing-down (CPU, no GPU)
+
+# Tested with Python 3.12. The paper compiles with pdflatex (MiKTeX/TeX Live), run twice.

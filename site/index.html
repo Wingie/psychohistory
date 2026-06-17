@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Psychohistory — a bounded engine for predictable social dynamics</title>
+<link rel="stylesheet" href="styles.css" />
+<!-- Plotly powers the live charts on the Math and Tests pages; the landing page
+     is fully static. -->
+</head>
+<body>
+
+<!-- ============ NAV (shared across pages) ============ -->
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="math.html">The math</a>
+      <a href="tests.html">Tests &amp; data</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Encyclopedia Galactica · bounded analogue</div>
+    <h1>Psychohistory: a bounded engine for predictable social dynamics</h1>
+    <p class="thesis">Weather prediction worked because the atmosphere has conservation laws, weak coupling at the forecast scale, and indifference to the forecast. Society has <em>partial, local, conditional</em> analogues of each — and the engine reports its own scope as a first-class output.</p>
+    <div class="headline-stat" id="headlineStat"><!-- filled from data --></div>
+    <div class="chips-row" id="heroChips"><!-- filled from data --></div>
+  </div>
+</header>
+
+<!-- ============ NAVIGATION HUB ============ -->
+<section id="hub">
+  <div class="wrap">
+    <div class="eyebrow">Start here</div>
+    <h2>Four ways in</h2>
+    <p class="lead">This site is split into a guided tutorial, a worked-out account of the mathematics, and the full empirical record of every test run against real data. Pick a door.</p>
+
+    <div class="hub-grid">
+      <a class="hub-card" href="tutorial.html">
+        <div class="hub-eyebrow">01 · Learn it</div>
+        <h3>The tutorial</h3>
+        <p>Psychohistory from scratch: the weather analogy, the three structural conditions, the eight mechanism layers, and one cascade (GameStop, Jan 2021) walked down every layer.</p>
+        <div class="hub-go">Begin the walkthrough ▸</div>
+        <div class="hub-meta"><span>8 layers</span><span>SVB &amp; GameStop worked</span><span>scope verdicts</span></div>
+      </a>
+      <a class="hub-card" href="math.html">
+        <div class="hub-eyebrow">02 · Understand it</div>
+        <h3>The mathematics</h3>
+        <p>Every equation explained in plain language and rendered properly: conserved-measure transport, near-decomposability and N<sub>eff</sub>, Kuramoto criticality, mean-field-game fixed points, the skill horizon, and assimilation. Each tied to a slider you can move.</p>
+        <div class="hub-go">Read the math ▸</div>
+        <div class="hub-meta"><span>3 live demos</span><span>KaTeX</span><span>the 4 corrections</span></div>
+      </a>
+      <a class="hub-card" href="tests.html">
+        <div class="hub-eyebrow">03 · Test it</div>
+        <h3>Tests &amp; data</h3>
+        <p>The empirical program: pre-registered falsifiers run against Reddit, Wikipedia and GitHub. The criticality gear's prediction now <b style="color:var(--green)">seals as a pass</b> on fresh data; three other claims honestly deflate. Every verdict with its real numbers.</p>
+        <div class="hub-go">See what the data says ▸</div>
+        <div class="hub-meta"><span>N<sub>eff</sub> collapse SEALED</span><span>9/12, p=1.7e-7</span><span>frozen thresholds</span></div>
+      </a>
+      <a class="hub-card" href="../psychohistory.pdf">
+        <div class="hub-eyebrow">04 · Read it whole</div>
+        <h3>The paper (PDF)</h3>
+        <p>The full manuscript, 79 pages: the framework, the modern instantiation as a distributed Multivac, the governance trilemma, and the complete first empirical contact. The site is the paper made interactive.</p>
+        <div class="hub-go">Open the PDF ▸</div>
+        <div class="hub-meta"><span>79 pp</span><span>compiles clean</span><span>honesty rails</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THESIS ============ -->
+<section id="thesis">
+  <div class="wrap">
+    <div class="eyebrow">The thesis</div>
+    <h2>Three structural properties, three partial repairs</h2>
+    <p class="lead">Numerical weather prediction is the existence proof that a system of comparable apparent difficulty can be forecast — not because of compute, but because of three conditions. The conditions, not the compute, are the theory.</p>
+
+    <div class="grid-2" style="margin-top:24px">
+      <div class="card">
+        <h4>P1 · Conservation laws</h4>
+        <p class="dim">Mass, energy, momentum are conserved; trajectories are confined to low-dimensional manifolds. <b style="color:var(--ink)">Social analogue:</b> attention is a conserved <em>normalized measure</em> — allocated, never created. Belief is a drift field riding on top, not a stock.</p>
+      </div>
+      <div class="card">
+        <h4>P2 · Weak coupling at forecast scale</h4>
+        <p class="dim">Ensemble statistics over quasi-independent regions are meaningful. <b style="color:var(--ink)">Social analogue:</b> Simon near-decomposability — dense within communities, sparse between. The statistical unit is the <em>block</em>; N<sub>eff</sub> ≈ K, not the population.</p>
+      </div>
+      <div class="card">
+        <h4>P3 · Non-reflexivity</h4>
+        <p class="dim">The atmosphere does not read the forecast. <b style="color:var(--ink)">Social analogue:</b> reflexivity is dissolved at mean-field-game fixed points — a forecast is publishable iff it reproduces itself once everyone acts on it.</p>
+      </div>
+      <div class="card">
+        <h4>The running example · SVB, March 2023</h4>
+        <p class="dim">Attention concentrated in days; the forecast of failure caused the failure; the run propagated within one professional block before jumping; a single deposit-guarantee announcement at peak sensitivity halted the cascade. Every component appears in one week.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px">The objections and their repairs</h3>
+    <div class="card" style="padding-top:8px;padding-bottom:8px">
+      <table class="objtable">
+        <thead><tr><th>Objection</th><th>Repair</th><th>Mechanism</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>No conservation — belief appears freely</td>
+            <td>Attention conserved; belief = drift</td>
+            <td class="dim">Total media time is ~flat; composition churns. Continuity equation ∂ρ/∂t + ∇·J = s; belief is a direction on transport, not a sub-measure. <a href="math.html#conservation">▸ the math</a></td>
+          </tr>
+          <tr>
+            <td>Reflexivity — the forecast is an input</td>
+            <td>Dissolves at MFG fixed points</td>
+            <td class="dim">Lasry–Lions equilibrium ρ* reproduces itself under best-response. Publishable set = equilibrium set; deposit insurance is the engineered fixed point. <a href="math.html#reflexivity">▸ the math</a></td>
+          </tr>
+          <tr>
+            <td>Correlated agents — small effective N</td>
+            <td>Simon blocks, N<sub>eff</sub> ≈ K</td>
+            <td class="dim">Near-decomposable hierarchies; model communities, not persons. N<sub>eff</sub> read from the macro variance-ratio, never Pearson-of-fluctuations. <a href="math.html#neff">▸ the math</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CANON ============ -->
+<section id="canon">
+  <div class="wrap">
+    <div class="eyebrow">The canon spine</div>
+    <h2>Asimov concept → real-math analogue</h2>
+    <p class="lead">The framework is a literal, bounded reading of the Foundation machinery. Each canonical concept maps to a piece of mean-field / control theory.</p>
+    <div class="card" style="margin-top:22px;padding-top:8px;padding-bottom:8px">
+      <table class="maptable">
+        <thead><tr><th>Asimov concept</th><th>Real-math analogue</th><th>Lives in</th></tr></thead>
+        <tbody id="canonBody"><!-- filled from app.js --></tbody>
+      </table>
+    </div>
+    <p class="note">Seldon inverts secrecy: he published the Plan's <em>existence</em> (the fixed-point components) and hid its contents. Information release is itself a control input. <a href="tutorial.html">▸ the full tutorial</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="provlinks">
+      <a href="tutorial.html">▸ Tutorial</a>
+      <a href="math.html">▸ The math</a>
+      <a href="tests.html">▸ Tests &amp; data</a>
+      <a href="../psychohistory.pdf">▸ the paper (PDF)</a>
+      <a href="../sims_v2.py">▸ the verified sims (Python)</a>
+    </div>
+    <p class="faint">A bounded, regime-aware analogue. It does not claim Seldon's psychohistory — it knows where it is valid and reports that. Charts use Plotly via CDN and need internet; all other interactivity is offline.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

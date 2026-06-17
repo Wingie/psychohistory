@@ -1,0 +1,253 @@
+{
+  "test1": {
+    "test": "structural_overdetermination",
+    "cohort": [
+      "autogpt",
+      "langchain",
+      "gpt_engineer",
+      "privategpt",
+      "agentgpt",
+      "superagi",
+      "metagpt"
+    ],
+    "cohort_first_active_week": {
+      "autogpt": "2023-03-12",
+      "langchain": "2022-10-23",
+      "gpt_engineer": "2023-04-23",
+      "privategpt": "2023-04-30",
+      "agentgpt": "2023-04-02",
+      "superagi": "2023-05-14",
+      "metagpt": "2023-06-25"
+    },
+    "median_cohort_birth": "2023-04-23",
+    "wave_birth_span_weeks": 15.0,
+    "first_breakout": "2023-01-08",
+    "n_repos_active_before_first_breakout": 1,
+    "cohort_born_within_8wk_of_median_birth": [
+      [
+        "autogpt",
+        "2023-03-12"
+      ],
+      [
+        "agentgpt",
+        "2023-04-02"
+      ],
+      [
+        "gpt_engineer",
+        "2023-04-23"
+      ],
+      [
+        "privategpt",
+        "2023-04-30"
+      ],
+      [
+        "superagi",
+        "2023-05-14"
+      ]
+    ],
+    "n_born_in_window": 5,
+    "ecosystem_pre_breakout_log_slope_per_week": 0.2315,
+    "ecosystem_pre_breakout_weekly_growth_pct": 26.0,
+    "synchrony_window": [
+      "2023-03-26",
+      "2023-10-08"
+    ],
+    "n_repos_in_synchrony": 7,
+    "mean_pairwise_detrended_corr": 0.048,
+    "synchrony_null_mean": -0.002,
+    "synchrony_percentile_vs_null": 0.904,
+    "verdict_vs_reddit": "PARTIAL / WEAK-REPLICATE"
+  },
+  "test2": {
+    "test": "early_warning_csd",
+    "detector": "detrended_CSD_kendall_tau",
+    "per_event": [
+      {
+        "repo": "autogpt",
+        "onset": "2023-04-02",
+        "n_weeks": 170,
+        "status": "INSUFFICIENT_DATA",
+        "weeks_of_history_before_onset": 3,
+        "born_into_cascade": true,
+        "reason": "repo born essentially AT its cascade (3 wk pre-onset history < 6 needed): instant ignition, no slow build to detect"
+      },
+      {
+        "repo": "langchain",
+        "onset": "2023-01-08",
+        "n_weeks": 191,
+        "status": "OK",
+        "weeks_of_history_before_onset": 11,
+        "window": 6,
+        "auc": 0.4714285714285714,
+        "percentile": 0.24571428571428572,
+        "z": -0.07253399208313283,
+        "tau_var": 1.0,
+        "tau_ar1": -1.0,
+        "n_null": 175
+      },
+      {
+        "repo": "gpt_engineer",
+        "onset": "2023-06-11",
+        "n_weeks": 164,
+        "status": "OK",
+        "weeks_of_history_before_onset": 7,
+        "window": 6,
+        "auc": 0.9802631578947368,
+        "percentile": 0.9605263157894737,
+        "z": 2.8955841190883294,
+        "tau_var": 0.3333333333333333,
+        "tau_ar1": 1.0,
+        "n_null": 152
+      },
+      {
+        "repo": "metagpt",
+        "onset": "2023-08-06",
+        "n_weeks": 155,
+        "status": "OK",
+        "weeks_of_history_before_onset": 6,
+        "window": 6,
+        "auc": 0.5243055555555556,
+        "percentile": 0.19444444444444445,
+        "z": 0.08181830356891304,
+        "tau_var": -1.0,
+        "tau_ar1": 1.0,
+        "n_null": 144
+      },
+      {
+        "repo": "superagi",
+        "onset": "2023-06-04",
+        "n_weeks": 162,
+        "status": "INSUFFICIENT_DATA",
+        "weeks_of_history_before_onset": 3,
+        "born_into_cascade": true,
+        "reason": "repo born essentially AT its cascade (3 wk pre-onset history < 6 needed): instant ignition, no slow build to detect"
+      },
+      {
+        "repo": "agentgpt",
+        "onset": "2023-04-09",
+        "n_weeks": 168,
+        "status": "INSUFFICIENT_DATA",
+        "weeks_of_history_before_onset": 1,
+        "born_into_cascade": true,
+        "reason": "repo born essentially AT its cascade (1 wk pre-onset history < 6 needed): instant ignition, no slow build to detect"
+      }
+    ],
+    "n_ok": 3,
+    "n_born_into_cascade_no_buildup": 3,
+    "born_into_cascade_repos": [
+      "autogpt",
+      "superagi",
+      "agentgpt"
+    ],
+    "mean_auc": 0.659,
+    "median_auc": 0.524,
+    "frac_events_auc_ge_0p8": 0.333,
+    "reddit_endogenous_mean_auc_reference": 0.5,
+    "verdict_vs_reddit": "REPLICATES (weak/mixed/inconsistent CSD, as on Reddit: no reliable impersonal early-warning; one repo fires, others at chance)"
+  },
+  "test3": {
+    "test": "operator_signal",
+    "per_event": [
+      {
+        "repo": "autogpt",
+        "onset": "2023-04-02",
+        "status": "TOO_SHORT_PRE",
+        "weeks_of_history_before_onset": 3,
+        "born_into_cascade": true,
+        "note": "repo ignited within weeks of creation -- NO months-long pre-cascade operator-buildup window exists to measure (unlike the Roaring Kitty buildup on Reddit)"
+      },
+      {
+        "repo": "langchain",
+        "onset": "2023-01-08",
+        "status": "OK",
+        "driver_login": "hwchase17",
+        "driver_pre_onset_commit_share": 0.878,
+        "buildup_log_slope_per_week": 0.0257,
+        "buildup_weekly_growth_pct": 2.6,
+        "level_vs_time_r": 0.472,
+        "early_half_slope_ratio": 4.51,
+        "ramp_run_weeks_into_onset": 0,
+        "spike_at_onset_ratio": 0.96,
+        "buildup_factor": -1,
+        "lead_weeks_raw": 0,
+        "lead_weeks_guarded": 0,
+        "peak_growth_xcorr": 0.973,
+        "concentration_pre_onset_share_trend_r": -0.121,
+        "ramp_strength": 0.0,
+        "operator_led_score": -1.0,
+        "classification": "SUDDEN-SPIKE (no sustained operator buildup)"
+      },
+      {
+        "repo": "gpt_engineer",
+        "onset": "2023-06-11",
+        "status": "OK",
+        "driver_login": "AntonOsika",
+        "driver_pre_onset_commit_share": 0.571,
+        "buildup_log_slope_per_week": 0.3158,
+        "buildup_weekly_growth_pct": 37.1,
+        "level_vs_time_r": 0.596,
+        "early_half_slope_ratio": -15.68,
+        "ramp_run_weeks_into_onset": 4,
+        "spike_at_onset_ratio": 2.58,
+        "buildup_factor": -1,
+        "lead_weeks_raw": 0,
+        "lead_weeks_guarded": 0,
+        "peak_growth_xcorr": 0.954,
+        "concentration_pre_onset_share_trend_r": -0.0,
+        "ramp_strength": 1.192,
+        "operator_led_score": -2.192,
+        "classification": "MILD-ANTICIPATION / mixed"
+      },
+      {
+        "repo": "metagpt",
+        "onset": "2023-08-06",
+        "status": "OK",
+        "driver_login": "geekan",
+        "driver_pre_onset_commit_share": 0.424,
+        "buildup_log_slope_per_week": -2.0099,
+        "buildup_weekly_growth_pct": -86.6,
+        "level_vs_time_r": -0.628,
+        "early_half_slope_ratio": 0.11,
+        "ramp_run_weeks_into_onset": 0,
+        "spike_at_onset_ratio": 0.0,
+        "buildup_factor": -1,
+        "lead_weeks_raw": 5,
+        "lead_weeks_guarded": 5,
+        "peak_growth_xcorr": 0.87,
+        "concentration_pre_onset_share_trend_r": -0.952,
+        "ramp_strength": -0.0,
+        "operator_led_score": -1.0,
+        "classification": "MILD-ANTICIPATION / mixed"
+      },
+      {
+        "repo": "superagi",
+        "onset": "2023-06-04",
+        "status": "TOO_SHORT_PRE",
+        "weeks_of_history_before_onset": 3,
+        "born_into_cascade": true,
+        "note": "repo ignited within weeks of creation -- NO months-long pre-cascade operator-buildup window exists to measure (unlike the Roaring Kitty buildup on Reddit)"
+      },
+      {
+        "repo": "agentgpt",
+        "onset": "2023-04-09",
+        "status": "TOO_SHORT_PRE",
+        "weeks_of_history_before_onset": 1,
+        "born_into_cascade": true,
+        "note": "repo ignited within weeks of creation -- NO months-long pre-cascade operator-buildup window exists to measure (unlike the Roaring Kitty buildup on Reddit)"
+      }
+    ],
+    "n_ok": 3,
+    "n_born_into_cascade": 3,
+    "born_into_cascade_repos": [
+      "autogpt",
+      "superagi",
+      "agentgpt"
+    ],
+    "n_operator_led": 0,
+    "mean_dominant_founder_commit_share": 0.624,
+    "n_high_concentration": 3,
+    "mean_ramp_run_weeks": 1.33,
+    "frac_share_rising_pre_onset": 0.0,
+    "verdict_vs_reddit": "PARTIAL / SHAPE-DIFFERS: a single dominant operator EXISTS (mean founder commit share 0.62) -- concentration mechanism replicates -- but the buildup is SUDDEN (short/no ramp), not the months-long gradual ramp seen on Reddit"
+  }
+}

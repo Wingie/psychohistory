@@ -1,0 +1,72 @@
+{
+  "n_endogenous": 6,
+  "n_exogenous": 4,
+  "endo_aucs": [
+    0.9146341463414634,
+    0.78,
+    0.0603448275862069,
+    0.5344827586206896,
+    0.20786516853932585,
+    0.5
+  ],
+  "exo_aucs": [
+    0.8318181818181818,
+    0.5,
+    0.5522388059701493,
+    0.06451612903225806
+  ],
+  "endo_mean_auc": 0.49955448351461434,
+  "endo_median_auc": 0.5172413793103448,
+  "exo_mean_auc": 0.4871432792051473,
+  "exo_median_auc": 0.5261194029850746,
+  "separation_mean_auc": 0.012411204309467072,
+  "mann_whitney": {
+    "U": 11.5,
+    "U1": 11.5,
+    "z": -0.10692486534603769,
+    "p": 0.9148485865792471,
+    "AUC_endo_gt_exo": 0.4791666666666667
+  },
+  "endo_mean_above_half": false,
+  "dissociation_holds": true,
+  "verdict": "INCONCLUSIVE (no separation)",
+  "window_sensitivity": [
+    {
+      "window": 6,
+      "gme_auc": 0.9146341463414634,
+      "endo_mean": 0.49955448351461434,
+      "exo_mean": 0.4871432792051473,
+      "separation": 0.012411204309467072,
+      "n_endo": 6,
+      "n_exo": 4
+    },
+    {
+      "window": 8,
+      "gme_auc": 0.7714285714285715,
+      "endo_mean": 0.44184723478774685,
+      "exo_mean": 0.31883050351288056,
+      "separation": 0.12301673127486629,
+      "n_endo": 6,
+      "n_exo": 4
+    },
+    {
+      "window": 10,
+      "gme_auc": 0.3793103448275862,
+      "endo_mean": 0.47362602047410807,
+      "exo_mean": 0.2666104926819213,
+      "separation": 0.2070155277921868,
+      "n_endo": 6,
+      "n_exo": 4
+    },
+    {
+      "window": 12,
+      "gme_auc": 0.43478260869565216,
+      "endo_mean": 0.5180855680210638,
+      "exo_mean": 0.4003438331854481,
+      "separation": 0.11774173483561567,
+      "n_endo": 6,
+      "n_exo": 4
+    }
+  ],
+  "primary_window": 6
+}

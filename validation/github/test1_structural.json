@@ -1,0 +1,59 @@
+{
+  "test": "structural_overdetermination",
+  "cohort": [
+    "autogpt",
+    "langchain",
+    "gpt_engineer",
+    "privategpt",
+    "agentgpt",
+    "superagi",
+    "metagpt"
+  ],
+  "cohort_first_active_week": {
+    "autogpt": "2023-03-12",
+    "langchain": "2022-10-23",
+    "gpt_engineer": "2023-04-23",
+    "privategpt": "2023-04-30",
+    "agentgpt": "2023-04-02",
+    "superagi": "2023-05-14",
+    "metagpt": "2023-06-25"
+  },
+  "median_cohort_birth": "2023-04-23",
+  "wave_birth_span_weeks": 15.0,
+  "first_breakout": "2023-01-08",
+  "n_repos_active_before_first_breakout": 1,
+  "cohort_born_within_8wk_of_median_birth": [
+    [
+      "autogpt",
+      "2023-03-12"
+    ],
+    [
+      "agentgpt",
+      "2023-04-02"
+    ],
+    [
+      "gpt_engineer",
+      "2023-04-23"
+    ],
+    [
+      "privategpt",
+      "2023-04-30"
+    ],
+    [
+      "superagi",
+      "2023-05-14"
+    ]
+  ],
+  "n_born_in_window": 5,
+  "ecosystem_pre_breakout_log_slope_per_week": 0.2315,
+  "ecosystem_pre_breakout_weekly_growth_pct": 26.0,
+  "synchrony_window": [
+    "2023-03-26",
+    "2023-10-08"
+  ],
+  "n_repos_in_synchrony": 7,
+  "mean_pairwise_detrended_corr": 0.048,
+  "synchrony_null_mean": -0.002,
+  "synchrony_percentile_vs_null": 0.904,
+  "verdict_vs_reddit": "PARTIAL / WEAK-REPLICATE"
+}

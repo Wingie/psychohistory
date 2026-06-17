@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Psychohistory — the tutorial</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="tutorial.html" class="active">Tutorial</a>
+      <a href="math.html">The math</a>
+      <a href="tests.html">Tests &amp; data</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<!-- ============ PAGE HERO ============ -->
+<header class="page-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Home</a> / Tutorial</div>
+    <h1>Psychohistory, from scratch</h1>
+    <p class="lead">Asimov imagined a science that could forecast the future of a galaxy of people while being useless for any single person. This tutorial builds the bounded, real-world version of that idea one step at a time: why weather is forecastable, which three properties make it so, where society has partial versions of each, and how the whole thing composes into an engine you can run on a single event.</p>
+  </div>
+</header>
+
+<!-- ============ 1. THE CORE IDEA ============ -->
+<section id="idea">
+  <div class="wrap">
+    <div class="eyebrow">1 · The core idea</div>
+    <h2>The weather is the existence proof</h2>
+    <p class="lead">Two hundred years ago, predicting next week's weather looked as hopeless as predicting next week's society looks now. It became routine, and not because of raw computing power. It became routine because the atmosphere has three structural properties that make ensemble forecasting meaningful.</p>
+
+    <div class="grid-2" style="margin-top:22px">
+      <div class="card">
+        <h4>Why forecasting <em>can</em> work</h4>
+        <p class="dim">A forecastable system needs: <b style="color:var(--ink)">(P1)</b> conserved quantities that confine its trajectories, <b style="color:var(--ink)">(P2)</b> weak coupling at the forecast scale so that statistics over quasi-independent regions are meaningful, and <b style="color:var(--ink)">(P3)</b> indifference to the forecast itself. The atmosphere has all three natively.</p>
+      </div>
+      <div class="card">
+        <h4>The bounded claim</h4>
+        <p class="dim">Society has <em>partial, local, conditional</em> analogues of each property. So the honest goal is not Seldon's perfect Plan. It is an engine that forecasts where the three properties hold, refuses where they do not, and <b style="color:var(--ink)">reports its own scope as a first-class output</b>. The conditions, not the compute, are the theory.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px">The three properties, and society's partial repair of each</h3>
+    <div class="card" style="padding-top:8px;padding-bottom:8px">
+      <table class="objtable">
+        <thead><tr><th>Property</th><th>In the atmosphere</th><th>Society's partial analogue</th></tr></thead>
+        <tbody>
+          <tr><td>P1 · Conservation</td><td class="dim">mass / energy / momentum conserved; motion confined to a manifold</td><td class="dim">total attention is a roughly fixed budget; a panic creates no new hours. Belief is a <em>drift</em> on that budget, not a stock that appears from nowhere.</td></tr>
+          <tr><td>P2 · Weak coupling</td><td class="dim">distant air parcels are nearly independent at the forecast scale</td><td class="dim">Simon near-decomposability: dense ties inside a community, sparse between. The statistical unit is the block; the effective number of independent units is N<sub>eff</sub> ≈ K, far below the population.</td></tr>
+          <tr><td>P3 · Non-reflexivity</td><td class="dim">the storm never reads the forecast</td><td class="dim">a published social forecast <em>is</em> an input. It is repaired by only publishing fixed points — forecasts that stay true after everyone acts on them (mean-field-game equilibria).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. RUNNING EXAMPLE ============ -->
+<section id="svb">
+  <div class="wrap">
+    <div class="eyebrow">2 · One week that contains everything</div>
+    <h2>The running example: Silicon Valley Bank, March 2023</h2>
+    <p class="lead">Before any math, hold one concrete case in mind. Every mechanism in the framework appears in a single week of the SVB collapse.</p>
+    <div class="grid-2" style="margin-top:22px">
+      <div class="card"><h4>Attention concentrated in days (P1 / L2)</h4><p class="dim">A diffuse, calm depositor base focused almost all of its collective attention onto one question — "is my deposit safe?" — within 48 hours. No new attention was created; it was violently reallocated onto SVB out of everything else.</p></div>
+      <div class="card"><h4>The forecast caused the outcome (P3 / L4)</h4><p class="dim">"The bank will fail" was not a neutral prediction. Acted on by enough depositors, it <em>made</em> the bank fail. This is reflexivity: the forecast is an input to the system it describes.</p></div>
+      <div class="card"><h4>The run moved inside one block (P2 / L3)</h4><p class="dim">It propagated first within a tightly-coupled professional community (VC-backed startups on the same Slack channels and group chats) before jumping outward. The block, not the individual depositor, was the unit.</p></div>
+      <div class="card"><h4>One intervention re-selected the basin (control / L5)</h4><p class="dim">A single deposit-guarantee announcement, costing nothing at issue, flipped the system from the "run" equilibrium back to the "no-run" equilibrium — at the exact moment of peak sensitivity. Prediction and control are duals.</p></div>
+    </div>
+    <p class="note" style="margin-top:18px">Keep SVB in mind as the small case; later we run the <em>whole</em> engine on a bigger one (GameStop) to see all the layers compose.</p>
+  </div>
+</section>
+
+<!-- ============ 3. THE LAYERS ============ -->
+<section id="layers">
+  <div class="wrap">
+    <div class="eyebrow">3 · The ontology</div>
+    <h2>Eight layers: nothing is out of scope</h2>
+    <p class="lead">The engine routes any social or economic question onto a stack of mechanism layers. The design insight is that <em>nothing is refused</em>: a value judgement is not dropped, it becomes a per-block valence prediction; a question that needs a number does not break the model, it triggers the data layer. Most questions live in the quiet accounting core; the dramatic machinery is a rare special regime.</p>
+
+    <div class="card" style="padding-top:8px;padding-bottom:8px;margin-top:22px">
+      <table class="maptable idxtable">
+        <thead><tr><th>Layer</th><th>What it does</th><th>Seen in</th></tr></thead>
+        <tbody>
+          <tr><td>L0 · Valence</td><td class="dim">resolves "is this good or bad" <em>per block</em>, not in the absolute. Inequality is structurally guaranteed; the sign flips with tribe size.</td><td><a href="#engine">GameStop L0</a></td></tr>
+          <tr><td>L1 · Slow stocks</td><td class="dim">the quiet accounting core — demographics, debt, wages, fiscal capacity. The workhorse: it fires on almost every real question.</td><td><a href="tests.html#coverage">Coverage</a></td></tr>
+          <tr><td>L2 · Attention transport</td><td class="dim">collective attention as a conserved measure, with belief as a drift field steering it. Concentration is reallocation, not creation.</td><td><a href="math.html#conservation">Demo A</a></td></tr>
+          <tr><td>L3 · Blocks &amp; N<sub>eff</sub></td><td class="dim">statistics over near-decomposable communities, not persons. The effective sample size is the number of blocks, N<sub>eff</sub> ≈ K.</td><td><a href="math.html#neff">Demo B</a></td></tr>
+          <tr><td>L4 · Reflexivity</td><td class="dim">self-fulfilling forecasts resolved at mean-field-game fixed points. Monotone regime = one publishable forecast; imitative regime = bistable.</td><td><a href="math.html#reflexivity">Demo C</a></td></tr>
+          <tr><td>L5 · Criticality</td><td class="dim">phase transitions with early-warning signals and a collapsing skill horizon. Where prediction hands off to control.</td><td><a href="math.html#criticality">Demo B</a> · <a href="tests.html#earlywarning">Tests</a></td></tr>
+          <tr><td>L6 · Observation</td><td class="dim">the data-acquisition and assimilation layer. When a question needs a number, go fetch and cite it; run a filter; flag when the model has been left behind.</td><td><a href="tests.html#enkf">EnKF test</a></td></tr>
+          <tr><td>L7 · Synthesis</td><td class="dim">ties the active layers into one verdict and reports it at the resolution it is valid for — the "Prime Radiant" view.</td><td><a href="#engine">GameStop L7</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:30px">How a question gets a verdict: scope labels</h3>
+    <p class="lead">Routing a question produces not just a reading but a <em>scope verdict</em> — an honest statement of how far the model can take it.</p>
+    <div class="statrow">
+      <div class="statbox good"><div class="sb-num">MODELED</div><div class="sb-lbl">structural mechanisms fully apply; the engine gives a real reading</div></div>
+      <div class="statbox"><div class="sb-num">PARTIAL</div><div class="sb-lbl">some layers apply; comparative statics over parameters, not a forecast</div></div>
+      <div class="statbox warn"><div class="sb-num">NEEDS-DATA</div><div class="sb-lbl">answerable only once a number is fetched and cited (L6)</div></div>
+      <div class="statbox"><div class="sb-num">NORMATIVE</div><div class="sb-lbl">a value question — resolved as per-block valence (L0), never refused</div></div>
+    </div>
+    <p class="note">You can route your own question at the <a href="#classify">bottom of this page</a>.</p>
+  </div>
+</section>
+
+<!-- ============ 4. ENGINE WALKTHROUGH ============ -->
+<section id="engine">
+  <div class="wrap">
+    <div class="eyebrow">4 · One case, every layer</div>
+    <h2>Running the whole engine on GameStop, January 2021</h2>
+    <p class="lead">Now we take a single canonical case — the January-2021 GameStop / meme-stock short squeeze — and walk it down all seven mechanism layers (L0–L6) in order, then an L7 synthesis that ties them into one verdict. Each panel states what <em>that</em> layer contributes, shows the real result or figure where the project has one, and is tagged honestly where the layer is shown illustratively.</p>
+
+    <div class="card engine-intro" id="engineIntro">
+      <div class="engine-intro-grid">
+        <div>
+          <h4>What this is</h4>
+          <p class="dim">A <b style="color:var(--ink)">pedagogical integration</b>: it stitches the project's real GameStop analyses (the structural-overdetermination counterfactual, the operator-signal detector, the early-warning battery, the EnKF forward test) together with the engine's layer definitions into one seven-layer narrative. Read top to bottom, it is the "Prime Radiant view" of a single Seldon Crisis.</p>
+        </div>
+        <div>
+          <h4>What this is not</h4>
+          <p class="dim">It is <b style="color:var(--ink)">not</b> a claim that a fully-coupled, end-to-end engine has been validated. No layer feeds its state into the next in code here; each layer's result was produced by a <em>separate</em> retrospective analysis on a coarse mention-density proxy. <b style="color:var(--red)">L2 (attention transport)</b> and <b style="color:var(--red)">L4 (reflexivity)</b> lack a clean real-data realization on GameStop and are shown <em>illustratively</em>.</p>
+        </div>
+      </div>
+      <div class="engine-honestyrail">
+        <span class="ehr-tag">§ HONESTY RAIL</span>
+        <span>Real layer-slices, composed by hand — not a coupled run. The bottom-line verdict (L7 synthesis) is a genuine project finding (Seldon-Crisis-not-Mule at the aggregate); the L0–L6 <em>ordering</em> is a teaching device. Every panel carries its own provenance tag: <b class="ehr-real">REAL RESULT</b> where a backtest produced the number/figure, <b class="ehr-ill">ILLUSTRATIVE</b> where the layer is a simplified or qualitative gloss.</span>
+      </div>
+    </div>
+
+    <div class="engine-layers" id="engineLayers">
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L0">L0</span><h3>Valence — "us vs them"</h3><span class="el-tag ill">ILLUSTRATIVE · qualitative</span></div>
+        <p class="el-contrib"><b>What L0 contributes:</b> resolves the "is this good or bad" question per block rather than in the absolute. GameStop was never one public; it split into opposed valence camps, and that conflict framing is the order parameter the later layers ride on.</p>
+        <div class="el-body">
+          <table class="mini-table">
+            <thead><tr><th>Block</th><th>Reads the squeeze as</th><th>Why (structural)</th></tr></thead>
+            <tbody>
+              <tr><td>Retail / r/wallstreetbets</td><td class="g">positive — righteous</td><td>a populist strike against short-selling funds; identity-defining "us"</td></tr>
+              <tr><td>Short-selling hedge funds</td><td class="r">negative — manipulation</td><td>their short position is the loss; the "them"</td></tr>
+              <tr><td>Brokerages / clearing</td><td class="w">negative — systemic risk</td><td>collateral and settlement exposure; the buy-button halt</td></tr>
+              <tr><td>Regulators / media</td><td>mixed</td><td>read as either market-democratization or as a disorderly bubble</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="el-honest"><b>§</b> Qualitative valence table only — no per-block sentiment series was extracted. The blocks and signs are an analyst reading of the public record, not a measured field.</p>
+      </article>
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L1">L1</span><h3>Slow stocks — the squeeze as a drain</h3><span class="el-tag ill">ILLUSTRATIVE · schematic</span></div>
+        <p class="el-contrib"><b>What L1 contributes:</b> the quiet accounting core. Underneath the meme is a stock-and-flow: the shorts' borrowed-share obligation is a stock that must eventually be covered, and short interest above 100% of float means the stock is structurally over-committed before any belief dynamics fire.</p>
+        <div class="el-body">
+          <div class="engine-flow">
+            <span class="estep">Short interest<br><small>&gt;100% of float (over-committed stock)</small></span>
+            <span class="earrow">→ price rises →</span>
+            <span class="estep">Margin / collateral pressure<br><small>mark-to-market loss accrues</small></span>
+            <span class="earrow">→ forced covering →</span>
+            <span class="estep">Shorts buy to close<br><small>covering buys push price further up</small></span>
+            <span class="earrow ecycle">↺ self-reinforcing drain</span>
+          </div>
+          <p class="flux-caption">A systems schematic: the "shares owed by shorts" reservoir drains as price rises, and the draining act (covering) is itself an up-flow on price — a reinforcing loop, the accounting skeleton the attention dynamics then animate.</p>
+        </div>
+        <p class="el-honest"><b>§</b> Schematic, not a fitted stock-flow model. The project's GameStop analyses measured Reddit <em>attention</em>, not short interest, float, or price; the &gt;100%-of-float fact is from the public market record.</p>
+      </article>
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L2">L2</span><h3>Attention transport — concentration onto GME</h3><span class="el-tag ill">ILLUSTRATIVE · tied to a real number</span></div>
+        <p class="el-contrib"><b>What L2 contributes:</b> collective attention is a conserved measure; the squeeze is attention <em>reallocating</em> out of the rest of the market and onto the meme basket, not appearing from nowhere.</p>
+        <div class="el-body">
+          <figure class="concept-fig">
+            <img src="assets/figure_counterfactual.png" alt="GameStop attention build and multi-ticker concentration" loading="lazy" />
+            <figcaption>The r/wallstreetbets attention build. The real, measured anchor for L2: overall WSB activity rose <b style="color:var(--cyan)">×5.99</b> from 2019 to Dec-2020 <em>before</em> GME spiked — and GME's own mention-density amplified <b style="color:var(--cyan)">×970</b> at peak. Attention concentrated violently onto one topic out of thousands.</figcaption>
+          </figure>
+        </div>
+        <p class="el-honest"><b>§</b> The ×5.99 rise and ×970 amplification are <b class="ehr-real">real measured numbers</b>; the <em>conservation</em> framing (drawn from a fixed budget elsewhere) is illustrative — no market-wide attention ledger was computed. <a class="concept-link" href="math.html#conservation">▸ the conservation math &amp; Demo A</a></p>
+      </article>
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L3">L3</span><h3>Blocks &amp; N<sub>eff</sub> — the basket synchronized</h3><span class="el-tag real">REAL RESULT · 6/6 same week</span></div>
+        <p class="el-contrib"><b>What L3 contributes:</b> the meme basket (GME / AMC / BB / NOK / BBBY / KOSS) behaved not as six independent tickers but as coupled blocks that locked together — inter-block coupling crossed K<sub>c</sub>, N<sub>eff</sub> collapsed toward 1, and the law of large numbers that would have averaged them out evaporated.</p>
+        <div class="el-body">
+          <div class="el-statrow">
+            <div class="el-stat"><div class="el-statnum">6 / 6</div><div class="el-statlbl">meme tickers peaked in the same week (2021-01-31)</div></div>
+            <div class="el-stat"><div class="el-statnum">×970 – ×3501</div><div class="el-statlbl">simultaneous amplifications (GME ×970, AMC ×3501, NOK ×875, BB ×423)</div></div>
+            <div class="el-stat"><div class="el-statnum">N<sub>eff</sub> → 1</div><div class="el-statlbl">six "independent" tickers do not peak in one 7-day window by chance</div></div>
+          </div>
+          <p class="flux-caption"><a class="concept-link" href="math.html#neff" style="display:inline">▸ the N<sub>eff</sub> mechanism &amp; Demo B</a> · and the <a class="concept-link" href="tests.html#neff" style="display:inline">pre-registered N<sub>eff</sub>-collapse test (SEALED PASS)</a></p>
+        </div>
+        <p class="el-honest"><b>§</b> <b class="ehr-real">Real result</b> from the counterfactual backtest. Honest caveat: the basket was <em>selected on the outcome</em>, so "the known basket spiked together" is partly hypothesis-confirming; and the co-peak is partly endogenous contagion (GME led, the rest ignited within days).</p>
+      </article>
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L4">L4</span><h3>Reflexivity — the self-fulfilling fixed point</h3><span class="el-tag ill">ILLUSTRATIVE · demo analogue</span></div>
+        <p class="el-contrib"><b>What L4 contributes:</b> the squeeze is a self-fulfilling prophecy made common knowledge. "If enough of us hold and buy, the shorts must cover and the price goes up" is true <em>once everyone acts on it</em>. Roaring Kitty functioned as a <b>focal coordination device</b> (he made the thesis common knowledge), <em>not</em> a capital-bearing controller who moved the price himself.</p>
+        <div class="el-body">
+          <figure class="concept-fig">
+            <img src="assets/E5_fixed_points.png" alt="Reflexive reaction map: bistable run / no-run fixed points" loading="lazy" />
+            <figcaption>The reflexive reaction map. Imitative coupling gives a <em>bistable</em> portrait: a "nobody squeezes" fixed point and a "the squeeze is on" fixed point. Common-knowledge coordination tips the basin from one to the other.</figcaption>
+          </figure>
+        </div>
+        <p class="el-honest"><b>§</b> <b class="ehr-ill">Illustrative.</b> No reflexive fixed-point model was fit to GameStop data — the bistability figure is the framework's generic reaction map, reused by analogy. <a class="concept-link" href="math.html#reflexivity">▸ run the bistable map live (Demo C)</a></p>
+      </article>
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L5">L5</span><h3>Criticality &amp; early warning — a mixed result</h3><span class="el-tag real">REAL RESULT · AUC 0.915, but…</span></div>
+        <p class="el-contrib"><b>What L5 contributes:</b> the run-up to an endogenous cascade should show critical slowing-down (rising variance / autocorrelation). On GameStop the impersonal early-warning signal is strong — but the honest finding is that it <em>does not generalize</em> across a roster, while the <em>operator</em> buildup is the platform-specific signature that does carry mechanism information.</p>
+        <div class="el-body">
+          <div class="el-statrow">
+            <div class="el-stat"><div class="el-statnum">AUC 0.915</div><div class="el-statlbl">GameStop early-warning, the cleanest single case — SUPPORTS</div></div>
+            <div class="el-stat warn"><div class="el-statnum">+0.012</div><div class="el-statlbl">endo−exo separation across the 10-event roster — essentially zero</div></div>
+            <div class="el-stat"><div class="el-statnum">13 weeks</div><div class="el-statlbl">DFV / Roaring Kitty operator ramp; operator-led score +3.54</div></div>
+          </div>
+          <figure class="concept-fig">
+            <img src="assets/figure_major_player.png" alt="Operator-signal detector: DFV 13-week buildup vs macro shocks" loading="lazy" />
+            <figcaption>The operator-signal detector. The DFV / Roaring Kitty signal ramps <b style="color:var(--cyan)">13 consecutive weeks</b> into the squeeze, vs only 2–3 weeks of news-anticipation for macro shocks. Gradual internal buildup vs sudden external shock — the discriminator that does <em>not</em> wash out.</figcaption>
+          </figure>
+        </div>
+        <p class="el-honest"><b>§</b> <b class="ehr-real">Real, but deliberately mixed.</b> GameStop AUC 0.915 is genuine; the roster-level non-separation (+0.012, p=0.91) is the honest negative reported alongside it. <a class="concept-link" href="tests.html#earlywarning">▸ the powered early-warning test</a></p>
+      </article>
+
+      <article class="card engine-layer">
+        <div class="el-head"><span class="el-badge L6">L6</span><h3>Observation &amp; assimilation — the misspecification monitor</h3><span class="el-tag real">REAL RESULT · honest negative</span></div>
+        <p class="el-contrib"><b>What L6 contributes:</b> the assimilation loop — an Ensemble Kalman Filter run strictly causally on a real block, scoring 1-step forecasts and, crucially, flagging when it has left its own model. This is the engine's self-diagnosis layer: it announces a regime break in real time without any future information.</p>
+        <div class="el-body">
+          <div class="el-statrow">
+            <div class="el-stat"><div class="el-statnum">z = −3.33</div><div class="el-statlbl">misspecification monitor flagged a real regime break (Apr-2025) in real time</div></div>
+            <div class="el-stat"><div class="el-statnum">beats climatology</div><div class="el-statlbl">EnKF RMSE 0.181 vs 0.224; 95% coverage 0.98</div></div>
+            <div class="el-stat warn"><div class="el-statnum">ties persistence</div><div class="el-statlbl">RMSE 0.181 vs 0.179 — does NOT beat last-value (the honest negative)</div></div>
+          </div>
+          <figure class="concept-fig">
+            <img src="assets/enkf_forward.png" alt="EnKF walk-forward forecast and misspecification monitor" loading="lazy" />
+            <figcaption>The EnKF forward test. Top: strictly-causal walk-forward 1-step forecast vs actual with the 95% ensemble band. Bottom: the normalized-innovation monitor, firing on the 2025-04 out-of-model event — the "Mule" / regime-break signature.</figcaption>
+          </figure>
+        </div>
+        <p class="el-honest"><b>§</b> <b class="ehr-real">Real result, with an honest negative.</b> This slice runs on <em>r/AskEconomics monthly activity</em>, not on GameStop. The EnKF beats climatology and is best-calibrated, but does <em>not</em> beat persistence; the load-bearing positive is the self-diagnosing monitor. <a class="concept-link" href="tests.html#enkf">▸ the EnKF test</a></p>
+      </article>
+
+      <article class="card engine-layer wide">
+        <div class="el-head"><span class="el-badge L7">L7</span><h3>Synthesis — the Prime Radiant verdict</h3><span class="el-tag real">REAL RESULT · the integrated reading</span></div>
+        <p class="el-contrib"><b>What L7 contributes:</b> ties the active layers into one verdict and reports it at the resolution it is valid for. The whole point is that the answer to "was GameStop predictable?" is <em>resolution-dependent</em>.</p>
+        <div class="el-body">
+          <div class="el-resolutions">
+            <div class="el-res coarse">
+              <div class="el-reshd">COARSE — would <em>a</em> squeeze happen at all?</div>
+              <div class="el-resverdict good">OVERDETERMINED · Seldon Crisis</div>
+              <p class="dim">Attention rose ×5.99 structurally <em>before</em> GME (L2), and 6/6 tickers fired in one window (L3). A retail short-squeeze cascade was structurally likely with or without any single operator. Psychohistory <b>holds</b> at the aggregate.</p>
+            </div>
+            <div class="el-res medium">
+              <div class="el-reshd">MEDIUM — which flagship, how big, exact week?</div>
+              <div class="el-resverdict warn">OPERATOR-SHAPED</div>
+              <p class="dim">That GME (not AMC) was the flagship, ran to its historic magnitude, and fired in the specific week reflects Roaring Kitty's 13-week buildup (L5) and the focal coordination he provided (L4). The susceptibility chose <em>a</em> squeeze; the operator chose <em>which</em> and <em>how big</em>.</p>
+            </div>
+            <div class="el-res fine">
+              <div class="el-reshd">FINE — this exact path?</div>
+              <div class="el-resverdict crit">CONTINGENT · not forecastable</div>
+              <p class="dim">DFV's exact updates, the gamma-squeeze mechanics, the Robinhood buy-button halt, the peak price — a single realized path the engine <b>cannot</b> predict and that is genuinely individual-contingent (L6 regime break).</p>
+            </div>
+          </div>
+          <div class="el-bottomline">
+            <b>Bottom line:</b> closer to a <b style="color:var(--green)">Seldon Crisis than to the Mule</b>. Roaring Kitty was causally important but <em>not structurally necessary</em> for a cascade — he selected the branch (flagship, magnitude, timing), not <em>whether</em> a cascade happened. The engine forecasts the <em>transition</em> at the coarse scale and reports its own skill horizon shrinking to zero at the fine scale: the verdict <em>and</em> its scope are the output.
+          </div>
+        </div>
+        <p class="el-honest"><b>§</b> The three-resolution verdict is a <b class="ehr-real">genuine project finding</b>. What is illustrative is the <em>coupling</em>: these layer-slices were run as separate analyses and assembled here by hand. <a class="concept-link" href="tests.html">▸ see every underlying test</a></p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. THREE DEEPER IDEAS ============ -->
+<section id="concepts">
+  <div class="wrap">
+    <div class="eyebrow">5 · Three ideas worth their own panel</div>
+    <h2>Belief, control, and the governance trilemma</h2>
+    <p class="lead">Three ideas underpin everything else and have no slider of their own. Each carries its own honesty rail.</p>
+
+    <div class="concept-grid" style="margin-top:18px">
+      <article class="card concept" id="belief">
+        <div class="concept-head"><span class="cnum">◈</span><span class="cbadge schematic">◈ schematic</span></div>
+        <h3>Belief is a drift field, not a stock</h3>
+        <p class="dim">The naive reduction — belief as a kind of attention — fails on sign: you can attend maximally to what you reject (protest, hate-consumption). Belief is therefore not a conserved sub-measure but a <em>direction</em> imposed on attention's transport. Attention is the conserved carrier; belief steers it; valence (approving vs hostile) rides on top as a non-conserved order parameter.</p>
+        <div class="concept-schematic">
+          <div class="flux-row">
+            <span class="flux-node carrier">ρ · attention<br><small>conserved carrier</small></span>
+            <span class="flux-arrow">— steered by →</span>
+            <span class="flux-node drift">b · belief drift<br><small>a direction, not a stock</small></span>
+          </div>
+          <div class="flux-row">
+            <span class="flux-node valence">valence — sign of disposition (approve / reject)<br><small>non-conserved order parameter, rides on top</small></span>
+          </div>
+          <p class="flux-caption">J = ρv (advection) − D∇ρ (diffusion) + ρ·b (belief drift). High ρ with b pointing <em>inward</em> = legitimacy; high ρ with b pointing <em>outward</em> = crisis (the failing bank, at 48-hour intensity). <a href="math.html#conservation">▸ the equation</a></p>
+        </div>
+        <p class="honesty-rail"><b>§ Honest:</b> the "flows in from neighbors" reading is exact for the advective and belief terms, approximate for the diffusion term; the continuity equation conserves the <em>integral</em>, not a directed ledger of each unit.</p>
+      </article>
+
+      <article class="card concept" id="control">
+        <div class="concept-head"><span class="cnum">◈</span><span class="cbadge schematic">◈ schematic</span></div>
+        <h3>The prediction–control duality</h3>
+        <p class="dim">At a critical point the susceptibility χ diverges: a push in the one direction the crowd is already poised to move along gets amplified without bound. This single fact has <em>opposite signs</em> for the two tasks — fatal for prediction (unobservable noise decides the branch), but leverage for control (a minimal intervention coupled to the soft mode chooses the branch). The same divergence that ruins forecasting maximizes steerability.</p>
+        <div class="concept-schematic">
+          <table class="mini-table">
+            <thead><tr><th>Regime</th><th>Diagnostic</th><th>Mode</th></tr></thead>
+            <tbody>
+              <tr><td class="g">Smooth</td><td>low cross-block synchrony</td><td>open-loop prediction (MFG fixed points)</td></tr>
+              <tr><td class="w">Pre-critical</td><td>rising synchrony, slowing-down</td><td>early warning; forecast the transition, not the branch</td></tr>
+              <tr><td class="r">Critical</td><td>ξ, χ diverging</td><td>maximal manipulability (hazard flag); control only under governance</td></tr>
+            </tbody>
+          </table>
+          <p class="flux-caption">The SVB resolution made policy: one guarantee, costing nothing at issue, re-selected the no-run basin at peak susceptibility. Asimov's <em>Minimum Necessary Change</em> is the same claim.</p>
+        </div>
+        <p class="honesty-rail"><b>§ Honest:</b> presented as a <em>diagnostic and a warning</em>, not a build spec. The control-synthesis layer is deliberately withheld (governance). Minimal-in-amplitude ≠ minimal-in-consequence: the same minimality makes covert capture cheap.</p>
+      </article>
+
+      <article class="card concept" id="governance">
+        <div class="concept-head"><span class="cnum">◈</span><span class="cbadge schematic">◈ schematic</span></div>
+        <h3>Governance, dual-use &amp; the observability trilemma</h3>
+        <p class="dim">Read adversarially, the duality is the theory of operation of low-cost population steering — the math does not distinguish a benign deposit guarantee from a manufactured stampede; only the objective does, and the objective cannot validate itself. Complete predictability would require total observability (a panopticon) and the abolition of independent agents (the end of pluralism). The trilemma is a reason to <em>stop</em>, not a frontier to push.</p>
+        <div class="concept-schematic">
+          <div class="trilemma">
+            <span class="tri-node">Prediction</span>
+            <span class="tri-node">Agent independence</span>
+            <span class="tri-node">Bounded observation</span>
+            <p class="flux-caption">Pick any two. Perfecting prediction requires surrendering one of the other two — and the surrender of independence <em>is</em> the abolition of the boundary that makes a person a person.</p>
+          </div>
+        </div>
+        <p class="honesty-rail"><b>§ The corpus hazard:</b> the calibrated reanalysis corpus already exists <em>privately</em>, held at population scale by closed actors (the Facebook contagion experiment manipulated 689,003 feeds). The binding constraint is <b>access, not existence</b> — and possession of block-level attention history is itself a controller precursor.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. CLASSIFY ============ -->
+<section id="classify">
+  <div class="wrap">
+    <div class="eyebrow">6 · Try it yourself</div>
+    <h2>Route a question onto the layers</h2>
+    <p class="lead">Paste any social or economic question. A keyword classifier maps it onto the layer ontology, guesses a scope verdict, points you at the relevant demo, and writes a short reading. It will be honest if your question only hits the slow-stock core.</p>
+    <div class="card" style="margin-top:18px">
+      <textarea id="classifyInput" placeholder="e.g. Is the housing market a bubble about to crash? · Will forward guidance from the central bank anchor inflation expectations? · How much did real wages grow last decade?"></textarea>
+      <div>
+        <button class="btn" id="classifyBtn">Classify →</button>
+        <button class="btn ghost" id="classifyClear">Clear</button>
+      </div>
+      <div class="classify-out hidden" id="classifyOut"></div>
+    </div>
+    <p class="note" style="margin-top:18px">Next: <a href="math.html">the mathematics behind each layer ▸</a> · or <a href="tests.html">what happened when we tested it against data ▸</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="provlinks">
+      <a href="index.html">▸ Home</a>
+      <a href="math.html">▸ The math</a>
+      <a href="tests.html">▸ Tests &amp; data</a>
+      <a href="../psychohistory.pdf">▸ the paper (PDF)</a>
+    </div>
+    <p class="faint">A bounded, regime-aware analogue. It does not claim Seldon's psychohistory — it knows where it is valid and reports that.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

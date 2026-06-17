@@ -1,0 +1,211 @@
+{
+  "summary": {
+    "n_event_total": 15,
+    "n_event_ok_K3": 11,
+    "n_clean": 8,
+    "median_event_drop": 0.0,
+    "clean_null_median": 0.0,
+    "clean_null_p90": 0.31069385116681203,
+    "clean_null_p95": 0.3487953540915954,
+    "frac_fires_vs_shuffle": 0.18181818181818182,
+    "n_fires": 2,
+    "event_vs_clean_mannwhitney_p": 0.6165277648385045,
+    "paired_wilcoxon_p": 0.7109375,
+    "n_paired": 8,
+    "FROZEN_f": 0.298,
+    "fire_pctile": 0.9,
+    "min_n": 8,
+    "decision": {
+      "cond1_magnitude_median_ge_f": false,
+      "cond2_beats_clean_p90_and_mwu": false,
+      "cond3_half_fire_vs_shuffle": false,
+      "powered_n8": true
+    },
+    "SEALED_VERDICT": "NOT A PASS"
+  },
+  "rows": [
+    {
+      "title": "Lehman Brothers",
+      "onset": "2008-09-15",
+      "K": 4,
+      "status": "OK",
+      "event_drop": 0.6400368504502525,
+      "shuffle_p90": 0.6657669139403217,
+      "fires_vs_shuffle": false,
+      "modularity": 0.4368503799458468,
+      "clean_drop": 0.0,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Sam Bankman-Fried",
+      "onset": "2022-11-11",
+      "K": 4,
+      "status": "OK",
+      "event_drop": 0.5875640761051174,
+      "shuffle_p90": 0.6871216675060442,
+      "fires_vs_shuffle": false,
+      "modularity": 0.3965101070154578,
+      "clean_drop": null,
+      "clean_status": "no_covered_quiet_window"
+    },
+    {
+      "title": "Gautam Adani",
+      "onset": "2023-01-24",
+      "K": 4,
+      "status": "OK",
+      "event_drop": -0.03237896737631707,
+      "shuffle_p90": 0.0,
+      "fires_vs_shuffle": false,
+      "modularity": 0.31306942298470886,
+      "clean_drop": 0.0,
+      "clean_status": "ok"
+    },
+    {
+      "title": "First Republic Bank",
+      "onset": "2023-05-01",
+      "K": 4,
+      "status": "OK",
+      "event_drop": -0.09904075517408772,
+      "shuffle_p90": 0.289035778892501,
+      "fires_vs_shuffle": false,
+      "modularity": 0.3108288770053476,
+      "clean_drop": null,
+      "clean_status": "no_covered_quiet_window"
+    },
+    {
+      "title": "Dogecoin",
+      "onset": "2021-05-08",
+      "K": 6,
+      "status": "OK",
+      "event_drop": -0.2423354113776901,
+      "shuffle_p90": -0.5305730227126811,
+      "fires_vs_shuffle": true,
+      "modularity": 0.4058645627876397,
+      "clean_drop": 0.2780354200884263,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Reddit",
+      "onset": "2021-01-28",
+      "K": 4,
+      "status": "OK",
+      "event_drop": -0.6299401197604788,
+      "shuffle_p90": -0.16044086656852913,
+      "fires_vs_shuffle": false,
+      "modularity": 0.33111111111111113,
+      "clean_drop": 0.3868968570163789,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Ethereum",
+      "onset": "2021-11-08",
+      "K": 3,
+      "status": "OK",
+      "event_drop": -0.8805102974937726,
+      "shuffle_p90": -0.17257770400684985,
+      "fires_vs_shuffle": false,
+      "modularity": 0.15916435826408126,
+      "clean_drop": -0.05004716271821308,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Archegos Capital Management",
+      "onset": "2021-03-26",
+      "K": 0,
+      "status": "TRIVIAL_PARTITION",
+      "event_drop": null,
+      "shuffle_p90": null,
+      "fires_vs_shuffle": null,
+      "modularity": NaN,
+      "clean_drop": null
+    },
+    {
+      "title": "Binance",
+      "onset": "2023-06-05",
+      "K": 4,
+      "status": "OK",
+      "event_drop": 0.0,
+      "shuffle_p90": 0.0,
+      "fires_vs_shuffle": false,
+      "modularity": 0.2275309917355372,
+      "clean_drop": 0.0,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Coinbase",
+      "onset": "2021-04-14",
+      "K": 3,
+      "status": "OK",
+      "event_drop": 0.0,
+      "shuffle_p90": 0.17632241813602023,
+      "fires_vs_shuffle": false,
+      "modularity": 0.3113425925925926,
+      "clean_drop": null,
+      "clean_status": "no_covered_quiet_window"
+    },
+    {
+      "title": "Luna Foundation Guard",
+      "onset": "2022-05-09",
+      "K": 0,
+      "status": "TRIVIAL_PARTITION",
+      "event_drop": null,
+      "shuffle_p90": null,
+      "fires_vs_shuffle": null,
+      "modularity": NaN,
+      "clean_drop": null
+    },
+    {
+      "title": "Northern Rock",
+      "onset": "2007-09-14",
+      "K": 2,
+      "status": "TRIVIAL_PARTITION",
+      "event_drop": null,
+      "shuffle_p90": null,
+      "fires_vs_shuffle": null,
+      "modularity": 0.17919999999999997,
+      "clean_drop": null
+    },
+    {
+      "title": "Nvidia",
+      "onset": "2023-05-25",
+      "K": 3,
+      "status": "OK",
+      "event_drop": 0.0,
+      "shuffle_p90": -0.10604787017547596,
+      "fires_vs_shuffle": true,
+      "modularity": 0.2612456747404845,
+      "clean_drop": -0.27360375228003075,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Tesla, Inc.",
+      "onset": "2021-11-04",
+      "K": 4,
+      "status": "OK",
+      "event_drop": 0.0,
+      "shuffle_p90": 0.0,
+      "fires_vs_shuffle": false,
+      "modularity": 0.40607821854977066,
+      "clean_drop": -0.6225608431335194,
+      "clean_status": "ok"
+    },
+    {
+      "title": "Wirecard",
+      "onset": "2020-06-18",
+      "K": 1,
+      "status": "TRIVIAL_PARTITION",
+      "event_drop": null,
+      "shuffle_p90": null,
+      "fires_vs_shuffle": null,
+      "modularity": 0.0,
+      "clean_drop": null
+    }
+  ],
+  "params": {
+    "frozen_f": 0.298,
+    "clean_null": "V2 genuinely-quiet window",
+    "bucket_days": 3,
+    "n_shuffle": 300,
+    "metric": "macro variance-ratio (canonical)"
+  }
+}

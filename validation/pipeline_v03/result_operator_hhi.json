@@ -1,0 +1,206 @@
+{
+  "params": {
+    "pre_window_weeks": 4,
+    "flag_rule": "pre-onset HHI or Gini >= platform 90th pct"
+  },
+  "github": [
+    {
+      "substrate": "autogpt",
+      "status": "OK",
+      "onset": "2023-04-03",
+      "weeks_pre_onset": 4,
+      "n_baseline_windows": 158,
+      "pre_onset": {
+        "hhi": 0.4236543623805027,
+        "gini": 0.762214983713355,
+        "top5": 0.7133550488599348,
+        "n_actors": 23,
+        "total": 307
+      },
+      "baseline_p90": {
+        "hhi": 0.6079944143760074,
+        "gini": 0.6839659294680217,
+        "top5": 0.7641163736205714
+      },
+      "baseline_median": {
+        "hhi": 0.166374339237378,
+        "gini": 0.496116196287821,
+        "top5": 0.28224680646662365
+      },
+      "percentile": {
+        "hhi": 0.8291139240506329,
+        "gini": 0.9556962025316456,
+        "top5": 0.8607594936708861
+      },
+      "flag_exceeds_p90": true
+    },
+    {
+      "substrate": "langchain",
+      "status": "OK",
+      "onset": "2023-01-09",
+      "weeks_pre_onset": 12,
+      "n_baseline_windows": 181,
+      "pre_onset": {
+        "hhi": 0.6631985731272294,
+        "gini": 0.7327586206896551,
+        "top5": 0.8103448275862069,
+        "n_actors": 8,
+        "total": 116
+      },
+      "baseline_p90": {
+        "hhi": 0.48166468489892994,
+        "gini": 0.7522585570683293,
+        "top5": 0.6848484848484848
+      },
+      "baseline_median": {
+        "hhi": 0.23663988312636963,
+        "gini": 0.7041687594173782,
+        "top5": 0.49736842105263157
+      },
+      "percentile": {
+        "hhi": 0.9613259668508287,
+        "gini": 0.7900552486187845,
+        "top5": 0.9613259668508287
+      },
+      "flag_exceeds_p90": true
+    },
+    {
+      "substrate": "gpt_engineer",
+      "status": "OK",
+      "onset": "2023-06-12",
+      "weeks_pre_onset": 5,
+      "n_baseline_windows": 56,
+      "pre_onset": {
+        "hhi": 0.47849705749207794,
+        "gini": 0.7408123791102514,
+        "top5": 0.6702127659574468,
+        "n_actors": 11,
+        "total": 94
+      },
+      "baseline_p90": {
+        "hhi": 0.44727272727272727,
+        "gini": 0.6971987727682408,
+        "top5": 0.6009942438513867
+      },
+      "baseline_median": {
+        "hhi": 0.28250946457544623,
+        "gini": 0.5757936507936507,
+        "top5": 0.4489664082687338
+      },
+      "percentile": {
+        "hhi": 0.9285714285714286,
+        "gini": 0.9821428571428571,
+        "top5": 0.9642857142857143
+      },
+      "flag_exceeds_p90": true
+    },
+    {
+      "substrate": "metagpt",
+      "status": "OK",
+      "onset": "2023-08-07",
+      "weeks_pre_onset": 7,
+      "n_baseline_windows": 79,
+      "pre_onset": {
+        "hhi": 0.11027095148078138,
+        "gini": 0.508695652173913,
+        "top5": 0.1956521739130435,
+        "n_actors": 20,
+        "total": 138
+      },
+      "baseline_p90": {
+        "hhi": 0.3969334173492965,
+        "gini": 0.6801706526408328,
+        "top5": 0.5632760364004045
+      },
+      "baseline_median": {
+        "hhi": 0.19564862456791796,
+        "gini": 0.5466666666666666,
+        "top5": 0.3349282296650718
+      },
+      "percentile": {
+        "hhi": 0.0379746835443038,
+        "gini": 0.3670886075949367,
+        "top5": 0.05063291139240506
+      },
+      "flag_exceeds_p90": false
+    },
+    {
+      "substrate": "superagi",
+      "status": "OK",
+      "onset": "2023-06-05",
+      "weeks_pre_onset": 4,
+      "n_baseline_windows": 28,
+      "pre_onset": {
+        "hhi": 0.16769937001858218,
+        "gini": 0.7375365187070022,
+        "top5": 0.4758269720101781,
+        "n_actors": 27,
+        "total": 393
+      },
+      "baseline_p90": {
+        "hhi": 0.5,
+        "gini": 0.5931508366437944,
+        "top5": 0.6666666666666666
+      },
+      "baseline_median": {
+        "hhi": 0.14043303748092037,
+        "gini": 0.4162912087912088,
+        "top5": 0.3060428849902534
+      },
+      "percentile": {
+        "hhi": 0.7142857142857143,
+        "gini": 1.0,
+        "top5": 0.75
+      },
+      "flag_exceeds_p90": true
+    },
+    {
+      "substrate": "agentgpt",
+      "status": "NO_PRE_WINDOW",
+      "weeks_pre_onset": 2,
+      "onset": "2023-04-10"
+    }
+  ],
+  "askeconomics": [
+    {
+      "substrate": "askeconomics_comments",
+      "status": "OK",
+      "onset": "2025-12-29",
+      "weeks_pre_onset": 28,
+      "n_baseline_windows": 41,
+      "pre_onset": {
+        "hhi": 0.0072409347753623465,
+        "gini": 0.3559271320418615,
+        "top5": 0.24448897795591182,
+        "n_actors": 288,
+        "total": 499
+      },
+      "baseline_p90": {
+        "hhi": 0.011202344250785994,
+        "gini": 0.34875539329571853,
+        "top5": 0.24444444444444444
+      },
+      "baseline_median": {
+        "hhi": 0.008389103591290414,
+        "gini": 0.31815984531098934,
+        "top5": 0.22462203023758098
+      },
+      "percentile": {
+        "hhi": 0.21951219512195122,
+        "gini": 0.9512195121951219,
+        "top5": 0.9024390243902439
+      },
+      "flag_exceeds_p90": true,
+      "onset_note": "designated onset = peak comment-activity week in the thread-sampled 2025-06..2026-06 span (substrate is thread-sampled, not a continuous stream)"
+    }
+  ],
+  "cross_domain_summary": {
+    "github_n": 5,
+    "github_mean_pre_hhi": 0.3686640628998347,
+    "github_mean_pre_gini": 0.6964036308788354,
+    "github_flag_rate": 0.8,
+    "reddit_pre_hhi": 0.0072409347753623465,
+    "reddit_pre_gini": 0.3559271320418615,
+    "reddit_flag": true
+  }
+}

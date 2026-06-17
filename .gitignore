@@ -1,0 +1,73 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+c1.log
+c2.log
+compile1.log
+compile2.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# embedding model caches (re-downloaded on demand)
+.cache/
+models/
+
+# scratch / local
+_verify_run.py
+_verify_tests.py
+*.tmp
+
+# internal review / working notes (kept local, not published)
+reviews/
+
+# raw source dumps (derived corpus is committed at .claude/skills/psychohistory/corpus/posts.jsonl)
+askeconomoiisc-top.json
+top200askeconomics.json
+
+# regenerable embedding caches
+*.npy
+
+# large downloaded data dumps (regenerable via the fetch scripts; never commit)
+validation/reddit_dump/*.zst
+validation/reddit_dump/reddit/
+validation/reddit_dump/*.torrent
+validation/reddit_dump/*.aria2
+validation/reddit_dump/filelist.txt
+validation/reddit_dump/fetch.log
+
+# ALL harvested / cached per-run data across every test dir (regenerable from the
+# dump or public APIs via each test's harvest script; never commit). The committed
+# artifacts (pre-registration, analysis scripts, result JSON, RESULTS.md, figures)
+# live ABOVE data/ and are kept.
+validation/**/data/
+validation/reddit_wsb/data/*.jsonl
+
+# per-run harvest / analyze logs
+validation/**/*.log
+harvest_*.log
+analyze_*.log
+
+# the redistributable zip (regenerated on release)
+psychohistory_v04_bundle.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep: psychohistory.pdf, psychohistory.tex, sims, requirements, README/LICENSE/ETHICS,
+# all figures (_verify_out/, figures/, validation/**/*.png), every validation script +
+# pre-registration + result JSON + RESULTS.md, the multi-page site/, and the skill
+# (.claude/skills/psychohistory/). Raw/large data and build artifacts are NOT committed.

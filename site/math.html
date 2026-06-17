@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Psychohistory — the mathematics</title>
+<link rel="stylesheet" href="styles.css" />
+<!-- KaTeX for proper equation rendering (needs internet). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<!-- Plotly powers the three live demos + the scenario. -->
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="math.html" class="active">The math</a>
+      <a href="tests.html">Tests &amp; data</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Home</a> / The math</div>
+    <h1>The mathematics, explained</h1>
+    <p class="lead">Each mechanism in the framework is one piece of mean-field / control theory. This page states every equation, says what each symbol means in plain language, flags the four places where a naive version is wrong, and hands you a slider to move. The sliders run the same primitives the paper verifies; they demonstrate <em>internal consistency</em>, never empirical proof. For empirical contact, see <a href="tests.html">Tests &amp; data</a>.</p>
+  </div>
+</header>
+
+<!-- contents -->
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <div class="card" style="padding-top:16px;padding-bottom:8px">
+      <table class="maptable idxtable">
+        <thead><tr><th>#</th><th>Mechanism</th><th>The core equation</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><a href="#conservation">Attention conservation</a></td><td class="dim">continuity equation: $\partial_t \rho + \nabla\!\cdot J = 0$</td></tr>
+          <tr><td>2</td><td><a href="#belief">Belief as a drift field</a></td><td class="dim">$J = \rho v - D\nabla\rho + \rho\, b$</td></tr>
+          <tr><td>3</td><td><a href="#neff">Near-decomposability &amp; N<sub>eff</sub></a></td><td class="dim">variance-ratio $N_{\mathrm{eff}} = \mathrm{Var}(x_k)/\mathrm{Var}(\bar x)$</td></tr>
+          <tr><td>4</td><td><a href="#criticality">Criticality, K<sub>c</sub> &amp; the skill horizon</a></td><td class="dim">Kuramoto order $r$; $\tau^\* \propto N_{\mathrm{eff}}/K$</td></tr>
+          <tr><td>5</td><td><a href="#reflexivity">Reflexivity &amp; MFG fixed points</a></td><td class="dim">$\rho^\* = T(\rho^\*)$, Lasry–Lions equilibrium</td></tr>
+          <tr><td>6</td><td><a href="#observation">Observation &amp; assimilation</a></td><td class="dim">EnKF update + normalized-innovation monitor</td></tr>
+          <tr><td>7</td><td><a href="#scenario">The engine turned on AI</a></td><td class="dim">capture → $N_{\mathrm{eff}}$ collapse → phase flip</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1. CONSERVATION ============ -->
+<section id="conservation">
+  <div class="wrap">
+    <div class="eyebrow">1 · Attention conservation</div>
+    <h2>Attention is a conserved normalized measure</h2>
+    <p class="lead">The first repair to "society has no conservation law." Total collective attention over a population is, to first order, a fixed budget: a panic creates no new hours in the day. What looks like belief appearing from nowhere is attention being <em>reallocated</em>. Write $\rho(x,t)$ for the density of attention over topics $x$. It obeys a continuity equation.</p>
+
+    <div class="math-block">
+      <h3>The continuity equation</h3>
+      <div class="math-eq">$$\frac{\partial \rho}{\partial t} + \nabla\!\cdot J = s(x,t), \qquad \int \rho\,dx = 1.$$</div>
+      <p class="math-where"><b>Where:</b> <code>ρ</code> is the attention density (a probability measure that integrates to 1); <code>J</code> is the attention flux (how attention flows between topics); <code>s</code> is a small source/sink term for genuine entry and exit of attention into the system. With $s\!\approx\!0$ the integral of $\rho$ is invariant: attention moves, it is not created.</p>
+      <p class="dim">This is the Fokker–Planck / Toscani "conserved normalized measure" reading. <span class="tag-correction">Correction 1</span></p>
+      <p class="math-where"><b>What the naive version got wrong:</b> a softmax over topic scores is <em>not</em> a conservation law — it is a normalization applied at each instant, which is a category error. The conserved object is a probability measure transported by a continuity equation, not a softmax output. The distinction matters because only the transport reading gives you fluxes, drift, and the SVB-style 48-hour reallocation dynamics.</p>
+    </div>
+
+    <!-- DEMO A -->
+    <div class="card demo-card" id="demoA">
+      <div class="demo-head"><span class="demo-tag">DEMO A · L2</span><h3>Attention conservation + belief drift</h3></div>
+      <p class="dim">Twelve topics share a fixed attention budget on a ring. A belief drift biases flow toward topic #7 (cyan). Move the drift; watch attention <em>concentrate</em> while the total stays pinned at exactly 1.000000.</p>
+      <div id="chartA" class="chart"></div>
+      <div class="controls">
+        <div class="ctrl">
+          <label>Belief drift toward topic #7 <b id="aDriftVal">0.50</b></label>
+          <input type="range" id="aDrift" min="0" max="1" step="0.01" value="0.5" />
+        </div>
+        <div style="display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap">
+          <button class="btn" id="aRun">Run 200 steps →</button>
+          <button class="btn ghost" id="aReset">Reset</button>
+        </div>
+      </div>
+      <div class="kv" style="margin-top:10px">
+        <dt>total mass</dt><dd><b id="aTotal" style="color:var(--green)">1.000000</b> (the conserved quantity)</dd>
+        <dt>peak share</dt><dd><b id="aPeak" style="color:var(--cyan)">0.083</b> on topic #7</dd>
+        <dt>HHI</dt><dd><b id="aHHI">0.083</b> (concentration index)</dd>
+        <dt>step</dt><dd><b id="aStep">0</b></dd>
+      </div>
+      <div class="verdict good" id="aVerdict"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. BELIEF DRIFT ============ -->
+<section id="belief">
+  <div class="wrap">
+    <div class="eyebrow">2 · Belief as a drift field</div>
+    <h2>Belief is a direction, not a stock</h2>
+    <p class="lead">Why not just call belief a kind of attention? Because belief fails the sign test: you can attend maximally to what you reject. So belief is not a conserved sub-measure — it is a <em>drift</em> imposed on attention's transport. It enters the flux $J$, not the density $\rho$.</p>
+    <div class="math-block">
+      <h3>The flux decomposition</h3>
+      <div class="math-eq">$$J = \underbrace{\rho\,v}_{\text{advection}} \;-\; \underbrace{D\,\nabla\rho}_{\text{diffusion}} \;+\; \underbrace{\rho\,b}_{\text{belief drift}}.$$</div>
+      <p class="math-where"><b>Where:</b> <code>v</code> is a baseline advective velocity (where attention is already heading); <code>D</code> is a diffusion constant (attention spreads to neighbouring topics); <code>b</code> is the belief drift field — a <em>direction</em> that biases the flux. Valence (approve vs reject) rides on top of all this as a separate, non-conserved order parameter, the magnetization analogue.</p>
+      <p class="math-where"><b>Reading it:</b> high $\rho$ with $b$ pointing inward is legitimacy; high $\rho$ with $b$ pointing outward is crisis — a bank at 48-hour run intensity. Demo A above is exactly this equation with $v=0$, a small $D$, and a tunable $b$ toward one topic.</p>
+      <p class="testhonest"><b>§ Honest:</b> the advective and belief terms are an exact directed transport; the diffusion term conserves only the <em>integral</em> of $\rho$, not a per-unit ledger. The continuity equation is a statement about the total, not a receipt for each unit of attention.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. NEFF ============ -->
+<section id="neff">
+  <div class="wrap">
+    <div class="eyebrow">3 · Near-decomposability &amp; the effective sample size</div>
+    <h2>The statistical unit is the block, not the person</h2>
+    <p class="lead">The second repair, to "agents are correlated, so the law of large numbers fails." Society is <em>nearly decomposable</em> (Herbert Simon): dense interaction inside a community, sparse between. So you do not average over people — you average over blocks, and the effective number of independent units is $N_{\mathrm{eff}}$, which can be far below both the population and the block count $K$.</p>
+
+    <div class="math-block">
+      <h3>The effective number of independent blocks</h3>
+      <div class="math-eq">$$N_{\mathrm{eff}} \;=\; \frac{\operatorname{Var}_t\!\big(x_k(t)\big)}{\operatorname{Var}_t\!\big(\bar x(t)\big)} \quad\text{(macro variance-ratio, the canonical estimator).}$$</div>
+      <p class="math-where"><b>Where:</b> $x_k(t)$ is the activity of block $k$ over time, $\bar x(t)=\frac1K\sum_k x_k(t)$ is the population mean. If the $K$ blocks are independent, the mean's variance is $1/K$ of a single block's, so $N_{\mathrm{eff}}\!\approx\!K$. If they synchronize, $\bar x$ swings as hard as any single block and $N_{\mathrm{eff}}\!\to\!1$: the law of large numbers has evaporated.</p>
+      <p class="dim">There is a closed-form Kish/Pearson version, $N_{\mathrm{eff}}=K/\big(1+(K-1)\bar\rho\big)$, where $\bar\rho$ is the mean cross-block correlation. <span class="tag-correction">Correction 2</span></p>
+      <p class="math-where"><b>What the naive version got wrong:</b> estimating $\bar\rho$ from the Pearson correlation of <em>fluctuations</em> badly understates synchronization — in the verified E4 simulation it stays near 64 while the system collapses to 1. The macro variance-ratio is the estimator that actually tracks the collapse (61 → 1). The Kish form is shown in red on the demo precisely so you can watch it mislead.</p>
+    </div>
+
+    <!-- DEMO B -->
+    <div class="card demo-card" id="demoB">
+      <div class="demo-head"><span class="demo-tag">DEMO B · L3 / L5</span><h3>Block synchronization &amp; the N<sub>eff</sub> collapse</h3></div>
+      <p class="dim">48 coupled blocks. Raise the coupling $W$ and watch synchrony $S$ rise, the effective number of independent blocks fall toward 1, and the skill horizon $\tau^\*$ collapse. The red dotted line is the misleading Pearson estimator — note how it barely moves while the system goes critical.</p>
+      <div class="grid-2">
+        <div id="chartB" class="chart tall"></div>
+        <div id="chartBscatter" class="chart tall"></div>
+      </div>
+      <div class="controls">
+        <div class="ctrl">
+          <label>Inter-block coupling W <b id="bWval">0.40</b></label>
+          <input type="range" id="bW" min="0" max="2.5" step="0.02" value="0.4" />
+        </div>
+      </div>
+      <div class="kv" style="margin-top:10px">
+        <dt>synchrony S</dt><dd><b id="bS" style="color:var(--gold)">—</b></dd>
+        <dt>N<sub>eff</sub> (correct)</dt><dd><b id="bNc" style="color:var(--cyan)">—</b> of 48</dd>
+        <dt>N<sub>eff</sub> (Pearson)</dt><dd><b id="bNp" style="color:var(--red)">—</b> &nbsp;<span class="faint">— the misleading one</span></dd>
+        <dt>skill horizon τ*</dt><dd><b id="bTau">—</b> model-time</dd>
+      </div>
+      <div class="verdict" id="bVerdict"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. CRITICALITY ============ -->
+<section id="criticality">
+  <div class="wrap">
+    <div class="eyebrow">4 · Criticality, the critical coupling, and the skill horizon</div>
+    <h2>Where forecasting fails — and control takes over</h2>
+    <p class="lead">The collapse in Demo B is a phase transition. Past a critical coupling $K_c$ the blocks lock into a single mode; below it they are effectively independent. The same crossing controls how far ahead you can predict.</p>
+
+    <div class="math-block">
+      <h3>The Kuramoto order parameter and critical coupling</h3>
+      <div class="math-eq">$$r\,e^{i\psi} = \frac1N\sum_{j=1}^{N} e^{i\theta_j}, \qquad K_c = \frac{2}{\pi\, g(0)}.$$</div>
+      <p class="math-where"><b>Where:</b> $r\in[0,1]$ is the synchronization order parameter (0 = incoherent, 1 = fully locked); $\theta_j$ are the phases of the coupled units; $K_c$ is the critical coupling at which synchronization switches on, set by the spread $g(0)$ of natural frequencies. "World Cup" (many independent conversations) is the sub-critical phase; "Pluribus" (one locked conversation) is super-critical. They are one transition with two names.</p>
+      <p class="math-where"><b>The verified check:</b> the simulation recovers $K_c \approx 0.969$ against a theoretical $1.0$ (3.1% error), instantiating the first-vs-second-moment machinery that the $N_{\mathrm{eff}}$ collapse rides on.</p>
+    </div>
+
+    <div class="math-block">
+      <h3>The skill horizon collapses at the transition</h3>
+      <div class="math-eq">$$\tau^\* \;\propto\; \frac{N_{\mathrm{eff}}}{K}.$$</div>
+      <p class="math-where"><b>Where:</b> $\tau^\*$ is the forecast skill horizon — how far ahead an ensemble forecast stays useful before perturbations diverge. As $N_{\mathrm{eff}}\to 1$ near the transition, $\tau^\*\to 0$: the system becomes unpredictable exactly when the stakes are highest. This is not a failure of compute; it is the structure. The right move is to switch the objective from predicting <em>which</em> branch to forecasting <em>that</em> a transition is near — and, only under governance, to use the same divergent susceptibility for control.</p>
+      <figure class="testfig">
+        <img src="assets/kuramoto_kc.png" alt="Kuramoto critical coupling: empirical K_c vs theory" loading="lazy" />
+        <figcaption>The Kuramoto $K_c$ demonstration: empirical critical coupling $0.969$ vs theory $1.0$. Below $K_c$ the order parameter $r$ sits near zero (independent blocks); above it $r$ rises sharply (the locked phase) — the same transition you drive with the slider in Demo B.</figcaption>
+      </figure>
+      <p class="testhonest"><b>§ Early-warning is valid only for slow B-tipping.</b> Rising variance and synchrony precede <em>bifurcation</em> tipping — but the prosecutor's fallacy applies (a warning is not a guarantee), and noise-induced (N-) and rate-induced (R-) tipping have no warning at all. The blind spots are real and are reported as such; the empirical bifurcation-mix test (<a href="tests.html#bifurcation">Tests</a>) found most real cascades are sudden R-tipping shocks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. REFLEXIVITY ============ -->
+<section id="reflexivity">
+  <div class="wrap">
+    <div class="eyebrow">5 · Reflexivity &amp; mean-field-game fixed points</div>
+    <h2>A forecast that survives being published</h2>
+    <p class="lead">The third repair, to "the forecast is an input to the system." A social prediction, once published and acted upon, changes the outcome. The resolution: only publish <em>fixed points</em> — predictions that remain true after everyone best-responds to them. These are the equilibria of a mean-field game.</p>
+
+    <div class="math-block">
+      <h3>The fixed-point condition</h3>
+      <div class="math-eq">$$\rho^\* = T(\rho^\*),$$</div>
+      <p class="math-where"><b>Where:</b> $T$ is the prediction–reaction map — it takes a believed distribution $\rho$, lets every agent best-respond, and returns the realized distribution. A fixed point $\rho^\*$ is a forecast that reproduces itself: publishable because it is self-consistent. This is the Lasry–Lions mean-field-game equilibrium; it pairs a backward Hamilton–Jacobi–Bellman equation (each agent optimizing) with a forward Fokker–Planck equation (the crowd it produces).</p>
+      <p class="math-where"><b>Two regimes.</b> <span class="tag-correction">Correction 4</span> In the <em>monotone</em> (congestion) regime — agents avoid crowds — the fixed point is <b>unique</b> and the forecast is publishable. In the <em>imitative</em> regime — agents chase crowds — the map is bistable: a "run" fixed point and a "no-run" fixed point with an unstable threshold between them. Bistability is exactly where open-loop forecasting fails and control takes over. A unique publishable forecast exists only in the monotone regime.</p>
+    </div>
+
+    <!-- DEMO C -->
+    <div class="card demo-card" id="demoC">
+      <div class="demo-head"><span class="demo-tag">DEMO C · L4</span><h3>Reflexive fixed points — the bank run</h3></div>
+      <p class="dim">The reaction map $T(f)$ for a bank run: given an expected run-fraction $f$, how many actually run? Fixed points are where $T(f)=f$. Raise the deposit guarantee $g$ to kill the run; lower the imitative coupling $c$ to expose bistability.</p>
+      <div id="chartC" class="chart tall"></div>
+      <div class="controls">
+        <div class="ctrl">
+          <label>Deposit guarantee g <b id="cGval">0.20</b></label>
+          <input type="range" id="cG" min="0" max="1" step="0.01" value="0.2" />
+        </div>
+        <div class="ctrl">
+          <label>Imitative coupling c <b id="cCval">1.60</b></label>
+          <input type="range" id="cC" min="0.4" max="3" step="0.02" value="1.6" />
+        </div>
+      </div>
+      <div class="kv" style="margin-top:10px">
+        <dt>fixed points</dt><dd><b id="cNfp" style="color:var(--cyan)">—</b></dd>
+        <dt>equilibrium run-fraction</dt><dd><b id="cEq">—</b></dd>
+        <dt>regime</dt><dd><b id="cRegime" style="color:var(--gold)">—</b></dd>
+      </div>
+      <div class="verdict" id="cVerdict"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. OBSERVATION ============ -->
+<section id="observation">
+  <div class="wrap">
+    <div class="eyebrow">6 · Observation &amp; assimilation</div>
+    <h2>Estimating the state, and knowing when you have left the model</h2>
+    <p class="lead">The engine is a state-space system: it estimates a hidden social state, assimilates noisy observations, runs a perturbed ensemble forward, and reports its spread plus an honest skill horizon. The load-bearing piece is the self-diagnosis — a monitor that fires when reality has left the model (the "Mule" / out-of-distribution event).</p>
+    <div class="math-block">
+      <h3>The ensemble update and the misspecification monitor</h3>
+      <div class="math-eq">$$x_a = x_f + K\big(y - Hx_f\big), \qquad z_t = \frac{y_t - H x_{f,t}}{\sqrt{S_t}}.$$</div>
+      <p class="math-where"><b>Where:</b> $x_f$ is the forecast (prior) state, $y$ the observation, $H$ the observation operator, $K$ the Kalman gain that optimally weights prior against data, and $x_a$ the updated (posterior) estimate. The second quantity $z_t$ is the <em>normalized innovation</em>: the surprise of each observation in units of its own predicted standard deviation $\sqrt{S_t}$. When $|z_t|$ blows past its expected range, the model is being falsified in real time — no future information required.</p>
+      <p class="math-where"><b>What the data showed:</b> run strictly causally on r/AskEconomics monthly activity, the filter beat climatology and was best-calibrated, but did <em>not</em> beat a persistence (last-value) baseline — an honest negative. The win was the monitor firing at $z=-3.33$ on a real April-2025 regime break. <a class="math-link" href="tests.html#enkf">▸ the full EnKF test</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. SCENARIO ============ -->
+<section id="scenario">
+  <div class="wrap">
+    <div class="eyebrow">7 · The engine turned on AI itself</div>
+    <h2>Scenario: World Cup vs Pluribus</h2>
+    <p class="lead">A forward projection of the same machinery applied to AI. Capability growth and falling cost drive attention capture; cognition routes through ever-fewer model lineages; cross-human correlation rises and the effective number of independent decision-communities $N_{\mathrm{eff}}$ collapses. The same smooth-vs-critical boundary that governs every panel above decides whether psychohistory still holds. The robust output is the <em>ordering</em> of events, never a date.</p>
+
+    <div class="card demo-card" id="scenarioCard">
+      <div class="demo-head"><span class="demo-tag">SCENARIO · L2→L3→L5 · the Mythos Fable</span><h3>Capture → N<sub>eff</sub> collapse → phase flip</h3></div>
+      <div class="phase-banner" id="scPhase">—</div>
+      <p class="phase-note">This phase boundary is the <em>same</em> smooth-vs-critical boundary as Demo B: sub-critical = many adversarial blocks (the LLN holds, forecasting works); super-critical = N<sub>eff</sub>→1 (the recovered LLN evaporates, psychohistory fails).</p>
+      <div id="chartScenario" class="chart tall"></div>
+      <div class="controls">
+        <div class="ctrl">
+          <label>Capability growth g (release × complexity) <b id="scGval">2.5×/yr</b></label>
+          <input type="range" id="scG" min="1.2" max="4.0" step="0.05" value="2.5" />
+        </div>
+        <div class="ctrl">
+          <label>Cost-per-token decline δ <b id="scDval">10×/yr</b></label>
+          <input type="range" id="scD" min="2" max="30" step="0.5" value="10" />
+        </div>
+        <div class="ctrl">
+          <label>Capture rate α <b id="scAval">0.50</b></label>
+          <input type="range" id="scA" min="0.05" max="1.2" step="0.05" value="0.5" />
+        </div>
+        <div class="ctrl">
+          <label>Model homogenization ρ<sub>model</sub> <b id="scRval">0.40</b></label>
+          <input type="range" id="scR" min="0" max="0.95" step="0.01" value="0.4" />
+        </div>
+        <div class="ctrl">
+          <label>Decision-communities K <b id="scKval">50</b></label>
+          <input type="range" id="scK" min="8" max="120" step="1" value="50" />
+        </div>
+      </div>
+      <div class="kv" style="margin-top:10px">
+        <dt>L<sub>eff</sub> (model lineages)</dt><dd><b id="scLeff" style="color:var(--cyan)">—</b> of 50</dd>
+        <dt>end N<sub>eff</sub></dt><dd><b id="scNeff" style="color:var(--cyan)">—</b> of K</dd>
+        <dt>N<sub>eff</sub>=10 crossing</dt><dd><b id="scCross">—</b></dd>
+        <dt>skill horizon τ*</dt><dd><b id="scTau">—</b></dd>
+      </div>
+      <div style="margin-top:14px">
+        <button class="btn" id="scShock">⚡ Inject an out-of-model (Mule) shock</button>
+        <div id="chartShock" class="chart" style="margin-top:14px"></div>
+        <p class="dim" id="scShockReadout" style="margin-top:8px"></p>
+        <p class="testhonest"><b>§</b> The OOD-shock inset shows the derived Second Foundation result: an open-loop model diverges after a regime break, while a standing detect-and-correct loop stays bounded — and lineage diversity (higher $L_{\mathrm{eff}}$, lower $\rho_{\mathrm{model}}$) partially substitutes for the central corrector. A monoculture needs the controller; diversity is partly self-healing.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:18px">Next: <a href="tests.html">what happened when these mechanisms met real data ▸</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="provlinks">
+      <a href="index.html">▸ Home</a>
+      <a href="tutorial.html">▸ Tutorial</a>
+      <a href="tests.html">▸ Tests &amp; data</a>
+      <a href="../psychohistory.pdf">▸ the paper (PDF)</a>
+      <a href="../sims_v2.py">▸ the verified sims (Python)</a>
+    </div>
+    <p class="faint">Sims verify internal consistency only — a simulation reproducing the engine's own equations is never empirical validation of society. Equations render with KaTeX and charts with Plotly; both need internet. The four <span style="color:var(--amber-warn)">corrections</span> are the places a naive version is wrong: softmax≠conservation, Pearson≠N<sub>eff</sub>, early-warning only for B-tipping, unique fixed point only in the monotone regime.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

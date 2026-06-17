@@ -1,0 +1,187 @@
+{
+  "variation": "V1 newcomer-flood",
+  "n": 14,
+  "spearman_f_existing_vs_drop": {
+    "rho": 0.4461538461538462,
+    "p": 0.10980712780122512
+  },
+  "spearman_newcomer_count_vs_drop": {
+    "rho": 0.004400442706805578,
+    "p": 0.9880882485121785
+  },
+  "spearman_new_frac_vs_drop": {
+    "rho": -0.367032967032967,
+    "p": 0.19673887170748847
+  },
+  "prediction": "f_existing positively correlates with drop (existing community synchronizes)",
+  "rows": [
+    {
+      "title": "Evergrande Group",
+      "onset": "2021-09-20",
+      "K": 4,
+      "drop_macro": 0.613300129115392,
+      "f_existing": 0.4338235294117647,
+      "onset_focal_edits": 136,
+      "existing_edits": 59,
+      "newcomers": 38,
+      "new_frac": 0.7916666666666666,
+      "n_distinct_onset_editors": 48
+    },
+    {
+      "title": "Diego Maradona",
+      "onset": "2020-11-25",
+      "K": 4,
+      "drop_macro": 0.5700163462323877,
+      "f_existing": 0.0875,
+      "onset_focal_edits": 800,
+      "existing_edits": 70,
+      "newcomers": 317,
+      "new_frac": 0.9548192771084337,
+      "n_distinct_onset_editors": 332
+    },
+    {
+      "title": "Volodymyr Zelenskyy",
+      "onset": "2022-02-24",
+      "K": 4,
+      "drop_macro": 0.4449175412247487,
+      "f_existing": 0.26904761904761904,
+      "onset_focal_edits": 420,
+      "existing_edits": 113,
+      "newcomers": 149,
+      "new_frac": 0.8563218390804598,
+      "n_distinct_onset_editors": 174
+    },
+    {
+      "title": "Queen Elizabeth II",
+      "onset": "2022-09-08",
+      "K": 3,
+      "drop_macro": 0.40641226952840437,
+      "f_existing": 0.2981651376146789,
+      "onset_focal_edits": 1090,
+      "existing_edits": 325,
+      "newcomers": 315,
+      "new_frac": 0.9375,
+      "n_distinct_onset_editors": 336
+    },
+    {
+      "title": "Donald Trump",
+      "onset": "2021-01-06",
+      "K": 3,
+      "drop_macro": 0.3527943628158535,
+      "f_existing": 0.5646186440677966,
+      "onset_focal_edits": 944,
+      "existing_edits": 533,
+      "newcomers": 197,
+      "new_frac": 0.7755905511811023,
+      "n_distinct_onset_editors": 254
+    },
+    {
+      "title": "Boeing 737 MAX",
+      "onset": "2019-03-10",
+      "K": 3,
+      "drop_macro": 0.2905451980540399,
+      "f_existing": 0.1986206896551724,
+      "onset_focal_edits": 725,
+      "existing_edits": 144,
+      "newcomers": 280,
+      "new_frac": 0.9824561403508771,
+      "n_distinct_onset_editors": 285
+    },
+    {
+      "title": "Bitcoin",
+      "onset": "2021-04-14",
+      "K": 7,
+      "drop_macro": 0.2218618442201682,
+      "f_existing": 0.7096774193548387,
+      "onset_focal_edits": 62,
+      "existing_edits": 44,
+      "newcomers": 10,
+      "new_frac": 0.5882352941176471,
+      "n_distinct_onset_editors": 17
+    },
+    {
+      "title": "Joe Biden",
+      "onset": "2020-11-07",
+      "K": 7,
+      "drop_macro": 0.164129217484964,
+      "f_existing": 0.36152219873150104,
+      "onset_focal_edits": 473,
+      "existing_edits": 171,
+      "newcomers": 156,
+      "new_frac": 0.7761194029850746,
+      "n_distinct_onset_editors": 201
+    },
+    {
+      "title": "Notre-Dame de Paris",
+      "onset": "2019-04-15",
+      "K": 3,
+      "drop_macro": 0.1439835447377441,
+      "f_existing": 0.008928571428571428,
+      "onset_focal_edits": 896,
+      "existing_edits": 8,
+      "newcomers": 411,
+      "new_frac": 0.9879807692307693,
+      "n_distinct_onset_editors": 416
+    },
+    {
+      "title": "Credit Suisse",
+      "onset": "2023-03-19",
+      "K": 3,
+      "drop_macro": 0.07086426996722428,
+      "f_existing": 0.3103448275862069,
+      "onset_focal_edits": 145,
+      "existing_edits": 45,
+      "newcomers": 69,
+      "new_frac": 0.7840909090909091,
+      "n_distinct_onset_editors": 88
+    },
+    {
+      "title": "Twitter",
+      "onset": "2022-10-27",
+      "K": 3,
+      "drop_macro": 0.02983284933751873,
+      "f_existing": 0.31297709923664124,
+      "onset_focal_edits": 131,
+      "existing_edits": 41,
+      "newcomers": 57,
+      "new_frac": 0.8636363636363636,
+      "n_distinct_onset_editors": 66
+    },
+    {
+      "title": "NATO",
+      "onset": "2022-02-24",
+      "K": 4,
+      "drop_macro": -0.024306380313868114,
+      "f_existing": 0.08,
+      "onset_focal_edits": 100,
+      "existing_edits": 8,
+      "newcomers": 50,
+      "new_frac": 0.9090909090909091,
+      "n_distinct_onset_editors": 55
+    },
+    {
+      "title": "Kobe Bryant",
+      "onset": "2020-01-26",
+      "K": 3,
+      "drop_macro": -0.26557731387059214,
+      "f_existing": 0.0506155950752394,
+      "onset_focal_edits": 731,
+      "existing_edits": 37,
+      "newcomers": 315,
+      "new_frac": 0.9905660377358491,
+      "n_distinct_onset_editors": 318
+    },
+    {
+      "title": "Suez Canal",
+      "onset": "2021-03-23",
+      "K": 4,
+      "drop_macro": -0.40388975225010726,
+      "f_existing": 0.029748283752860413,
+      "onset_focal_edits": 437,
+      "existing_edits": 13,
+      "newcomers": 252,
+      "new_frac": 0.9882352941176471,
+      "n_distinct_onset_editors": 255
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Psychohistory — tests &amp; data</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="math.html">The math</a>
+      <a href="tests.html" class="active">Tests &amp; data</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Home</a> / Tests &amp; data</div>
+    <h1>What the data actually says</h1>
+    <p class="lead">A theory that cannot fail is not a theory. So the framework was turned into pre-registered falsifiers and run against real data: Reddit comment dumps (billions of rows), Wikipedia edit histories, and GitHub repositories. Thresholds were frozen <em>before</em> the data was harvested. The headline result is a split exactly in the shape the theory predicts: the structural gear seals as a pass, while three more ambitious claims honestly deflate. Below is every verdict, with its real numbers and figure.</p>
+  </div>
+</header>
+
+<!-- ============ METHODOLOGY ============ -->
+<section id="method">
+  <div class="wrap">
+    <div class="eyebrow">How these tests are kept honest</div>
+    <h2>The rules of engagement</h2>
+    <div class="method-rail">
+      <h4>Five rails, applied to every test on this page</h4>
+      <ul>
+        <li><b>Pre-registration with frozen thresholds.</b> Every pass/fail rule is committed to a file <em>before</em> the data is harvested (the "FA-0 seal"). The decision is evaluated exactly once. We never move a threshold after seeing the numbers — that single rule is the program's whole integrity premise.</li>
+        <li><b>Nulls against the prosecutor's fallacy.</b> A signal must beat a matched null: a block-label <em>shuffle</em> (does the effect depend on the <em>specific</em> communities, or any grouping?) and a matched <em>calm window</em> (does it happen more at a real event than in a quiet period on the same object?).</li>
+        <li><b>Look-ahead-free.</b> Onsets are fixed from public event dates before any graph is built; filters run strictly causally; no future information enters a forecast.</li>
+        <li><b>Proxy-data humility.</b> These run on mention-density and interaction-graph proxies, not a calibrated social state. They are illustrative of direction, magnitude and mechanism on real rosters — not a deployed classifier.</li>
+        <li><b>Honest negatives reported straight.</b> When a claim fails, it is printed in full and kept. Three of the four powered second-wave tests deflate; that deflation is the most important empirical news here, because it is the exact pattern a <em>bounded</em> psychohistory would produce.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCORECARD ============ -->
+<section id="scorecard">
+  <div class="wrap">
+    <div class="eyebrow">The falsifier scorecard</div>
+    <h2>Every pre-registered bet, and where it stands</h2>
+    <p class="lead">The paper names eight falsification tests plus a sharpening of the block test. Five now carry powered runs against real data; four remain blocked on a live forecasting engine (not on more data).</p>
+    <div class="card" style="padding-top:8px;padding-bottom:8px;margin-top:18px">
+      <table class="scorecard">
+        <thead><tr><th>Test</th><th>The bet</th><th>Verdict</th><th>Key number</th></tr></thead>
+        <tbody>
+          <tr><td>(ii′)</td><td>Dynamic N<sub>eff</sub> collapse is community-specific before endogenous cascades</td><td class="sc-pass">SEALED PASS</td><td class="dim">9/12 fire, binomial p = 1.7×10⁻⁷, fresh roster</td></tr>
+          <tr><td>(iii)</td><td>Early warning (critical slowing-down) precedes cascades</td><td class="sc-partial">PARTIAL</td><td class="dim">beats calm null p = 0.02; can't tell endo/exo (AUC 0.60)</td></tr>
+          <tr><td>(iii′)</td><td>A substantive fraction of cascades are slow B-tipping</td><td class="sc-refuted">REFUTED</td><td class="dim">B-fraction 0.33 &lt; π_B = 0.60; mostly R-tipping shocks</td></tr>
+          <tr><td>(i)</td><td>Attention / activity is conserved (zero-sum) at ecosystem scale</td><td class="sc-contradicted">CONTRADICTED</td><td class="dim">finance-subreddit basket ballooned ~14× in the mania</td></tr>
+          <tr><td>(ii)</td><td>Blocks are independent in calm windows</td><td class="sc-partial">WEAK SUPPORT</td><td class="dim">macro N<sub>eff</sub> 1.90 of 8, bottoms 0.47 at a real shock</td></tr>
+          <tr><td>(iv)</td><td>Forecast skill in the smooth regime beats baselines</td><td class="sc-open">OPEN</td><td class="dim">needs a live forecasting engine</td></tr>
+          <tr><td>(v)</td><td>Published fixed points are reliable</td><td class="sc-open">OPEN</td><td class="dim">needs a live forecasting engine</td></tr>
+          <tr><td>(vi)</td><td>Lucas invariance: drift stays in an absorbable band</td><td class="sc-open">OPEN</td><td class="dim">needs a calibrated multi-regime engine</td></tr>
+          <tr><td>(vii)</td><td>Regime occupancy (Soros): imitative &lt; monotone</td><td class="sc-open">OPEN</td><td class="dim">needs a live regime monitor</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Cross-cutting checks also ran: the <a href="#counterfactual">GameStop counterfactual</a> (overdetermination), the <a href="#operator">operator-signal detector</a>, the <a href="#github">GitHub cross-domain replication</a>, and the <a href="#enkf">EnKF forward forecast</a>.</p>
+  </div>
+</section>
+
+<!-- ============ HEADLINE: NEFF COLLAPSE ============ -->
+<section id="neff">
+  <div class="wrap">
+    <div class="eyebrow">The headline result · test (ii′)</div>
+    <h2>The criticality gear's prediction, sealed on fresh data</h2>
+    <p class="lead">This is the load-bearing test: the whole criticality account turns on the claim that the effective number of independent blocks <em>collapses</em> across an onset. The honest story has a twist that took six runs to find, and it is a lesson in not testing the wrong quantity.</p>
+
+    <div class="verdict-card pass" id="neff-pass">
+      <div class="verdict-head">
+        <span class="vtest">test (ii′)</span>
+        <h3>Dynamic N<sub>eff</sub> collapse — community-specificity</h3>
+        <span class="vbadge pass">SEALED PASS</span>
+      </div>
+      <p>The theory's real claim is <b>specificity</b>: before an endogenous cascade, the <em>existing community's</em> frozen block partition collapses harder than a random reshuffle of the same people. We pre-registered that as the primary endpoint, with a frozen binomial rule, on a <b>fresh roster of 12 r/wallstreetbets cascades disjoint from every prior run</b> (COVID crash, Archegos, Coinbase, the NVDA earnings prints, Credit-Suisse, the 2024 election, and more). It passed cleanly.</p>
+      <div class="statrow">
+        <div class="statbox good"><div class="sb-num">9 / 12</div><div class="sb-lbl">cascades collapse past their own block-label shuffle null</div></div>
+        <div class="statbox good"><div class="sb-num">1.7×10⁻⁷</div><div class="sb-lbl">binomial p against the no-structure rate (p₀ = 0.10)</div></div>
+        <div class="statbox good"><div class="sb-num">100th pct</div><div class="sb-lbl">median cascade beats <em>all 300</em> reshuffles of its own nodes</div></div>
+        <div class="statbox"><div class="sb-num">×4</div><div class="sb-lbl">independent confirmations of community-specificity</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/neff_v4_specificity.png" alt="Per-cascade N_eff collapse vs block-label shuffle, fresh WSB roster" loading="lazy" />
+        <figcaption>The sealed primary endpoint (<code>validation/neff_v4/</code>). Left: each cascade's canonical-N<sub>eff</sub> collapse against its own block-label-shuffle 90th percentile (dots); green bars fire, red do not. Right: the observed collapse sits at the very top of its own 300-shuffle distribution for most cascades. The three non-firing cascades are the mechanical / exogenous events (a direct listing, a single Fed rate decision, a stock split) — exactly where a frozen-block N<sub>eff</sub> <em>should</em> be silent.</figcaption>
+      </figure>
+      <p class="testhonest"><b>§ Why this is an honest pass, not a manufactured one.</b> We did <em>not</em> relax the magnitude threshold an earlier run failed (that verdict stands, see below). We tested a <em>different, theory-correct endpoint</em> on <em>fresh</em> data. The September-2024 stimulus case clinches the logic: its raw collapse is only 0.065 — any magnitude bar would discard it — yet it beats every one of its 300 shuffles, because the signal lives in the community structure, not the magnitude.</p>
+    </div>
+
+    <h3 style="margin-top:26px">The twist: why magnitude was the wrong yardstick</h3>
+    <div class="verdict-card mixed" id="neff-magnitude">
+      <div class="verdict-head">
+        <span class="vtest">test (ii′) · sealing attempt #2</span>
+        <h3>The raw-magnitude reading — non-discriminating</h3>
+        <span class="vbadge mixed">REPORTED, NOT GATING</span>
+      </div>
+      <p>Two earlier sealed runs tested whether the collapse <em>magnitude</em> exceeds a threshold derived from genuinely-quiet windows. They failed, and the failure is informative: it is <em>why</em> we switched to specificity.</p>
+      <div class="statrow">
+        <div class="statbox warn"><div class="sb-num">~0.10</div><div class="sb-lbl">median N<sub>eff</sub> drop in genuinely-<em>quiet</em> WSB windows (tail to 0.43)</div></div>
+        <div class="statbox warn"><div class="sb-num">0.138 &lt; 0.394</div><div class="sb-lbl">fresh-event median below the honest magnitude bar</div></div>
+        <div class="statbox good"><div class="sb-num">9 / 10</div><div class="sb-lbl">but specificity fired anyway (third confirmation)</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/neff_v3_sealed.png" alt="neff_v3: event collapse vs clean null distribution" loading="lazy" />
+        <figcaption>Sealing attempt #2 (<code>validation/neff_v3/</code>). The decisive discovery was in the null itself: short high-volume onset windows compress N<sub>eff</sub> generically, so quiet windows already drop a median ~0.10. Magnitude therefore cannot tell an endogenous cascade from a busy-but-quiet week on a continuously high-volume forum. The specificity gate (does the <em>real</em> partition beat a shuffle?) discriminates where magnitude cannot.</figcaption>
+      </figure>
+      <p class="testhonest"><b>§ The reconciliation.</b> The dynamic collapse is a real <em>structural</em> signal that lives in the block partition (the shuffle test sees it four times) but is <em>not</em> a magnitude excursion beyond a quiet baseline — which the near-decomposability premise never required. Both halves are reported. The full six-pass arc and the synthesis are in <code>validation/NEFF_COLLAPSE_SYNTHESIS.md</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECOND-WAVE DEFLATIONS ============ -->
+<section id="deflations">
+  <div class="wrap">
+    <div class="eyebrow">The honest deflations</div>
+    <h2>Three more ambitious claims, and how they fared</h2>
+    <p class="lead">The structural gear seals. The dynamical, predictive and conservation claims do not — and that is the thesis, measured: the impersonal machinery is real but load-bearing only on the endogenous, reflexive minority of episodes, and most real cascades sit outside it.</p>
+
+    <!-- early warning -->
+    <div class="verdict-card partial" id="earlywarning">
+      <div class="verdict-head">
+        <span class="vtest">test (iii)</span>
+        <h3>Semantic early warning</h3>
+        <span class="vbadge partial">POWERED PARTIAL</span>
+      </div>
+      <p>Does critical slowing-down (rising variance / autocorrelation) precede a cascade? With a <em>semantic</em> (embedding-based) observable rather than a scalar proxy, the detector beats a guard-banded calm null — but it cannot tell a genuine reflexive build from an exogenous shock.</p>
+      <div class="statrow">
+        <div class="statbox good"><div class="sb-num">p = 0.02</div><div class="sb-lbl">beats a guard-banded calm null; 5/5 endogenous above calm</div></div>
+        <div class="statbox warn"><div class="sb-num">AUC 0.60</div><div class="sb-lbl">endo-vs-exo separation — it detects "a build," not which kind</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/early_warning_roc.png" alt="Early-warning ROC: endogenous vs exogenous separation" loading="lazy" />
+        <figcaption>The powered early-warning battery (<code>validation/early_warning_powered/</code>). The signal is real against a calm baseline but the endogenous-vs-exogenous ROC sits near AUC 0.60 — a partial positive, not a discriminator.</figcaption>
+      </figure>
+      <p class="testhonest"><b>§</b> This <em>qualifies</em> the paper's earlier headline negative: with a scalar proxy the signal washed out; with a vector observable, part of it survives. It does not overturn it — single embedding model, in-sample thresholds.</p>
+    </div>
+
+    <!-- bifurcation -->
+    <div class="verdict-card refuted" id="bifurcation">
+      <div class="verdict-head">
+        <span class="vtest">test (iii′)</span>
+        <h3>Bifurcation-mix conjecture</h3>
+        <span class="vbadge refuted">REFUTED</span>
+      </div>
+      <p>Early-warning theory only works for slow <em>bifurcation</em> (B-) tipping. The conjecture — named in advance as the most likely to fail — was that a substantive fraction of real cascades are B-tipping. On a 24-cascade labelled roster, they are not.</p>
+      <div class="statrow">
+        <div class="statbox warn"><div class="sb-num">0.33 &lt; 0.60</div><div class="sb-lbl">B-tipping fraction vs the pre-registered π_B</div></div>
+        <div class="statbox"><div class="sb-num">24</div><div class="sb-lbl">labelled cascades; most are sudden R-tipping shocks</div></div>
+      </div>
+      <p class="testhonest"><b>§</b> The bet failed honestly. Most real cascades arrive as sudden rate-induced shocks with no slow warning — which is exactly why early warning (iii) is only a partial positive. The two results are consistent.</p>
+    </div>
+
+    <!-- conservation -->
+    <div class="verdict-card contradicted" id="conservation">
+      <div class="verdict-head">
+        <span class="vtest">test (i)</span>
+        <h3>Conservation at ecosystem scale</h3>
+        <span class="vbadge contradicted">CONTRADICTED</span>
+      </div>
+      <p>Is activity zero-sum across a basket of related communities? At the basket scale, no: a finance/meme-subreddit total ballooned roughly fourteen-fold through the GameStop mania. Attention conservation holds as a <em>local, normalized-measure</em> statement, not as a global head-count budget across a porous boundary.</p>
+      <div class="statrow">
+        <div class="statbox warn"><div class="sb-num">~14×</div><div class="sb-lbl">9-subreddit finance/meme basket total through the mania</div></div>
+        <div class="statbox warn"><div class="sb-num">+1290%</div><div class="sb-lbl">incumbent-only growth; churn 40%</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/conservation_ecosystem.png" alt="Ecosystem activity ballooning through the mania" loading="lazy" />
+        <figcaption>The ecosystem conservation test (<code>validation/conservation_ecosystem/</code>). The basket is porous, so this cannot test the global claim — but at the scale measured, conservation is contradicted, matching the single-subreddit pilot.</figcaption>
+      </figure>
+      <p class="testhonest"><b>§</b> Honest scope: a porous basket cannot falsify the global zero-sum claim. What it shows is that the conserved object is a <em>normalized measure</em> over a closed population, not raw activity across an open ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CROSS-CUTTING ============ -->
+<section id="crosscutting">
+  <div class="wrap">
+    <div class="eyebrow">Cross-cutting checks</div>
+    <h2>Overdetermination, operators, replication, and a forward forecast</h2>
+
+    <!-- counterfactual -->
+    <div class="verdict-card supported" id="counterfactual">
+      <div class="verdict-head">
+        <span class="vtest">GameStop counterfactual</span>
+        <h3>Structural overdetermination</h3>
+        <span class="vbadge supported">SUPPORTED</span>
+      </div>
+      <p>Was GameStop a Seldon Crisis (structurally overdetermined) or a Mule (one individual moved it)? At the coarse scale it reads as overdetermined: attention rose structurally <em>before</em> the flagship spiked, and the whole meme basket fired in one window.</p>
+      <div class="statrow">
+        <div class="statbox good"><div class="sb-num">6 / 6</div><div class="sb-lbl">meme tickers peaked in the same week</div></div>
+        <div class="statbox good"><div class="sb-num">×5.99</div><div class="sb-lbl">WSB attention build before GME spiked</div></div>
+        <div class="statbox"><div class="sb-num">×970</div><div class="sb-lbl">GME mention-density amplification at peak</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/figure_counterfactual.png" alt="GameStop attention build and multi-ticker co-peak" loading="lazy" />
+        <figcaption>The counterfactual backtest. Honest caveat: the basket was selected on the outcome, and the co-peak is partly endogenous contagion — so this is suggestive structural priming, not a proof of any single operator's dispensability.</figcaption>
+      </figure>
+    </div>
+
+    <!-- operator -->
+    <div class="verdict-card supported" id="operator">
+      <div class="verdict-head">
+        <span class="vtest">operator-signal detector</span>
+        <h3>The major-player signature discriminates</h3>
+        <span class="vbadge supported">DISCRIMINATES</span>
+      </div>
+      <p>An agent of non-negligible measure (an "operator") needs a first-class state. The detector separates a gradual internal buildup from a sudden external shock.</p>
+      <div class="statrow">
+        <div class="statbox good"><div class="sb-num">13 weeks</div><div class="sb-lbl">DFV / Roaring Kitty operator ramp into the squeeze</div></div>
+        <div class="statbox good"><div class="sb-num">+3.54</div><div class="sb-lbl">operator-led score vs 2–3 weeks for macro shocks</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/figure_major_player.png" alt="Operator-signal detector: DFV buildup vs macro shocks" loading="lazy" />
+        <figcaption>The operator-signal detector. Gradual internal buildup (operator) vs sudden external anticipation (macro shock) — the discriminator that does not wash out across the roster.</figcaption>
+      </figure>
+    </div>
+
+    <!-- github -->
+    <div class="verdict-card partial" id="github">
+      <div class="verdict-head">
+        <span class="vtest">cross-domain replication</span>
+        <h3>GitHub: 2 of 3 invariants travel</h3>
+        <span class="vbadge partial">2 / 3 REPLICATE</span>
+      </div>
+      <p>Do the findings survive a different platform? On GitHub repositories, the structural-overdetermination and impersonal-early-warning-weakness results replicate, and operator <em>concentration</em> generalizes — but the gradual-<em>buildup</em> timing is platform-specific.</p>
+      <div class="statrow">
+        <div class="statbox good"><div class="sb-num">2 / 3</div><div class="sb-lbl">invariants reproduce cross-domain</div></div>
+        <div class="statbox"><div class="sb-num">88%</div><div class="sb-lbl">langchain founder commit share (concentration generalizes)</div></div>
+        <div class="statbox warn"><div class="sb-num">weeks</div><div class="sb-lbl">GitHub repos ignite faster — timing is platform-specific</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/figure_github.png" alt="GitHub cross-domain replication" loading="lazy" />
+        <figcaption>The cross-domain replication. The key finding: structural and operator-concentration invariants are domain-general; <em>timing</em> is platform-specific.</figcaption>
+      </figure>
+    </div>
+
+    <!-- enkf -->
+    <div class="verdict-card partial" id="enkf">
+      <div class="verdict-head">
+        <span class="vtest">forward forecast</span>
+        <h3>EnKF walk-forward — an honest negative on the strong claim</h3>
+        <span class="vbadge partial">CALIBRATED, NOT SKILLFUL</span>
+      </div>
+      <p>The first strictly-causal forward forecast on a real block. It beats climatology and is best-calibrated, but does <em>not</em> beat a persistence (last-value) baseline. The load-bearing positive is the self-diagnosing monitor firing on a real regime break.</p>
+      <div class="statrow">
+        <div class="statbox good"><div class="sb-num">0.181 vs 0.224</div><div class="sb-lbl">EnKF RMSE beats climatology; 95% coverage 0.98</div></div>
+        <div class="statbox warn"><div class="sb-num">0.181 vs 0.179</div><div class="sb-lbl">ties persistence — does NOT beat last-value</div></div>
+        <div class="statbox good"><div class="sb-num">z = −3.33</div><div class="sb-lbl">monitor flagged the Apr-2025 regime break in real time</div></div>
+      </div>
+      <figure class="testfig">
+        <img src="assets/enkf_forward.png" alt="EnKF walk-forward and misspecification monitor" loading="lazy" />
+        <figcaption>The EnKF forward test. The forward-skill claim survives only in the weaker form (better than climatology, calibrated, self-diagnosing). The monitor firing on the out-of-model event is the "Mule"-detection capability.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COVERAGE ============ -->
+<section id="coverage">
+  <div class="wrap">
+    <div class="eyebrow">Coverage dashboard · r/AskEconomics top 100</div>
+    <h2>Where the questions actually live</h2>
+    <p class="lead">A different kind of empirical check: route the 100 most-discussed r/AskEconomics questions through the engine and see which layers fire. The distribution <em>is</em> the test of the thesis — and it confirms it by measurement. The dramatic machinery (criticality, reflexivity) is a rare special regime; the quiet slow-stock core does almost all the work.</p>
+    <div class="grid-2" style="margin-top:22px">
+      <div class="card"><h4>Scope verdicts</h4><div id="chartScope" class="chart"></div></div>
+      <div class="card"><h4>Layer activation frequency</h4><div id="chartLayers" class="chart"></div>
+        <p class="cov-caption">The dramatic machinery (criticality ≈ 21, reflexivity ≈ 34) is a special regime. Most questions are slow-stock accounting (L1 ≈ 93) — exactly what the thesis predicts: the quiet core dominates, the fat tails are rare.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:30px">All 100 readings</h3>
+    <div class="filterbar">
+      <label class="faint" style="font-size:.78rem">scope
+        <select id="fScope"><option value="">all</option></select>
+      </label>
+      <label class="faint" style="font-size:.78rem">layer
+        <select id="fLayer"><option value="">any</option></select>
+      </label>
+      <input type="text" id="fSearch" placeholder="search titles…" />
+      <span class="filtercount" id="filterCount"></span>
+    </div>
+    <div class="card" style="padding:6px 0">
+      <table id="readingsTable">
+        <thead><tr><th></th><th>#</th><th>Title</th><th>Layers</th><th>Scope</th><th style="text-align:right">Score</th></tr></thead>
+        <tbody id="readingsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT'S NOT CLAIMED ============ -->
+<section id="limits">
+  <div class="wrap">
+    <div class="eyebrow">Limits &amp; provenance</div>
+    <h2>What this does not claim</h2>
+    <ul class="limits-list">
+      <li><b>Frozen thresholds, not yet externally lodged.</b> The pre-registration seal is internal; until it is hashed to an external registry, every result here is a backtest scored without an external timestamp.</li>
+      <li><b>Proxy data at modest n.</b> Mention-density and interaction-graph proxies, single platforms per test, in-sample thresholds on the classifier-style tests. Illustrative of direction and mechanism, not a deployed forecaster.</li>
+      <li><b>The structural core is what survives.</b> Near-decomposability (recovered blind), the dynamic community-specific collapse (now sealed), and operator concentration travel. The predictive, conservation and early-warning claims are narrow, partial, refuted or unmet.</li>
+      <li><b>Four falsifiers are still open.</b> Smooth-regime skill, fixed-point reliability, Lucas invariance and regime occupancy all need a live forecasting engine, not more data.</li>
+      <li><b>A bounded psychohistory is exactly one that would show this pattern.</b> The split — structural seal, dynamical deflation — is not a refutation of the thesis. It is the thesis: predictability lives only in the bounded special regime the framework claims for it.</li>
+    </ul>
+    <p class="note" style="margin-top:18px">Read it whole in <a href="../psychohistory.pdf">the paper (PDF)</a>, or revisit <a href="math.html">the mathematics</a> behind each test.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="provlinks">
+      <a href="index.html">▸ Home</a>
+      <a href="tutorial.html">▸ Tutorial</a>
+      <a href="math.html">▸ The math</a>
+      <a href="../psychohistory.pdf">▸ the paper (PDF)</a>
+      <a href="../validation/">▸ the validation tree</a>
+    </div>
+    <p class="faint">Every verdict on this page corresponds to a companion directory under <code>validation/</code> with frozen pre-registration, the analysis script, and the result JSON. The N<sub>eff</sub>-collapse synthesis lives in <code>validation/NEFF_COLLAPSE_SYNTHESIS.md</code>.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

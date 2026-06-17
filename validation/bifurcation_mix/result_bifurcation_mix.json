@@ -1,0 +1,303 @@
+{
+  "test": "iii_prime_bifurcation_mix",
+  "pi_B": 0.6,
+  "thresholds": {
+    "SHARE_HI": 0.2,
+    "ABRUPT_HI": 8.0
+  },
+  "roster": {
+    "n_wiki_structural": 14,
+    "n_wsb_structural": 10,
+    "n_structural_total": 24,
+    "n_substantive_total": 24
+  },
+  "structural": {
+    "B": 18,
+    "N": 0,
+    "R": 6,
+    "n": 24,
+    "B_fraction": 0.75,
+    "verdict": "SUPPORTED"
+  },
+  "substantive": {
+    "B": 8,
+    "N": 0,
+    "R": 16,
+    "n": 24,
+    "B_fraction": 0.3333333333333333,
+    "verdict": "REFUTED"
+  },
+  "inter_rater": {
+    "n_both": 24,
+    "raw_agreement_3cat": 0.5833333333333334,
+    "cohens_kappa_3cat": 0.2857142857142858,
+    "raw_agreement_binaryB": 0.5833333333333334,
+    "cohens_kappa_binaryB": 0.2857142857142858
+  },
+  "per_event": [
+    {
+      "substrate": "wiki",
+      "event": "Bitcoin",
+      "f_existing": 0.7096774193548387,
+      "a_abrupt": 2.2207792207792205,
+      "on_edits": 57,
+      "pre_edits": 110,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "Coinbase-IPO price peak culminating a multi-month reflexive bull run; slow control-parameter (price/leverage) drift toward a fold."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Donald Trump",
+      "f_existing": 0.5646186440677966,
+      "a_abrupt": 3.3875776397515525,
+      "on_edits": 909,
+      "pre_edits": 1150,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "Capitol storming after weeks of escalating contested-election mobilization; a slow-building reflexive crisis culminating."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Evergrande Group",
+      "f_existing": 0.4338235294117647,
+      "a_abrupt": 9.875776397515528,
+      "on_edits": 106,
+      "pre_edits": 46,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "Default crisis after months of visible liquidity deterioration and missed-payment warnings; textbook slow fold."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Joe Biden",
+      "f_existing": 0.36152219873150104,
+      "a_abrupt": 2.69773145309626,
+      "on_edits": 440,
+      "pre_edits": 699,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Election called; a scheduled-but-discrete outcome resolving on a near-fixed date, treated as a sudden state switch."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Twitter",
+      "f_existing": 0.31297709923664124,
+      "a_abrupt": 6.157635467980295,
+      "on_edits": 125,
+      "pre_edits": 87,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Musk acquisition CLOSE; a discrete deal-closing event (the drift was the months-long saga, but the onset spike is the sudden close)."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Credit Suisse",
+      "f_existing": 0.3103448275862069,
+      "a_abrupt": 5.8201058201058204,
+      "on_edits": 110,
+      "pre_edits": 81,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "UBS emergency takeover ending a years-long, publicly tracked balance-sheet/confidence deterioration; slow build to a fold."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Queen Elizabeth II",
+      "f_existing": 0.2981651376146789,
+      "a_abrupt": 25.225155279503106,
+      "on_edits": 1083,
+      "pre_edits": 184,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Death; an anticipated-someday but discrete sudden event with no slow public control-parameter drift."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Volodymyr Zelenskyy",
+      "f_existing": 0.26904761904761904,
+      "a_abrupt": 8.711180124223603,
+      "on_edits": 374,
+      "pre_edits": 184,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Spike on the surprise invasion; sudden exogenous shock to a wartime leader's profile."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Boeing 737 MAX",
+      "f_existing": 0.1986206896551724,
+      "a_abrupt": 58.62533692722372,
+      "on_edits": 725,
+      "pre_edits": 53,
+      "structural": "R",
+      "substantive": "R",
+      "substantive_rationale": "Ethiopian Airlines crash and abrupt worldwide grounding; a sudden fatal accident, no slow public drift."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Diego Maradona",
+      "f_existing": 0.0875,
+      "a_abrupt": 19.591836734693878,
+      "on_edits": 800,
+      "pre_edits": 175,
+      "structural": "R",
+      "substantive": "R",
+      "substantive_rationale": "Sudden death; an unanticipated one-off external shock."
+    },
+    {
+      "substrate": "wiki",
+      "event": "NATO",
+      "f_existing": 0.08,
+      "a_abrupt": 11.63265306122449,
+      "on_edits": 95,
+      "pre_edits": 35,
+      "structural": "R",
+      "substantive": "R",
+      "substantive_rationale": "Spike driven by the surprise Russian invasion of Ukraine; sudden exogenous shock."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Kobe Bryant",
+      "f_existing": 0.0506155950752394,
+      "a_abrupt": 82.44360902255639,
+      "on_edits": 731,
+      "pre_edits": 38,
+      "structural": "R",
+      "substantive": "R",
+      "substantive_rationale": "Helicopter-crash death; sudden unanticipated external shock."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Suez Canal",
+      "f_existing": 0.029748283752860413,
+      "a_abrupt": 48.02197802197802,
+      "on_edits": 437,
+      "pre_edits": 39,
+      "structural": "R",
+      "substantive": "R",
+      "substantive_rationale": "Ever Given grounding blocking the canal; sudden physical accident."
+    },
+    {
+      "substrate": "wiki",
+      "event": "Notre-Dame de Paris",
+      "f_existing": 0.008928571428571428,
+      "a_abrupt": 128.0,
+      "on_edits": 896,
+      "pre_edits": 30,
+      "structural": "R",
+      "substantive": "R",
+      "substantive_rationale": "Cathedral fire; one-off physical accident, no slow drift."
+    },
+    {
+      "substrate": "wsb",
+      "event": "regional_bank_may2023",
+      "f_existing": 0.9270439622628645,
+      "a_abrupt": 0.7420539574209724,
+      "on_comments": 439991,
+      "pre_comments": 2134572,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "First Republic / regional-bank crisis; reaction to a sudden external bank-failure shock."
+    },
+    {
+      "substrate": "wsb",
+      "event": "market_selloff_jan2022",
+      "f_existing": 0.9255104477611941,
+      "a_abrupt": 1.401219812582009,
+      "on_comments": 1005000,
+      "pre_comments": 2582036,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Jan 2022 tech selloff driven by the exogenous rate-hike/Fed-pivot macro shock; sudden external trigger."
+    },
+    {
+      "substrate": "wsb",
+      "event": "market_drop_may2022",
+      "f_existing": 0.8952668093180449,
+      "a_abrupt": 1.0912185708231668,
+      "on_comments": 891217,
+      "pre_comments": 2940182,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Broad market drop with the LUNA/UST collapse; the LUNA leg is a fast death-spiral, the WSB surge is a reaction to an external crash."
+    },
+    {
+      "substrate": "wsb",
+      "event": "GME_runup_nov2021",
+      "f_existing": 0.891833816141689,
+      "a_abrupt": 1.1374164451513162,
+      "on_comments": 681775,
+      "pre_comments": 2157864,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "Late-2021 meme runup, endogenous reflexive coordination."
+    },
+    {
+      "substrate": "wsb",
+      "event": "svb_collapse_mar2023",
+      "f_existing": 0.8858384594624451,
+      "a_abrupt": 1.1238976168783459,
+      "on_comments": 715127,
+      "pre_comments": 2290651,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "SVB failed in a 48-hour bank run after a sudden deposit-flight trigger; rapid run, the WSB surge reacts to an abrupt external collapse."
+    },
+    {
+      "substrate": "wsb",
+      "event": "gme_kitty_may2024",
+      "f_existing": 0.8698341555789931,
+      "a_abrupt": 0.7938194849463306,
+      "on_comments": 547079,
+      "pre_comments": 2481023,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Roaring Kitty's surprise return tweet; a single discrete exogenous trigger that reignited attention overnight."
+    },
+    {
+      "substrate": "wsb",
+      "event": "aug2024_vix_spike",
+      "f_existing": 0.8561793587341815,
+      "a_abrupt": 1.2275570725156668,
+      "on_comments": 658167,
+      "pre_comments": 1930176,
+      "structural": "B",
+      "substantive": "R",
+      "substantive_rationale": "Aug 2024 carry-unwind VIX crash; a sudden one-day external volatility shock."
+    },
+    {
+      "substrate": "wsb",
+      "event": "GME_leg2_feb2021",
+      "f_existing": 0.849037700785663,
+      "a_abrupt": 1.1110751039108488,
+      "on_comments": 3260940,
+      "pre_comments": 10565788,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "Second GME leg, a reflexive re-inflation of the same endogenous bubble."
+    },
+    {
+      "substrate": "wsb",
+      "event": "AMC_meme_jun2021",
+      "f_existing": 0.8277724282789003,
+      "a_abrupt": 0.9509798823301484,
+      "on_comments": 1403039,
+      "pre_comments": 5311301,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "AMC/meme second wave, endogenous coordinated meme-stock bubble re-inflating."
+    },
+    {
+      "substrate": "wsb",
+      "event": "GME_squeeze_jan2021",
+      "f_existing": 0.5259619039662795,
+      "a_abrupt": 5.076472657181884,
+      "on_comments": 6679383,
+      "pre_comments": 4736710,
+      "structural": "B",
+      "substantive": "B",
+      "substantive_rationale": "Canonical endogenous reflexive short squeeze built over weeks of coordinated WSB buying; the paradigm slow-fold social bubble."
+    }
+  ]
+}

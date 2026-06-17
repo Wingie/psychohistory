@@ -1,0 +1,116 @@
+"""Stream wallstreetbets_comments.zst ONCE (sequential; D: is an HDD) and capture
+the compact comment fields (author, link_id, created_utc) for every comment that
+falls inside ANY v3 harvest window -- both the FRESH event roster (roster_v3.py) and
+the 12 CLEAN-NULL windows (clean_windows.py).
+
+Output (validation/neff_v3/data/):
+  - event__<label>.jsonl   one compact comment per line for a fresh event window
+  - clean__<label>.jsonl   one compact comment per line for a clean-null window
+                           ({"a":author,"l":link_id,"t":created_utc})
+
+Resumable: if every target file already exists, exits fast.
+Adapted verbatim from validation/reddit_wsb/harvest_filter.py (same streaming,
+same DROP_AUTHORS, same early-stop on the ordered stream).
+
+Run:  py -3.12 harvest_v3.py
+"""
+import io
+import json
+import os
+import sys
+import datetime as dt
+
+import zstandard
+
+import roster_v3 as RV
+import clean_windows as CW
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(HERE, "data")
+ZST = os.path.abspath(os.path.join(
+    HERE, "..", "reddit_dump", "reddit", "subreddits24", "wallstreetbets_comments.zst"))
+
+DROP_AUTHORS = {"AutoModerator", "[deleted]", "[removed]", None, ""}
+
+
+def all_windows():
+    """List of (kind, label, lo_date, hi_date, out_path)."""
+    out = []
+    for label, onset, _why in RV.all_events():
+        lo, hi = RV.window_for(onset)
+        out.append(("event", label, lo, hi, os.path.join(DATA, f"event__{label}.jsonl")))
+    for label, onset, _mv, _era in CW.pick_clean_onsets():
+        lo, hi = CW.window_for(onset)
+        out.append(("clean", label, lo, hi, os.path.join(DATA, f"clean__{label}.jsonl")))
+    return out
+
+
+def main():
+    os.makedirs(DATA, exist_ok=True)
+    windows = all_windows()
+    if all(os.path.exists(w[4]) for w in windows):
+        sys.stderr.write("all v3 window files already present; nothing to do.\n")
+        return
+
+    min_lo = min(w[2] for w in windows)
+    max_hi = max(w[3] for w in windows)
+    min_lo_ts = int(dt.datetime(min_lo.year, min_lo.month, min_lo.day,
+                                tzinfo=dt.timezone.utc).timestamp())
+    max_hi_ts = int(dt.datetime(max_hi.year, max_hi.month, max_hi.day,
+                                tzinfo=dt.timezone.utc).timestamp())
+    sys.stderr.write(f"harvest window [{min_lo} .. {max_hi}) -> ts [{min_lo_ts}..{max_hi_ts})\n")
+    sys.stderr.write(f"{len(windows)} v3 windows ({sum(w[0]=='event' for w in windows)} event, "
+                     f"{sum(w[0]=='clean' for w in windows)} clean)\n")
+
+    writers = {}
+    for kind, label, lo, hi, path in windows:
+        writers[(kind, label)] = (lo, hi, open(path, "w", encoding="utf-8"))
+
+    dctx = zstandard.ZstdDecompressor(max_window_size=2 ** 31)
+    n_lines = n_kept = 0
+    with open(ZST, "rb") as fh:
+        reader = dctx.stream_reader(fh)
+        tr = io.TextIOWrapper(reader, encoding="utf-8", errors="ignore")
+        for line in tr:
+            n_lines += 1
+            if n_lines % 5_000_000 == 0:
+                sys.stderr.write(f"  ..{n_lines:,} lines, kept {n_kept:,}\n")
+            try:
+                c = json.loads(line)
+            except Exception:
+                continue
+            ts = c.get("created_utc")
+            if ts is None:
+                continue
+            try:
+                ts = int(ts)
+            except Exception:
+                continue
+            if ts < min_lo_ts:
+                continue
+            if ts >= max_hi_ts:
+                break  # ordered stream -> past everything we need
+            author = c.get("author")
+            if author in DROP_AUTHORS:
+                continue
+            link = c.get("link_id")
+            if not link:
+                continue
+            d = dt.datetime.fromtimestamp(ts, dt.timezone.utc).date()
+            rec = None
+            for (lo, hi, w) in writers.values():
+                if lo <= d < hi:
+                    if rec is None:
+                        rec = json.dumps({"a": author, "l": link, "t": ts},
+                                         separators=(",", ":"))
+                    w.write(rec)
+                    w.write("\n")
+                    n_kept += 1
+    for (lo, hi, w) in writers.values():
+        w.close()
+    sys.stderr.write(f"DONE. scanned {n_lines:,} lines, wrote {n_kept:,} rows "
+                     f"across {len(windows)} files.\n")
+
+
+if __name__ == "__main__":
+    main()

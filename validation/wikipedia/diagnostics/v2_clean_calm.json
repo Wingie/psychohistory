@@ -1,0 +1,432 @@
+{
+  "variation": "V2 clean calm null",
+  "harvest_constraint": "event focal_revs span ~[onset-90d,onset+22d]; calm focal_revs span ~[onset-455d,onset-343d]; clean window searched only inside harvested pre-onset dates (no re-harvest)",
+  "n_event": 14,
+  "n_clean_calm": 10,
+  "median_event_drop": 0.1929955308525661,
+  "orig_calm_p90": 0.29064536133765523,
+  "cond3_orig_pass": false,
+  "clean_calm_median": 0.0,
+  "clean_calm_p90": 0.16525986091203468,
+  "cond3_clean_pass": true,
+  "event_vs_clean_mannwhitney_p": 0.01207233353209988,
+  "rows": [
+    {
+      "title": "Evergrande Group",
+      "onset": "2021-09-20",
+      "K": 4,
+      "event_drop": 0.613300129115392,
+      "clean_calm_pseudo_onset": null,
+      "clean_calm_drop": null,
+      "quiet_info": null,
+      "status": "no_covered_quiet_window",
+      "harvested_islands": [
+        [
+          "2020-09-24",
+          "2020-09-24"
+        ],
+        [
+          "2021-07-08",
+          "2021-07-20"
+        ],
+        [
+          "2021-08-13",
+          "2021-10-09"
+        ]
+      ],
+      "orig_calm_drop": null
+    },
+    {
+      "title": "Diego Maradona",
+      "onset": "2020-11-25",
+      "K": 4,
+      "event_drop": 0.5700163462323877,
+      "clean_calm_pseudo_onset": "2020-10-24",
+      "clean_calm_drop": 0.0,
+      "quiet_info": {
+        "quiet_vol": 114,
+        "quiet_lo": "2020-09-05",
+        "quiet_hi": "2020-10-24",
+        "n_candidate_windows": 1
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2019-09-06",
+          "2019-09-29"
+        ],
+        [
+          "2019-10-19",
+          "2019-10-20"
+        ],
+        [
+          "2019-11-08",
+          "2019-12-10"
+        ],
+        [
+          "2020-08-29",
+          "2020-12-15"
+        ]
+      ],
+      "orig_calm_drop": null
+    },
+    {
+      "title": "Volodymyr Zelenskyy",
+      "onset": "2022-02-24",
+      "K": 4,
+      "event_drop": 0.4449175412247487,
+      "clean_calm_pseudo_onset": "2022-01-21",
+      "clean_calm_drop": 0.0,
+      "quiet_info": {
+        "quiet_vol": 39,
+        "quiet_lo": "2021-12-03",
+        "quiet_hi": "2022-01-21",
+        "n_candidate_windows": 1
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2020-11-27",
+          "2020-12-10"
+        ],
+        [
+          "2020-12-28",
+          "2021-03-13"
+        ],
+        [
+          "2021-11-26",
+          "2022-03-16"
+        ]
+      ],
+      "orig_calm_drop": -0.0976754582029502
+    },
+    {
+      "title": "Queen Elizabeth II",
+      "onset": "2022-09-08",
+      "K": 3,
+      "event_drop": 0.40641226952840437,
+      "clean_calm_pseudo_onset": "2022-08-05",
+      "clean_calm_drop": -0.440630987463158,
+      "quiet_info": {
+        "quiet_vol": 73,
+        "quiet_lo": "2022-06-17",
+        "quiet_hi": "2022-08-05",
+        "n_candidate_windows": 6
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2021-06-11",
+          "2021-09-28"
+        ],
+        [
+          "2022-06-10",
+          "2022-09-28"
+        ]
+      ],
+      "orig_calm_drop": 0.2854250685383618
+    },
+    {
+      "title": "Donald Trump",
+      "onset": "2021-01-06",
+      "K": 3,
+      "event_drop": 0.3527943628158535,
+      "clean_calm_pseudo_onset": "2019-12-19",
+      "clean_calm_drop": 0.03764583919884901,
+      "quiet_info": {
+        "quiet_vol": 300,
+        "quiet_lo": "2019-10-31",
+        "quiet_hi": "2019-12-19",
+        "n_candidate_windows": 6
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2019-10-10",
+          "2020-01-27"
+        ],
+        [
+          "2020-10-08",
+          "2021-01-26"
+        ]
+      ],
+      "orig_calm_drop": -0.2905155932365602
+    },
+    {
+      "title": "Boeing 737 MAX",
+      "onset": "2019-03-10",
+      "K": 3,
+      "event_drop": 0.2905451980540399,
+      "clean_calm_pseudo_onset": "2018-02-08",
+      "clean_calm_drop": 0.06175771971496402,
+      "quiet_info": {
+        "quiet_vol": 26,
+        "quiet_lo": "2017-12-21",
+        "quiet_hi": "2018-02-08",
+        "n_candidate_windows": 4
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2017-12-14",
+          "2018-03-25"
+        ],
+        [
+          "2018-12-15",
+          "2019-03-30"
+        ]
+      ],
+      "orig_calm_drop": -0.21177438002677196
+    },
+    {
+      "title": "Bitcoin",
+      "onset": "2021-04-14",
+      "K": 7,
+      "event_drop": 0.2218618442201682,
+      "clean_calm_pseudo_onset": "2021-03-11",
+      "clean_calm_drop": -0.5529647980457992,
+      "quiet_info": {
+        "quiet_vol": 66,
+        "quiet_lo": "2021-01-21",
+        "quiet_hi": "2021-03-11",
+        "n_candidate_windows": 1
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2020-01-22",
+          "2020-02-05"
+        ],
+        [
+          "2020-02-21",
+          "2020-04-15"
+        ],
+        [
+          "2020-05-01",
+          "2020-05-03"
+        ],
+        [
+          "2021-01-14",
+          "2021-05-03"
+        ]
+      ],
+      "orig_calm_drop": 0.0
+    },
+    {
+      "title": "Joe Biden",
+      "onset": "2020-11-07",
+      "K": 7,
+      "event_drop": 0.164129217484964,
+      "clean_calm_pseudo_onset": "2019-10-22",
+      "clean_calm_drop": 0.1358024691358024,
+      "quiet_info": {
+        "quiet_vol": 48,
+        "quiet_lo": "2019-09-03",
+        "quiet_hi": "2019-10-22",
+        "n_candidate_windows": 5
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2019-08-13",
+          "2019-11-25"
+        ],
+        [
+          "2020-08-09",
+          "2020-11-27"
+        ]
+      ],
+      "orig_calm_drop": -0.6142499391119802
+    },
+    {
+      "title": "Notre-Dame de Paris",
+      "onset": "2019-04-15",
+      "K": 3,
+      "event_drop": 0.1439835447377441,
+      "clean_calm_pseudo_onset": null,
+      "clean_calm_drop": null,
+      "quiet_info": null,
+      "status": "no_covered_quiet_window",
+      "harvested_islands": [
+        [
+          "2018-01-29",
+          "2018-02-03"
+        ],
+        [
+          "2018-02-22",
+          "2018-04-12"
+        ],
+        [
+          "2018-05-02",
+          "2018-05-02"
+        ],
+        [
+          "2019-01-17",
+          "2019-03-24"
+        ],
+        [
+          "2019-04-15",
+          "2019-05-05"
+        ]
+      ],
+      "orig_calm_drop": -0.33191987493733266
+    },
+    {
+      "title": "Credit Suisse",
+      "onset": "2023-03-19",
+      "K": 3,
+      "event_drop": 0.07086426996722428,
+      "clean_calm_pseudo_onset": null,
+      "clean_calm_drop": null,
+      "quiet_info": null,
+      "status": "no_covered_quiet_window",
+      "harvested_islands": [
+        [
+          "2021-12-23",
+          "2021-12-24"
+        ],
+        [
+          "2022-01-17",
+          "2022-01-17"
+        ],
+        [
+          "2022-02-07",
+          "2022-04-04"
+        ],
+        [
+          "2022-12-22",
+          "2023-01-02"
+        ],
+        [
+          "2023-01-17",
+          "2023-04-06"
+        ]
+      ],
+      "orig_calm_drop": -0.6747387273832934
+    },
+    {
+      "title": "Twitter",
+      "onset": "2022-10-27",
+      "K": 3,
+      "event_drop": 0.02983284933751873,
+      "clean_calm_pseudo_onset": "2022-09-23",
+      "clean_calm_drop": -0.29134785883384984,
+      "quiet_info": {
+        "quiet_vol": 27,
+        "quiet_lo": "2022-08-05",
+        "quiet_hi": "2022-09-23",
+        "n_candidate_windows": 6
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2021-07-30",
+          "2021-11-16"
+        ],
+        [
+          "2022-07-29",
+          "2022-11-16"
+        ]
+      ],
+      "orig_calm_drop": 0.31152653253482887
+    },
+    {
+      "title": "NATO",
+      "onset": "2022-02-24",
+      "K": 4,
+      "event_drop": -0.024306380313868114,
+      "clean_calm_pseudo_onset": "2022-01-22",
+      "clean_calm_drop": -0.8947638603696091,
+      "quiet_info": {
+        "quiet_vol": 17,
+        "quiet_lo": "2021-12-04",
+        "quiet_hi": "2022-01-22",
+        "n_candidate_windows": 1
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2020-11-27",
+          "2020-11-29"
+        ],
+        [
+          "2020-12-15",
+          "2020-12-15"
+        ],
+        [
+          "2021-01-10",
+          "2021-01-11"
+        ],
+        [
+          "2021-02-08",
+          "2021-03-10"
+        ],
+        [
+          "2021-11-27",
+          "2022-03-15"
+        ]
+      ],
+      "orig_calm_drop": null
+    },
+    {
+      "title": "Kobe Bryant",
+      "onset": "2020-01-26",
+      "K": 3,
+      "event_drop": -0.26557731387059214,
+      "clean_calm_pseudo_onset": "2019-12-23",
+      "clean_calm_drop": 0.4303763868981261,
+      "quiet_info": {
+        "quiet_vol": 14,
+        "quiet_lo": "2019-11-04",
+        "quiet_hi": "2019-12-23",
+        "n_candidate_windows": 1
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2018-11-07",
+          "2018-11-07"
+        ],
+        [
+          "2018-12-04",
+          "2018-12-11"
+        ],
+        [
+          "2019-01-02",
+          "2019-02-15"
+        ],
+        [
+          "2019-10-28",
+          "2020-02-15"
+        ]
+      ],
+      "orig_calm_drop": null
+    },
+    {
+      "title": "Suez Canal",
+      "onset": "2021-03-23",
+      "K": 4,
+      "event_drop": -0.40388975225010726,
+      "clean_calm_pseudo_onset": "2020-02-29",
+      "clean_calm_drop": NaN,
+      "quiet_info": {
+        "quiet_vol": 9,
+        "quiet_lo": "2020-01-11",
+        "quiet_hi": "2020-02-29",
+        "n_candidate_windows": 5
+      },
+      "status": "ok",
+      "harvested_islands": [
+        [
+          "2019-12-28",
+          "2020-04-11"
+        ],
+        [
+          "2020-12-23",
+          "2021-04-12"
+        ]
+      ],
+      "orig_calm_drop": null
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "block": "AskEconomics",
+  "series_span": [
+    "2020-12-31",
+    "2025-04-30"
+  ],
+  "n_obs": 53,
+  "transform": "natural log of monthly submission count",
+  "model": "local linear trend in log-activity; F=[[1,1],[0,phi]], H=[1,0]",
+  "phi": 0.7,
+  "n_ensemble": 80,
+  "seed": 12345,
+  "monitor_threshold_sigma": 3.0,
+  "Q": [
+    [
+      0.009325257940039978,
+      0.0
+    ],
+    [
+      0.0,
+      0.004662628970019989
+    ]
+  ],
+  "R": 0.005595154764023987,
+  "step_var_pre_onset": 0.018650515880079956,
+  "onset_date": "2025-01-31",
+  "onset_index": 49,
+  "n_break_steps": 4,
+  "break_window_dates": [
+    "2025-01-31",
+    "2025-04-30"
+  ],
+  "real_break_flag": {
+    "flag_date": "2025-04-30",
+    "flag_z": -4.710417886042163,
+    "detection_lag_steps": 3,
+    "note": "monitor flags |z|>3 at the collapse; lag = steps from ramp onset to the flag, with no future information"
+  },
+  "divergence_window": {
+    "dates": [
+      "2025-01-31",
+      "2025-03-31"
+    ],
+    "n_steps": 3,
+    "note": "ramp onset up to (not including) the monitor flag; the frozen open-loop diverges here while the closed loop tracks"
+  },
+  "integrated_error_logunits": {
+    "divergence_window": {
+      "open_loop": 0.8127398887439483,
+      "closed_loop": 0.4590943972446393,
+      "ratio_open_over_closed": 1.7703110593851588
+    },
+    "full_window_through_collapse": {
+      "open_loop": 0.9767129147512188,
+      "closed_loop": 1.175713873460289,
+      "ratio_open_over_closed": 0.8307403159891422,
+      "note": "at the collapse step the frozen-flat open-loop accidentally lands near the post-collapse level while the ramp-tracking closed loop eats the full collapse surprise (z=-4.71); that surprise is exactly what the monitor flags"
+    }
+  },
+  "per_step": {
+    "dates": [
+      "2025-01-31",
+      "2025-02-28",
+      "2025-03-31",
+      "2025-04-30"
+    ],
+    "actual_log": [
+      7.121252453244542,
+      7.194436851100335,
+      7.534762657037537,
+      6.852242569051878
+    ],
+    "open_loop_mean_log": [
+      7.010027734475074,
+      7.01285324159109,
+      7.014831096572301,
+      7.0162155950591485
+    ],
+    "closed_loop_mean_log": [
+      7.011305300041516,
+      7.119786071966931,
+      7.260266192129327,
+      7.568862045267528
+    ],
+    "open_loop_abs_err": [
+      0.11122471876946793,
+      0.18158360950924468,
+      0.5199315604652357,
+      0.16397302600727048
+    ],
+    "closed_loop_abs_err": [
+      0.1099471532030254,
+      0.07465077913340412,
+      0.2744964649082098,
+      0.7166194762156497
+    ],
+    "closed_loop_innov_z": [
+      0.5894758739428508,
+      0.4413042485281745,
+      1.6697511304224175,
+      -4.710417886042163
+    ]
+  },
+  "directions_confirmed_on_real_data": {
+    "open_loop_diverges_across_ramp": true,
+    "closed_loop_tracks_over_divergence_window": true,
+    "detection_lag_positive": true
+  },
+  "scope": "One block, one real OOD event, monthly resolution: a real-data instance of the detect-and-correct chain. Magnitudes are properties of this series and the threshold; the robust content is the directions. n=1 real event, preliminary."
+}

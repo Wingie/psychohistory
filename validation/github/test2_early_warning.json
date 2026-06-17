@@ -1,0 +1,87 @@
+{
+  "test": "early_warning_csd",
+  "detector": "detrended_CSD_kendall_tau",
+  "per_event": [
+    {
+      "repo": "autogpt",
+      "onset": "2023-04-02",
+      "n_weeks": 170,
+      "status": "INSUFFICIENT_DATA",
+      "weeks_of_history_before_onset": 3,
+      "born_into_cascade": true,
+      "reason": "repo born essentially AT its cascade (3 wk pre-onset history < 6 needed): instant ignition, no slow build to detect"
+    },
+    {
+      "repo": "langchain",
+      "onset": "2023-01-08",
+      "n_weeks": 191,
+      "status": "OK",
+      "weeks_of_history_before_onset": 11,
+      "window": 6,
+      "auc": 0.4714285714285714,
+      "percentile": 0.24571428571428572,
+      "z": -0.07253399208313283,
+      "tau_var": 1.0,
+      "tau_ar1": -1.0,
+      "n_null": 175
+    },
+    {
+      "repo": "gpt_engineer",
+      "onset": "2023-06-11",
+      "n_weeks": 164,
+      "status": "OK",
+      "weeks_of_history_before_onset": 7,
+      "window": 6,
+      "auc": 0.9802631578947368,
+      "percentile": 0.9605263157894737,
+      "z": 2.8955841190883294,
+      "tau_var": 0.3333333333333333,
+      "tau_ar1": 1.0,
+      "n_null": 152
+    },
+    {
+      "repo": "metagpt",
+      "onset": "2023-08-06",
+      "n_weeks": 155,
+      "status": "OK",
+      "weeks_of_history_before_onset": 6,
+      "window": 6,
+      "auc": 0.5243055555555556,
+      "percentile": 0.19444444444444445,
+      "z": 0.08181830356891304,
+      "tau_var": -1.0,
+      "tau_ar1": 1.0,
+      "n_null": 144
+    },
+    {
+      "repo": "superagi",
+      "onset": "2023-06-04",
+      "n_weeks": 162,
+      "status": "INSUFFICIENT_DATA",
+      "weeks_of_history_before_onset": 3,
+      "born_into_cascade": true,
+      "reason": "repo born essentially AT its cascade (3 wk pre-onset history < 6 needed): instant ignition, no slow build to detect"
+    },
+    {
+      "repo": "agentgpt",
+      "onset": "2023-04-09",
+      "n_weeks": 168,
+      "status": "INSUFFICIENT_DATA",
+      "weeks_of_history_before_onset": 1,
+      "born_into_cascade": true,
+      "reason": "repo born essentially AT its cascade (1 wk pre-onset history < 6 needed): instant ignition, no slow build to detect"
+    }
+  ],
+  "n_ok": 3,
+  "n_born_into_cascade_no_buildup": 3,
+  "born_into_cascade_repos": [
+    "autogpt",
+    "superagi",
+    "agentgpt"
+  ],
+  "mean_auc": 0.659,
+  "median_auc": 0.524,
+  "frac_events_auc_ge_0p8": 0.333,
+  "reddit_endogenous_mean_auc_reference": 0.5,
+  "verdict_vs_reddit": "REPLICATES (weak/mixed/inconsistent CSD, as on Reddit: no reliable impersonal early-warning; one repo fires, others at chance)"
+}

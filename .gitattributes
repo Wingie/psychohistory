@@ -1,0 +1,9 @@
+# Normalize line endings: store LF in the repo, check out native on each OS.
+* text=auto eol=lf
+
+# Treat figures and the PDF as binary (no eol munging, no diff noise).
+*.png binary
+*.pdf binary
+*.jpg binary
+*.jpeg binary
+*.gif binary

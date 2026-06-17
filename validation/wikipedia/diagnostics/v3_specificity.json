@@ -1,0 +1,150 @@
+{
+  "variation": "V3 specificity via correlation-matrix structure",
+  "statistic": "participation ratio (eigenvalue concentration) of block-activity correlation matrix; PR=K independent, PR->1 one synchronized mode",
+  "n": 14,
+  "n_fire_structure": 2,
+  "frac_fire_structure": 0.14285714285714285,
+  "interpretation": "if frac_fire_structure ~ 0 like the scalar gate, the collapse is genuinely partition-agnostic / total synchronization; if it fires more, real blocks lose independence in a structured way",
+  "rows": [
+    {
+      "title": "Bitcoin",
+      "K": 7,
+      "pr_base": 5.811583336061709,
+      "pr_onset": 2.9881540245779865,
+      "pr_collapse_real": 2.8234293114837223,
+      "shuffle_pr_collapse_p90": 2.7394370298778505,
+      "real_pctile_in_shuffle": 0.9233333333333333,
+      "fires_structure_vs_shuffle": true
+    },
+    {
+      "title": "Volodymyr Zelenskyy",
+      "K": 4,
+      "pr_base": 3.7605359604344564,
+      "pr_onset": 2.082702199683268,
+      "pr_collapse_real": 1.6778337607511884,
+      "shuffle_pr_collapse_p90": 1.5115318185137743,
+      "real_pctile_in_shuffle": 0.96,
+      "fires_structure_vs_shuffle": true
+    },
+    {
+      "title": "Boeing 737 MAX",
+      "K": 3,
+      "pr_base": 2.830934216956836,
+      "pr_onset": 1.503293577373455,
+      "pr_collapse_real": 1.327640639583381,
+      "shuffle_pr_collapse_p90": 1.5874073275692264,
+      "real_pctile_in_shuffle": 0.7562724014336918,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Diego Maradona",
+      "K": 4,
+      "pr_base": 3.3514573429331525,
+      "pr_onset": 2.2409907976533407,
+      "pr_collapse_real": 1.1104665452798117,
+      "shuffle_pr_collapse_p90": 1.8376669866223956,
+      "real_pctile_in_shuffle": 0.26,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "NATO",
+      "K": 4,
+      "pr_base": 2.7718802933275564,
+      "pr_onset": 1.688888888888889,
+      "pr_collapse_real": 1.0829914044386673,
+      "shuffle_pr_collapse_p90": 2.166979216329291,
+      "real_pctile_in_shuffle": 0.08417508417508418,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Donald Trump",
+      "K": 3,
+      "pr_base": 2.708204973885669,
+      "pr_onset": 1.7953513263195986,
+      "pr_collapse_real": 0.9128536475660702,
+      "shuffle_pr_collapse_p90": 1.2104762300485938,
+      "real_pctile_in_shuffle": 0.6733333333333333,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Suez Canal",
+      "K": 4,
+      "pr_base": 2.822325478597469,
+      "pr_onset": 1.995975855130785,
+      "pr_collapse_real": 0.8263496234666841,
+      "shuffle_pr_collapse_p90": 1.7520328736221722,
+      "real_pctile_in_shuffle": 0.15172413793103448,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Kobe Bryant",
+      "K": 3,
+      "pr_base": 2.697508582904753,
+      "pr_onset": 1.9113300492610836,
+      "pr_collapse_real": 0.7861785336436693,
+      "shuffle_pr_collapse_p90": 1.7244123144762447,
+      "real_pctile_in_shuffle": 0.29069767441860467,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Twitter",
+      "K": 3,
+      "pr_base": 2.9035467036616014,
+      "pr_onset": 2.1332036000973003,
+      "pr_collapse_real": 0.7703431035643011,
+      "shuffle_pr_collapse_p90": 1.0442715947902603,
+      "real_pctile_in_shuffle": 0.6133333333333333,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Queen Elizabeth II",
+      "K": 3,
+      "pr_base": 2.34928771368582,
+      "pr_onset": 1.8338599331178957,
+      "pr_collapse_real": 0.5154277805679244,
+      "shuffle_pr_collapse_p90": 1.128268058461995,
+      "real_pctile_in_shuffle": 0.45,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Evergrande Group",
+      "K": 4,
+      "pr_base": 1.9834710743801653,
+      "pr_onset": 1.6293742676462253,
+      "pr_collapse_real": 0.35409680673394006,
+      "shuffle_pr_collapse_p90": 1.3687836624658059,
+      "real_pctile_in_shuffle": 0.35051546391752575,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Credit Suisse",
+      "K": 3,
+      "pr_base": 1.5464228923120904,
+      "pr_onset": 1.2740759006692426,
+      "pr_collapse_real": 0.2723469916428478,
+      "shuffle_pr_collapse_p90": 0.9149553152105697,
+      "real_pctile_in_shuffle": 0.48,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Notre-Dame de Paris",
+      "K": 3,
+      "pr_base": 1.9853061224489796,
+      "pr_onset": 1.9444444444444446,
+      "pr_collapse_real": 0.040861678004534996,
+      "shuffle_pr_collapse_p90": 0.8274904547032285,
+      "real_pctile_in_shuffle": 0.2862595419847328,
+      "fires_structure_vs_shuffle": false
+    },
+    {
+      "title": "Joe Biden",
+      "K": 7,
+      "pr_base": 2.3404158822669436,
+      "pr_onset": 3.0999680009151658,
+      "pr_collapse_real": -0.7595521186482221,
+      "shuffle_pr_collapse_p90": 0.6202532460058041,
+      "real_pctile_in_shuffle": 0.15,
+      "fires_structure_vs_shuffle": false
+    }
+  ]
+}

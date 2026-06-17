@@ -1,0 +1,129 @@
+{
+  "route_i_clean_null": {
+    "n_clean": 10,
+    "clean_drops_sorted": [
+      -0.8948,
+      -0.553,
+      -0.4406,
+      -0.2913,
+      0.0,
+      0.0,
+      0.0376,
+      0.0618,
+      0.1358,
+      0.4304
+    ],
+    "p75": 0.05572974958593527,
+    "p80": 0.0765666695991317,
+    "p90": 0.16525986091203468,
+    "p95": 0.2978181239050801,
+    "median": 0.0,
+    "maxv": 0.4303763868981261,
+    "rows": [
+      {
+        "title": "Bitcoin",
+        "status": "ok",
+        "clean_drop": -0.5529647980457992
+      },
+      {
+        "title": "Boeing 737 MAX",
+        "status": "ok",
+        "clean_drop": 0.06175771971496402
+      },
+      {
+        "title": "Credit Suisse",
+        "status": "no_covered_quiet_window",
+        "clean_drop": null
+      },
+      {
+        "title": "Diego Maradona",
+        "status": "ok",
+        "clean_drop": 0.0
+      },
+      {
+        "title": "Donald Trump",
+        "status": "ok",
+        "clean_drop": 0.03764583919884901
+      },
+      {
+        "title": "Evergrande Group",
+        "status": "no_covered_quiet_window",
+        "clean_drop": null
+      },
+      {
+        "title": "Joe Biden",
+        "status": "ok",
+        "clean_drop": 0.1358024691358024
+      },
+      {
+        "title": "Kobe Bryant",
+        "status": "ok",
+        "clean_drop": 0.4303763868981261
+      },
+      {
+        "title": "NATO",
+        "status": "ok",
+        "clean_drop": -0.8947638603696091
+      },
+      {
+        "title": "Notre-Dame de Paris",
+        "status": "no_covered_quiet_window",
+        "clean_drop": null
+      },
+      {
+        "title": "Queen Elizabeth II",
+        "status": "ok",
+        "clean_drop": -0.440630987463158
+      },
+      {
+        "title": "Suez Canal",
+        "status": "ok",
+        "clean_drop": NaN
+      },
+      {
+        "title": "Twitter",
+        "status": "ok",
+        "clean_drop": -0.29134785883384984
+      },
+      {
+        "title": "Volodymyr Zelenskyy",
+        "status": "ok",
+        "clean_drop": 0.0
+      }
+    ]
+  },
+  "route_ii_engine_bound": {
+    "per_K": [
+      {
+        "K": 3,
+        "median_drop": 0.0,
+        "p25": 0.0,
+        "p75": 0.6666666666666666,
+        "mean_drop": 0.07911930135759619
+      },
+      {
+        "K": 4,
+        "median_drop": 0.7182539682539683,
+        "p25": 0.0,
+        "p75": 0.75,
+        "mean_drop": 0.31011437538245235
+      },
+      {
+        "K": 5,
+        "median_drop": 0.7913043478260869,
+        "p25": 0.0,
+        "p75": 0.8,
+        "mean_drop": 0.42356186721808164
+      }
+    ],
+    "e4_long_reference": {
+      "neff_calm": 60.9029124585114,
+      "neff_sync": 49.58880281308491,
+      "e4_drop": 0.1857728832448522
+    },
+    "note": "short-window achievable median collapse; ceiling/plausibility check that f sits below what a real event can produce"
+  },
+  "derived_f_route_i_p95": 0.2978181239050801,
+  "FROZEN_f": 0.298,
+  "note": "f frozen = Route (i) 95th pctile of the genuinely-quiet clean-null drop distribution on the EXISTING tuning data. A passing event must beat what a genuinely-quiet window produces 95% of the time. Route (ii) engine bound is the sanity ceiling: short-window macro collapse is achievable well above f, so f is not above the physically attainable."
+}

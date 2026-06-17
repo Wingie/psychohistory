@@ -1,0 +1,188 @@
+{
+  "params": {
+    "pre_weeks_github": 5,
+    "pre_weeks_reddit": 8,
+    "note": "blind Louvain on pre-onset graph; freeze partition; track Kish N_eff"
+  },
+  "github": [
+    {
+      "substrate": "github:autogpt",
+      "status": "NO_PRE_WINDOW",
+      "weeks_pre": 4,
+      "onset": "2023-04-03"
+    },
+    {
+      "substrate": "github:langchain",
+      "status": "OK",
+      "onset": "2023-01-09",
+      "K_blocks": 2,
+      "modularity_pre": 0.03061224489795908,
+      "n_nodes_pre": 8,
+      "n_edges_pre": 20,
+      "trajectory": [
+        {
+          "end_week": "2022-12-12",
+          "offset_from_onset": -4,
+          "K": 2,
+          "rho_bar": NaN,
+          "n_eff": 2.0
+        },
+        {
+          "end_week": "2022-12-26",
+          "offset_from_onset": -2,
+          "K": 2,
+          "rho_bar": 0.8660254037844386,
+          "n_eff": 1.0717967697244908
+        },
+        {
+          "end_week": "2023-01-09",
+          "offset_from_onset": 0,
+          "K": 2,
+          "rho_bar": 0.9041944301794651,
+          "n_eff": 1.0503129135880864
+        },
+        {
+          "end_week": "2023-01-23",
+          "offset_from_onset": 2,
+          "K": 2,
+          "rho_bar": 0.5986778386368483,
+          "n_eff": 1.2510337928405568
+        },
+        {
+          "end_week": "2023-02-06",
+          "offset_from_onset": 4,
+          "K": 2,
+          "rho_bar": 0.6286185570937122,
+          "n_eff": 1.228034637876792
+        }
+      ],
+      "neff_pre_mean": 1.5358983848622454,
+      "neff_onset_mean": 1.1764604481018117,
+      "neff_collapse_ratio": 0.7659754445326332,
+      "collapsed": true
+    },
+    {
+      "substrate": "github:gpt_engineer",
+      "status": "TRIVIAL_PARTITION",
+      "K": 1,
+      "modularity": 0.0,
+      "onset": "2023-06-12",
+      "n_nodes": 11
+    },
+    {
+      "substrate": "github:metagpt",
+      "status": "OK",
+      "onset": "2023-08-07",
+      "K_blocks": 3,
+      "modularity_pre": 0.1952797474250815,
+      "n_nodes_pre": 21,
+      "n_edges_pre": 115,
+      "trajectory": [
+        {
+          "end_week": "2023-07-10",
+          "offset_from_onset": -4,
+          "K": 2,
+          "rho_bar": 0.5785509627593542,
+          "n_eff": 1.2669847519550081
+        },
+        {
+          "end_week": "2023-07-24",
+          "offset_from_onset": -2,
+          "K": 3,
+          "rho_bar": 0.7121695199822508,
+          "n_eff": 1.2374506826586134
+        },
+        {
+          "end_week": "2023-08-07",
+          "offset_from_onset": 0,
+          "K": 3,
+          "rho_bar": 0.47725172094118085,
+          "n_eff": 1.5349167137361148
+        },
+        {
+          "end_week": "2023-08-21",
+          "offset_from_onset": 2,
+          "K": 3,
+          "rho_bar": 0.9879870040413105,
+          "n_eff": 1.008073320483353
+        },
+        {
+          "end_week": "2023-09-04",
+          "offset_from_onset": 4,
+          "K": 3,
+          "rho_bar": 0.649760395052294,
+          "n_eff": 1.3046196463670816
+        }
+      ],
+      "neff_pre_mean": 1.2522177173068108,
+      "neff_onset_mean": 1.2825365601955163,
+      "neff_collapse_ratio": 1.0242121178048122,
+      "collapsed": false
+    },
+    {
+      "substrate": "github:superagi",
+      "status": "NO_PRE_WINDOW",
+      "weeks_pre": 4,
+      "onset": "2023-06-05"
+    },
+    {
+      "substrate": "github:agentgpt",
+      "status": "NO_PRE_WINDOW",
+      "weeks_pre": 2,
+      "onset": "2023-04-10"
+    }
+  ],
+  "askeconomics": [
+    {
+      "substrate": "askeconomics",
+      "status": "OK",
+      "onset": "2025-12-29",
+      "K_blocks": 15,
+      "modularity_pre": 0.7493382024569405,
+      "n_nodes_pre": 707,
+      "n_edges_pre": 15297,
+      "trajectory": [
+        {
+          "end_week": "2025-11-17",
+          "offset_from_onset": -6,
+          "K": 13,
+          "rho_bar": 0.6356334381201957,
+          "n_eff": 1.5067919357986008
+        },
+        {
+          "end_week": "2025-12-08",
+          "offset_from_onset": -3,
+          "K": 14,
+          "rho_bar": 0.6462481056341679,
+          "n_eff": 1.4891675759464182
+        },
+        {
+          "end_week": "2025-12-29",
+          "offset_from_onset": 0,
+          "K": 14,
+          "rho_bar": 0.6814400198686568,
+          "n_eff": 1.4200626078444691
+        },
+        {
+          "end_week": "2026-01-19",
+          "offset_from_onset": 3,
+          "K": 10,
+          "rho_bar": 0.5731728807059816,
+          "n_eff": 1.623757276800519
+        },
+        {
+          "end_week": "2026-02-09",
+          "offset_from_onset": 6,
+          "K": 12,
+          "rho_bar": 0.646595470837924,
+          "n_eff": 1.4791896179257855
+        }
+      ],
+      "neff_pre_mean": 1.4979797558725094,
+      "neff_onset_mean": 1.5076698341902581,
+      "neff_collapse_ratio": 1.0064687645342074,
+      "collapsed": false,
+      "onset_note": "designated onset = peak comment-activity week (thread-sampled span)"
+    }
+  ]
+}
