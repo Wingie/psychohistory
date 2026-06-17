@@ -4,7 +4,7 @@
 
 This repository accompanies the position paper ***Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality*** (Wingston Sharon). The paper asks whether collective human behaviour can be forecast like the weather, argues that social systems possess *partial, conditional* analogues of the three properties that make numerical weather prediction work (conservation laws, weak multi-scale coupling, non-reflexivity), and assembles them into an explicit, regime-aware engineering specification with a stated boundary of where it must fail.
 
-**▶ Live interactive site: https://wingstonsharon.com/psychohistory/** — a four-page guide (Home · Tutorial · The math · Tests &amp; data) that teaches the framework, renders every equation, and walks through every test run against real data. The same content is in [`site/`](site/) and works offline.
+**▶ Live interactive site: https://wingie.github.io/psychohistory/** — a four-page guide (Home · Tutorial · The math · Tests &amp; data) that teaches the framework, renders every equation, and walks through every test run against real data. The same content is in [`site/`](site/) and works offline.
 
 ---
 
@@ -28,7 +28,7 @@ If you take one thing from this repo: it is a *careful specification and an hone
 |---|---|
 | `psychohistory.tex` / `psychohistory.pdf` | The paper (~79 pp). Sole author Wingston Sharon; includes an AI Contribution Declaration. |
 | `sims.py`, `sims_v2.py` | The verified internal-consistency simulations (E1–E5). Outputs in `_verify_out/` and `figures/`. |
-| `site/` | The four-page interactive site ([live](https://wingstonsharon.com/psychohistory/)): **Home** (thesis + canon), **Tutorial** (the layers + a worked GameStop walkthrough), **The math** (every equation with KaTeX + three live demos + the AI scenario), and **Tests &amp; data** (the full empirical program). Open `site/index.html` to run it offline. |
+| `site/` | The four-page interactive site ([live](https://wingie.github.io/psychohistory/)): **Home** (thesis + canon), **Tutorial** (the layers + a worked GameStop walkthrough), **The math** (every equation with KaTeX + three live demos + the AI scenario), and **Tests &amp; data** (the full empirical program). Open `site/index.html` to run it offline. |
 | `.claude/skills/psychohistory/` | A Claude skill: `SKILL.md` (with a dual-use SAFETY guardrail), reference modules `00`–`09` (including a build-your-own guide), `scripts/engine.py`, a `corpus/`, and a coverage report under `results/`. |
 | `validation/` | All the empirical + scenario work, one directory per test (pre-registration + analysis script + `RESULTS.md` + result JSON + figures): the headline `neff_v4/` (SEALED PASS) and its `neff_v2/`, `neff_v3/`, `wikipedia/` siblings, the early-warning battery, bifurcation-mix, conservation-ecosystem, the GameStop counterfactual + operator-signal backtests, GitHub cross-domain replication, the EnKF forward test, scenario sims, Kuramoto, the v0.3 observation-operator pipeline, pre-registration, fact-check, and the run-and-check guide. Raw/harvested data is gitignored and regenerable from each test's harvest script. |
 | `RUN_AND_CHECK.md` | The adversarial status ledger: every claim needing code/data/a derivation, cross-referenced to its artifact, marked DONE / PILOT / PENDING / NOT-STARTED. |
