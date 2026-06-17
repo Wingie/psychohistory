@@ -4,7 +4,7 @@
 
 This repository accompanies the position paper ***Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality*** (Wingston Sharon). The paper asks whether collective human behaviour can be forecast like the weather, argues that social systems possess *partial, conditional* analogues of the three properties that make numerical weather prediction work (conservation laws, weak multi-scale coupling, non-reflexivity), and assembles them into an explicit, regime-aware engineering specification with a stated boundary of where it must fail.
 
-**▶ Live interactive site: https://wingie.github.io/psychohistory/** — a four-page guide (Home · Tutorial · The math · Tests &amp; data) that teaches the framework, renders every equation, and walks through every test run against real data. The same content is in [`site/`](site/) and works offline.
+**▶ Live interactive site: https://wingstonsharon.com/psychohistory/** — a four-page guide (Home · Tutorial · The math · Tests &amp; data) that teaches the framework, renders every equation, and walks through every test run against real data. The same content is in [`site/`](site/) and works offline.
 
 ---
 
@@ -28,7 +28,7 @@ If you take one thing from this repo: it is a *careful specification and an hone
 |---|---|
 | `psychohistory.tex` / `psychohistory.pdf` | The paper (~79 pp). Sole author Wingston Sharon; includes an AI Contribution Declaration. |
 | `sims.py`, `sims_v2.py` | The verified internal-consistency simulations (E1–E5). Outputs in `_verify_out/` and `figures/`. |
-| `site/` | The four-page interactive site ([live](https://wingie.github.io/psychohistory/)): **Home** (thesis + canon), **Tutorial** (the layers + a worked GameStop walkthrough), **The math** (every equation with KaTeX + three live demos + the AI scenario), and **Tests &amp; data** (the full empirical program). Open `site/index.html` to run it offline. |
+| `site/` | The four-page interactive site ([live](https://wingstonsharon.com/psychohistory/)): **Home** (thesis + canon), **Tutorial** (the layers + a worked GameStop walkthrough), **The math** (every equation with KaTeX + three live demos + the AI scenario), and **Tests &amp; data** (the full empirical program). Open `site/index.html` to run it offline. |
 | `.claude/skills/psychohistory/` | A Claude skill: `SKILL.md` (with a dual-use SAFETY guardrail), reference modules `00`–`09` (including a build-your-own guide), `scripts/engine.py`, a `corpus/`, and a coverage report under `results/`. |
 | `validation/` | All the empirical + scenario work, one directory per test (pre-registration + analysis script + `RESULTS.md` + result JSON + figures): the headline `neff_v4/` (SEALED PASS) and its `neff_v2/`, `neff_v3/`, `wikipedia/` siblings, the early-warning battery, bifurcation-mix, conservation-ecosystem, the GameStop counterfactual + operator-signal backtests, GitHub cross-domain replication, the EnKF forward test, scenario sims, Kuramoto, the v0.3 observation-operator pipeline, pre-registration, fact-check, and the run-and-check guide. Raw/harvested data is gitignored and regenerable from each test's harvest script. |
 | `RUN_AND_CHECK.md` | The adversarial status ledger: every claim needing code/data/a derivation, cross-referenced to its artifact, marked DONE / PILOT / PENDING / NOT-STARTED. |
@@ -64,7 +64,7 @@ Reproduces the verified primitives behind the paper's sim table (conservation, t
 
 ### Run the validation scripts
 
-Install dependencies, then run any script with `py -3.12`. Everything is **CPU-only, no GPU, no API keys** (the embedding model `all-MiniLM-L6-v2` is downloaded once and cached locally; the raw harvested data is already in each `data/` folder).
+Install dependencies, then run any script with `py -3.12`. Everything is **CPU-only, no GPU, no API keys** (the embedding model `all-MiniLM-L6-v2` is downloaded once and cached locally). The large raw/harvested data is **not committed** (it is gitignored); each test regenerates its own `data/` folder by running its `harvest_*.py` script first. The committed artifacts — pre-registration, analysis scripts, `RESULTS.md`, result JSON and figures — are everything needed to read and audit a result.
 
 ```sh
 pip install -r requirements.txt
@@ -75,10 +75,11 @@ py -3.12 validation/github/replicate_github.py
 
 ---
 
-## Key results (all preliminary; see `RUN_AND_CHECK.md` and each `RESULTS.md`)
+## Key results (see `RUN_AND_CHECK.md` and each `RESULTS.md`)
 
 | Result | What it found | Standing |
 |---|---|---|
+| **Dynamic N_eff collapse — community-specificity** (`validation/neff_v4/`) | The criticality gear's actual prediction, sealed on a fresh roster: **9 of 12** r/wallstreetbets cascades collapse past their own block-label shuffle null (binomial *p* = 1.7×10⁻⁷; median cascade beats all 300 reshuffles). Confirmed four times across two substrates. The raw-magnitude reading is reported, separately, as non-discriminating. | **SEALED PASS** — pre-registered, frozen binomial rule, fresh disjoint roster; the threshold was never moved. The program's most rigorous positive. |
 | **GameStop counterfactual** (`validation/backtests/gamestop_counterfactual/`) | WSB activity rose ~6× before the GME spike; 6/6 meme tickers peaked the same week. Read at three resolutions, the episode sits **closer to a Seldon-crisis (structurally overdetermined) than a Mule** (single contingent agent). | *preliminary* — single event; the ticker basket is selection-confirming by construction. |
 | **Semantic critical-slowing-down** (`validation/pipeline_v03/`) | An embedding-variance (belief-dispersion) observable **discriminates** where the scalar volume proxy washed out: **+0.90** pre-onset on the endogenous GME cascade vs **+0.01** on the exogenous 2025 tariff shock. | *preliminary* — n=2 labelled cascades; not a calibrated classifier. |
 | **Operator-concentration invariant** (`validation/pipeline_v03/`, `major_player_signal/`) | A **time-invariant** concentration flag (HHI / Gini vs a base-rate null) fires pre-onset on **both** GitHub (4/5 repos) and Reddit, unifying the platform-specific 13-week-Reddit / days-GitHub ramp split. | *preliminary* — small n; scale-free (Gini / top-5%) statistics are the cross-platform-comparable ones, not raw HHI. |
@@ -103,13 +104,13 @@ This framework is **dual-use**. The same prediction-control duality that yields 
 
 ## How to cite
 
-> Sharon, Wingston. *Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality.* Draft v0.23, 2026.
+> Sharon, Wingston. *Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality.* Working paper, 2026.
 
 ```bibtex
 @unpublished{sharon2026psychohistory,
   author = {Sharon, Wingston},
   title  = {Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality},
-  note   = {Draft v0.23, position paper. Developed with AI assistance (see the AI Contribution Declaration).},
+  note   = {Working paper, position paper. Developed with AI assistance (see the AI Contribution Declaration).},
   year   = {2026}
 }
 ```
