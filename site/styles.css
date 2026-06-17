@@ -475,6 +475,7 @@ a.hub-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); b
 .scorecard .sc-refuted,
 .scorecard .sc-contradicted{ color: var(--red); font-weight:600; }
 .scorecard .sc-open        { color: var(--ink-faint); }
+.scorecard .sc-pending     { color: var(--violet); font-weight:600; }
 
 /* ---- math page (KaTeX) ---- */
 .math-block { border:1px solid var(--border); border-radius:12px; padding: 18px 22px; margin: 18px 0;

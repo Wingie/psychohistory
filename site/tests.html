@@ -53,7 +53,7 @@
   <div class="wrap">
     <div class="eyebrow">The falsifier scorecard</div>
     <h2>Every pre-registered bet, and where it stands</h2>
-    <p class="lead">The paper names eight falsification tests plus a sharpening of the block test. Five now carry powered runs against real data; four remain blocked on a live forecasting engine (not on more data).</p>
+    <p class="lead">The paper names eight falsification tests plus a sharpening of the block test. Five now carry powered runs against real data; four are <b style="color:var(--violet)">pending a live world-model training run</b> (blocked on compute, not on more data).</p>
     <div class="card" style="padding-top:8px;padding-bottom:8px;margin-top:18px">
       <table class="scorecard">
         <thead><tr><th>Test</th><th>The bet</th><th>Verdict</th><th>Key number</th></tr></thead>
@@ -63,14 +63,19 @@
           <tr><td>(iii′)</td><td>A substantive fraction of cascades are slow B-tipping</td><td class="sc-refuted">REFUTED</td><td class="dim">B-fraction 0.33 &lt; π_B = 0.60; mostly R-tipping shocks</td></tr>
           <tr><td>(i)</td><td>Attention / activity is conserved (zero-sum) at ecosystem scale</td><td class="sc-contradicted">CONTRADICTED</td><td class="dim">finance-subreddit basket ballooned ~14× in the mania</td></tr>
           <tr><td>(ii)</td><td>Blocks are independent in calm windows</td><td class="sc-partial">WEAK SUPPORT</td><td class="dim">macro N<sub>eff</sub> 1.90 of 8, bottoms 0.47 at a real shock</td></tr>
-          <tr><td>(iv)</td><td>Forecast skill in the smooth regime beats baselines</td><td class="sc-open">OPEN</td><td class="dim">needs a live forecasting engine</td></tr>
-          <tr><td>(v)</td><td>Published fixed points are reliable</td><td class="sc-open">OPEN</td><td class="dim">needs a live forecasting engine</td></tr>
-          <tr><td>(vi)</td><td>Lucas invariance: drift stays in an absorbable band</td><td class="sc-open">OPEN</td><td class="dim">needs a calibrated multi-regime engine</td></tr>
-          <tr><td>(vii)</td><td>Regime occupancy (Soros): imitative &lt; monotone</td><td class="sc-open">OPEN</td><td class="dim">needs a live regime monitor</td></tr>
+          <tr><td>(iv)</td><td>Forecast skill in the smooth regime beats baselines</td><td class="sc-pending">PENDING</td><td class="dim">awaits a live world-model training run</td></tr>
+          <tr><td>(v)</td><td>Published fixed points are reliable</td><td class="sc-pending">PENDING</td><td class="dim">awaits a live world-model training run</td></tr>
+          <tr><td>(vi)</td><td>Lucas invariance: drift stays in an absorbable band</td><td class="sc-pending">PENDING</td><td class="dim">world-model training run + multi-regime calibration</td></tr>
+          <tr><td>(vii)</td><td>Regime occupancy (Soros): imitative &lt; monotone</td><td class="sc-pending">PENDING</td><td class="dim">world-model training run + live regime monitor</td></tr>
         </tbody>
       </table>
     </div>
     <p class="note">Cross-cutting checks also ran: the <a href="#counterfactual">GameStop counterfactual</a> (overdetermination), the <a href="#operator">operator-signal detector</a>, the <a href="#github">GitHub cross-domain replication</a>, and the <a href="#enkf">EnKF forward forecast</a>.</p>
+
+    <div class="method-rail" style="margin-top:18px">
+      <h4>The four pending tests are blocked on compute, not data</h4>
+      <p class="dim">Tests (iv)&ndash;(vii) are the forward-forecasting falsifiers. They do not need more data; they need a <b style="color:var(--ink)">live forecasting engine</b> run forward: the modern instantiation (<a href="math.html#scenario">a trained world model plus an LLM/LRM ensemble</a>). The binding constraint is a <b style="color:var(--ink)">stronger world-model training run</b> &mdash; a compute problem, not a data problem. This is independent research, and <b style="color:var(--gold)">compute donations directly unblock these four tests</b>. The paper is <b style="color:var(--ink)">v0.5, in review</b>; it reaches v1.0 when these turn green. To donate compute or collaborate, contact the author at <a href="mailto:wingston.sharon@gmail.com">wingston.sharon@gmail.com</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -310,7 +315,7 @@
       <li><b>Frozen thresholds, not yet externally lodged.</b> The pre-registration seal is internal; until it is hashed to an external registry, every result here is a backtest scored without an external timestamp.</li>
       <li><b>Proxy data at modest n.</b> Mention-density and interaction-graph proxies, single platforms per test, in-sample thresholds on the classifier-style tests. Illustrative of direction and mechanism, not a deployed forecaster.</li>
       <li><b>The structural core is what survives.</b> Near-decomposability (recovered blind), the dynamic community-specific collapse (now sealed), and operator concentration travel. The predictive, conservation and early-warning claims are narrow, partial, refuted or unmet.</li>
-      <li><b>Four falsifiers are still open.</b> Smooth-regime skill, fixed-point reliability, Lucas invariance and regime occupancy all need a live forecasting engine, not more data.</li>
+      <li><b>Four falsifiers are pending a live world-model training run.</b> Smooth-regime skill, fixed-point reliability, Lucas invariance and regime occupancy need the forward engine (a trained world model + LLM/LRM ensemble), not more data &mdash; the binding constraint is compute. Compute donations welcome: <a href="mailto:wingston.sharon@gmail.com">wingston.sharon@gmail.com</a>.</li>
       <li><b>A bounded psychohistory is exactly one that would show this pattern.</b> The split — structural seal, dynamical deflation — is not a refutation of the thesis. It is the thesis: predictability lives only in the bounded special regime the framework claims for it.</li>
     </ul>
     <p class="note" style="margin-top:18px">Read it whole in <a href="../psychohistory.pdf">the paper (PDF)</a>, or revisit <a href="math.html">the mathematics</a> behind each test.</p>

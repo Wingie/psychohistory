@@ -12,7 +12,7 @@ This repository accompanies the position paper ***Conditions for Predictable Soc
 
 This is a **position paper plus a pre-registered validation suite on proxy data. The forecasting claims remain unvalidated; one structural prediction now passes a pre-registered fresh-roster test.**
 
-- The framework's *forecasting* claims are **conjectures of a research program, not results.** Four falsifiers (smooth-regime skill, fixed-point reliability, Lucas invariance, regime occupancy) are still open and need a live forecasting engine.
+- The framework's *forecasting* claims are **conjectures of a research program, not results.** Four falsifiers (smooth-regime skill, fixed-point reliability, Lucas invariance, regime occupancy) are **pending a live world-model training run** — the forward engine (a trained world model + an LLM/LRM ensemble). They are blocked on **compute, not data**. This is independent research: **compute donations directly unblock these tests** — contact the author at `wingston.sharon@gmail.com`. The paper is **v0.5, in review**; it reaches v1.0 when these four turn green.
 - But the structural core is no longer untested. The **dynamic N_eff collapse** — the criticality gear — has its community-specificity prediction **SEALED as a pre-registered pass on a fresh roster** (`validation/neff_v4/`: 9 of 12 r/wallstreetbets cascades collapse past their own block-label shuffle, binomial *p* = 1.7×10⁻⁷; confirmed four times across two substrates). The threshold was frozen before the data was harvested and never moved; the blunter raw-magnitude reading is reported, honestly, as non-discriminating.
 - The second-wave battery is otherwise a deliberate deflation, exactly in the shape the *bounded* thesis predicts: early warning is a **partial** positive (beats a calm null, can't separate endo/exo), the bifurcation-mix conjecture is **refuted**, and conservation at basket scale is **contradicted**. The impersonal/structural machinery is real but load-bearing only on the endogenous, reflexive minority of episodes.
 - All numerical figures in the paper (E1–E5) are **internal-consistency checks of the paper's own equations**, not empirical evidence.
@@ -104,13 +104,13 @@ This framework is **dual-use**. The same prediction-control duality that yields 
 
 ## How to cite
 
-> Sharon, Wingston. *Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality.* Working paper, 2026.
+> Sharon, Wingston. *Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality.* Draft v0.5 (in review), 2026.
 
 ```bibtex
 @unpublished{sharon2026psychohistory,
   author = {Sharon, Wingston},
   title  = {Conditions for Predictable Social Dynamics: Conservation, Decomposition, and Control at Criticality},
-  note   = {Working paper, position paper. Developed with AI assistance (see the AI Contribution Declaration).},
+  note   = {Draft v0.5, position paper (in review). Developed with AI assistance (see the AI Contribution Declaration).},
   year   = {2026}
 }
 ```

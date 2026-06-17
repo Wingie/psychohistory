@@ -306,15 +306,16 @@ status.
 | (ii′) | Dynamic N_eff collapse | PRIMARY = community-specificity (fire vs shuffle), frozen binomial rule; n≥8 | **POWERED, SEALED PASS on the correct endpoint** — six-pass investigation. The theory's claim is community-SPECIFICITY (the existing community's frozen partition collapses past a block-label shuffle), not raw magnitude. That prediction is confirmed **four times** (Wikipedia population-wide negative control 0/14; original WSB 9/10; `neff_v3/` fresh WSB 9/10; `neff_v4/` fresh pre-registered-primary WSB **9/12, binomial p=1.7e-7**, median observed collapse at the 100th pctile of its own shuffle) and **SEALED** as a frozen primary endpoint on a fresh disjoint roster. The blunter raw-MAGNITUDE yardstick was tried (`neff_v2` f=0.298 median 0.00; `neff_v3` f=0.3936 median 0.138<f, p=0.069) and is reported, honestly and without moving it, as **non-discriminating** on a continuously high-volume forum (quiet windows compress N_eff a median ~0.10 too). Pass came from testing the RIGHT endpoint on new data, NOT from relaxing the magnitude threshold (that verdict stands). See `validation/neff_v4/` + `validation/NEFF_COLLAPSE_SYNTHESIS.md` |
 | (iii) | Early warning | AUC≥0.75, M=20 | **POWERED, PARTIAL** — semantic-CSD across 10 WSB cascades beats guard-banded calm null (p=0.02, 5/5 endo above calm) but does NOT discriminate endo vs exo (AUC 0.60). Detects "a build", not which kind. See `validation/early_warning_powered/` |
 | (iii′) | Bifurcation-mix | π_B=0.60 | **REFUTED on roster** — 24-cascade labelled roster, substantive B-fraction **0.33 < 0.60**; most cascades are sudden R-tipping shocks. Structural proxy 0.75 is a single-venue artifact (not adopted). The bet named most-likely-to-fail failed. See `validation/bifurcation_mix/` |
-| (iv) | Smooth-regime skill | m=50, δ=0.05 | **NOT STARTED** — no live forecast track |
-| (v) | Fixed-point reliability | ≥ base-rate + margin | **NOT STARTED** — only internal consistency figure |
-| (vi) | Lucas invariance | drift ≤ absorbable band | **NOT STARTED** — needs calibrated multi-regime engine |
-| (vii) | Regime occupancy (Soros) | imitative < monotone | **NOT STARTED** — regime monitor not live |
+| (iv) | Smooth-regime skill | m=50, δ=0.05 | **PENDING** — awaits a live world-model training run (forward engine) |
+| (v) | Fixed-point reliability | ≥ base-rate + margin | **PENDING** — awaits the live forward engine (world-model training run) |
+| (vi) | Lucas invariance | drift ≤ absorbable band | **PENDING** — world-model training run + multi-regime calibration |
+| (vii) | Regime occupancy (Soros) | imitative < monotone | **PENDING** — world-model training run + live regime monitor |
 
 **Honest summary:** of the 8 falsifiers plus the dynamic-collapse sharpening (ii′),
-**five now carry powered runs** (i, ii′, iii, iii′, and the ii pilot) and **four remain
-not started** (iv, v, vi, vii — each waiting on a live forecasting/regime engine, not on
-more data). The powered second wave is a split decision, not a victory lap: the structural
+**five now carry powered runs** (i, ii′, iii, iii′, and the ii pilot) and **four are pending
+a live world-model training run** (iv, v, vi, vii — each blocked on the forward engine, a
+trained world model + LLM/LRM ensemble; the binding constraint is compute, not more data.
+Compute donations directly unblock these: contact wingston.sharon@gmail.com). The powered second wave is a split decision, not a victory lap: the structural
 core (ii′) seals on its correct endpoint, while the dynamical-magnitude, predictive, and
 conservation claims each deflate to narrow/partial/refuted/contradicted:
 - (ii′) the dynamic N_eff collapse **seals on the endpoint that is the theory**. Its
