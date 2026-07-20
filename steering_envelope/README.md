@@ -1,12 +1,20 @@
-# Axiom One: The Steering Envelope
+# The Steering Envelope: one axiom, one theorem
 
-**The first intervention axiom of the psychohistory program, postulated
-2026:** a society survives a technology in proportion to the control it can
-exert over that technology's speed. Uncontrolled acceleration crashes.
-Forced deceleration also crashes, later and harder. What survives is
-constant controlled speed: brake into the corners, accelerate out of them,
-never exceed the grip. The axiom is stated with conviction and scored in
-public; the wager terms below were frozen before the published run.
+The psychohistory program's first module about intervention, postulated
+2026. It adds exactly one new axiom, **the Control Axiom** (Ashby's law of
+requisite variety, 1956): a regulator holds a process inside bounds only
+while its capacity to respond matches the pace of novelty the process
+generates. Combined with two premises the program already holds
+(accumulation, from the criticality layer: unreleased stress stores; and
+plurality, from the mean-field layer: no actor's throttle sets the field's
+speed), the module's claim follows as **the Survival Theorem**: a society
+survives a technology in proportion to the control it can exert over that
+technology's speed. Uncontrolled acceleration crashes. Forced deceleration
+also crashes, later and harder (the field moves on, your grip stagnates
+unlearned, the suppressed corrections store). What survives is constant
+controlled speed: brake into the corners, accelerate out of them, never
+exceed the grip. Stated with conviction and scored in public; the wager
+terms below were frozen before the published run.
 
 This directory is the axiom made executable: the Python reference
 implementation of the Steering Envelope race model (ported from the JS v0.2
@@ -109,7 +117,7 @@ The null binary result is retained and reported in `results/roads.json`
 |---|---|---|---|---|
 | roads (US) | differenced levels | 0.045 | 0.016 | both terms carry signal |
 | roads (US) | levels | 3e-52 | 0.052 | s dominates (trend-permissive; upper bound) |
-| aviation | differenced levels | 0.59 | 0.12 | null at annual frequency — a point for the stopper reading |
+| aviation | differenced levels | 0.59 | 0.12 | logged as a miss; thermostat reading: aviation adopted the envelope rule outright (certification = throttle bounded by grip), so the v-signal was steered out of the data |
 | aviation | levels | 2e-19 | 0.005 | s dominates |
 | finance | panel logit | 4e-9 | 0.008 | **both**; ratio model best out-of-sample (LORO AUC 0.688 vs 0.506 v-only) |
 | nuclear | case study | — | — | consistent: 13x event rate in high-v/s decades (Spearman rho 0.82, p 0.02) |
@@ -119,7 +127,7 @@ Scoreboard: the steering term survives in 2/3 fittable domains
 (falsification required it to fail in 3/3 or 2/3); speed survives in 2/3.
 Where the tests are sharpest (finance, the only true panel), the **ratio
 form generalizes best out-of-sample**, which is precisely the s/acc form.
-Aviation is logged honestly as favoring the stopper reading. The
+Aviation is logged as the technical miss the frozen rules require, with the thermostat reading recorded beside it: the one domain with an institutional speed governor shows no v-signal, exactly as a well-obeyed envelope rule predicts (governed throttle: no v-signal; ungoverned roads and credit: v-signal in both). The
 Schularick-Taylor credit-boom result reproduces before our addition is
 tested. Model-layer acceptance: the e/acc preset lands 61% crash+pileup,
 the saxxer preset's plurality outcome is convoy (0.79), the mean-field
