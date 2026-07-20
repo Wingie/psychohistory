@@ -41,7 +41,7 @@ acceleration crashes. Forced deceleration also crashes, later and harder.
 What survives is constant controlled speed: brake into the corners,
 accelerate out of them, never exceed the grip.
 
-The proof is three sentences. Exceed the grip and you crash now; that is
+The proof fits in a breath. Exceed the grip and you crash now; that is
 the Control Axiom read directly. Park, and three things happen at once:
 the field keeps moving, so the transition arrives on someone else's
 terms; your grip stagnates, because steering is partly learning-by-doing
@@ -105,9 +105,9 @@ Convoy is not a consolation prize. It is the highest-yield state history
 offers, because the gains arrive without the wreck.
 
 **SHOTGUN.** Someone else crosses first and you live in the world they
-chose. Tokugawa Japan held itself out of the industrial transition for
-two centuries, and then Perry's black ships arrived and the terms were
-not Japan's. The stopper does not get a parked world. He gets a world
+chose. Tokugawa Japan sealed itself off for two centuries while the
+industrial transition happened elsewhere, and then Perry's black ships
+arrived and the terms were not Japan's. The stopper does not get a parked world. They get a world
 decided from the passenger seat.
 
 **HELD.** Nobody crosses. The transition is refused or indefinitely
@@ -153,6 +153,41 @@ chess engines.
 
 Too simple? So is F equals ma. Simple is what lets the data vote.
 
+## The four flags on one dashboard
+
+The modern discourse has sorted itself under x/acc flags, and the
+theorem places every one of them. Ask a single question: what do you
+accelerate first?
+
+Accelerate the engine and you are e/acc. Give it its due: permissionless
+innovation has a staggering welfare record, electrification to aviation
+to the internet, and the costs of friction compound invisibly in drugs
+never invented and growth never compounded. I concede all of it. But an
+engine has no term for a corner. It optimizes expected speed when the
+thing that matters is speed conditioned on survival.
+
+Accelerate the armor and you are d/acc, Vitalik Buterin's flag and the
+nearest relative of mine: build defense-dominant technology, flatten the
+corners themselves. It composes with steering. What it lacks is a speed
+governor, and offense versus defense is often unknowable before the
+fact.
+
+Accelerate the driver and you are w/acc, a letter I read as wisdom
+acceleration: grow the judgment and the institutions that steering
+capacity is made of. In the model it multiplies the effect of everything
+else, and alone it is slow.
+
+Accelerate the steering and you are s/acc. Steerism in prose. Throttle
+bounded by grip, re-measured at every corner: the racing line the
+theorem selects. And the stopper, who accelerates nothing, is not a
+fifth position so much as a prediction the model makes: in the
+instrument the stopper preset ends in SHOTGUN 86 percent of the time,
+watching a transition it refused to drive.
+
+In the instrument these are the five preset modes, and the dials under
+them, throttle, investment, defense, judgment, coordination, are the
+same dials this whole page has been turning.
+
 ## The mechanisms history invented
 
 Once you see steering as a real quantity, you start recognizing the
@@ -196,8 +231,8 @@ commons is a coordination mechanism wearing an anarchist jacket.
 And the null mechanism, the control group that runs itself for us right
 now: crypto. No license, no inspectorate, no expiry, coordination near
 zero by design. The result is the purest uncoordinated field in modern
-economic history, and it looks exactly like the model says an
-uncoordinated field looks: perpetual small crashes, NFT manias, rug
+economic history, and it behaves exactly as the model says an
+uncoordinated field must: perpetual small crashes, NFT manias, rug
 pulls, exchange pileups, extraordinary innovation and no floor under
 anyone.
 
@@ -223,8 +258,9 @@ is: suppression fails through the same three premises. Uncontrolled
 acceleration crashes now. Enforced deceleration and suppression crash
 later, bigger. The surviving policy is the racing line: constant
 sustainable speed, deceleration into the corners, acceleration out of
-them. In the instrument this is exactly why the HELD state loses and why
-the s/acc preset brakes early and then runs fast on accumulated grip.
+them. In the [instrument](../site/steering_sim.html) this is exactly why the
+HELD state loses and why the s/acc preset brakes early and then runs
+fast on accumulated grip.
 
 ## Rehypothesizing the past
 
@@ -267,9 +303,12 @@ domains of public data, windows and losing conditions frozen in the
 README before the run. The full tables are in the repository. The short
 version:
 
-On the roads, the literal case, America multiplied its driven miles a
-hundredfold while deaths per mile fell twenty-fold, and in the strict
+On the roads, the literal case, America multiplied its driven miles
+sixtyfold while deaths per mile fell twenty-fold, and in the strict
 first-difference test both speed and steering carry independent signal.
+Speed changes matter, p equals 0.016. Steering changes matter, p equals
+0.045. The ratio is not decoration on the road that named the theory.
+
 Aviation does something subtler than agree. It is the domain with the
 most control in it, every airframe certified before it flies, every
 procedure written in someone's blood, and it bought the safest
@@ -277,8 +316,9 @@ transition on record with that stack: maximum regulation, fewest
 accidents. The statistical wrinkle is that the oversight stack explains
 the collapse so completely that speed adds nothing measurable once you
 control for it, and the frozen scoreboard logs that as a miss, because
-a wager that explains away its own misses is not a wager. But read what
-aviation actually is: the one domain that adopted the envelope rule
+a wager that explains away its own misses is not a wager.
+
+But read what aviation actually is: the one domain that adopted the envelope rule
 outright. Certification is a throttle bounded by grip; nothing new
 flies until the regulator's capacity to verify it has caught up.
 Friedman had a name for this pattern. In a house with a good
@@ -294,9 +334,9 @@ without one should. Aviation, governed throttle: no v-signal. Roads and
 credit, ungoverned throttle: v-signal in both. Three for three, and the
 prediction stands for every domain we add next.
 
-In finance, the flagship, 18 countries and
-145 years of the Jorda-Schularick-Taylor panel: the famous credit-boom
-result reproduces, the steering term improves it at odds of billions to
+In finance, the flagship, 18 countries, 145 years and 75 systemic
+crisis flags inside our fit window of the Jorda-Schularick-Taylor
+panel: the famous credit-boom result reproduces, the steering term improves it at odds of billions to
 one, and the single best out-of-sample predictor of systemic crisis,
 holding out whole decades, is the ratio v/s. The quiet period of 1945
 to 1972, fast growth under heavy grip and nearly zero crises, sits in
@@ -322,7 +362,7 @@ the rival with a field of sixteen drivers drawing their throttle from a
 distribution, couple crashes to their neighbours, and ask: what buys an
 already-careful driver more survival, another unit of private caution or
 another unit of field-wide coordination? On every tested point of the
-diligent regime, coordination wins, nine grid points out of nine. And in
+diligent regime, coordination wins, nine gridpoints out of nine. And in
 the household layer, where every outcome is converted into hours of work
 per week for food, shelter and energy across eight very different
 tribes, the same truth lands harder: with coordination live, the
@@ -331,7 +371,8 @@ With coordination forced to zero, every single row ties. Your private
 virtue keeps your lane. Only coordination reaches anyone's kitchen.
 
 This is the psychohistory of it. The race is a mean-field game, the same
-L5 mathematics this repository uses for bank runs. Everyone racing
+fixed-point machinery (layer five of the framework) this repository uses
+for bank runs. Everyone racing
 because everyone expects a race is a self-consistent equilibrium. So is
 a held norm. The coordination dial is the order parameter that selects
 between them, and treaties, standards bodies, inspectorates and commons
@@ -340,11 +381,10 @@ are how civilizations have always moved it.
 ## The wager
 
 A theorem stated with conviction still names the terms on which its
-premises lose.
-Ours are frozen in the repository: if the steering term had added
-nothing beyond speed across the fittable record, the Control Axiom would
-be empirically idle here and the theorem would be
-decoration, and we said so before running. It survived. Going forward
+premises lose. Ours are frozen in the repository: had the steering term
+added nothing beyond speed across the fittable record, the Control Axiom
+would have been empirically idle and the theorem decoration, and we said
+so before running. It survived. Going forward
 the catalog only grows: every new transition, every natural experiment,
 every autobahn table and strait blockade and model release is another
 scoring event. Theories are often proved years after they are
@@ -371,7 +411,6 @@ The engine is real. The corners are real. A century of data says the
 ratio decides. Drive fast. Never faster than you can steer.
 
 *Wingston Sharon, 2026. The psychohistory program's control axiom and
-survival theorem. Code,
-frozen wager terms and all datasets:
+survival theorem. Code, frozen wager terms and all datasets:
 [`steering_envelope/`](https://github.com/wingie/psychohistory/tree/main/steering_envelope).
 This page inherits the repository's [dual-use notice](../ETHICS.md).*
