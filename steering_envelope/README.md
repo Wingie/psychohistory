@@ -1,10 +1,18 @@
-# Steering Envelope — s/acc as a testable hazard model
+# Axiom One: The Steering Envelope
 
-A module of the [psychohistory](../README.md) repository. Python reference
+**The first intervention axiom of the psychohistory program, postulated
+2026:** a society survives a technology in proportion to the control it can
+exert over that technology's speed. Uncontrolled acceleration crashes.
+Forced deceleration also crashes, later and harder. What survives is
+constant controlled speed: brake into the corners, accelerate out of them,
+never exceed the grip. The axiom is stated with conviction and scored in
+public; the wager terms below were frozen before the published run.
+
+This directory is the axiom made executable: the Python reference
 implementation of the Steering Envelope race model (ported from the JS v0.2
 artifact), a mean-field N-actor extension, the v0.3 Sustenance Ledger
-society layer, and an empirical validation suite that tests the core
-structural claim against public historical datasets. The interactive v0.4
+society layer, and an empirical validation suite that scores the axiom
+against public historical datasets. The interactive v0.4
 instrument lives at [`../site/steering_sim.html`](../site/steering_sim.html)
 and shares these equations; the essay is [`page.md`](page.md) (rendered at
 [`../site/steering.html`](../site/steering.html)).
@@ -84,7 +92,7 @@ framework was then fixed and applied unchanged to aviation and finance.
 The null binary result is retained and reported in `results/roads.json`
 (`secondary_binary`), not hidden.
 
-## Falsification criteria (no weaseling)
+## The wager (frozen; no weaseling)
 
 - If v/s adds no predictive power over v alone — LR(full vs v-only)
   p > 0.1 — in 3 or more of the fittable historical domains, the steering

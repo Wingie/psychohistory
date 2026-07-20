@@ -1,251 +1,321 @@
-# The Steering Envelope
+# Axiom One: The Steering Envelope
 
-*s/acc, rendered as a hazard model and tested on a century of public data.
-A module of the psychohistory project. The interactive instrument is
-[here](../site/steering_sim.html); the code and validation suite live in
+*The first intervention axiom of the psychohistory program. Postulated 2026.
+The instrument is [here](../site/steering_sim.html); the code, data and
+wager terms live in
 [`steering_envelope/`](https://github.com/wingie/psychohistory/tree/main/steering_envelope).*
 
 ---
 
-In the valley right now, "decel" is a slur. Fine. I am not a decel.
+Seldon's fictional science had two premises: enough people, and laws that
+hold whether or not any one of them believes. The real, bounded version we
+are building in this repository has spent its first years on the passive
+side of that idea: conservation of attention, community blocks,
+criticality, the collapse of effective independence before a cascade. All
+of it watches.
 
-I hold one axiom. Never drive a car faster than you can steer it.
+This module is the first axiom about acting. Here it is.
 
-That is the whole position. Everything else in this module is me trying to
-turn that sentence into an equation, the equation into a simulator, and the
-simulator into something a century of public data can embarrass.
+**A society survives a technology in proportion to the control it can
+exert over that technology's speed. Uncontrolled acceleration crashes.
+Forced deceleration also crashes, later and harder. What survives is
+constant controlled speed: brake into the corners, accelerate out of
+them, never exceed the grip.**
+
+I am stating that with conviction, not with a shrug. Most theories worth
+having were postulated long before they were proved, and the way you earn
+the proof is by writing the claim down plainly, building the instrument,
+and letting every new episode of history score it. That is what this
+module does. Time will tell. We wrote it down first.
+
+## Start with fire
+
+Strip away everything modern and the axiom is already there at the first
+campfire.
+
+A tribe discovers fire. What are its choices? It can keep the secret,
+post guards around the hearth, and enjoy an advantage until the night a
+rival steals an ember or the keeper of the flame dies with the trick. It
+can sell the secret, trade fire for food, for alliance, for marriage,
+which means the secret moves, but slowly, along the channels of who can
+pay. Or it can teach the secret, and then fire is simply something humans
+have, and no tribe can hold another hostage with it, and every hearth in
+the valley now needs the same thing: rules. Keep it off the dry grass.
+Bank it at night. Watch the children.
+
+Notice what just happened. The three choices are the three acceleration
+mechanisms the modern discourse thinks it invented. Hoard the capability.
+Gate and sell the capability. Share the capability. And notice the fourth
+thing, the one that appears in every branch: the rules of the hearth. The
+firebreak. The watcher. That is steering capacity, and it is the only
+part of the story that decides whether the valley burns.
+
+So when I write v, speed, I do not just mean how fast the frontier moves.
+I mean how capability moves through the network of tribes: hoarded,
+sold, or shared. And when I write s, steering, I mean the accumulated
+stock of hearth rules: verification, licensure, inspectorates, incident
+channels, institutions that can absorb a shock. The axiom says survival
+is decided by the ratio of the two.
+
+## The six states
+
+History keeps ending transitions in the same small set of ways. The model
+names six, and each one has a face.
+
+**ARRIVED.** You cross the transition first, intact, and you set its
+terms. Britain crossed the railway transition first and wrote the gauge,
+the law, and the timetable of the industrial world.
+
+**CONVOY.** The transition arrives as a pack, because the knowledge was
+shared or standardized until nobody held a decisive edge. Once everyone
+knows the secret of fire, nobody has an advantage, and everybody has
+fire. Rail gauge standardization did this. Open protocols did this to
+networking. Free and open source software does this on purpose: it is
+the deliberate breaking of the hoard, knowledge moved directly to all.
+Convoy is not a consolation prize. It is the highest-yield state history
+offers, because the gains arrive without the wreck.
+
+**SHOTGUN.** Someone else crosses first and you live in the world they
+chose. Tokugawa Japan held itself out of the industrial transition for
+two centuries, and then Perry's black ships arrived and the terms were
+not Japan's. The stopper does not get a parked world. He gets a world
+decided from the passenger seat.
+
+**HELD.** Nobody crosses. The transition is refused or indefinitely
+deferred. Rare, temporary, and paid for in everything the transition
+would have bought.
+
+**CRASHED.** You take a corner beyond your control authority and lose
+the machine. Chernobyl is the clean case: a reactor design pushed by a
+program that outran its own safety culture, a test run at night against
+the manual, and a state that lost not just a reactor but a large part of
+its remaining legitimacy.
+
+**PILEUP.** The coupled crash. Everyone goes down together because
+everyone was leaning on everyone. This is the one the axiom cares most
+about, and its archetype is old. The Late Bronze Age was a dozen palace
+economies locked in one trade network, tin from one direction, copper
+from another, grain moving between kings who wrote each other letters.
+Every palace hoarded its own advantages, and none could stand alone.
+Around 1200 BC the network took a hit, and within a lifetime nearly
+every palace from Pylos to Ugarit was ash. Writing itself was lost in
+Greece for four centuries. That is what a pileup is: not a crash of one
+driver but the failure of a formation. We rebuilt the same shape in 2008
+with balance sheets instead of bronze.
+
+Which of the six states you get is not destiny and it is not luck. That
+is the axiom's whole content: the state is selected by the ratio of
+speed to steering at the corners.
 
 ## One law
 
-Here is the equation. When a technology transition hits a critical
-threshold, call it a corner, the chance you lose control is logistic in the
-ratio of your speed to your grip:
+Now the equation, and it is deliberately small. When a transition hits a
+corner, a critical threshold where control is actually contested, the
+probability you lose the machine is logistic in speed times corner
+tightness over steering capacity:
 
     h = sigma( beta * ( v*k / (s*c0) - 1 ) )
 
-Speed v is deployment velocity. Grip s is steering capacity, and I mean
-concrete things by that: interpretability, evals, verification regimes,
-incident channels, compute you actually own, institutions that can absorb a
-shock without shattering. Corner tightness k says how unforgiving this
-particular transition is. When v times k is smaller than s, you are inside
-the envelope and the hazard is small. When it is bigger, the hazard
-saturates toward one. The edge of the envelope is exactly ratio one.
+Inside the envelope, v times k below s, hazard is low. Outside it,
+hazard saturates. The edge is ratio one. Corner tightness k is how
+unforgiving this particular transition is: a tighter corner for nuclear
+material than for spreadsheets, tighter for autonomous weapons than for
+chess engines.
 
-Is that too simple? Of course it is too simple. So is F equals ma. The
-question is never whether a law is simple. The question is whether the data
-holds it or laughs at it. We will get to the data.
+Too simple? So is F equals ma. Simple is what lets the data vote.
 
-## Four flags, one dashboard
+## The mechanisms history invented
 
-What do you accelerate first? That single question sorts the whole
-discourse into a two-by-two.
+Once you see steering as a real quantity, you start recognizing the
+machinery every era built to supply it. Each mechanism is a different
+setting of the dials, and history has run them all.
 
-Accelerate the engine and you get e/acc. Give it its due. Permissionless
-innovation has an astonishing welfare record. Electrification, aviation,
-the internet. Most catastrophic forecasts about new technology were wrong,
-and the costs of friction compound invisibly, in drugs never invented and
-growth never compounded. I concede all of it. But thermodynamic teleology
-has no term for a corner. It optimizes expected speed when the thing that
-matters is speed conditioned on survival. An engine has no opinion about
-walls.
+Secrecy, the NDA, the guarded hearth. This buys a private v advantage
+and makes the whole formation brittle, because hoarded knowledge dies
+with its keepers and hoarding civilizations cannot call for help. The
+Bronze Age palaces ran this setting into the pileup.
 
-Accelerate the armor and you get d/acc, Vitalik Buterin's flag, and it is
-the nearest relative of mine. Build defense-dominant technology. Favor the
-shield over the sword. It composes beautifully with what I am saying. But
-notice what d/acc lacks: a speed governor. It asks which car to build and
-never how fast any car may be driven. And offense versus defense is often
-unknowable before the fact. The same biology tools cut both ways.
+The patent. A genuinely clever compromise: sell the secret of fire, but
+the price is publication and the monopoly expires. It is a timed gate,
+a throttled convoy. Societies that adopted it got compounding disclosure
+instead of hereditary guild secrets.
 
-Accelerate the driver and you get w/acc, which as far as I can tell is an
-unclaimed letter, so let me claim a reading for it: wisdom acceleration.
-Grow the judgment, the epistemics, the institutions that steering capacity
-is made of. In my model w/acc multiplies the effectiveness of everything
-else, and its honest weakness is that alone it is slow.
+The conscience endowment. Nobel made his fortune on explosives and
+endowed the prize with it. That is steering bought retroactively, guilt
+converted into an institution that redirects ambition toward shared
+knowledge.
 
-Accelerate the steering and you get s/acc. Steerism in prose. Throttle
-bounded by grip, re-measured at every corner. Maximum sustainable speed,
-which is not the same as maximum speed, and is very much not zero speed.
-The stopper deserves a concession too: stopping is a coherent response to
-hazard. But run it in the model and watch what happens. Unilateral stopping
-hands the wheel to the least careful driver on the road. You do not get a
-parked world. You get someone else's world, decided from the passenger
-seat. The simulator calls that outcome SHOTGUN, and the stopper preset
-lands there 86 percent of the time.
+The apprenticeship and the license. Some knowledge is gated not by price
+but by time and demonstrated competence: medicine, flight, and, when we
+still bothered, finance. Gating by experience is a steering mechanism
+disguised as a career path.
 
-## The model
+The treaty with an inspectorate. The nuclear case. After 1945 the powers
+looked at the tightest corner ever discovered and did something without
+precedent: they built an agency whose whole purpose is to keep wayward
+drivers from taking that corner alone. Safeguards, inspections,
+enrichment thresholds. It is the purest institutional form of the
+coordination dial, and civil nuclear power's event record since the
+regime matured is the receipt.
 
-I ported the race model to Python so the toy and the tests share equations.
-Two policies drive a course of five corners. Speed compounds. Steering
-accumulates from investment and from distance driven. Each corner draws a
-control-loss event from the law above. Six outcomes: ARRIVED, CONVOY,
-SHOTGUN, HELD, CRASHED, PILEUP.
+The commons. FOSS, open protocols, open science. Maximum sharing, which
+reads as maximum recklessness until you notice what it does to the
+distribution of drivers: nobody holds a decisive edge, so nobody is
+forced into a desperate corner, and every eye is on the same code. The
+commons is a coordination mechanism wearing an anarchist jacket.
 
-Floor the throttle with token safety spend, the e/acc preset, and 61
-percent of Monte Carlo runs end in CRASHED or PILEUP. Drive the envelope
-rule, throttle equals grip times a margin, invest hard in grip, and the
-plurality outcome is CONVOY: you arrive, together, a little later than the
-reckless timeline and alive. The stopper watches someone else arrive.
+And the null mechanism, the control group that runs itself for us right
+now: crypto. No license, no inspectorate, no expiry, coordination near
+zero by design. The result is the purest uncoordinated field in modern
+economic history, and it looks exactly like the model says an
+uncoordinated field looks: perpetual small crashes, NFT manias, rug
+pulls, exchange pileups, extraordinary innovation and no floor under
+anyone.
 
-Then I replaced the single rival with sixteen actors drawing throttle from
-a distribution, because the real question was never my throttle. It was the
-field's. A coordination dial kappa couples every actor toward the envelope
-norm, and crashes cascade to coupled neighbours. Here is the theorem the
-model was built to check: for an actor who has already done basic
-diligence, a marginal unit of field-wide coordination buys more personal
-survival than the same unit spent on private virtue. It passes at every
-gridpoint on its stated domain, nine out of nine. And it has an honest
-boundary that I refuse to hide: below basic diligence the inequality
-fails. Buy your own brakes first. Then buy the treaty.
+## Steering is not suppression
 
-There is a third layer, because Wingston rejected the car metaphor as
-presentation, and he was right to. Nobody eats an outcome distribution.
-The Sustenance Ledger converts every race outcome into the only metric
-that survives contact with a kitchen: hours of work per week to afford
-food, shelter and energy, tracked for eight tribes from a salaried
-professional in Amsterdam to a street vendor in Lagos to a commune that
-mostly opted out of markets. Shelter is land and refuses to deflate.
-Past sixty hours a week the market has failed you and dinner migrates to
-non-market exchange: care, craft, mutual aid, verified-human work.
+Here is the misreading I most want to kill, because it is the one
+governments commit.
 
-The proof table at the bottom of the instrument asks, for each tribe,
-which worldview minimizes their worst decade. With the coordination dial
-live, s/acc wins every row it does not tie. Force coordination to zero and
-every single row becomes a tie. Read that carefully, because it is the
-most important honest result in the toy: private virtue keeps your own
-lane clean, and does almost nothing for anyone's kitchen. The s/acc claim
-was never "be careful and you will be fine." It is "the throttle rule only
-pays at field scale," which is an argument for treaties, standards bodies
-and verification regimes, not for personal purity.
+Steering does not mean preventing every crash. A hand that only ever
+brakes is not steering, it is storing the crash. Suppress every small
+correction, guarantee every bank, refuse every recession, and you do not
+delete the energy, you bank it in the fuel tank for a bigger corner.
+Finance shows both failure modes side by side. Repeal Glass-Steagall,
+remove grip while credit accelerates, and you get 2008. But equally,
+administrations that lean on the central bank to abolish every downturn
+are not steering either. They are welding the brake pedal to the floor
+of the future, moving the crash later and amplifying it. The Minsky
+reading and the forest-fire reading are the same reading: small fires
+clear the underbrush.
 
-## The roads already ran this experiment
+The axiom is symmetric and I mean it symmetrically. Uncontrolled
+acceleration crashes now. Enforced deceleration and suppression crash
+later, bigger. The surviving policy is the racing line: constant
+sustainable speed, deceleration into the corners, acceleration out of
+them. In the instrument this is exactly why the HELD state loses and why
+the s/acc preset brakes early and then runs fast on accumulated grip.
 
-Now the part where the data gets a vote. The claim h = f(v/s) is not
-about AI. It is about any transition. So it should already be visible in
-the transitions we finished. I took five domains, all public data, fetch
-scripts committed, fit windows and falsifiers frozen in the README before
-the published run.
+## Rehypothesizing the past
 
-Roads first, because the metaphor is not a metaphor there. America put a
-hundred times more miles under its wheels in 2019 than in 1921, and deaths
-per mile fell about twenty-fold. The fatality rate tracks the steering
-stack: licensing, the 1966 safety acts, belts, the 0.08 limit, electronic
-stability control. In levels the steering index explains 93 percent of the
-variance, so much that speed barely gets a word in, and I flag that
-honestly: level fits on trending series are permissive. The strict test is
-first differences, and there both terms carry signal. Speed changes matter,
-p equals 0.016. Steering changes matter, p equals 0.045. The ratio is not
-decoration on the road that named the theory.
+A theory of steering should be able to walk back through history and
+label the episodes. Here is the opening of that catalog. Each entry is
+an episode, the mechanism in force, and the state it selected.
 
-Aviation, and here is a concession bigger than most manifestos ever make:
-aviation votes against me and for the stoppers. The oversight stack, ICAO
-to CRM to TCAS, tracks the collapse in fatal accidents per million flights
-so completely that once you control for it, departure growth adds almost
-nothing, and in first differences at annual frequency my steering term
-goes silent too, p equals 0.59. Aviation reads as "s dominates, v is
-noise." I keep it on the scoreboard because a theory that only cites
-friendly domains is marketing.
+The Late Bronze Age: hoarding under tight coupling, PILEUP. The golden
+age of piracy: the sea lanes were a commons with no steering at all,
+and when the losses grew intolerable the states bought grip in the form
+of navies and admiralty law, closing an ungoverned corner; the corner
+itself never went away, which is why a single strait off Iran can still
+put the world economy on notice. Railway standardization: forced
+knowledge sharing, CONVOY. Nuclear plus the IAEA: the tightest corner,
+taken slowly, in formation, and the only major technology whose
+worst-case tail has so far been held by treaty. Nobel and the patent
+system: conversion mechanisms, private speed turned into public grip.
+The socialist experiments: enforced deceleration of the market
+transition, and every one of them either crashed, opened, or converged
+back toward market speed under party grip; look at China's hybrid
+housing market for what re-steering mid-corner looks like. Crypto: the
+running control group, coordination pinned to zero. GameStop, January
+2021: a contested steering event, hedge funds trying to steer a company
+into bankruptcy, a crowd counter-steering, and the whole thing legible
+in advance to anyone reading the ratio, which one retail analyst
+famously did. The world is steered, constantly, by people who believe
+they can shape which future arrives. The only question the axiom asks
+is whether the steering is matched to the speed.
 
-Finance is the flagship, because finance gives what roads cannot: eighteen
-countries, 145 years, 75 dated systemic crises in the Jorda-Schularick-
-Taylor database. Credit growth is speed. An era-coded regulation index is
-grip, and yes, that coding is coarse, the honesty notes say exactly how
-coarse. First I reproduce the known result: credit booms predict crises.
-Schularick and Taylor hold up. Then the addition: the steering term
-improves the fit at p around four in a billion, and the single best
-out-of-sample predictor, leave one decade out entirely, is the ratio
-model. AUC 0.688 against 0.506 for credit growth alone. The quiet period
-is the picture worth staring at: 1945 to 1972, capital controls and
-financial repression everywhere, credit growing fast, and nearly zero
-systemic crises anywhere in the panel. High v, higher s, quiet world.
+One more entry belongs on this list as a standing invitation: speed
+limits themselves. There exist motorways with and without them, in
+otherwise similar countries, with published crash data. That is a
+natural experiment aimed directly at the axiom, and it is queued as the
+next domain study.
 
-Nuclear I refuse to fit. Seven decades, ten INES-4-class events, a
-logistic regression on that would be numerology. As a case study it is
-consistent: the decades with fast build-out and young regulators carry a
-thirteen-fold higher event rate per reactor-year than the decades with
-slow build-out and old regulators, and the rank correlation between v/s
-and the event rate is 0.82. Consistent, I said. Not proof.
+## The record so far
 
-And AI. There is no outcome data for AI corners, and I will not pretend
-otherwise. What I can compute is the same ratio, frontier training compute
-growth from Epoch's public dataset over a steering proxy built from policy
-counts and eval institutions, and place it on the same relative scale as
-the finished domains. Two honest readings come out. First, AI's ratio in
-2014 to 2016 spiked above the band where every historical domain's corners
-bit. Second, and this one surprised me, on these crude proxies the ratio
-has fallen since 2019, because policy counts and eval orgs grew faster
-than frontier compute. Before anyone relaxes: a policy count is not policy
-effectiveness, an eval org is not an eval regime with teeth, and nothing
-in that chart measures whether the steering actually connects to the
-wheels. The chart says the world is trying. It does not say the world is
-steering.
+Rehypothesis is cheap; fits are not. So we ran the axiom against five
+domains of public data, windows and losing conditions frozen in the
+README before the run. The full tables are in the repository. The short
+version:
 
-## The psychohistory reading
+On the roads, the literal case, America multiplied its driven miles a
+hundredfold while deaths per mile fell twenty-fold, and in the strict
+first-difference test both speed and steering carry independent signal.
+In aviation, honesty compels the concession: the oversight stack
+explains the safety collapse so completely that speed adds nothing
+measurable; aviation reads as a domain the stoppers can cite, and we
+log it against ourselves. In finance, the flagship, 18 countries and
+145 years of the Jorda-Schularick-Taylor panel: the famous credit-boom
+result reproduces, the steering term improves it at odds of billions to
+one, and the single best out-of-sample predictor of systemic crisis,
+holding out whole decades, is the ratio v/s. The quiet period of 1945
+to 1972, fast growth under heavy grip and nearly zero crises, sits in
+that data like a signed confession. Nuclear, too small to fit, is
+consistent: thirteen times the event rate in fast-build young-regulator
+decades. And for AI there is no outcome data yet, so we publish the
+leading indicator instead: AI's ratio spiked above every historical
+corner band around 2015, and on crude public proxies has come down
+since as policy and evals grew, with the loud caveat that a policy
+count is not grip any more than a printed rulebook is a driver.
 
-This module lives in a psychohistory repository, so it owes the framework
-a reading of itself, and the framework has one to give.
+Three of four finished domains hold the axiom. One dissents. The
+flagship holds it out-of-sample, which is the test that matters. That
+is what a young law is supposed to look like when it is right: scarred,
+not spotless.
 
-The race is a mean-field game, the same L5 machinery this project uses for
-bank runs and forward guidance. Each lab best-responds to its expectation
-of the field's throttle, and the field's throttle is the aggregate of
-those best responses. That is a reflexive fixed-point problem, and it has
-two self-consistent equilibria: everyone races because everyone expects a
-race, or the field holds an envelope norm because deviating from a held
-norm is visibly punished. The coordination dial kappa is not a policy
-fantasy. It is the order parameter selecting between fixed points, and the
-theorem check is a statement about which basin pays.
+## The mean field, or why your virtue is not enough
 
-The flags themselves are attention objects. In the framework's terms, the
-x/acc template is an existing attractor in identity space, which is why a
-new position is cheaper to propagate as s/acc than as a paragraph.
-Identity nouns add a reinforcing loop, since exiting an identity costs
-more than changing vocabulary. This is the transport-and-drift layer
-applied to the discourse itself, and it is also a warning label: the same
-mechanics that spread a careful flag spread a careless one. The framework
-files that under its dual-use notice, and so do I.
+The deepest result in the module is not about any single driver. Replace
+the rival with a field of sixteen drivers drawing their throttle from a
+distribution, couple crashes to their neighbours, and ask: what buys an
+already-careful driver more survival, another unit of private caution or
+another unit of field-wide coordination? On every tested point of the
+diligent regime, coordination wins, nine grid points out of nine. And in
+the household layer, where every outcome is converted into hours of work
+per week for food, shelter and energy across eight very different
+tribes, the same truth lands harder: with coordination live, the
+steering policy wins every tribe's worst decade that it does not tie.
+With coordination forced to zero, every single row ties. Your private
+virtue keeps your lane. Only coordination reaches anyone's kitchen.
 
-And the boundary the framework always draws applies here too. The
-validation shows the envelope ratio organizes the past. The mean-field
-layer shows why private virtue cannot organize the future alone. Neither
-licenses a forecast of when any specific corner arrives. The skill horizon
-on that question is short, and the honest output is the ratio, watched
-continuously, not a date.
+This is the psychohistory of it. The race is a mean-field game, the same
+L5 mathematics this repository uses for bank runs. Everyone racing
+because everyone expects a race is a self-consistent equilibrium. So is
+a held norm. The coordination dial is the order parameter that selects
+between them, and treaties, standards bodies, inspectorates and commons
+are how civilizations have always moved it.
 
-## What would change my mind
+## The wager
 
-Falsifiers were frozen in the README before the run, and here they are in
-prose. If the steering term had added nothing over speed in most of the
-fittable domains, the envelope would be decoration and s/acc would lose
-its empirical leg. That did not happen; it survived in two of three, with
-aviation logged against. If steering alone had dominated everywhere and
-speed never mattered, the stoppers would be right and I would say so.
-That did not happen either; speed carries signal in roads and finance.
-Going forward: show me a domain where disasters track v/s worse than v
-alone out-of-sample, or show me the AI steering proxies rising while
-actual verification capacity rots, and I will update in public, in this
-repository, in the same tables.
+An axiom stated with conviction still names the terms on which it loses.
+Ours are frozen in the repository: if the steering term had added
+nothing beyond speed across the fittable record, the axiom would be
+decoration, and we said so before running. It survived. Going forward
+the catalog only grows: every new transition, every natural experiment,
+every autobahn table and strait blockade and model release is another
+scoring event. Theories are often proved years after they are
+postulated. The postulate is now on the record, timestamped, with its
+instrument public and its data fetchable by anyone.
 
-## The call
+So, the call, by seat.
 
-So here is what I am asking, depending on which seat you are in.
-
-If you build: publish your envelope. State your corner list, your grip
-metrics, and the throttle rule that connects them. "We slow when X" is a
+If you build: publish your envelope. Your corner list, your grip
+metrics, and the rule that connects them. "We slow when X" is a
 falsifiable safety culture. Vibes are not.
 
-If you regulate: fund grip, not just brakes. Evals, incident channels,
-verification regimes, owned compute, absorption floors. The quiet period
-did not park the economy. It grew fast with its hands on the wheel.
+If you govern: fund grip, not just brakes, and never confuse
+suppression with steering. The quiet period grew fast with its hands on
+the wheel. The administrations that abolish every small correction are
+buying the big one.
 
-If you write and argue: stop scoring the debate as gas versus brakes. The
-axis that predicts the record is grip versus speed. Ask every accelerant
-where the steering is, and ask every stopper whose hands they are leaving
-on the wheel.
+If you argue: stop scoring this debate as gas against brakes. The axis
+that predicts the record is grip against speed. Ask every accelerationist
+where the steering is. Ask every stopper whose hands they are leaving on
+the wheel.
 
-The engine is real. The corners are real. The data from the last century
-says the ratio is what decides. Drive fast. Never faster than you can
-steer.
+The engine is real. The corners are real. A century of data says the
+ratio decides. Drive fast. Never faster than you can steer.
 
-*Wingston Sharon, 2026. Falsifiers, fit windows and code:
+*Wingston Sharon, 2026. Axiom One of the psychohistory program. Code,
+frozen wager terms and all datasets:
 [`steering_envelope/`](https://github.com/wingie/psychohistory/tree/main/steering_envelope).
-No part of this page waives the repository's
-[dual-use notice](../ETHICS.md).*
+This page inherits the repository's [dual-use notice](../ETHICS.md).*
