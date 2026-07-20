@@ -1,0 +1,19 @@
+# US road-safety steering stack: major control-capacity additions.
+# weight = coarse coded contribution to steering capacity (0.5 minor, 1.0 major, 1.5 landmark).
+# Sources: NHTSA history pages, IIHS state-law tables, FHWA Highway History. See README.md.
+year,intervention,weight
+1926,Uniform Vehicle Code first published,0.5
+1935,driver licensing with examination in most states,1.0
+1938,first BAC drunk-driving standard (0.15) adopted,0.5
+1948,three-point lap belt era begins / AASHO design standards,0.5
+1956,Interstate Highway Act: divided access-controlled roads,1.0
+1966,National Traffic and Motor Vehicle Safety Act + Highway Safety Act,1.5
+1968,FMVSS 208: seat belts required in all new cars,1.0
+1970,NHTSA established,1.0
+1974,national 55 mph speed limit,0.5
+1980,MADD founded; drunk-driving enforcement wave,0.5
+1984,National Minimum Drinking Age Act; first state seatbelt-use law (NY),1.0
+1990,seatbelt-use laws in majority of states,0.5
+1998,dual airbags mandatory in new cars,0.5
+2000,national 0.08 BAC standard,0.5
+2012,electronic stability control mandated (FMVSS 126),0.5

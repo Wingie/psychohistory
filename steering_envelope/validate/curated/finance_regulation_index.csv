@@ -1,0 +1,15 @@
+# Era-coded financial regulation/repression index for the JST panel
+# (applied to all 18 countries; a deliberate coarse coding, direction taken
+# from the financial-repression and liberalization-index literature:
+# Reinhart-Rogoff, Abiad-Detragiache-Tressel). Higher = more steering
+# capacity (capital controls, rate ceilings, supervision, macroprudential).
+# See README.md for honesty notes: era-level, not country-level.
+year_from,year_to,s_index,era
+1870,1913,0.25,classical gold standard / free banking
+1914,1933,0.30,war finance and interwar chaos
+1934,1944,0.60,post-Depression re-regulation (Glass-Steagall era)
+1945,1972,0.90,Bretton Woods financial repression
+1973,1985,0.65,early liberalization
+1986,1999,0.45,deregulation and Basel I
+2000,2007,0.35,light-touch peak
+2008,2020,0.60,Basel III and macroprudential rebuild

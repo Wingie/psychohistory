@@ -1,0 +1,15 @@
+# Global commercial-aviation steering stack: major control-capacity additions.
+# weight = coarse coded contribution to steering capacity. Sources: ICAO, FAA
+# history pages, Boeing Statistical Summary commentary. See README.md.
+year,intervention,weight
+1944,Chicago Convention: ICAO founded,1.0
+1958,FAA created (after 1956 Grand Canyon collision),1.5
+1967,NTSB independent accident investigation,1.0
+1968,cockpit voice recorder + flight data recorder mandates,1.0
+1974,ground proximity warning system (GPWS) mandate,1.0
+1981,crew resource management adopted after United 173,1.5
+1993,TCAS II collision avoidance mandate,1.0
+1998,CFIT task force / terrain awareness (EGPWS),0.5
+1999,ICAO USOAP universal safety oversight audits,1.0
+2003,IATA IOSA operational safety audits,0.5
+2010,mandatory safety management systems (ICAO Annex 19 path),0.5

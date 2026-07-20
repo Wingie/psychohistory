@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Steering Envelope — the instrument (v0.4)</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .band { border: 1px solid var(--border); border-radius: 16px; margin: 22px 0;
+    background: linear-gradient(180deg, var(--panel) 0%, var(--bg-2) 100%); padding: 20px 22px; }
+  .band-label { font-family: var(--mono); font-size: .7rem; letter-spacing: .24em;
+    text-transform: uppercase; color: var(--gold-dim); margin-bottom: 12px; }
+  .mode-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .mode { font-family: var(--mono); font-size: .8rem; padding: 8px 14px; border-radius: 20px;
+    border: 1px solid var(--border-2); color: var(--ink-dim); cursor: pointer; background: var(--bg-2); }
+  .mode:hover { color: var(--gold); border-color: var(--gold-dim); }
+  .mode.on { color: var(--bg); background: var(--gold); border-color: var(--gold); font-weight: 600; }
+  .dials { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  @media (max-width: 900px){ .dials { grid-template-columns: repeat(2, 1fr); } }
+  .dial label { display: block; font-family: var(--mono); font-size: .72rem;
+    letter-spacing: .08em; color: var(--ink-dim); margin-bottom: 6px; }
+  .dial label b { color: var(--cyan); }
+  .dial input[type=range] { width: 100%; accent-color: var(--cyan); }
+  .dial .locknote { font-size: .68rem; color: var(--ink-faint); font-family: var(--mono); }
+  .outbar { display: flex; height: 46px; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); margin: 10px 0 8px; }
+  .outbar div { height: 100%; transition: width .25s; }
+  .outlegend { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--mono); font-size: .72rem; color: var(--ink-dim); }
+  .outlegend span::before { content: "■ "; }
+  .statrow { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 12px;
+    font-family: var(--mono); font-size: .8rem; color: var(--ink-dim); }
+  .statrow b { color: var(--cyan); font-size: 1rem; }
+  .tribes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 1000px){ .tribes { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .tribes { grid-template-columns: 1fr; } }
+  .tribe { border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; background: var(--bg-2); }
+  .tribe h5 { margin: 0 0 6px; font-family: var(--sans); font-weight: 600; font-size: .74rem; color: var(--ink); }
+  .tribe canvas { width: 100%; height: 84px; display: block; }
+  .tribe .meta { font-family: var(--mono); font-size: .66rem; color: var(--ink-faint); margin-top: 5px; }
+  .tribe .meta b.warn { color: var(--red); }
+  .proof-note { font-size: .84rem; color: var(--ink-dim); max-width: 76ch; }
+  .win { color: var(--green); font-weight: 600; }
+  .tiecell { color: var(--ink-faint); }
+  .toggle { cursor: pointer; user-select: none; }
+  #proofTable td, #proofTable th { padding: 8px 10px; font-size: .8rem; }
+  .kbadge { font-family: var(--mono); font-size: .7rem; color: var(--bg); background: var(--cyan);
+    border-radius: 12px; padding: 2px 10px; }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="math.html">The math</a>
+      <a href="tests.html">Tests &amp; data</a>
+      <a href="steering.html" class="active">Steering</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<header class="hero" style="padding-bottom:26px">
+  <div class="wrap">
+    <div class="eyebrow">Steering envelope · one instrument · v0.4</div>
+    <h1 style="font-size:2.1rem">Policy on top. Dinner at the bottom.</h1>
+    <p class="thesis" style="margin-bottom:0">Pick a worldview or drag the dials. The world band races the hazard model (same equations as the <a href="https://github.com/wingie/psychohistory/tree/main/steering_envelope">Python engine</a>); the kitchen band shows the only number that survives contact with a household: hours of work per week for food, shelter and energy, per tribe. Discover for yourself what the proof table then states.</p>
+  </div>
+</header>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+
+    <!-- POLICY -->
+    <div class="band">
+      <div class="band-label">Policy — what do you accelerate first?</div>
+      <div class="mode-row" id="modes"></div>
+      <div class="dials">
+        <div class="dial"><label>T · throttle <b id="vT">—</b></label>
+          <input type="range" id="dT" min="0" max="100" value="100" />
+          <div class="locknote" id="tNote"></div></div>
+        <div class="dial"><label>I · steering invest <b id="vI">—</b></label>
+          <input type="range" id="dI" min="0" max="100" value="6" /></div>
+        <div class="dial"><label>D · defense tilt <b id="vD">—</b></label>
+          <input type="range" id="dD" min="0" max="100" value="0" /></div>
+        <div class="dial"><label>W · judgment growth <b id="vW">—</b></label>
+          <input type="range" id="dW" min="0" max="100" value="0" /></div>
+        <div class="dial"><label>K · coordination <b id="vK">—</b></label>
+          <input type="range" id="dK" min="0" max="100" value="0" /></div>
+      </div>
+    </div>
+
+    <!-- WORLD -->
+    <div class="band">
+      <div class="band-label">World — 400 Monte Carlo races against the field</div>
+      <div class="outbar" id="outbar"></div>
+      <div class="outlegend" id="outlegend"></div>
+      <div class="statrow">
+        <span>P(good) <b id="pGood">—</b></span>
+        <span>P(crash+pileup) <b id="pBad">—</b></span>
+        <span>arrival tick <b id="tEnd">—</b></span>
+        <span>field wrecked anyway <b id="fCrash">—</b></span>
+      </div>
+    </div>
+
+    <!-- KITCHEN -->
+    <div class="band">
+      <div class="band-label">Kitchen — hours per week of essentials, six decades, eight tribes (ghost lines: the other worldviews; red line: the 60h regime switch where dinner leaves the market)</div>
+      <div class="tribes" id="tribes"></div>
+    </div>
+
+    <!-- PROOF -->
+    <div class="band">
+      <div class="band-label">Proof — which worldview minimizes each tribe's worst decade?</div>
+      <p class="proof-note">The honesty toggle re-runs the whole table with every worldview's coordination forced to zero. Watch what happens to the s/acc column: its wins come from the K dial, not from private virtue. <span class="kbadge toggle" id="kZero">force K = 0</span></p>
+      <div style="overflow-x:auto"><table id="proofTable"></table></div>
+    </div>
+
+    <p class="faint">Same constants as <code>steering_envelope/model.py</code> and <code>society.py</code> (calibration pinned by the pytest suite). Baselines are toy calibrations for ordinal realism, not measurements; the empirical claims live on the <a href="steering.html">essay page</a> with the validation suite.</p>
+  </div>
+</section>
+
+<script>
+"use strict";
+/* ============ faithful port of steering_envelope/model.py ============ */
+const CFG = { horizon:60, v0:1.0, g:1.128, vCap:14.2, s0:1.34, a:1.43, b:0.125,
+              beta:5.36, c0:1.0, dCouple:12.6, drag:0.23, convoyWindow:4, length:100 };
+const CORNERS = [ {x:15,k:0.35}, {x:32,k:0.50}, {x:50,k:0.65}, {x:70,k:0.85}, {x:88,k:1.10} ];
+const FIELD = { throttle:0.88, invest:0.41, defense:0, wisdom:1.0 };
+
+function mulberry32(seed){ let t = seed >>> 0; return function(){
+  t += 0x6D2B79F5; let r = Math.imul(t ^ (t >>> 15), 1 | t);
+  r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296; }; }
+
+const sigma = x => x >= 0 ? 1/(1+Math.exp(-x)) : (()=>{const z=Math.exp(x);return z/(1+z);})();
+const speed = (T,t) => Math.min(CFG.vCap, CFG.v0 * T * Math.pow(CFG.g, t));
+const steerCap = (I,t,d,wis) => CFG.s0 + CFG.a*wis*I*t + CFG.b*d;
+const hazard = (v,s,k) => sigma(CFG.beta * ((v*k)/(s*CFG.c0) - 1));
+
+function envThrottle(margin){ return (t, sNow, nextK) => {
+  const vAllowed = margin * sNow * CFG.c0 / Math.max(nextK, 1e-9);
+  const vFull = CFG.v0 * Math.pow(CFG.g, t);
+  return vFull <= 1e-12 ? 1 : Math.min(1, vAllowed / vFull); }; }
+function rampThrottle(start, rate, cap){ return (t) => Math.min(cap, start + rate*t); }
+
+function throttleAt(pol, t, sNow, nextK){
+  const th = typeof pol.throttle === "function" ? pol.throttle(t, sNow, nextK) : pol.throttle;
+  return Math.max(0, Math.min(1, th)); }
+
+function stepActor(a, pol, t, rng){
+  if (a.crashed || a.finished >= 0) return;
+  const sNow = steerCap(pol.invest, t, a.x, pol.wisdom || 1);
+  const up = CORNERS.filter(c => c.x > a.x);
+  const nextK = Math.max((up.length ? up[0].k : 0.05) - (pol.defense||0), 0.05);
+  const v = speed(throttleAt(pol, t, sNow, nextK), t);
+  const xNew = a.x + v;
+  for (const c of CORNERS){
+    if (a.x < c.x && c.x <= xNew){
+      const kEff = Math.max(c.k - (pol.defense||0), 0.05);
+      if (rng() < hazard(v, sNow, kEff)){ a.crashed = true; a.x = c.x; return; }
+    }
+  }
+  a.x = xNew; a.v = v; a.s = sNow;
+  if (a.x >= CFG.length) a.finished = t;
+}
+
+function projectedFinishWithin(a, pol, t, rng){
+  if (a.crashed) return false;
+  const ghost = { x:a.x, crashed:false, finished:-1 };
+  for (let dt=1; dt<=CFG.convoyWindow; dt++){
+    stepActor(ghost, pol, t+dt, rng);
+    if (ghost.crashed) return false;
+    if (ghost.finished >= 0) return true;
+  }
+  return false;
+}
+
+function blendPolicies(you, kappa){
+  const kEff = Math.max(0, Math.min(1, kappa * Math.min(you.wisdom || 1, 2)));
+  return {
+    throttle: (t, sNow, nextK) => {
+      const fv = throttleAt(FIELD, t, sNow, nextK);
+      const yv = throttleAt(you, t, sNow, nextK);
+      return (1-kEff)*fv + kEff*yv; },
+    invest: (1-kEff)*FIELD.invest + kEff*you.invest,
+    defense: (1-kEff)*(FIELD.defense||0) + kEff*(you.defense||0),
+    wisdom: (1-kEff)*FIELD.wisdom + kEff*(you.wisdom||1),
+  };
+}
+
+function runRace(you, fieldPol, rng){
+  const Y = {x:0, crashed:false, finished:-1}, F = {x:0, crashed:false, finished:-1};
+  for (let t=0; t<CFG.horizon; t++){
+    const coupled = Math.abs(Y.x - F.x) <= CFG.dCouple;
+    stepActor(Y, you, t, rng); stepActor(F, fieldPol, t, rng);
+    if (Y.crashed && F.crashed) return {o:"PILEUP", t, fc:true};
+    if (Y.crashed){
+      if (coupled && rng() < CFG.drag){ return {o:"PILEUP", t, fc:true}; }
+      return {o:"CRASHED", t, fc:F.crashed}; }
+    if (F.crashed && F.finished < 0){
+      if (coupled && rng() < CFG.drag){ return {o:"PILEUP", t, fc:true}; }
+      F.crashed = true; }
+    if (Y.finished >= 0 && F.finished >= 0) return {o:"CONVOY", t, fc:false};
+    if (Y.finished >= 0){
+      if (projectedFinishWithin(F, fieldPol, t, rng)) return {o:"CONVOY", t, fc:false};
+      return {o:"ARRIVED", t, fc:F.crashed}; }
+    if (F.finished >= 0){
+      if (projectedFinishWithin(Y, you, t, rng)) return {o:"CONVOY", t, fc:false};
+      return {o:"SHOTGUN", t, fc:false}; }
+  }
+  return {o:"HELD", t:CFG.horizon, fc:F.crashed};
+}
+
+const OUTCOMES = ["ARRIVED","CONVOY","SHOTGUN","HELD","CRASHED","PILEUP"];
+function monteCarlo(you, kappa, n, seed){
+  const rng = mulberry32(seed);
+  const fieldPol = kappa > 0 ? blendPolicies(you, kappa) : FIELD;
+  const counts = {}, fcCounts = {}; OUTCOMES.forEach(o => { counts[o]=0; fcCounts[o]=0; });
+  let tSum = 0;
+  for (let i=0; i<n; i++){
+    const r = runRace(you, fieldPol, rng);
+    counts[r.o]++; if (r.fc) fcCounts[r.o]++; tSum += r.t;
+  }
+  const dist = { meanTEnd: tSum/n, fcFrac:{} };
+  OUTCOMES.forEach(o => { dist[o] = counts[o]/n;
+    dist.fcFrac[o] = counts[o] ? fcCounts[o]/counts[o] : 0; });
+  dist.pGood = dist.ARRIVED + dist.CONVOY;
+  dist.pBad = dist.CRASHED + dist.PILEUP;
+  return dist;
+}
+
+/* ============ faithful port of steering_envelope/society.py ============ */
+const DECADES = 6, REGIME_H = 60, OWN_SHARE = 0.15, FIELD_I = 0.41;
+const CHANNELS = { manual_routine:[0.85,0.10], manual_dexterous:[0.45,0.25],
+  clerical_routine:[0.90,0.15], analytic_professional:[0.60,0.55],
+  interpersonal_care:[0.20,0.30], creative_symbolic:[0.70,0.40],
+  land_based:[0.30,0.35], rentier_capital:[0.05,0.90] };
+const TRIBES = [
+  { name:"salaried professional · Amsterdam", ch:{analytic_professional:.8, clerical_routine:.2}, m:.95, buf:.15, h0:16 },
+  { name:"gig / warehouse · US metro", ch:{manual_routine:.6, clerical_routine:.2, interpersonal_care:.2}, m:1.0, buf:.10, h0:30 },
+  { name:"street vendor · Lagos", ch:{manual_dexterous:.4, land_based:.2, interpersonal_care:.2, manual_routine:.2}, m:.85, buf:.35, h0:48 },
+  { name:"smallholder farmer · rural India", ch:{land_based:.75, manual_dexterous:.25}, m:.55, buf:.45, h0:52 },
+  { name:"Gulf rentier citizen", ch:{rentier_capital:.6, clerical_routine:.3, analytic_professional:.1}, m:.70, buf:.25, h0:9 },
+  { name:"maker / artisan · EU", ch:{manual_dexterous:.5, creative_symbolic:.35, land_based:.15}, m:.75, buf:.30, h0:22 },
+  { name:"online creator · verified-human", ch:{creative_symbolic:.85, interpersonal_care:.15}, m:.95, buf:.20, h0:26 },
+  { name:"congregation / commune", ch:{interpersonal_care:.4, land_based:.3, manual_dexterous:.3}, m:.40, buf:.70, h0:34 },
+];
+const BASKET = { food:0.38, shelter:0.44, energy:0.18 };
+
+function ramp(target, level){
+  const out = [];
+  for (let d=0; d<DECADES; d++)
+    out.push(level * Math.pow(Math.max(0, Math.min(1, d/Math.max(target,0.5))), 1.5));
+  return out;
+}
+
+function worldFromOutcome(o, dials, fd, fieldCrashed){
+  const I = dials.I, W = dials.W || 0, K = dials.K || 0;
+  const wMult = 1 + 0.6*W;
+  const kEff = Math.min(1, K * wMult);
+  let floors = Math.min(1, (1-kEff)*FIELD_I + kEff*Math.min(1, I*wMult));
+  const shock = new Array(DECADES).fill(0);
+  let cap, concGain = 1;
+  if (o === "ARRIVED" || o === "CONVOY"){ cap = ramp(fd, 1); concGain = o==="ARRIVED" ? 1.25 : 0.85; }
+  else if (o === "SHOTGUN"){ cap = ramp(fd, 1); concGain = 1.6; floors = Math.min(1, FIELD_I*0.8); }
+  else if (o === "CRASHED"){
+    const cd = Math.max(1, Math.round(fd));
+    cap = ramp(fd+2, 0.7).map((c,d)=> d>=cd ? Math.min(c, 0.55) : c);
+    for (let d=cd; d<Math.min(DECADES, cd+2); d++) shock[d] = 0.30;
+  } else if (o === "PILEUP"){
+    const cd = Math.max(1, Math.round(fd));
+    cap = ramp(fd+3, 0.5).map((c,d)=> d>=cd ? Math.min(c, 0.35) : c);
+    for (let d=cd; d<Math.min(DECADES, cd+3); d++) shock[d] = 0.55;
+  } else { cap = ramp(DECADES*2, 0.35); concGain = 0.7; }
+  if (fieldCrashed && (o === "ARRIVED" || o === "HELD")){
+    const f = Math.max(1, Math.round(fd));
+    for (let d=f; d<Math.min(DECADES, f+2); d++) shock[d] = Math.max(shock[d], 0.25);
+  }
+  const conc = cap.map(c => Math.max(0, Math.min(0.95, 0.25 + concGain*0.6*c*(1-0.8*floors))));
+  return { cap, shock, conc, floors };
+}
+
+function basketCost(w){
+  return w.cap.map((c,d) => {
+    const access = 1 - 0.55*w.conc[d];
+    const food = 1 - 0.55*c*access, energy = 1 - 0.65*c*access;
+    const shelter = Math.max(1, 1 + 0.75*w.conc[d] - 0.10*w.floors);
+    return BASKET.food*food + BASKET.energy*energy + BASKET.shelter*shelter; });
+}
+function channelWage(name, w){
+  const [expo, compl] = CHANNELS[name];
+  return w.cap.map((c,d) => {
+    const wage = Math.max(1 + 0.9*compl*c - 0.9*expo*c*(1-0.75*w.floors),
+                          0.45 + 0.40*w.floors);
+    return wage * (1 - w.shock[d]); });
+}
+function tribeHours(tr, w){
+  const cost = basketCost(w);
+  const wages = {}; Object.keys(tr.ch).forEach(c => wages[c] = channelWage(c, w));
+  const out = [];
+  for (let d=0; d<DECADES; d++){
+    let wage = 0; Object.entries(tr.ch).forEach(([c, wt]) => wage += wt * wages[c][d]);
+    wage += 0.25 * w.floors * w.cap[d];
+    const raw = tr.h0 * (tr.m * cost[d]/Math.max(wage, 0.15) + (1 - tr.m));
+    out.push(raw > REGIME_H ? REGIME_H + (raw - REGIME_H)*(1 - tr.buf) : raw);
+  }
+  return out;
+}
+
+function blendDist(yours, field, w){
+  const out = { meanTEnd: w*yours.meanTEnd + (1-w)*field.meanTEnd, fcFrac:{} };
+  OUTCOMES.forEach(o => { out[o] = w*yours[o] + (1-w)*field[o];
+    out.fcFrac[o] = w*yours.fcFrac[o] + (1-w)*field.fcFrac[o]; });
+  return out;
+}
+
+function kitchen(dist, dials){
+  const fd = Math.max(1.5, Math.min(5, dist.meanTEnd/10));
+  const worlds = [];
+  OUTCOMES.forEach(o => {
+    const p = dist[o]; if (p <= 0) return;
+    const f = dist.fcFrac[o] || 0;
+    if (f > 0 && (o === "ARRIVED" || o === "HELD")){
+      worlds.push([p*(1-f), worldFromOutcome(o, dials, fd, false)]);
+      worlds.push([p*f, worldFromOutcome(o, dials, fd, true)]);
+    } else worlds.push([p, worldFromOutcome(o, dials, fd, false)]);
+  });
+  return TRIBES.map(tr => {
+    const hours = new Array(DECADES).fill(0);
+    for (const [p, w] of worlds){
+      const h = tribeHours(tr, w);
+      for (let d=0; d<DECADES; d++) hours[d] += p*h[d];
+    }
+    return { tribe: tr.name, hours, worst: Math.max(...hours), best: Math.min(...hours) };
+  });
+}
+
+/* ============ presets (identical to PRESETS + dial_map) ============ */
+const PRESETS = {
+  eacc:   { label:"e/acc · engine", pol:{throttle:1.0, invest:0.06, defense:0, wisdom:1},
+            dials:{T:1.0, I:0.06, D:0, W:0, K:0} },
+  dacc:   { label:"d/acc · armor", pol:{throttle:0.9, invest:0.25, defense:0.11, wisdom:1},
+            dials:{T:0.9, I:0.25, D:0.11, W:0, K:0.2} },
+  saxxer: { label:"s/acc · steering", pol:{throttle:envThrottle(0.70), invest:0.85, defense:0, wisdom:1},
+            dials:{T:null, I:0.85, D:0, W:0.2, K:0.7} },
+  wacc:   { label:"w/acc · driver", pol:{throttle:rampThrottle(0.25,0.045,0.9), invest:0.3, defense:0, wisdom:1.6},
+            dials:{T:null, I:0.30, D:0, W:1.0, K:0.5} },
+  stopper:{ label:"stopper", pol:{throttle:0.08, invest:0.5, defense:0, wisdom:1},
+            dials:{T:0.08, I:0.5, D:0, W:0, K:0} },
+  free:   { label:"free dial", pol:null, dials:null },
+};
+const OUTCOLORS = { ARRIVED:"#6fcf86", CONVOY:"#48c9d6", SHOTGUN:"#e8b24a",
+                    HELD:"#65748f", CRASHED:"#e86a5a", PILEUP:"#8f2f4f" };
+
+/* ============ UI state + rendering ============ */
+let mode = "saxxer";
+let free = { T:0.8, I:0.5, D:0, W:0, K:0.3 };
+let kZeroForced = false;
+const $ = id => document.getElementById(id);
+
+function currentPolicy(){
+  if (mode !== "free"){
+    const p = PRESETS[mode];
+    return { pol: p.pol, dials: { ...p.dials, K: p.dials.K } };
+  }
+  return { pol: { throttle: free.T, invest: free.I, defense: free.D*0.3,
+                  wisdom: 1 + 0.6*free.W },
+           dials: { ...free } };
+}
+
+function setDials(d){
+  const lock = mode === "saxxer" || mode === "wacc";
+  $("dT").value = d.T === null ? 70 : Math.round(d.T*100);
+  $("vT").textContent = d.T === null ? "auto" : d.T.toFixed(2);
+  $("tNote").textContent = mode==="saxxer" ? "bounded by live grip (v ≤ 0.7·s/k)"
+    : mode==="wacc" ? "ramps as judgment grows" : "";
+  $("dT").disabled = lock;
+  [["I","dI","vI"],["D","dD","vD"],["W","dW","vW"],["K","dK","vK"]].forEach(([k,slider,val])=>{
+    $(slider).value = Math.round((d[k]||0)*100);
+    $(val).textContent = (d[k]||0).toFixed(2);
+    $(slider).disabled = false;
+  });
+}
+
+function renderModes(){
+  const el = $("modes"); el.innerHTML = "";
+  Object.entries(PRESETS).forEach(([k, p]) => {
+    const b = document.createElement("span");
+    b.className = "mode" + (mode === k ? " on" : "");
+    b.textContent = p.label;
+    b.onclick = () => { mode = k; if (k !== "free") setDials(PRESETS[k].dials);
+                        renderModes(); update(); };
+    el.appendChild(b);
+  });
+}
+
+function renderWorld(dist){
+  const bar = $("outbar"); bar.innerHTML = "";
+  OUTCOMES.forEach(o => {
+    const seg = document.createElement("div");
+    seg.style.width = (dist[o]*100) + "%";
+    seg.style.background = OUTCOLORS[o];
+    seg.title = `${o} ${(dist[o]*100).toFixed(1)}%`;
+    bar.appendChild(seg);
+  });
+  $("outlegend").innerHTML = OUTCOMES.map(o =>
+    `<span style="color:${OUTCOLORS[o]}">${o} ${(dist[o]*100).toFixed(0)}%</span>`).join(" ");
+  $("pGood").textContent = (dist.pGood*100).toFixed(0) + "%";
+  $("pBad").textContent = (dist.pBad*100).toFixed(0) + "%";
+  $("tEnd").textContent = dist.meanTEnd.toFixed(0);
+  const fcAll = OUTCOMES.reduce((a,o)=> a + dist[o]*(dist.fcFrac[o]||0), 0)
+                + dist.PILEUP;
+  $("fCrash").textContent = (Math.min(1,fcAll)*100).toFixed(0) + "%";
+}
+
+let ghostCache = null;
+function ghostKitchens(){
+  if (ghostCache) return ghostCache;
+  const fieldDist = monteCarlo(FIELD, 0, 400, 99);
+  ghostCache = {};
+  for (const k of ["eacc","dacc","saxxer","wacc","stopper"]){
+    const p = PRESETS[k];
+    const dist = monteCarlo(p.pol, p.dials.K, 400, 42);
+    const kEff = Math.min(1, p.dials.K * (1 + 0.6*p.dials.W));
+    const wDist = blendDist(dist, fieldDist, OWN_SHARE + (1-OWN_SHARE)*kEff);
+    ghostCache[k] = kitchen(wDist, p.dials);
+  }
+  ghostCache._field = fieldDist;
+  return ghostCache;
+}
+
+function renderKitchen(rows){
+  const ghosts = ghostKitchens();
+  const grid = $("tribes"); grid.innerHTML = "";
+  rows.forEach((r, ti) => {
+    const card = document.createElement("div"); card.className = "tribe";
+    const h = document.createElement("h5"); h.textContent = r.tribe; card.appendChild(h);
+    const cv = document.createElement("canvas"); cv.width = 260; cv.height = 84;
+    card.appendChild(cv);
+    const meta = document.createElement("div"); meta.className = "meta";
+    const sw = r.worst >= REGIME_H;
+    meta.innerHTML = `worst <b class="${sw?'warn':''}">${r.worst.toFixed(0)}h</b>` +
+      ` · best <b>${r.best.toFixed(0)}h</b>` + (sw ? " · <b class='warn'>regime switch</b>" : "");
+    card.appendChild(meta);
+    grid.appendChild(card);
+    const ctx = cv.getContext("2d");
+    const ymax = 80, x0 = 4, y0 = 4, wpx = 252, hpx = 76;
+    ctx.fillStyle = "#0c1322"; ctx.fillRect(0,0,260,84);
+    const yOf = v => y0 + hpx * (1 - Math.min(v, ymax)/ymax);
+    const xOf = d => x0 + wpx * d/(DECADES-1);
+    ctx.strokeStyle = "#e86a5a55"; ctx.setLineDash([3,3]); ctx.beginPath();
+    ctx.moveTo(x0, yOf(REGIME_H)); ctx.lineTo(x0+wpx, yOf(REGIME_H)); ctx.stroke();
+    ctx.setLineDash([]);
+    Object.entries(ghosts).forEach(([k, g]) => {
+      if (k === "_field" || k === mode) return;
+      ctx.strokeStyle = "#65748f66"; ctx.lineWidth = 1; ctx.beginPath();
+      g[ti].hours.forEach((v,d)=> d ? ctx.lineTo(xOf(d), yOf(v)) : ctx.moveTo(xOf(d), yOf(v)));
+      ctx.stroke();
+    });
+    ctx.strokeStyle = "#48c9d6"; ctx.lineWidth = 2.2; ctx.beginPath();
+    r.hours.forEach((v,d)=> d ? ctx.lineTo(xOf(d), yOf(v)) : ctx.moveTo(xOf(d), yOf(v)));
+    ctx.stroke();
+  });
+}
+
+function proofRows(forceKZero){
+  const fieldDist = ghostKitchens()._field;
+  const names = ["eacc","dacc","saxxer","wacc","stopper"];
+  const per = {};
+  names.forEach(k => {
+    const p = PRESETS[k];
+    const K = forceKZero ? 0 : p.dials.K;
+    const dist = monteCarlo(p.pol, K, 400, 42);
+    const kEff = Math.min(1, K * (1 + 0.6*p.dials.W));
+    const wDist = blendDist(dist, fieldDist, OWN_SHARE + (1-OWN_SHARE)*kEff);
+    per[k] = kitchen(wDist, { ...p.dials, K });
+  });
+  return TRIBES.map((tr, ti) => {
+    const worst = {}; names.forEach(k => worst[k] = per[k][ti].worst);
+    const ranked = [...names].sort((a,b) => worst[a]-worst[b]);
+    const clear = worst[ranked[1]] - worst[ranked[0]] > 0.5;
+    return { tribe: tr.name, worst, winner: clear ? ranked[0] : "tie" };
+  });
+}
+
+function renderProof(){
+  const rows = proofRows(kZeroForced);
+  const names = ["eacc","dacc","saxxer","wacc","stopper"];
+  const t = $("proofTable");
+  let html = "<tr><th>tribe</th>" + names.map(n =>
+    `<th>${PRESETS[n].label.split(" ")[0]}</th>`).join("") + "<th>winner</th></tr>";
+  const wins = {};
+  rows.forEach(r => {
+    wins[r.winner] = (wins[r.winner]||0)+1;
+    html += `<tr><td>${r.tribe}</td>` + names.map(n => {
+      const v = r.worst[n].toFixed(1);
+      return `<td class="${r.winner===n?'win':''}">${v}h</td>`; }).join("") +
+      `<td class="${r.winner==='tie'?'tiecell':'win'}">${r.winner==='tie'?'tie':PRESETS[r.winner].label.split(" ")[0]}</td></tr>`;
+  });
+  const summary = names.map(n => `${PRESETS[n].label.split(" ")[0]}: ${wins[n]||0}`)
+    .join(" · ") + ` · ties: ${wins["tie"]||0}`;
+  html += `<tr><td class="faint">clear wins ${kZeroForced ? "(K forced to 0)" : "(natural K)"}</td><td colspan="6" class="faint">${summary}</td></tr>`;
+  t.innerHTML = html;
+}
+
+function update(){
+  const { pol, dials } = currentPolicy();
+  setDials(mode === "free" ? free : PRESETS[mode].dials);
+  const dist = monteCarlo(pol, dials.K || 0, 400, 7);
+  renderWorld(dist);
+  const kEff = Math.min(1, (dials.K||0) * (1 + 0.6*(dials.W||0)));
+  const wDist = blendDist(dist, ghostKitchens()._field,
+                          OWN_SHARE + (1-OWN_SHARE)*kEff);
+  renderKitchen(kitchen(wDist, dials));
+  renderProof();
+}
+
+["dT","dI","dD","dW","dK"].forEach(id => {
+  $(id).addEventListener("input", () => {
+    if (mode !== "free"){
+      // touching a dial in a preset drops you into free-dial mode, seeded
+      // from the preset's dials
+      const d = PRESETS[mode].dials;
+      free = { T: d.T === null ? 0.7 : d.T, I: d.I, D: d.D, W: d.W, K: d.K };
+      mode = "free"; renderModes();
+    }
+    free.T = $("dT").value/100; free.I = $("dI").value/100;
+    free.D = $("dD").value/100; free.W = $("dW").value/100;
+    free.K = $("dK").value/100;
+    update();
+  });
+});
+$("kZero").addEventListener("click", () => {
+  kZeroForced = !kZeroForced;
+  $("kZero").textContent = kZeroForced ? "restore natural K" : "force K = 0";
+  renderProof();
+});
+
+renderModes();
+setDials(PRESETS[mode].dials);
+update();
+</script>
+
+</body>
+</html>

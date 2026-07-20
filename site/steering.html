@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Steering Envelope — s/acc as a testable hazard model</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .figure { background: linear-gradient(180deg, var(--panel) 0%, var(--bg-2) 100%);
+    border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin: 22px 0; }
+  .figure img { width: 100%; border-radius: 8px; display: block; }
+  .figure .cap { font-size: .82rem; color: var(--ink-faint); margin-top: 10px; }
+  .law { font-family: var(--mono); color: var(--cyan); font-size: 1.02rem;
+    background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; margin: 18px 0; overflow-x: auto; white-space: nowrap; }
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0; }
+  @media (max-width: 820px){ .flag-grid { grid-template-columns: 1fr; } }
+  .flag { border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px;
+    background: linear-gradient(180deg, var(--panel) 0%, var(--bg-2) 100%); }
+  .flag h4 { color: var(--gold); font-family: var(--serif); font-size: 1.05rem; }
+  .flag .axis { font-family: var(--mono); font-size: .7rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--cyan-dim); margin-bottom: 6px; }
+  .essay p { max-width: 76ch; }
+  .essay h2 { margin-top: .2em; }
+  .verdict-yes { color: var(--green); }
+  .verdict-no { color: var(--red); }
+  .verdict-mixed { color: var(--amber-warn); }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="math.html">The math</a>
+      <a href="tests.html">Tests &amp; data</a>
+      <a href="steering.html" class="active">Steering</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">New module · s/acc · steerism</div>
+    <h1>The Steering Envelope</h1>
+    <p class="thesis">Never drive a car faster than you can steer it. One axiom, turned into a hazard law, a Monte Carlo instrument, and a validation suite run on a century of public data.</p>
+    <div class="chips-row">
+      <div class="statchip"><div class="num">61%</div><div class="lbl">e/acc preset runs ending CRASHED or PILEUP</div></div>
+      <div class="statchip"><div class="num">0.688</div><div class="lbl">out-of-sample AUC of the v/s crisis model (v alone: 0.506)</div></div>
+      <div class="statchip"><div class="num">13×</div><div class="lbl">nuclear event rate, fast-build young-regulator decades</div></div>
+      <div class="statchip"><div class="num">9/9</div><div class="lbl">gridpoints where coordination beats private virtue</div></div>
+    </div>
+    <p style="margin-top:28px">
+      <a class="btn" href="steering_sim.html">Open the instrument ▸</a>&nbsp;&nbsp;
+      <a class="btn" href="https://github.com/wingie/psychohistory/tree/main/steering_envelope">Code + falsifiers ▸</a>
+    </p>
+  </div>
+</header>
+
+<section class="essay">
+  <div class="wrap">
+    <div class="eyebrow">The position</div>
+    <h2>I am not a decel</h2>
+    <p>In the valley right now, "decel" is a slur. Fine. I am not a decel.</p>
+    <p>I hold one axiom. Never drive a car faster than you can steer it.</p>
+    <p>That is the whole position. Everything else on this page is me trying to turn that sentence into an equation, the equation into a simulator, and the simulator into something a century of public data can embarrass.</p>
+
+    <h2>One law</h2>
+    <p>When a technology transition hits a critical threshold, call it a corner, the chance you lose control is logistic in the ratio of your speed to your grip:</p>
+    <div class="law">h&nbsp;=&nbsp;σ( β · ( v·k / (s·c₀) − 1 ) )</div>
+    <p>Speed v is deployment velocity. Grip s is steering capacity, and I mean concrete things by that: interpretability, evals, verification regimes, incident channels, compute you actually own, institutions that can absorb a shock without shattering. Corner tightness k says how unforgiving this particular transition is. When v times k is smaller than s, you are inside the envelope and the hazard is small. When it is bigger, the hazard saturates toward one. The edge of the envelope is exactly ratio one.</p>
+    <p>Is that too simple? Of course it is too simple. So is F equals ma. The question is never whether a law is simple. The question is whether the data holds it or laughs at it. We will get to the data.</p>
+
+    <h2>Four flags, one dashboard</h2>
+    <p>What do you accelerate first? That single question sorts the whole discourse into a two-by-two.</p>
+    <div class="flag-grid">
+      <div class="flag"><div class="axis">Engine</div><h4>e/acc</h4>
+        <p class="dim">Permissionless innovation has an astonishing welfare record: electrification, aviation, the internet. I concede all of it. But thermodynamic teleology has no term for a corner. It optimizes expected speed when the thing that matters is speed conditioned on survival. An engine has no opinion about walls.</p></div>
+      <div class="flag"><div class="axis">Armor</div><h4>d/acc</h4>
+        <p class="dim">Vitalik Buterin's flag, and the nearest relative of mine. Build defense-dominant technology. It composes with steerism. But d/acc has no speed governor: it asks which car to build, never how fast any car may be driven. And offense versus defense is often unknowable before the fact.</p></div>
+      <div class="flag"><div class="axis">Steering</div><h4>s/acc · steerism</h4>
+        <p class="dim">Throttle bounded by grip, re-measured at every corner. Maximum sustainable speed, which is not maximum speed, and is very much not zero. The stopper hands the wheel to the least careful driver: in the model, the stopper preset watches someone else's transition 86 percent of the time.</p></div>
+      <div class="flag"><div class="axis">Driver</div><h4>w/acc</h4>
+        <p class="dim">An unclaimed letter, so I claim a reading: wisdom acceleration. Grow the judgment and the institutions that steering capacity is made of. In the model it multiplies the effectiveness of everything else. Its honest weakness is that alone it is slow.</p></div>
+    </div>
+
+    <h2>The model</h2>
+    <p>Two policies drive a course of five corners. Speed compounds. Steering accumulates from investment and from distance driven. Each corner draws a control-loss event from the law above. Six outcomes: ARRIVED, CONVOY, SHOTGUN, HELD, CRASHED, PILEUP.</p>
+    <p>Floor the throttle with token safety spend, the e/acc preset, and 61 percent of Monte Carlo runs end in CRASHED or PILEUP. Drive the envelope rule, throttle equals grip times a margin, invest hard in grip, and the plurality outcome is CONVOY: you arrive, together, a little later than the reckless timeline and alive. The stopper watches someone else arrive.</p>
+    <p>Then the single rival becomes sixteen actors drawing throttle from a distribution, because the real question was never my throttle. It was the field's. A coordination dial couples every actor toward the envelope norm, and crashes cascade to coupled neighbours. The theorem the model was built to check: for an actor who has already done basic diligence, a marginal unit of field-wide coordination buys more personal survival than the same unit spent on private virtue. It passes at every gridpoint on its stated domain, nine out of nine. It has an honest boundary I refuse to hide: below basic diligence the inequality fails. Buy your own brakes first. Then buy the treaty.</p>
+    <p>There is a third layer, because nobody eats an outcome distribution. The Sustenance Ledger converts every race outcome into the only metric that survives contact with a kitchen: hours of work per week to afford food, shelter and energy, tracked for eight tribes from a salaried professional in Amsterdam to a street vendor in Lagos to a commune that mostly opted out of markets. Shelter is land and refuses to deflate. Past sixty hours a week the market has failed you and dinner migrates to non-market exchange.</p>
+    <p>The proof table in the <a href="steering_sim.html">instrument</a> asks, for each tribe, which worldview minimizes their worst decade. With the coordination dial live, s/acc wins every row it does not tie. Force coordination to zero and every single row becomes a tie. Read that carefully, because it is the most important honest result in the toy: private virtue keeps your own lane clean, and does almost nothing for anyone's kitchen. The s/acc claim was never "be careful and you will be fine." It is "the throttle rule only pays at field scale," which is an argument for treaties, standards bodies and verification regimes, not for personal purity.</p>
+
+    <h2>The roads already ran this experiment</h2>
+    <p>The claim h = f(v/s) is not about AI. It is about any transition. So it should already be visible in the transitions we finished. Five domains, all public data, fetch scripts committed, fit windows and falsifiers frozen in the <a href="https://github.com/wingie/psychohistory/tree/main/steering_envelope#pre-registered-analysis-frozen-before-the-published-run">README</a> before the published run.</p>
+
+    <p><b>Roads</b> first, because the metaphor is not a metaphor there. America put a hundred times more miles under its wheels in 2019 than in 1921, and deaths per mile fell about twenty-fold. In levels the steering index explains 93 percent of the variance, so much that speed barely gets a word in, and I flag that honestly: level fits on trending series are permissive. The strict test is first differences, and there both terms carry signal. Speed changes matter, p equals 0.016. Steering changes matter, p equals 0.045. The ratio is not decoration on the road that named the theory.</p>
+    <div class="figure"><img src="assets/steering/roads.png" alt="US road fatality rate 1926-2023 and the envelope ratio" />
+      <div class="cap">US roads, 1926-2023: fatalities per 100M VMT (top, deterioration years marked) and the standardized envelope ratio z(log v/s) (bottom). FHWA/NHTSA series via Wikipedia (CC BY-SA); steering stack coded from NHTSA/IIHS/FHWA institutional history.</div></div>
+
+    <p><b>Aviation</b>, and here is a concession bigger than most manifestos ever make: aviation votes against me and for the stoppers. The oversight stack, ICAO to CRM to TCAS, tracks the collapse in fatal accidents per million flights so completely that once you control for it, departure growth adds almost nothing, and in first differences at annual frequency my steering term goes silent too, p equals 0.59. Aviation reads as "s dominates, v is noise." I keep it on the scoreboard because a theory that only cites friendly domains is marketing.</p>
+    <div class="figure"><img src="assets/steering/aviation.png" alt="Fatal accidents per million flights vs the oversight stack" />
+      <div class="cap">World commercial aviation, 1976-2019: fatal accidents per million flights (log scale) against the cumulative oversight stack. OWID/ASN (CC BY) and World Bank departures (CC BY).</div></div>
+
+    <p><b>Finance</b> is the flagship, because finance gives what roads cannot: eighteen countries, 145 years, 75 dated systemic crises in the Jorda-Schularick-Taylor database. Credit growth is speed. An era-coded regulation index is grip, and yes, that coding is coarse, the honesty notes say exactly how coarse. First the known result reproduces: credit booms predict crises. Then the addition: the steering term improves the fit at p around four in a billion, and the single best out-of-sample predictor, leave one decade out entirely, is the ratio model. AUC 0.688 against 0.506 for credit growth alone. The quiet period is the picture worth staring at: 1945 to 1972, capital controls and financial repression everywhere, credit growing fast, and nearly zero systemic crises anywhere in the panel. High v, higher s, quiet world.</p>
+    <div class="figure"><img src="assets/steering/finance.png" alt="JST crises vs credit growth and regulation index" />
+      <div class="cap">JST Macrohistory panel, 18 countries, 1875-2020: systemic crisis counts (top) against mean real credit growth and the era-coded regulation index (bottom). The 1945-72 quiet period is the high-s, low-crisis block.</div></div>
+
+    <p><b>Nuclear</b> I refuse to fit. Seven decades, ten INES-4-class events; a logistic regression on that would be numerology. As a case study it is consistent: the decades with fast build-out and young regulators carry a thirteen-fold higher event rate per reactor-year than the decades with slow build-out and old regulators, and the rank correlation between v/s and the event rate is 0.82. Consistent, I said. Not proof.</p>
+    <div class="figure"><img src="assets/steering/nuclear.png" alt="Nuclear event rates by decade vs expansion over regulator maturity" />
+      <div class="cap">Civil nuclear power by decade: INES≥4-class events per 1000 reactor-years with 90% intervals (top) and expansion velocity over regulator maturity (bottom). IAEA PRIS aggregates, order-of-magnitude.</div></div>
+
+    <p><b>And AI.</b> There is no outcome data for AI corners, and I will not pretend otherwise. What I can compute is the same ratio, frontier training compute growth from Epoch's public dataset over a steering proxy built from policy counts and eval institutions, and place it on the same relative scale as the finished domains. Two honest readings come out. First, AI's ratio in 2014 to 2016 spiked above the band where every historical domain's corners bit. Second, and this one surprised me, on these crude proxies the ratio has fallen since 2019, because policy counts and eval orgs grew faster than frontier compute. Before anyone relaxes: a policy count is not policy effectiveness, an eval org is not an eval regime with teeth, and nothing in that chart measures whether the steering actually connects to the wheels. The chart says the world is trying. It does not say the world is steering.</p>
+    <div class="figure"><img src="assets/steering/ai_ratio.png" alt="Envelope ratio across domains with corners marked; AI highlighted" />
+      <div class="cap">The money chart: each domain's within-history z(log v/s), corners marked ×; the shaded band is the range of ratios at historical corners. AI (thick line) from Epoch compute data over an order-of-magnitude policy/evals proxy.</div></div>
+
+    <div class="card">
+      <table>
+        <tr><th>domain</th><th>sharpest test</th><th>does s add power over v?</th><th>does v add power over s?</th><th>reading</th></tr>
+        <tr><td>roads (US)</td><td>first differences</td><td class="verdict-yes">yes, p=0.045</td><td class="verdict-yes">yes, p=0.016</td><td>envelope</td></tr>
+        <tr><td>aviation (world)</td><td>first differences</td><td class="verdict-no">no, p=0.59</td><td class="verdict-mixed">marginal</td><td>stopper reading</td></tr>
+        <tr><td>finance (JST panel)</td><td>panel logit, decade holdout</td><td class="verdict-yes">yes, p≈4e-9</td><td class="verdict-yes">yes, p=0.008</td><td>envelope; ratio best out-of-sample</td></tr>
+        <tr><td>nuclear</td><td>case study only</td><td class="dim" colspan="2">no fit by pre-registration</td><td>consistent</td></tr>
+        <tr><td>AI</td><td>leading indicators</td><td class="dim" colspan="2">no outcome data exists</td><td>watch the ratio</td></tr>
+      </table>
+    </div>
+
+    <h2>The psychohistory reading</h2>
+    <p>This module lives in a psychohistory repository, so it owes the framework a reading of itself, and the framework has one to give.</p>
+    <p>The race is a mean-field game, the same L5 machinery this project uses for bank runs and forward guidance. Each lab best-responds to its expectation of the field's throttle, and the field's throttle is the aggregate of those best responses. That is a reflexive fixed-point problem, and it has two self-consistent equilibria: everyone races because everyone expects a race, or the field holds an envelope norm because deviating from a held norm is visibly punished. The coordination dial is not a policy fantasy. It is the order parameter selecting between fixed points, and the theorem check is a statement about which basin pays.</p>
+    <p>The flags themselves are attention objects. In the framework's terms, the x/acc template is an existing attractor in identity space, which is why a new position is cheaper to propagate as s/acc than as a paragraph. Identity nouns add a reinforcing loop, since exiting an identity costs more than changing vocabulary. This is the transport-and-drift layer applied to the discourse itself, and it is also a warning label: the same mechanics that spread a careful flag spread a careless one. The framework files that under its <a href="../ETHICS.md">dual-use notice</a>, and so do I.</p>
+    <p>And the boundary the framework always draws applies here too. The validation shows the envelope ratio organizes the past. The mean-field layer shows why private virtue cannot organize the future alone. Neither licenses a forecast of when any specific corner arrives. The skill horizon on that question is short, and the honest output is the ratio, watched continuously, not a date.</p>
+
+    <h2>What would change my mind</h2>
+    <p>Falsifiers were frozen in the README before the run. If the steering term had added nothing over speed in most of the fittable domains, the envelope would be decoration and s/acc would lose its empirical leg. That did not happen; it survived in two of three, with aviation logged against. If steering alone had dominated everywhere and speed never mattered, the stoppers would be right and I would say so. That did not happen either; speed carries signal in roads and finance. Going forward: show me a domain where disasters track v/s worse than v alone out-of-sample, or show me the AI steering proxies rising while actual verification capacity rots, and I will update in public, in this repository, in the same tables.</p>
+
+    <h2>The call</h2>
+    <p>If you build: publish your envelope. State your corner list, your grip metrics, and the throttle rule that connects them. "We slow when X" is a falsifiable safety culture. Vibes are not.</p>
+    <p>If you regulate: fund grip, not just brakes. Evals, incident channels, verification regimes, owned compute, absorption floors. The quiet period did not park the economy. It grew fast with its hands on the wheel.</p>
+    <p>If you write and argue: stop scoring the debate as gas versus brakes. The axis that predicts the record is grip versus speed. Ask every accelerant where the steering is, and ask every stopper whose hands they are leaving on the wheel.</p>
+    <p>The engine is real. The corners are real. The data from the last century says the ratio is what decides. Drive fast. Never faster than you can steer.</p>
+    <p class="faint" style="margin-top:34px">Wingston Sharon, 2026 · markdown source: <a href="https://github.com/wingie/psychohistory/blob/main/steering_envelope/page.md">steering_envelope/page.md</a> · dataset licenses in <a href="https://github.com/wingie/psychohistory/blob/main/steering_envelope/validate/curated/README.md">curated/README.md</a> · try the <a href="steering_sim.html">instrument</a></p>
+  </div>
+</section>
+
+</body>
+</html>
