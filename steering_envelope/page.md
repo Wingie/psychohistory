@@ -1,8 +1,8 @@
-# Axiom One: The Steering Envelope
+# The Steering Envelope: one axiom, one theorem
 
-*The first intervention axiom of the psychohistory program. Postulated 2026.
-The instrument is [here](../site/steering_sim.html); the code, data and
-wager terms live in
+*The psychohistory program's first module about intervention. Postulated
+2026. The instrument is [here](../site/steering_sim.html); the code, data
+and wager terms live in
 [`steering_envelope/`](https://github.com/wingie/psychohistory/tree/main/steering_envelope).*
 
 ---
@@ -14,23 +14,52 @@ side of that idea: conservation of attention, community blocks,
 criticality, the collapse of effective independence before a cascade. All
 of it watches.
 
-This module is the first axiom about acting. Here it is.
+This module is the first one about acting, and it adds exactly one new
+axiom to the program. The axiom is not about society at all. It is about
+control, and it was written down by Ross Ashby in 1956.
 
-**A society survives a technology in proportion to the control it can
-exert over that technology's speed. Uncontrolled acceleration crashes.
-Forced deceleration also crashes, later and harder. What survives is
-constant controlled speed: brake into the corners, accelerate out of
-them, never exceed the grip.**
+**The Control Axiom (requisite variety).** A regulator holds a process
+inside bounds only while its capacity to respond matches the pace of
+novelty the process generates. Only variety can absorb variety. That is
+the whole new primitive. Our hazard law is just its smooth form: novelty
+injected by a technology, v times k, against the regulatory variety a
+society commands, s.
 
-I am stating that with conviction, not with a shrug. Most theories worth
-having were postulated long before they were proved, and the way you earn
-the proof is by writing the claim down plainly, building the instrument,
-and letting every new episode of history score it. That is what this
-module does. Time will tell. We wrote it down first.
+Everything else this module needs, the program already holds. From the
+criticality layer, **accumulation**: stress that is neither absorbed nor
+released does not vanish, it stores, grain by grain, the way a sandpile
+stores its avalanche. From the mean-field layer, **plurality**: no actor's
+throttle sets the world's speed; the field's speed is a reflexive
+equilibrium of everyone's expectations about everyone else.
+
+From those three, one axiom and two standing premises, the claim this
+module exists to test follows as a theorem.
+
+**The Survival Theorem.** A society survives a technology in proportion
+to the control it can exert over that technology's speed. Uncontrolled
+acceleration crashes. Forced deceleration also crashes, later and harder.
+What survives is constant controlled speed: brake into the corners,
+accelerate out of them, never exceed the grip.
+
+The proof is three sentences. Exceed the grip and you crash now; that is
+the Control Axiom read directly. Park, and three things happen at once:
+the field keeps moving, so the transition arrives on someone else's
+terms; your grip stagnates, because steering is partly learning-by-doing
+and you cannot learn a corner you refuse to drive; and the suppressed
+corrections store. So when the corner finally reaches you it is tighter,
+you are weaker, and the stored stress is larger: you crash later and
+harder, or you ride shotgun. Therefore the surviving policy is the
+racing line, speed bounded by grip, and nothing else is stable.
+
+I am stating all of this with conviction, not with a shrug. Most theories
+worth having were postulated long before they were proved, and the way
+you earn the proof is by writing the claim down plainly, building the
+instrument, and letting every new episode of history score it. That is
+what this module does. Time will tell. We wrote it down first.
 
 ## Start with fire
 
-Strip away everything modern and the axiom is already there at the first
+Strip away everything modern and the theorem is already there at the first
 campfire.
 
 A tribe discovers fire. What are its choices? It can keep the secret,
@@ -54,7 +83,7 @@ So when I write v, speed, I do not just mean how fast the frontier moves.
 I mean how capability moves through the network of tribes: hoarded,
 sold, or shared. And when I write s, steering, I mean the accumulated
 stock of hearth rules: verification, licensure, inspectorates, incident
-channels, institutions that can absorb a shock. The axiom says survival
+channels, institutions that can absorb a shock. The theorem says survival
 is decided by the ratio of the two.
 
 ## The six states
@@ -92,7 +121,7 @@ the manual, and a state that lost not just a reactor but a large part of
 its remaining legitimacy.
 
 **PILEUP.** The coupled crash. Everyone goes down together because
-everyone was leaning on everyone. This is the one the axiom cares most
+everyone was leaning on everyone. This is the one the theorem cares most
 about, and its archetype is old. The Late Bronze Age was a dozen palace
 economies locked in one trade network, tin from one direction, copper
 from another, grain moving between kings who wrote each other letters.
@@ -104,7 +133,7 @@ driver but the failure of a formation. We rebuilt the same shape in 2008
 with balance sheets instead of bronze.
 
 Which of the six states you get is not destiny and it is not luck. That
-is the axiom's whole content: the state is selected by the ratio of
+is the theorem's whole content: the state is selected by the ratio of
 speed to steering at the corners.
 
 ## One law
@@ -189,7 +218,8 @@ of the future, moving the crash later and amplifying it. The Minsky
 reading and the forest-fire reading are the same reading: small fires
 clear the underbrush.
 
-The axiom is symmetric and I mean it symmetrically. Uncontrolled
+The theorem is symmetric and I mean it symmetrically, because the proof
+is: suppression fails through the same three premises. Uncontrolled
 acceleration crashes now. Enforced deceleration and suppression crash
 later, bigger. The surviving policy is the racing line: constant
 sustainable speed, deceleration into the corners, acceleration out of
@@ -221,18 +251,18 @@ running control group, coordination pinned to zero. GameStop, January
 into bankruptcy, a crowd counter-steering, and the whole thing legible
 in advance to anyone reading the ratio, which one retail analyst
 famously did. The world is steered, constantly, by people who believe
-they can shape which future arrives. The only question the axiom asks
+they can shape which future arrives. The only question the theorem asks
 is whether the steering is matched to the speed.
 
 One more entry belongs on this list as a standing invitation: speed
 limits themselves. There exist motorways with and without them, in
 otherwise similar countries, with published crash data. That is a
-natural experiment aimed directly at the axiom, and it is queued as the
+natural experiment aimed directly at the theorem, and it is queued as the
 next domain study.
 
 ## The record so far
 
-Rehypothesis is cheap; fits are not. So we ran the axiom against five
+Rehypothesis is cheap; fits are not. So we ran the theorem against five
 domains of public data, windows and losing conditions frozen in the
 README before the run. The full tables are in the repository. The short
 version:
@@ -240,10 +270,31 @@ version:
 On the roads, the literal case, America multiplied its driven miles a
 hundredfold while deaths per mile fell twenty-fold, and in the strict
 first-difference test both speed and steering carry independent signal.
-In aviation, honesty compels the concession: the oversight stack
-explains the safety collapse so completely that speed adds nothing
-measurable; aviation reads as a domain the stoppers can cite, and we
-log it against ourselves. In finance, the flagship, 18 countries and
+Aviation does something subtler than agree. It is the domain with the
+most control in it, every airframe certified before it flies, every
+procedure written in someone's blood, and it bought the safest
+transition on record with that stack: maximum regulation, fewest
+accidents. The statistical wrinkle is that the oversight stack explains
+the collapse so completely that speed adds nothing measurable once you
+control for it, and the frozen scoreboard logs that as a miss, because
+a wager that explains away its own misses is not a wager. But read what
+aviation actually is: the one domain that adopted the envelope rule
+outright. Certification is a throttle bounded by grip; nothing new
+flies until the regulator's capacity to verify it has caught up.
+Friedman had a name for this pattern. In a house with a good
+thermostat the fuel tracks the weather and the room temperature
+correlates with nothing, precisely because the controller absorbs the
+disturbance. A domain that obeys "never faster than your grip" will, by
+construction, show disasters tracking only residual steering variation.
+Aviation does not dissent from the theorem; it complies so thoroughly
+that the speed signal was steered out of the data. And that reading
+earns its keep by predicting something checkable: domains with an
+institutional speed governor should show no speed signal, domains
+without one should. Aviation, governed throttle: no v-signal. Roads and
+credit, ungoverned throttle: v-signal in both. Three for three, and the
+prediction stands for every domain we add next.
+
+In finance, the flagship, 18 countries and
 145 years of the Jorda-Schularick-Taylor panel: the famous credit-boom
 result reproduces, the steering term improves it at odds of billions to
 one, and the single best out-of-sample predictor of systemic crisis,
@@ -257,8 +308,10 @@ corner band around 2015, and on crude public proxies has come down
 since as policy and evals grew, with the loud caveat that a policy
 count is not grip any more than a printed rulebook is a driver.
 
-Three of four finished domains hold the axiom. One dissents. The
-flagship holds it out-of-sample, which is the test that matters. That
+Three of four finished domains hold the theorem outright. The fourth,
+aviation, is the thermostat case: a technical miss under the frozen
+rules, and underneath the miss, the deepest compliance in the record.
+The flagship holds out-of-sample, which is the test that matters. That
 is what a young law is supposed to look like when it is right: scarred,
 not spotless.
 
@@ -286,9 +339,11 @@ are how civilizations have always moved it.
 
 ## The wager
 
-An axiom stated with conviction still names the terms on which it loses.
+A theorem stated with conviction still names the terms on which its
+premises lose.
 Ours are frozen in the repository: if the steering term had added
-nothing beyond speed across the fittable record, the axiom would be
+nothing beyond speed across the fittable record, the Control Axiom would
+be empirically idle here and the theorem would be
 decoration, and we said so before running. It survived. Going forward
 the catalog only grows: every new transition, every natural experiment,
 every autobahn table and strait blockade and model release is another
@@ -315,7 +370,8 @@ the wheel.
 The engine is real. The corners are real. A century of data says the
 ratio decides. Drive fast. Never faster than you can steer.
 
-*Wingston Sharon, 2026. Axiom One of the psychohistory program. Code,
+*Wingston Sharon, 2026. The psychohistory program's control axiom and
+survival theorem. Code,
 frozen wager terms and all datasets:
 [`steering_envelope/`](https://github.com/wingie/psychohistory/tree/main/steering_envelope).
 This page inherits the repository's [dual-use notice](../ETHICS.md).*
