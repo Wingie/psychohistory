@@ -1,0 +1,337 @@
+{
+  "domains": {
+    "roads": {
+      "name": "roads (US)",
+      "n": 97,
+      "outcome": "continuous",
+      "beta": {
+        "full_v": -0.055449346757617146,
+        "full_s": -0.8738608031448694,
+        "ratio": 0.4092057281936263
+      },
+      "r2": {
+        "full": 0.9314000811546586,
+        "v": 0.25712551194197075,
+        "s": 0.9286852355914597,
+        "ratio": 0.688637605564296
+      },
+      "aic": {
+        "full": -3.7745627953147824,
+        "v": 225.30230522937705,
+        "s": -2.0097960096444183,
+        "ratio": 140.95405254196444
+      },
+      "bic": {
+        "full": 6.524281118698749,
+        "v": 233.0264381648872,
+        "s": 5.71433692586573,
+        "ratio": 148.67818547747459
+      },
+      "lr_p_s_given_v": 3.471346460183398e-52,
+      "lr_p_v_given_s": 0.052343157015402805,
+      "lr_p_ratio_ok": 8.996169449730954e-34,
+      "diff": {
+        "beta_full_v": -0.030469140810774342,
+        "beta_full_s": -0.22660075965696005,
+        "r2_full": 0.08664646988786906,
+        "lr_p_s_given_v": 0.04511229222582563,
+        "lr_p_v_given_s": 0.016248241725542747
+      },
+      "loro_r": {
+        "full": 0.940817792778848,
+        "v": 0.23795136323925623,
+        "s": 0.9473300557642405,
+        "ratio": 0.7557477238126382
+      },
+      "secondary_binary": {
+        "name": "roads (US, deterioration years)",
+        "n": 97,
+        "events": 22,
+        "beta": {
+          "full_v": -0.3731171509797867,
+          "full_s": -0.3257953700259762,
+          "ratio": -0.01777074780901165
+        },
+        "auc": {
+          "full": 0.6424242424242425,
+          "v": 0.5430303030303031,
+          "s": 0.5230303030303031,
+          "ratio": 0.49575757575757573
+        },
+        "aic": {
+          "full": 107.85829189733941,
+          "v": 107.20651748512614,
+          "s": 107.55191942675413,
+          "ratio": 107.84839021652579
+        },
+        "bic": {
+          "full": 115.58242483284957,
+          "v": 112.35593944213291,
+          "s": 112.70134138376089,
+          "ratio": 112.99781217353255
+        },
+        "lr_p_s_given_v": 0.24558856160794912,
+        "lr_p_v_given_s": 0.19312347042830588,
+        "lr_p_ratio_ok": 0.15833059959885962,
+        "loro_auc": {
+          "full": 0.4381818181818182,
+          "v": 0.4224242424242424,
+          "s": 0.36303030303030304,
+          "ratio": 0.2903030303030303
+        }
+      },
+      "jitter_p_s_given_v_frac_below_0.1": 1.0,
+      "panel_years": [
+        1926,
+        2023
+      ]
+    },
+    "aviation": {
+      "name": "aviation (world)",
+      "n": 44,
+      "outcome": "continuous",
+      "beta": {
+        "full_v": 0.1522713054118796,
+        "full_s": -0.7877006756193266,
+        "ratio": 0.46998599051560325
+      },
+      "r2": {
+        "full": 0.8454350819407414,
+        "v": 0.026636842667073113,
+        "s": 0.8148372534459704,
+        "ratio": 0.4281963849667244
+      },
+      "aic": {
+        "full": 31.33583161843226,
+        "v": 110.30212614934354,
+        "s": 37.28315384798704,
+        "ratio": 86.89581376260132
+      },
+      "bic": {
+        "full": 38.472590154105305,
+        "v": 115.65469505109832,
+        "s": 42.63572274974182,
+        "ratio": 92.2483826643561
+      },
+      "lr_p_s_given_v": 2.2960053815610436e-19,
+      "lr_p_v_given_s": 0.004815858090757599,
+      "lr_p_ratio_ok": 3.27827956106432e-14,
+      "diff": {
+        "beta_full_v": 0.07689185595979253,
+        "beta_full_s": -0.28685010830088786,
+        "r2_full": 0.0554461066082953,
+        "lr_p_s_given_v": 0.5869475872903125,
+        "lr_p_v_given_s": 0.12179825324061032
+      },
+      "loro_r": {
+        "full": 0.7651465658064188,
+        "v": -0.7322823180408479,
+        "s": 0.777516337265253,
+        "ratio": 0.32476687347924826
+      },
+      "secondary_binary": {
+        "name": "aviation (deterioration years)",
+        "n": 44,
+        "events": 17,
+        "beta": {
+          "full_v": 0.3842822905428949,
+          "full_s": 0.281416850082527,
+          "ratio": 0.054185636281304406
+        },
+        "auc": {
+          "full": 0.6470588235294118,
+          "v": 0.6296296296296297,
+          "s": 0.6045751633986928,
+          "ratio": 0.5359477124183006
+        },
+        "aic": {
+          "full": 62.01864051764091,
+          "v": 60.65991170914519,
+          "s": 61.24933561598246,
+          "ratio": 62.66605868338782
+        },
+        "bic": {
+          "full": 67.3712094193957,
+          "v": 64.22829097698171,
+          "s": 64.81771488381898,
+          "ratio": 66.23443795122434
+        },
+        "lr_p_s_given_v": 0.4232508548736822,
+        "lr_p_v_given_s": 0.26727190058110184,
+        "lr_p_ratio_ok": 0.10371822616336607,
+        "loro_auc": {
+          "full": 0.5098039215686274,
+          "v": 0.5664488017429193,
+          "s": 0.49673202614379086,
+          "ratio": 0.35947712418300654
+        }
+      },
+      "jitter_p_s_given_v_frac_below_0.1": 1.0,
+      "panel_years": [
+        1976,
+        2019
+      ]
+    },
+    "finance": {
+      "name": "finance (JST 18 countries)",
+      "n": 2198,
+      "events": 75,
+      "beta": {
+        "full_v": 0.25853624345336984,
+        "full_s": -0.8215916709246733,
+        "ratio": 0.41185239175483973
+      },
+      "auc": {
+        "full": 0.7164578426754593,
+        "v": 0.6250525985241011,
+        "s": 0.672538860103627,
+        "ratio": 0.7226000942063118
+      },
+      "aic": {
+        "full": 618.5340857086809,
+        "v": 651.2443888851917,
+        "s": 623.6016565621559,
+        "ratio": 626.9682088258065
+      },
+      "bic": {
+        "full": 635.6199951135716,
+        "v": 662.6349951551189,
+        "s": 634.992262832083,
+        "ratio": 638.3588150957337
+      },
+      "lr_p_s_given_v": 3.826013016788162e-09,
+      "lr_p_v_given_s": 0.007849160225144503,
+      "lr_p_ratio_ok": 0.0012370826700856606,
+      "loro_auc": {
+        "full": 0.6707615010205684,
+        "v": 0.5060951483749411,
+        "s": 0.6349976448422044,
+        "ratio": 0.6881959491285916
+      },
+      "panel_years": [
+        1875,
+        2020
+      ],
+      "countries": 18,
+      "schularick_taylor_check": {
+        "beta_v": 0.2539388826781719,
+        "auc_v": 0.6250525985241011,
+        "reproduced": true
+      }
+    },
+    "nuclear": {
+      "name": "nuclear (world, decades)",
+      "n_decades": 7,
+      "events": 10,
+      "spearman_ratio_vs_rate": {
+        "rho": 0.8214285714285715,
+        "p": 0.0234488083456915
+      },
+      "rate_per_kry_high_ratio": 1.1666666666666667,
+      "rate_per_kry_low_ratio": 0.08928571428571429,
+      "rate_ratio_high_over_low": 13.066666666666668,
+      "caveat": "case study only: 7 decades, 9 events; consistent with the envelope story (early fast-build/weak-regulator decades carry the event burden) but cannot discriminate hypotheses on its own",
+      "decades": [
+        {
+          "decade": 1955,
+          "rate_per_kry": 10.0,
+          "v": 0.185,
+          "s_regulator": 0.2,
+          "ratio": 0.926
+        },
+        {
+          "decade": 1965,
+          "rate_per_kry": 1.333,
+          "v": 0.444,
+          "s_regulator": 0.35,
+          "ratio": 1.27
+        },
+        {
+          "decade": 1975,
+          "rate_per_kry": 0.476,
+          "v": 0.45,
+          "s_regulator": 0.55,
+          "ratio": 0.818
+        },
+        {
+          "decade": 1985,
+          "rate_per_kry": 0.133,
+          "v": 0.178,
+          "s_regulator": 0.7,
+          "ratio": 0.254
+        },
+        {
+          "decade": 1995,
+          "rate_per_kry": 0.115,
+          "v": 0.051,
+          "s_regulator": 0.85,
+          "ratio": 0.06
+        },
+        {
+          "decade": 2005,
+          "rate_per_kry": 0.114,
+          "v": 0.057,
+          "s_regulator": 0.9,
+          "ratio": 0.063
+        },
+        {
+          "decade": 2015,
+          "rate_per_kry": 0.0,
+          "v": 0.078,
+          "s_regulator": 0.95,
+          "ratio": 0.082
+        }
+      ]
+    },
+    "ai": {
+      "name": "ai (leading indicators only)",
+      "ai_current_year": 2025,
+      "ai_current_z": -0.8983752078514572,
+      "historical_corner_z": {
+        "mean": 0.7904789379716711,
+        "min": -1.0839886009798674,
+        "max": 1.735722736511915,
+        "values": [
+          1.736,
+          1.719,
+          0.94,
+          0.704,
+          -1.084,
+          1.537,
+          1.469,
+          0.674,
+          0.633,
+          1.146,
+          1.091,
+          1.152,
+          0.699,
+          0.742,
+          0.855,
+          0.808,
+          -0.016,
+          -0.577
+        ]
+      },
+      "verdict": "AI's envelope ratio sits below its own historical mean; historical corners bit at a mean of +0.79z within their domains. Within-domain z only; no cross-domain unit equivalence claimed, and no outcome data exists for AI yet."
+    }
+  },
+  "scoreboard": {
+    "p_s_given_v": {
+      "roads (differenced)": 0.04511229222582563,
+      "aviation (differenced)": 0.5869475872903125,
+      "finance (panel logit)": 3.826013016788162e-09
+    },
+    "s_adds_power": {
+      "roads (differenced)": true,
+      "aviation (differenced)": false,
+      "finance (panel logit)": true
+    },
+    "v_adds_power": {
+      "roads (differenced)": true,
+      "aviation (differenced)": false,
+      "finance (panel logit)": true
+    },
+    "n_domains_s_adds": 2,
+    "verdict": "s adds predictive power in 2/3 fittable domains and v adds power in 2/3: both terms of the ratio carry signal \u2014 the envelope form survives"
+  }
+}

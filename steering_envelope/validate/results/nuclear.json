@@ -1,0 +1,64 @@
+{
+  "name": "nuclear (world, decades)",
+  "n_decades": 7,
+  "events": 10,
+  "spearman_ratio_vs_rate": {
+    "rho": 0.8214285714285715,
+    "p": 0.0234488083456915
+  },
+  "rate_per_kry_high_ratio": 1.1666666666666667,
+  "rate_per_kry_low_ratio": 0.08928571428571429,
+  "rate_ratio_high_over_low": 13.066666666666668,
+  "caveat": "case study only: 7 decades, 9 events; consistent with the envelope story (early fast-build/weak-regulator decades carry the event burden) but cannot discriminate hypotheses on its own",
+  "decades": [
+    {
+      "decade": 1955,
+      "rate_per_kry": 10.0,
+      "v": 0.185,
+      "s_regulator": 0.2,
+      "ratio": 0.926
+    },
+    {
+      "decade": 1965,
+      "rate_per_kry": 1.333,
+      "v": 0.444,
+      "s_regulator": 0.35,
+      "ratio": 1.27
+    },
+    {
+      "decade": 1975,
+      "rate_per_kry": 0.476,
+      "v": 0.45,
+      "s_regulator": 0.55,
+      "ratio": 0.818
+    },
+    {
+      "decade": 1985,
+      "rate_per_kry": 0.133,
+      "v": 0.178,
+      "s_regulator": 0.7,
+      "ratio": 0.254
+    },
+    {
+      "decade": 1995,
+      "rate_per_kry": 0.115,
+      "v": 0.051,
+      "s_regulator": 0.85,
+      "ratio": 0.06
+    },
+    {
+      "decade": 2005,
+      "rate_per_kry": 0.114,
+      "v": 0.057,
+      "s_regulator": 0.9,
+      "ratio": 0.063
+    },
+    {
+      "decade": 2015,
+      "rate_per_kry": 0.0,
+      "v": 0.078,
+      "s_regulator": 0.95,
+      "ratio": 0.082
+    }
+  ]
+}

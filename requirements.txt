@@ -10,3 +10,8 @@ python-louvain     # Louvain community detection
 sentence-transformers   # local all-MiniLM-L6-v2 embeddings for semantic critical-slowing-down (CPU, no GPU)
 
 # Tested with Python 3.12. The paper compiles with pdflatex (MiKTeX/TeX Live), run twice.
+
+# Steering Envelope module (steering_envelope/)
+pandas             # dataset panels (JST, OWID, World Bank, Epoch)
+pytest             # acceptance suite
+nbformat           # notebooks (optional: nbclient + ipykernel to re-execute)

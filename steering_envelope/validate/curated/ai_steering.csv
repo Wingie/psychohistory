@@ -1,0 +1,22 @@
+# AI steering-capacity proxies, order-of-magnitude ONLY (flagged approximate;
+# refresh via the OECD.AI policy database and the AI Incident Database).
+# policy_cum: cumulative national AI policies/strategies (OECD.AI order of
+# magnitude). eval_orgs_cum: cumulative dedicated frontier-eval institutions
+# (ARC Evals/METR 2022, UK AISI 2023, US AISI 2023, etc).
+# aiid_incidents: approximate new incident records per year (AIID + AIAAIC
+# order of magnitude). See README.md for honesty notes.
+year,policy_cum,eval_orgs_cum,aiid_incidents
+2012,2,0,2
+2013,3,0,3
+2014,5,0,5
+2015,8,0,6
+2016,20,0,12
+2017,60,0,18
+2018,150,0,32
+2019,300,1,42
+2020,450,1,48
+2021,600,2,65
+2022,700,3,90
+2023,800,6,125
+2024,1000,10,160
+2025,1100,12,180

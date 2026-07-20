@@ -71,3 +71,6 @@ Thumbs.db
 # all figures (_verify_out/, figures/, validation/**/*.png), every validation script +
 # pre-registration + result JSON + RESULTS.md, the multi-page site/, and the skill
 # (.claude/skills/psychohistory/). Raw/large data and build artifacts are NOT committed.
+
+# steering_envelope: raw downloaded data cache (regenerable via validate/datasets.py fetchers)
+steering_envelope/validate/data/
