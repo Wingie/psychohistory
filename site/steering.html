@@ -20,6 +20,13 @@
   .essay h2 { margin-top: .2em; }
   .statebadge { font-family: var(--mono); font-size: .78rem; padding: 2px 10px;
     border-radius: 12px; white-space: nowrap; }
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0; }
+  @media (max-width: 820px){ .flag-grid { grid-template-columns: 1fr; } }
+  .flag { border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px;
+    background: linear-gradient(180deg, var(--panel) 0%, var(--bg-2) 100%); }
+  .flag h4 { color: var(--gold); font-family: var(--serif); font-size: 1.05rem; }
+  .flag .axis { font-family: var(--mono); font-size: .7rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--cyan-dim); margin-bottom: 6px; }
   .mech td:first-child { color: var(--gold); font-family: var(--serif); white-space: nowrap; }
   .verdict-yes { color: var(--green); }
   .verdict-no { color: var(--red); }
@@ -72,7 +79,7 @@
     <p>Everything else this module needs, the program already holds. From the criticality layer, <b>accumulation</b>: stress that is neither absorbed nor released does not vanish, it stores, grain by grain, the way a sandpile stores its avalanche. From the mean-field layer, <b>plurality</b>: no actor's throttle sets the world's speed; the field's speed is a reflexive equilibrium of everyone's expectations about everyone else.</p>
     <p>From those three, one axiom and two standing premises, the claim this module exists to test follows as a theorem.</p>
     <div class="axiom"><b>The Survival Theorem.</b> A society survives a technology in proportion to the control it can exert over that technology's speed. Uncontrolled acceleration crashes. Forced deceleration also crashes, later and harder. What survives is constant controlled speed: brake into the corners, accelerate out of them, never exceed the grip.</div>
-    <p>The proof is three sentences. Exceed the grip and you crash now; that is the Control Axiom read directly. Park, and three things happen at once: the field keeps moving, so the transition arrives on someone else's terms; your grip stagnates, because steering is partly learning-by-doing and you cannot learn a corner you refuse to drive; and the suppressed corrections store. So when the corner finally reaches you it is tighter, you are weaker, and the stored stress is larger: you crash later and harder, or you ride shotgun. Therefore the surviving policy is the racing line, speed bounded by grip, and nothing else is stable.</p>
+    <p>The proof fits in a breath. Exceed the grip and you crash now; that is the Control Axiom read directly. Park, and three things happen at once: the field keeps moving, so the transition arrives on someone else's terms; your grip stagnates, because steering is partly learning-by-doing and you cannot learn a corner you refuse to drive; and the suppressed corrections store. So when the corner finally reaches you it is tighter, you are weaker, and the stored stress is larger: you crash later and harder, or you ride shotgun. Therefore the surviving policy is the racing line, speed bounded by grip, and nothing else is stable.</p>
     <p>I am stating all of this with conviction, not with a shrug. Most theories worth having were postulated long before they were proved, and the way you earn the proof is by writing the claim down plainly, building the instrument, and letting every new episode of history score it. That is what this module does. Time will tell. We wrote it down first.</p>
 
     <h2>Start with fire</h2>
@@ -94,7 +101,7 @@
             <td>Rail gauge standardization. Open protocols. FOSS, which is the deliberate breaking of the hoard. Once everyone knows the secret of fire, nobody has an advantage, and everybody has fire.</td></tr>
         <tr><td><span class="statebadge" style="background:#e8b24a22;color:var(--gold)">SHOTGUN</span></td>
             <td>Someone else crosses first and you live in the world they chose.</td>
-            <td>Tokugawa Japan, two centuries out of the industrial transition, until Perry's black ships set the terms.</td></tr>
+            <td>Tokugawa Japan, sealed off for two centuries while the industrial transition happened elsewhere, until Perry's black ships set the terms.</td></tr>
         <tr><td><span class="statebadge" style="background:#65748f22;color:var(--ink-dim)">HELD</span></td>
             <td>Nobody crosses; the transition is refused or deferred. Rare, temporary, and paid for in everything the transition would have bought.</td>
             <td>Isolation edicts, sea bans, indefinite moratoria.</td></tr>
@@ -112,6 +119,20 @@
     <div class="law">h&nbsp;=&nbsp;σ( β · ( v·k / (s·c₀) − 1 ) )</div>
     <p>Inside the envelope, v times k below s, hazard is low. Outside it, hazard saturates. The edge is ratio one. Corner tightness k is how unforgiving this particular transition is: a tighter corner for nuclear material than for spreadsheets, tighter for autonomous weapons than for chess engines.</p>
     <p>Too simple? So is F equals ma. Simple is what lets the data vote.</p>
+
+    <h2>The four flags on one dashboard</h2>
+    <p>The modern discourse has sorted itself under x/acc flags, and the theorem places every one of them. Ask a single question: what do you accelerate first?</p>
+    <div class="flag-grid">
+      <div class="flag"><div class="axis">Engine</div><h4>e/acc</h4>
+        <p class="dim">Give it its due: permissionless innovation has a staggering welfare record, electrification to aviation to the internet, and friction costs compound invisibly. Conceded. But an engine has no term for a corner: it optimizes expected speed when what matters is speed conditioned on survival.</p></div>
+      <div class="flag"><div class="axis">Armor</div><h4>d/acc</h4>
+        <p class="dim">Vitalik Buterin's flag, the nearest relative of ours: build defense-dominant technology, flatten the corners themselves. It composes with steering. What it lacks is a speed governor, and offense versus defense is often unknowable before the fact.</p></div>
+      <div class="flag"><div class="axis">Steering</div><h4>s/acc · steerism</h4>
+        <p class="dim">Throttle bounded by grip, re-measured at every corner: the racing line the Survival Theorem selects. And the stopper is not a fifth position so much as a prediction the model makes: the stopper preset ends in SHOTGUN 86 percent of the time, watching a transition it refused to drive.</p></div>
+      <div class="flag"><div class="axis">Driver</div><h4>w/acc</h4>
+        <p class="dim">A letter we read as wisdom acceleration: grow the judgment and the institutions that steering capacity is made of. In the model it multiplies the effect of everything else, and alone it is slow.</p></div>
+    </div>
+    <p>In the <a href="steering_sim.html">instrument</a> these are the preset modes, and the dials under them, throttle, investment, defense, judgment, coordination, are the same dials this whole page has been turning.</p>
 
     <h2>The mechanisms history invented</h2>
     <p>Once you see steering as a real quantity, you start recognizing the machinery every era built to supply it. Each mechanism is a different setting of the dials, and history has run them all.</p>
@@ -155,16 +176,16 @@
     <h2>The record so far</h2>
     <p>Rehypothesis is cheap; fits are not. So we ran the theorem against five domains of public data, windows and losing conditions frozen in the <a href="https://github.com/wingie/psychohistory/tree/main/steering_envelope#pre-registered-analysis-frozen-before-the-published-run">README</a> before the run.</p>
 
-    <p><b>Roads</b>, the literal case. America multiplied its driven miles a hundredfold while deaths per mile fell twenty-fold, tracking the steering stack: licensing, the 1966 safety acts, belts, the 0.08 limit. In the strict first-difference test both terms carry independent signal: speed changes matter (p = 0.016) and steering changes matter (p = 0.045). The ratio is not decoration on the road that named the theory.</p>
+    <p><b>Roads</b>, the literal case. America multiplied its driven miles sixtyfold while deaths per mile fell twenty-fold, tracking the steering stack: licensing, the 1966 safety acts, belts, the 0.08 limit. In the strict first-difference test both terms carry independent signal: speed changes matter (p = 0.016) and steering changes matter (p = 0.045). The ratio is not decoration on the road that named the theory.</p>
     <div class="figure"><img src="assets/steering/roads.png" alt="US road fatality rate 1926-2023 and the envelope ratio" />
       <div class="cap">US roads, 1926-2023: fatalities per 100M VMT (top, deterioration years marked) and the standardized envelope ratio z(log v/s) (bottom). FHWA/NHTSA series via Wikipedia (CC BY-SA); steering stack coded from NHTSA/IIHS/FHWA institutional history.</div></div>
 
-    <p><b>Aviation</b> does something subtler than agree. It is the domain with the most control in it, full stop: every airframe certified before it flies, every pilot licensed by hours, every procedure written in someone's blood, ICAO to CRM to TCAS. And it bought the safest transition on record with that stack, a roughly hundredfold collapse in fatal accidents per million flights. Maximum regulation, fewest accidents. The statistical wrinkle: the oversight stack explains the collapse so completely that speed adds nothing measurable once you control for it (differenced p = 0.59), and the frozen scoreboard logs that as a miss, because a wager that explains away its own misses is not a wager.</p>
+    <p><b>Aviation</b> does something subtler than agree. It is the domain with the most control in it, full stop: every airframe certified before it flies, every pilot licensed by hours, every procedure written in someone's blood, ICAO to CRM to TCAS. And it bought the safest transition on record with that stack: fatal accidents per million flights down more than tenfold since 1970, against traffic that never stopped growing. Maximum regulation, fewest accidents. The statistical wrinkle: the oversight stack explains the collapse so completely that speed adds nothing measurable once you control for it (differenced p = 0.59), and the frozen scoreboard logs that as a miss, because a wager that explains away its own misses is not a wager.</p>
     <p>But say what aviation actually is: the one domain that adopted the envelope rule outright. Certification <em>is</em> a throttle bounded by grip; nothing new flies until the regulator's capacity to verify it has caught up. Friedman had a name for this pattern: the thermostat. In a well-run house the fuel burned tracks the weather and the room temperature correlates with nothing, precisely because the controller is absorbing the disturbance. A domain that obeys "never faster than your grip" will, by construction, show disasters tracking only residual steering variation. Aviation does not dissent from the theorem. It complies with it so thoroughly that the speed signal was steered out of the data. And the reading earns its keep by predicting something checkable: domains with an institutional speed governor should show no speed signal, and domains without one should. Aviation, governed throttle: no v-signal. Roads and credit, ungoverned throttle: v-signal in both. Three for three, and the prediction stands for every domain we add next.</p>
     <div class="figure"><img src="assets/steering/aviation.png" alt="Fatal accidents per million flights vs the oversight stack" />
       <div class="cap">World commercial aviation, 1976-2019: fatal accidents per million flights (log scale) against the cumulative oversight stack. OWID/ASN (CC BY) and World Bank departures (CC BY).</div></div>
 
-    <p><b>Finance</b>, the flagship: 18 countries, 145 years, 75 dated systemic crises in the Jorda-Schularick-Taylor panel. Credit growth is speed; an era-coded regulation index is grip. The famous credit-boom result reproduces first. Then the addition: the steering term improves the fit at odds of billions to one, and the single best out-of-sample predictor, holding out whole decades, is the ratio v/s (AUC 0.688 against 0.506 for credit alone). The quiet period, 1945 to 1972, fast growth under heavy grip and nearly zero crises anywhere in the panel, sits in the data like a signed confession.</p>
+    <p><b>Finance</b>, the flagship: 18 countries, 145 years, 75 systemic crisis flags inside our fit window of the Jorda-Schularick-Taylor panel. Credit growth is speed; an era-coded regulation index is grip. The famous credit-boom result reproduces first. Then the addition: the steering term improves the fit at odds of billions to one, and the single best out-of-sample predictor, holding out whole decades, is the ratio v/s (AUC 0.688 against 0.506 for credit alone). The quiet period, 1945 to 1972, fast growth under heavy grip and nearly zero crises anywhere in the panel, sits in the data like a signed confession.</p>
     <div class="figure"><img src="assets/steering/finance.png" alt="JST crises vs credit growth and regulation index" />
       <div class="cap">JST Macrohistory panel, 18 countries, 1875-2020: systemic crisis counts (top) against mean real credit growth and the era-coded regulation index (bottom).</div></div>
 
@@ -190,10 +211,10 @@
 
     <h2>The mean field, or why your virtue is not enough</h2>
     <p>The deepest result in the module is not about any single driver. Replace the rival with a field of sixteen drivers drawing their throttle from a distribution, couple crashes to their neighbours, and ask: what buys an already-careful driver more survival, another unit of private caution or another unit of field-wide coordination? On every tested point of the diligent regime, coordination wins, nine gridpoints out of nine. And in the household layer, where every outcome becomes hours of work per week for food, shelter and energy across eight very different tribes, the same truth lands harder: with coordination live, the steering policy wins every tribe's worst decade that it does not tie. With coordination forced to zero, every single row ties. Your private virtue keeps your lane. Only coordination reaches anyone's kitchen. <a href="steering_sim.html">Verify it yourself with the honesty toggle.</a></p>
-    <p>This is the psychohistory of it. The race is a mean-field game, the same L5 mathematics this repository uses for bank runs. Everyone racing because everyone expects a race is a self-consistent equilibrium. So is a held norm. The coordination dial is the order parameter that selects between them, and treaties, standards bodies, inspectorates and commons are how civilizations have always moved it.</p>
+    <p>This is the psychohistory of it. The race is a mean-field game, the same fixed-point machinery (layer five of the framework, the one the <a href="math.html">math page</a> builds for bank runs). Everyone racing because everyone expects a race is a self-consistent equilibrium. So is a held norm. The coordination dial is the order parameter that selects between them, and treaties, standards bodies, inspectorates and commons are how civilizations have always moved it.</p>
 
     <h2>The wager</h2>
-    <p>A theorem stated with conviction still names the terms on which its premises lose. Ours are frozen in the repository: if the steering term had added nothing beyond speed across the fittable record, the Control Axiom would be empirically idle here and the theorem would be decoration, and we said so before running. It survived. Going forward the catalog only grows: every new transition, every natural experiment, every autobahn table and strait blockade and model release is another scoring event. Theories are often proved years after they are postulated. The postulate is now on the record, timestamped, with its instrument public and its data fetchable by anyone.</p>
+    <p>A theorem stated with conviction still names the terms on which its premises lose. Ours are frozen in the repository: had the steering term added nothing beyond speed across the fittable record, the Control Axiom would have been empirically idle and the theorem decoration, and we said so before running. It survived. Going forward the catalog only grows: every new transition, every natural experiment, every autobahn table and strait blockade and model release is another scoring event. Theories are often proved years after they are postulated. The postulate is now on the record, timestamped, with its instrument public and its data fetchable by anyone.</p>
 
     <h2>The call</h2>
     <p>If you build: publish your envelope. Your corner list, your grip metrics, and the rule that connects them. "We slow when X" is a falsifiable safety culture. Vibes are not.</p>
