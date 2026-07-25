@@ -146,5 +146,6 @@
     "modal_cp95_lower_on_p0": 0.5618945648846886
   },
   "limitation": "A proxy sweep bounds p0; it does not measure it. The definitive figure needs analyze_v4's fire rule run over >=30 genuinely-quiet pseudo-onsets with each window's OWN shuffle null recorded. That needs the WSB dump and is the open item.",
-  "verdict": "Condition (b) fails at every threshold v4 itself measured. The 1.7e-7 figure is conditional on p0=0.10 and is not supported by the repository's own quiet-window data."
+  "verdict": "Condition (b) fails at every threshold v4 itself measured. The 1.7e-7 figure is conditional on p0=0.10 and is not supported by the repository's own quiet-window data.",
+  "superseded_by": "NULL_RECALIBRATION.md is the authoritative retraction and goes further: the shuffle null is degenerate on this substrate, so recalibrating p0 is not the repair. This file reproduces the arithmetic that retraction rests on; it does not compete with its conclusion."
 }

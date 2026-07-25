@@ -1,6 +1,21 @@
 """POST-SEAL AUDIT of the v4 null fire rate p0. Does NOT re-run, re-seal, or
 re-decide anything: it reads the two committed result JSONs and asks one question.
 
+STATUS -- READ THIS FIRST. The authoritative retraction of the v4 sealed pass is
+`NULL_RECALIBRATION.md`, in this directory. It supersedes this script's verdict and
+goes further than it: it shows the block-label shuffle is not merely mis-calibrated
+but degenerate on this substrate, so the rule reduces to a sign test on drop_macro,
+and under a correct onset-aligned null the best committed-data proxy fires 0 of 12.
+Read that file for the conclusion. This script is NOT a competing analysis.
+
+What this script is for: `NULL_RECALIBRATION.md` reports its quiet-window fire rate
+four ways (0.49 / 0.60 / 0.80 / 0.83) but ships no runnable code, and its own
+"Reproduce" block points at `analyze_v4.py`, which needs the multi-tens-of-GB WSB
+dump and was not re-run. This script is the committed, executable reproduction of
+the 0.83 reading (§3.4) and of the published 1.658350e-07 it retracts -- stdlib
+only, reading nothing but JSON already in the repository, so a referee with a bare
+Python install can check the arithmetic that the retraction turns on.
+
 The v4 rule's condition (b) is P(X >= k | n, p0) < 0.01 with p0 = 0.10, asserted in
 PRE_REGISTRATION_neff_v4.md:57-61 as "construction-implied": under H0 the observed
 partition is exchangeable with its 300 block-label shuffles, so it clears its own
@@ -147,6 +162,11 @@ def main():
         verdict=("Condition (b) fails at every threshold v4 itself measured. The "
                  "1.7e-7 figure is conditional on p0=0.10 and is not supported by the "
                  "repository's own quiet-window data."),
+        superseded_by=("NULL_RECALIBRATION.md is the authoritative retraction and "
+                       "goes further: the shuffle null is degenerate on this "
+                       "substrate, so recalibrating p0 is not the repair. This file "
+                       "reproduces the arithmetic that retraction rests on; it does "
+                       "not compete with its conclusion."),
     )
     json.dump(out, open(os.path.join(HERE, "p0_audit.json"), "w"), indent=2)
 

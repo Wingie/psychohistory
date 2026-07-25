@@ -493,8 +493,3 @@ a.hub-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); b
 .kv { display:grid; grid-template-columns: max-content 1fr; gap: 6px 18px; font-size:.9rem; margin: 8px 0; }
 .kv dt { color: var(--gold-dim); font-family: var(--mono); font-size:.78rem; }
 .kv dd { margin:0; color: var(--ink-dim); }
-
-/* published-result correction notice (see validation/neff_v4/P0_AUDIT.md) */
-.correction-note { border-left: 3px solid var(--amber-warn); background: rgba(232,161,74,.07);
-  padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 14px 0; font-size: .92em; }
-.correction-note b { color: var(--amber-warn); }

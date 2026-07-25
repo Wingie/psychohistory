@@ -15,6 +15,17 @@ diagnosis: quiet WSB windows drop a median ~0.10, so magnitude does not discrimi
 
 Emits result_neff_v4.json + figure_v4.png. Run: py -3.12 analyze_v4.py
 (requires harvest_v4.py to have run first).
+
+RETRACTED. The verdict this script computes is withdrawn. Rule (b) is unsound: p0=0.10
+is not construction-implied, because the observed statistic (a modularity-optimised
+Louvain partition) is not exchangeable with the null draws (uniform relabellings), and
+the block-label shuffle null is degenerate on this substrate. This script and
+result_neff_v4.json are left UNCHANGED and UNPATCHED so the retracted run stays exactly
+reproducible and auditable: rewriting a result file after seeing that its null was wrong
+is the same class of error as the one being corrected. The "SEALED PASS" string it emits,
+and the VERDICT field in result_neff_v4.json, are therefore SUPERSEDED, not deleted.
+The corrected verdict lives in NULL_RECALIBRATION.md; the frozen re-test, which keeps
+every decision bar and replaces the null, is ../neff_v5/PRE_REGISTRATION_neff_v5.md.
 """
 import os
 import sys

@@ -33,6 +33,18 @@ The PRIMARY decision rule (frozen in the prereg, consumed by analyze_v4.py):
        AND  (c) n >= 8 powered events at K>=3.
 Magnitude is still computed and REPORTED (median drop, per-event drops) but is
 explicitly NON-GATING in v4, with v3's diagnosis attached.
+
+RETRACTED. Rule (b) above is unsound and the SEALED PASS it produced is withdrawn.
+p0 is NOT construction-implied: that argument needs the observed statistic to be
+exchangeable with the null draws, and it is not (the observation uses a modularity-
+optimised Louvain partition; every null draw is a uniform relabelling). Measured
+false-fire rates for this rule are 0.49 / 0.60 / 0.80 / 0.83 depending on how they are
+measured; condition (b) breaks above 0.378. This module is left UNCHANGED so the
+retracted run stays exactly reproducible: BINOM_P0 below is deliberately still 0.10
+and no replacement constant is asserted, because none has been measured to a defensible
+point value. Do not "fix" it here. See NULL_RECALIBRATION.md in this directory for the
+measurement and the corrected verdict, and ../neff_v5/PRE_REGISTRATION_neff_v5.md for
+the frozen re-test, which replaces the NULL rather than the constant.
 """
 import datetime as dt
 
@@ -50,6 +62,10 @@ PCTILE = 0.90              # "fires vs shuffle" tested at the 90th pctile of the
 
 # ---------------------------------------------------------------- frozen primary rule
 FIRE_FRACTION_BAR = 0.60   # (a) supermajority of powered events must fire
+# RETRACTED, LEFT AS-IS ON PURPOSE. The exchangeability this comment claims does not
+# hold (Louvain-optimised observation vs uniform relabelling), so 0.10 is unsupported.
+# It stays at 0.10 so the withdrawn run reproduces bit-for-bit; no replacement value is
+# defensible from what has been measured. See NULL_RECALIBRATION.md, section 3.
 BINOM_P0 = 0.10            # null per-event fire rate (obs exchangeable with shuffles)
 BINOM_ALPHA = 0.01         # (b) binomial tail must clear this
 MIN_POWERED_N = 8          # (c)

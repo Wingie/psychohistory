@@ -303,7 +303,7 @@ status.
 |------|------|--------------|----------------|
 | (i) | Conservation / zero-sum | X=15%, Y=40%, Z=8%/yr | **CONTRADICTED at basket scale** — 9-subreddit finance/meme basket total ballooned ~14× in the GME mania (incumbent-only +1290%), churn 40%. Porous boundary so global claim untested; matches the single-sub pilot. See `validation/conservation_ecosystem/` |
 | (ii) | Block independence | ρ₀=0.20 | **PILOT** — N_eff≈1.5–2.2/5 on 12-day window; inconclusive |
-| (ii′) | Dynamic N_eff collapse | PRIMARY = community-specificity (fire vs shuffle), frozen binomial rule; n≥8 | **POWERED; positive counts on the correct endpoint, SIGNIFICANCE WITHDRAWN 2026-07-25** — six-pass investigation. The theory's claim is community-SPECIFICITY (the existing community's frozen partition collapses past a block-label shuffle), not raw magnitude. That prediction is confirmed **four times** (Wikipedia population-wide negative control 0/14; original WSB 9/10; `neff_v3/` fresh WSB 9/10; `neff_v4/` fresh pre-registered-primary WSB **9/12**, median observed collapse at the 100th pctile of its own shuffle; the binomial p=1.7e-7 is **WITHDRAWN**, `validation/neff_v4/P0_AUDIT.md`) and run as a frozen primary endpoint on a fresh disjoint roster. The blunter raw-MAGNITUDE yardstick was tried (`neff_v2` f=0.298 median 0.00; `neff_v3` f=0.3936 median 0.138<f, p=0.069) and is reported, honestly and without moving it, as **non-discriminating** on a continuously high-volume forum (quiet windows compress N_eff a median ~0.10 too). Pass came from testing the RIGHT endpoint on new data, NOT from relaxing the magnitude threshold (that verdict stands). See `validation/neff_v4/` + `validation/NEFF_COLLAPSE_SYNTHESIS.md` |
+| (ii′) | Dynamic N_eff collapse | PRIMARY = community-specificity (fire vs shuffle), frozen binomial rule; n≥8 | **OPEN — the SEALED PASS is RETRACTED.** Six-pass investigation, reported in `neff_v4/` as a pass at **binomial p=1.7e-7**; **withdrawn**. That figure is `P(X≥9\|n=12, p0=0.10)` and `p0=0.10` was asserted from construction, never measured; it requires the observed statistic to be exchangeable with its block-label shuffles, which a Louvain-optimised partition is not. Measured four ways the rule's false-fire rate on quiet windows is **0.49 / 0.60 / 0.80 / 0.83**, against a break point of **0.378**. The shuffle null is also degenerate on this substrate (median null p90 **0.0137**), so "fires" reduces to the sign of the drop; under an onset-aligned null the best committed-data proxy fires **0 of 12**, and under a degeneracy gate the run keeps n=2 and fails all three conditions. **No replacement p-value is asserted.** The four "confirmations" (Wikipedia 0/14; original WSB 9/10; `neff_v3/` 9/10; `neff_v4/` 9/12) are four readings of the same non-discriminating instrument, and the Wikipedia-vs-WSB contrast is largely null geometry (median event null p90 0.4909 vs 0.0137). The blunter raw-MAGNITUDE yardstick was tried (`neff_v2` f=0.298 median 0.00; `neff_v3` f=0.3936 median 0.138<f, p=0.069) and **that half stands**: reported, honestly and without moving the threshold, as **non-discriminating** on a continuously high-volume forum. Surviving positive: 1 of 12 v4 cascades fires against a non-degenerate null. See `validation/neff_v4/NULL_RECALIBRATION.md` and the frozen re-test `validation/neff_v5/PRE_REGISTRATION_neff_v5.md` |
 | (iii) | Early warning | AUC≥0.75, M=20 | **POWERED, PARTIAL** — semantic-CSD across 10 WSB cascades beats guard-banded calm null (p=0.02, 5/5 endo above calm) but does NOT discriminate endo vs exo (AUC 0.60). Detects "a build", not which kind. See `validation/early_warning_powered/` |
 | (iii′) | Bifurcation-mix | π_B=0.60 | **REFUTED on roster** — 24-cascade labelled roster, substantive B-fraction **0.33 < 0.60**; most cascades are sudden R-tipping shocks. Structural proxy 0.75 is a single-venue artifact (not adopted). The bet named most-likely-to-fail failed. See `validation/bifurcation_mix/` |
 | (iv) | Smooth-regime skill | m=50, δ=0.05 | **PENDING** — awaits a live world-model training run (forward engine) |
@@ -315,24 +315,46 @@ status.
 **five now carry powered runs** (i, ii′, iii, iii′, and the ii pilot) and **four are pending
 a live world-model training run** (iv, v, vi, vii — each blocked on the forward engine, a
 trained world model + LLM/LRM ensemble; the binding constraint is compute, not more data.
-Compute donations directly unblock these: contact wingston.sharon@gmail.com). The powered second wave is a split decision, not a victory lap: the structural
-core (ii′) seals on its correct endpoint, while the dynamical-magnitude, predictive, and
-conservation claims each deflate to narrow/partial/refuted/contradicted:
-- (ii′) the dynamic N_eff collapse **seals on the endpoint that is the theory**. Its
-  community-specificity (the existing community's frozen partition collapsing past a
-  block-label shuffle) is confirmed **four times** (Wikipedia 0/14 negative control,
-  original WSB 9/10, `neff_v3` fresh WSB 9/10, `neff_v4` fresh **pre-registered-primary**
-  WSB **9/12**; the binomial p=1.7e-7 is **WITHDRAWN**, see `validation/neff_v4/P0_AUDIT.md`)
-  under a frozen binomial rule on a fresh disjoint roster whose condition (b) is not met
-  against an empirical null. The blunter raw-magnitude yardstick (tried in `neff_v2`
-  and `neff_v3`) is reported, honestly and without moving it, as **non-discriminating**:
-  genuinely-quiet WSB windows already drop N_eff a median ~0.10 with a tail to 0.43, because
-  short high-volume onset windows compress N_eff generically, so magnitude cannot tell an
-  endogenous cascade from a busy-but-quiet week. The pass came from testing the RIGHT
-  endpoint on new data, not from relaxing the magnitude threshold (that verdict stands). The
-  central result: the mechanism is **real, community-specific, and sealed as a structural
-  signal**, correctly silent on the exogenous/mechanical events (in `neff_v4` the three
-  non-firing cascades are a listing, a Fed rate decision, and a stock split).
+Compute donations directly unblock these: contact wingston.sharon@gmail.com). The powered second wave is not a split decision and is certainly not a victory
+lap: the dynamical-magnitude, predictive, and conservation claims each deflate to
+narrow/partial/refuted/contradicted, and the structural core (ii′), which was reported as
+sealing, has been **retracted by this repository's own re-analysis**:
+- (ii′) the dynamic N_eff collapse is **OPEN. Its reported seal is retracted.** This bullet
+  said it "**seals on the endpoint that is the theory**", with community-specificity
+  confirmed **four times** (Wikipedia 0/14 negative control, original WSB 9/10, `neff_v3`
+  fresh WSB 9/10, `neff_v4` fresh **pre-registered-primary** WSB **9/12 at binomial
+  p=1.7e-7**) and "now a **SEALED PASS** under a frozen binomial rule on a fresh disjoint
+  roster". **Withdrawn.** The binomial's `p0 = 0.10` was asserted from the construction of
+  the shuffle test and never measured; measured four ways it is 0.49 / 0.60 / 0.80 / 0.83
+  against a break point of 0.378, and the shuffle null is degenerate on this substrate, so
+  the four "confirmations" are four readings of one non-discriminating instrument. Under the
+  null the hypothesis implies, the best committed-data proxy fires 0 of 12. **No replacement
+  p-value is asserted**; the interval on the corrected tail spans more than an order of
+  magnitude, which is itself the reason not to publish a number. See
+  `validation/neff_v4/NULL_RECALIBRATION.md`. The blunter raw-magnitude yardstick (tried in
+  `neff_v2` and `neff_v3`) is reported, honestly and without moving it, as
+  **non-discriminating**: genuinely-quiet WSB windows already drop N_eff a median ~0.10 with
+  a tail to 0.43, because short high-volume onset windows compress N_eff generically, so
+  magnitude cannot tell an endogenous cascade from a busy-but-quiet week. **That half
+  stands.** The choice of endpoint also stands: specificity is the right question and the
+  magnitude threshold was never relaxed. What does not stand is the answer. The surviving
+  positive is one cascade in twelve firing against a null with enough spread to have
+  rejected it. The re-test that would settle it is frozen at
+  `validation/neff_v5/PRE_REGISTRATION_neff_v5.md`, which keeps every decision bar and
+  replaces the null. This bullet previously also added "correctly silent on the exogenous/mechanical
+  events (in `neff_v4` the three non-firing cascades are a listing, a Fed rate decision, and
+  a stock split)"; that clause is **withdrawn** on referee review, because `roster_v4.py`
+  carries no endo/exo field and the labels were read off the firing set afterwards, and
+  because under the outcome-blind endo/exo taxonomy this program committed to in
+  `validation/early_warning_powered/` most of the firing set would be labelled exogenous.
+  Read the (ii′) row together with `validation/NEFF_COLLAPSE_SYNTHESIS.md` ("Forking paths
+  across the six runs", "Known defects in the specificity endpoint") and
+  `validation/neff_v4/RESULTS.md` ("Known defects in this run"): the shuffle null the
+  specificity endpoint is scored against is near-degenerate on WSB, the quiet-window fire
+  rate that would calibrate its binomial was computed and never serialised, and **SEALED**
+  here means in-session pre-registration rather than an independently timestamped one
+  (`validation/PREREGISTRATION_SEAL.md` pins no digest for neff_v3 or neff_v4, and its
+  scope table now says so).
 - (iii) early warning is **POWERED, PARTIAL** — semantic-CSD beats a guard-banded calm
   null (p=0.02) but does not separate endogenous from exogenous (AUC 0.60): it detects
   "a build," not which kind.
@@ -345,6 +367,9 @@ conservation claims each deflate to narrow/partial/refuted/contradicted:
 The through-line: the impersonal/structural machinery is **real but load-bearing only on
 the endogenous-reflexive minority**, and correctly quiet on the exogenous majority — which
 **confirms the paper's bounded-special-regime thesis by measurement** rather than refuting
-it. **No test has been confirmed as a clean PASS against social data.** This document
+it. One prop under that through-line has been removed: the `neff_v4` endo/exo reading is
+withdrawn (above), so the endogenous-versus-exogenous evidence now rests on the Wikipedia
+newcomer-flood diagnostics and the `neff_v2` fresh roster, and not on which of the twelve v4
+cascades happened to fire. **No test has been confirmed as a clean PASS against social data.** This document
 remains a commitment to the bets the program is willing to lose, now annotated with which
 bets have been run and how they landed.

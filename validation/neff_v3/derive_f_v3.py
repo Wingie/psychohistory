@@ -86,7 +86,10 @@ def route_i_clean_null():
     # rule -- what fraction of genuinely-quiet pseudo-onsets clear their OWN shuffle
     # null. Reported here, non-gating for f, and deliberately not substituted into any
     # frozen rule: n=12 is too small to set a threshold on. It is the measurement that
-    # tells you whether p0=0.10 is defensible. See neff_v4/P0_AUDIT.md.
+    # tells you whether p0=0.10 is defensible. This is step 1 of "What would settle
+    # it" in neff_v4/NULL_RECALIBRATION.md §6; note that file's finding that the
+    # shuffle null is degenerate here, so a measured p0 bounds the damage rather than
+    # repairing the rule. The frozen re-test is neff_v5/PRE_REGISTRATION_neff_v5.md.
     fired = [r for r in rows if r.get("status") == "OK"
              and r.get("fires_vs_shuffle") is not None]
     n_fire = sum(1 for r in fired if r["fires_vs_shuffle"])
