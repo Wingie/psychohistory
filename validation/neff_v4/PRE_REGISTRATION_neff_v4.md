@@ -1,5 +1,15 @@
 # Pre-registration: test (ii') v4 -- community-SPECIFICITY of the dynamic N_eff collapse
 
+> **SUPERSEDED. The rule below is left verbatim as the historical commitment artifact;
+> it is not amended, because amending a pre-registration after seeing the data is exactly
+> what it exists to prevent.** Section 3's justification for `p0 = 0.10` is unsound: it
+> requires the observed statistic to be exchangeable with the block-label shuffles, and it
+> is not (the observation uses a modularity-optimised Louvain partition, every null draw
+> is a uniform relabelling). Measured false-fire rates for this rule land between 0.49 and
+> 0.83; condition (b) breaks above 0.378. The verdict this document produced is retracted.
+> See `NULL_RECALIBRATION.md` for the measurement and `../neff_v5/PRE_REGISTRATION_neff_v5.md`
+> for the replacement, which keeps every bar below unchanged and replaces the **null**.
+
 Frozen BEFORE the v4 fresh roster is harvested or analyzed. This file plus
 `roster_v4.py` (the roster and all params) constitute the committed design. The
 analysis script `analyze_v4.py` evaluates the rule below exactly ONCE.

@@ -131,6 +131,28 @@ random relabelling does NOT reproduce it (null p90 ~0.00–0.07 vs observed 0.11
 criticality gear's community-specific synchronization is therefore confirmed on a substrate
 that actually HAS communities, which is precisely the gap the Wikipedia run left open.
 
+**Correction, added after a round-2 referee review (`logos/REVIEW_ROUND2.md`, finding
+P-02).** The paragraph above reads the Wikipedia/Reddit contrast as a contrast in community
+structure. It is substantially a contrast in **null geometry**, and we should have said so
+when we wrote "null p90 ~0.00-0.07" without asking why a null 90th percentile that small is
+a null at all. The identical code gives a median event `shuffle_null_p90` of **0.4909** on
+the Wikipedia arm and **0.0137** on the WSB arm (measured on the later `neff_v4` roster), a
+factor of 36. On WSB, therefore, "fires vs shuffle" is operationally a magnitude test at a
+bar near 0.014, which is about 7x below the median collapse that a genuinely-quiet WSB
+window produces (0.098, measured in `../neff_v3/`) and about 29x below the magnitude bar
+f = 0.3936 that `neff_v3` froze and then reported as non-discriminating on this substrate.
+Applying the 0.0137 bar to `neff_v3`'s twelve genuinely-quiet clean windows clears 10 of 12,
+the same proportion as the cascade arms. On Wikipedia nothing fires because that substrate's
+null is large, not because its events lack structure.
+
+What we still hold, in the narrower form the data supports: the drop is positive and clears
+a near-zero null on 9 of 10 cascades here, and where the null is not degenerate the
+specificity test discriminates as designed. What we withdraw is the strong reading that the
+0/14 versus 9/10 split is by itself evidence that block structure rather than substrate null
+geometry produced the difference. Settling it requires either a substrate with a
+non-degenerate null, or the per-event null distributions published in full with an
+UNPOWERED gate where the null p90 is negligible.
+
 ## Why the frozen conjunction still fails (honest diagnosis, not goalpost-moving)
 
 1. **Magnitude below f = 0.30.** Median event drop is 0.219. WSB pre-onset partitions are

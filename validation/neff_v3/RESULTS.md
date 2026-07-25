@@ -91,13 +91,76 @@ Frozen four-condition decision rule:
 **SEALED NOT.** Two of four conditions hold; the two that fail are both magnitude
 conditions.
 
+## The measurement this run computed and then discarded
+
+Recorded here because it is the single most consequential thing about this run, and we
+missed it until an adversarial round-2 review (`logos/REVIEW_ROUND2.md`, finding P-03)
+pointed at it.
+
+`derive_f_v3.py:55` calls `NB.analyze_run(label, onset, "clean", comments)` on each of the
+twelve genuinely-quiet clean windows. That is the *identical* pipeline used on the event
+arms, and `neff_collapse_wsb.py:281-285` unconditionally sets three fields on every record
+it returns: `shuffle_null_p90`, `shuffle_pctile_of_obs` and `fires_vs_shuffle`. So the
+**specificity fire rate of a genuinely-quiet WSB window was computed, twelve times, in this
+run.** The row dict at `derive_f_v3.py:57-64` then serialised thirteen fields
+(`label, onset, era, onset_mean_vol, status, K, modularity, drop_macro, neff_base,
+neff_onset, n_comments, user_cap_hit, n_threads_subsampled`) and none of those three.
+Loading `derive_f_v3.json` and printing the keys of `route_i_clean_null.rows[0]` returns
+exactly those thirteen; the sibling `result_wsb_neff.json` and `result_neff_v4.json` both
+persist all three.
+
+**Why it matters.** The clean windows were selected by `clean_windows.py` precisely to be
+uncontaminated, guard-banded and era-conditioned. That makes them the one estimate in this
+repository of how often the specificity test fires when nothing is happening, immune to the
+calm-arm contamination defence we deploy for the original WSB run
+(`../reddit_wsb/RESULTS.md`, "8 of 10 calm windows are not calm and themselves fire"). It is
+therefore the number that calibrates the null fire rate p0 which `neff_v4` later asserts
+from construction and uses as the whole basis of its binomial. The measurement was one
+function return away from the file, and the v4 pre-registration was written afterwards
+without it.
+
+**Direction of the correction, stated without overclaiming a point value.** The referee
+recomputation notes that 10 of these 12 clean drops exceed the median v4 shuffle-null p90 of
+0.0137, and that the clean-null median drop is 0.098, seven times the v4 bar. We have not
+yet re-run the pipeline to get the persisted fire rate, so we assert **no** replacement p0
+and no corrected binomial here; what we assert is that the assumed rate has never been
+measured on this substrate and that every available indication runs against it.
+
+**The fix, and its cost.** Add `fires_vs_shuffle`, `shuffle_pctile_of_obs` and
+`shuffle_null_p90` to the `derive_f_v3.py:57-64` row dict and re-run `derive_f_v3.py` over
+the twelve clean windows. Pure CPU, one pass over already-harvested jsonl, no new harvest of
+the 7 GB dump. This is the cheapest single action in the whole neff family that would settle
+the calibration question either way, and it should be run before any further neff result is
+published.
+
+## The shuffle null this run also leans on is near-degenerate on WSB
+
+This run reports "9 of 10 fire vs the 300x block-label-shuffle null" as its third
+confirmation of community-specificity. The same referee review (finding P-02) shows the WSB
+shuffle null p90 sits near zero, median 0.0137 across the v4 events against a Wikipedia
+median of 0.4909 for the identical code, so on this substrate "fires" is in practice a
+magnitude test at a bar around 0.014. That is 7x below the median drop of the very clean
+windows this run derived f from, and 29x below the f = 0.3936 this run froze and then
+reported as non-discriminating. The uncomfortable consequence is stated plainly: the same
+bar that 9 of these 10 cascades clear is cleared by 10 of the 12 quiet windows in the clean
+null above. The specificity endpoint retains real discriminating power only where the null
+is non-degenerate, which on the v4 roster is 2 events of 12. See `../neff_v4/RESULTS.md`,
+"Known defects in this run".
+
 ## What this establishes (the real finding, third confirmation)
 
 The dynamic N_eff collapse is **real and community-specific**: on a fresh disjoint roster,
 9 of 10 cascades collapse the canonical macro-N_eff more than a block-label shuffle of the
-same graph produces, so the BLOCK STRUCTURE is doing the work, not raw volume. That is the
-third independent confirmation of community-specificity (Wikipedia 0/14 because its blocks
-dissolve under newcomer-flood, original WSB 9/10, this fresh WSB 9/10).
+same graph produces. We read that as the BLOCK STRUCTURE doing the work rather than raw
+volume, and called it the third independent confirmation of community-specificity
+(Wikipedia 0/14 because its blocks dissolve under newcomer-flood, original WSB 9/10, this
+fresh WSB 9/10). That reading is now qualified by the two sections above: on WSB the shuffle
+null is near-degenerate, so clearing it is a weak bar that quiet windows clear at a similar
+rate, and the cross-substrate Wikipedia contrast is substantially a contrast in null
+geometry (median null p90 0.4909 there against 0.0137 here) rather than a demonstrated
+contrast in community structure. What survives without qualification is narrower: the drop
+is positive and beats a near-zero null on almost every cascade, and the endpoint
+discriminates as designed on the minority of windows whose null is non-degenerate.
 
 But the collapse's **magnitude does not exceed what genuinely-quiet WSB windows produce.**
 The event drops are heterogeneous (a few large: Tesla S&P inclusion 0.485, Jackson Hole
