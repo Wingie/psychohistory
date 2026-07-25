@@ -57,8 +57,8 @@ python3: 1.0e9/2.90e4/3600 =  9.579 GPU-h per 1e9 tokens at 125M
                      350M/2.0e9 = 61.050 GPU-h (planned at 23.15 on the old figure, x2.64)
 ```
 
-**F9 moved from 718 to ~1,400 GPU-h here, and then to ~1,700 under the second
-correction below.** The full line-by-line re-derivation is
+**F9 moved from 718 to ~1,400 GPU-h here, then to ~1,700 under the second
+correction below, and now to ~1,540 under the third.** The full line-by-line re-derivation is
 `F9_PREREGISTRATION.md` §8.1. Three things happened at once and only one of
 them is the throughput: the throughput correction (+2.3x to +2.6x on every
 training line), the round-accounting fix that cut the collapse sub-study from a
@@ -82,11 +82,33 @@ The throughput correction above priced the right experiment wrong. This one pric
 
 The repair is `LOGOS_HARNESS.md` §2.2: **one observation, two renderings.** Frozen open-weight models of distinct lineage read a structured observation card (or the raw frame, if the proposer is a vision-language model); the learner reads RQ-VAE codes. The RQ-VAE is off the proposal path entirely. **What that does to this page:**
 
-- **Generation is re-priced against inference on frozen open models and becomes roster-dependent.** It is linear in proposer size: 196.9 GPU-h at 0.5B-class, **393.9 at the 1B-class planning instantiation**, 3,151.0 at 8B-class (`F9_PREREGISTRATION.md` §8.1).
-- **F9 moves from 1,402.6 to 1,683.6 GPU-h** at the planning instantiation, with a roster band of 1,467.6 to 4,707.2. **This page no longer asserts a single F9 total**, because the roster is not frozen and asserting one would be inventing it.
+- **Generation is re-priced against inference on frozen open models and becomes roster-dependent.** It is linear in proposer size: 140.7 GPU-h at 0.5B-class, **281.3 at the 1B-class planning instantiation**, 2,251.6 at 8B-class (`F9_PREREGISTRATION.md` §8.1). (Those figures stood at 196.9 / 393.9 / 3,151.0 until the third correction below.)
+- **F9 moves from 1,402.6 to 1,683.6 GPU-h** at the planning instantiation, and then to **1,536.5** under the third correction below, with a roster band of 1,376.8 to 3,773.3. **This page no longer asserts a single F9 total**, because the roster is not frozen and asserting one would be inventing it.
 - **F13 limb (b) re-costs from 12.7 to 36.3 GPU-h** at the planning instantiation, and its position in the run order below was not executable at all: it scored a battery presented as RQ-VAE codes while sitting ahead of the RQ-VAE.
 - **F13 limb (a) and F14 acquire a derived cost for the first time: 17.4 GPU-h** (`F9_PREREGISTRATION.md` §8.4). The instrument they need is the inventory the repair installs, so the derivation this page owed is paid.
-- **`../logos.tex` §15 now disagrees with this page on two figures**: it prices limb (b) at 12.7 and calls limb (a) not derived. Both were right against the withdrawn stand-ins. The paper is the register of record, this page does not overwrite it, and the edits are owed there.
+- **`../logos.tex` §15 no longer disagrees with this page, and the line that said it did was itself the stale claim.** It read: "it prices limb (b) at 12.7 and calls limb (a) not derived ... the edits are owed there". Verified: `grep -n "12\.7" ../logos.tex` and `grep -n "not derived" ../logos.tex` both return nothing, and §15 carries 36.3 and 17.4. The edits landed; this page, `F9_PREREGISTRATION.md` §12 and `LOGOS_HARNESS.md` §9 all went on recording them as owed afterwards. Inverted rather than deleted.
+
+---
+
+## The third correction: Study 2 was charged twice
+
+`F9_PREREGISTRATION.md` §5.3 is FROZEN in the opposite direction to what §8.1
+was charging. `P_M` is the proposer ensemble's pre-action distribution,
+"computed once, at generation time, by `bootstrap/yield_score.py`, which loads
+no training checkpoint"; the learner never acts; and `LOGOS_HARNESS.md` §2.2
+puts "gradient: none, anywhere, ever" on the proposer path. **If no learner
+state enters the proposal, gate, action or admission path, nothing in the
+admitted corpus can depend on the training seed, in round 1 or in round 5.**
+Study 2 was nevertheless charged a 3x per-seed corpus multiplier, and its A0 arm
+duplicated three Study-1 runs that §6 freezes at `R = 1`.
+
+- **Study 2 generation: 168.8 -> 56.3 GPU-h** (one corpus per arm, shared across
+  the three seeds, exactly as Study 1 does).
+- **Study 2 runs: 86.2 -> 57.5 GPU-h** (6 novel runs; A0 reused from Study 1 at
+  matched seed index).
+- **Reserve: 203.8 -> 198.0**, being 20% of the corrected training cost.
+- **F9 total: 1,683.6 -> 1,536.5** at the planning instantiation, band
+  **1,376.8 to 3,773.3**.
 
 ---
 
@@ -100,9 +122,9 @@ Where a figure was independently derived in this audit it is marked **[derived]*
 
 | Falsifier | GPU-h | What the run decides |
 |---|---|---|
-| **F9** logos-harness, the observation bound | **1,684 [derived] at the 1B-class proposer instantiation; band 1,468 to 4,707 across the roster** | Whether grounded trajectories beat disagreement-gated self-play beat unfiltered self-play beat nothing, at matched token counts. This is the paper's terminal thesis and the only experiment in the ledger with a pre-committed kill condition. Design, power analysis and the line-by-line budget: `F9_PREREGISTRATION.md` §8.1. Breakdown below. **The band is the proposer roster and nothing else**: the seven training and probe lines are 1,251.6 GPU-h regardless. |
+| **F9** logos-harness, the observation bound | **1,537 [derived] at the 1B-class proposer instantiation; band 1,377 to 3,773 across the roster** | Whether grounded trajectories beat disagreement-gated self-play beat unfiltered self-play beat nothing, at matched token counts. This is the paper's terminal thesis and the only experiment in the ledger with a pre-committed kill condition. Design, power analysis and the line-by-line budget: `F9_PREREGISTRATION.md` §8.1. Breakdown below. **The band is the proposer roster and nothing else**: the seven training and probe lines are 1,217.1 GPU-h regardless. |
 | **F13 limb (b)** calibrated-confidence weighting with no adjudication | **36.3 [derived]** at the planning instantiation, inside F9's total (was 12.7 against the withdrawn stand-ins) | Whether the gain sits in the debate protocol rather than in the observation channel (Zhu et al. arXiv:2601.19921 Theorem 1). `logos.tex` §15 scopes F13 as "an arm of F9" and prices it at 12.7 GPU-hours, which was correct against 350M stand-ins and is now stale. Re-costed: `F9_PREREGISTRATION.md` §8.2. **Limb (a) is still NOT an F9 arm**, but it is no longer unpriced, and it now shares the F9 proposer inventory rather than needing a separate one. |
-| **F13 limb (a)**, planned as one rung with **F14** | **17.4 [derived]** | Whether corpus-level difference between towers is exploitable in a way persona-level difference is not, which is `logos.tex` §15's F13 limb (a) and the paper's least defended claim, plus F14's contrast against continued-pretraining branches of one base. **It runs on this card and, after the proposer repair, on the same models F9 already loads.** Distinct lineage is a property of how a model was trained, not of the hardware it runs on, and Qwen, Llama, DeepSeek, Mistral and Gemma already have it. **Distinct lineage is the treatment variable:** two models from the same lab, or two finetunes of one base checkpoint, do not count as distinct and may not fill a slot. **The figure is derived in `F9_PREREGISTRATION.md` §8.4**: 2,000 items x 12 pairs x 2 agents x 1,300 tokens = 6.24e7 tokens, at a four-model 7-to-8B-class roster, 14.51 GPU-h plus 20% slack. It scales linearly in roster size, item count and pair count. **Limitation, unchanged:** this tests the diversity claim at the level of independently trained open-weight models, not at tower scale, and the ensemble under test is not a Mixture-of-Towers. What is genuinely out of reach on this card is the 5 x 2.8T ensemble itself, which is **F2**, not F13. **What is still not derivable here is availability**: F14's condition needs a published continued-pretrain of a base that is also on the roster, and whether one exists under an acceptable licence is not a compute question. |
+| **F13 limb (a)**, planned as one rung with **F14** | **17.4 [derived]** | Whether corpus-level difference between towers is exploitable in a way persona-level difference is not, which is `logos.tex` §15's F13 limb (a) and the paper's least defended claim, plus F14's contrast against continued-pretraining branches of one base. **It runs on this card, but not on the same roster F9 loads, and an earlier version of this cell said it did.** F9's proposal loop is volume-bound and is planned at **two** proposers of the **1B** class (`F9_PREREGISTRATION.md` §8.1); limb (a) is item-bound and is costed at a **four**-model **7-to-8B**-class roster, so two of three roster attributes differ and this rung needs a **second, capable-end roster whose freeze is scheduled separately**. At F9's own 1B-class roster the same protocol is **2.2 GPU-h**; the 17.4 is the capable-end figure and it also assumes prefix caching across debate rounds, without which it is **34.2**. Distinct lineage is a property of how a model was trained, not of the hardware it runs on, and Qwen, Llama, DeepSeek, Mistral and Gemma already have it. **Distinct lineage is the treatment variable:** two models from the same lab, or two finetunes of one base checkpoint, do not count as distinct and may not fill a slot. **The figure is derived in `F9_PREREGISTRATION.md` §8.4**: 2,000 items x 12 pairs x 2 agents x 1,300 tokens = 6.24e7 tokens, at a four-model 7-to-8B-class roster, 14.51 GPU-h plus 20% slack (34.2 without prefix caching, which §8.1 there declines to bank elsewhere). It scales linearly in roster size, item count and pair count. **Limitation, unchanged:** this tests the diversity claim at the level of independently trained open-weight models, not at tower scale, and the ensemble under test is not a Mixture-of-Towers. What is genuinely out of reach on this card is the 5 x 2.8T ensemble itself, which is **F2**, not F13. **What is still not derivable here is availability**: F14's condition needs a published continued-pretrain of a base that is also on the roster, and whether one exists under an acceptable licence is not a compute question. |
 | **F3** Quantile Balancing and Causal Dual Bias in a real 1B / 64-expert loop | 72 to 120 [repo estimate] | Whether the two blog-sourced load balancers do what the vendor blog says. Note: an at-scale run already exists (32B-A5B, 1e22 FLOPs, 64 routed experts, reported by Open Athena), so F3 is a downscale replication at 83x less compute, not a first test. The paper does not know this. |
 | **F10** router-swap cost | 96 [repo estimate] | Whether Branch-Adapt-Route's linear-update-cost economics survive router retraining after each expert swap. If they do not, the ensemble loses its main advantage over a monolith. |
 | **F4** Delta-Attention-Residual checkpoint conversion | 48 [repo estimate] | Whether existing checkpoints convert without destabilising, which is what makes the mechanism deployable at all. |
@@ -115,32 +137,34 @@ Where a figure was independently derived in this audit it is marked **[derived]*
 | Line | GPU-h | moves with the roster? |
 |---|---|---|
 | Study 1, ordering, 125M / 1.0e9, five arms A0 to A4, n = 8, 40 runs | 383.1 | no |
-| Study 2, collapse, 125M / 1.0e9, three arms, n = 3, R = 5 rounds inside the same token budget, 9 runs | 86.2 | no |
+| Study 2, collapse, 125M / 1.0e9, R = 5 rounds inside the same token budget, n = 3, **6 novel runs** (A0 reused from Study 1) | 57.5 | no |
 | Study 3, confirmatory, 350M / 2.0e9, three arms, n = 3, 9 runs | 549.5 | no |
-| Outlier replacement reserve, 20% of training | 203.8 | no |
-| **Trajectory generation, all arms, all studies** | **393.9** | **yes: 196.9 to 3,151.0** |
+| Outlier replacement reserve, 20% of training | 198.0 | no |
+| **Trajectory generation, all arms, all studies** | **281.3** | **yes: 140.7 to 2,251.6** |
 | tau_JS calibration pool plus S4 diversity plus S5 competence | 1.8 | yes: 0.9 to 14.5 |
 | RQ-VAE training, frame tokenization, card-parity probes | 15.0 | no |
 | Eval batteries, grounding and collapse probes | 12.0 | no |
 | **F13 limb (b), confidence-weighted aggregation** | **36.3** | **yes: 18.1 to 290.1** |
 | Day-one throughput and memory probe, learner training and proposer inference | 2.0 | no |
-| **F9 total at the 1B-class planning instantiation** | **1,683.6** | band 1,467.6 to 4,707.2 |
+| **F9 total at the 1B-class planning instantiation** | **1,536.5** | band 1,376.8 to 3,773.3 |
 
 ```
-python3: 383.1+86.2+549.5+203.8+393.9+1.81+15.0+12.0+36.3+2.0 = 1683.6
-         fixed lines (training, RQ-VAE, eval, probe)          = 1251.6
-         roster-dependent lines at 2 x 1.0B                    =  432.0
-         the same three lines at 2 x 0.5B / 2 x 8.0B           =  216.0 / 3455.6
+python3: 383.1+57.5+549.5+198.0+281.3+1.81+15.0+12.0+36.3+2.0 = 1536.5
+         fixed lines (training, RQ-VAE, eval, probe)          = 1217.1
+         roster-dependent lines at 2 x 1.0B                    =  319.4
+         the same three lines at 2 x 0.5B / 2 x 8.0B           =  159.7 / 2556.2
+         superseded totals, left labelled: 1402.6 (withdrawn stand-in proposers)
+                                           1683.6 (Study 2 charged per-seed corpora + duplicate A0)
 ```
 
-**Read the third row before anything else.** Study 3 is 33% of the F9 rung at
+**Read the third row before anything else.** Study 3 is 36% of the F9 rung at
 the planning instantiation and runs at n = 3, which supports no test statistic.
 It is a scale sanity check, not a test. If the day-one probe confirms the
 derived throughput, the frozen rule in `F9_PREREGISTRATION.md` §8.3 reduces
 Study 3's tokens from 2.0e9 to 1.0e9 (549.5 to 274.7, saving 329.7 with its
 reserve, and a further 56.3 of generation because halving the tokens halves the
-traces) and takes the rung to `python3: 1683.6-329.7-56.3 = 1297.6`, about
-**1,298 GPU-h**. Tokens are reduced before seeds are, always.
+traces) and takes the rung to `python3: 1536.5-329.7-56.3 = 1150.5`, about
+**1,151 GPU-h**. Tokens are reduced before seeds are, always.
 
 **And read the generation row second.** It is now the largest line after the
 three studies, it is the only line that could plausibly double the rung, and it
@@ -154,31 +178,45 @@ depends on it**, and the run order below reflects that.
 ### Tier 0 total
 
 ```
-python3: F9 1683.6 + F3 (72 to 120) + F10 96 + F4 48 + F5 0 + F13(a)&F14 17.4
-         = 1917.0 to 1965.0 GPU-h
-         electricity: 1917.0*0.350 = 671.0 kWh -> EUR 201 ; 1965.0*0.350 = 687.8 kWh -> EUR 206
-         rented:      1917.0*0.20  = $383      ; 1965.0*0.25 = $491
-         with the Study-3 token reduction: 1531.0 to 1579.0 GPU-h,
-         536 to 553 kWh, EUR 161 to EUR 166, $306 to $395
+python3: F9 1536.5 + F3 (72 to 120) + F10 96 + F4 48 + F5 0 + F13(a)&F14 17.4
+         = 1769.9 to 1817.9 GPU-h        # F9 at 1B-class, limb (a)/F14 at 7-to-8B-class
+         same with limb (a)/F14 also at the 1B-class roster (2.2 instead of 17.4)
+         = 1754.7 to 1802.7 GPU-h
+         electricity: 1769.9*0.350 = 619.5 kWh -> EUR 186 ; 1817.9*0.350 = 636.3 kWh -> EUR 191
+         rented:      1769.9*0.20  = $354      ; 1817.9*0.25 = $454
+         with the Study-3 token reduction: 1383.9 to 1431.9 GPU-h,
+         484 to 501 kWh, EUR 145 to EUR 150, $277 to $358
 ```
 
-**That total now includes F13 limb (a) and F14 at 17.4 GPU-h**, which the previous version of this page left out because the cost was not derived. It is derived in `F9_PREREGISTRATION.md` §8.4 and it is in.
+**That total now includes F13 limb (a) and F14**, which the previous version of this page left out because the cost was not derived. It is derived in `F9_PREREGISTRATION.md` §8.4 and it is in.
 
-**Tier 0 total: 1,917 to 1,965 GPU-h at the 1B-class proposer instantiation.**
+**Tier 0 total: 1,770 to 1,818 GPU-h, with F9 at the 1B-class proposer
+instantiation and limb (a) with F14 at a 7-to-8B-class roster.** That label is
+the correction: an earlier version read "1,917 to 1,965 GPU-h at the 1B-class
+proposer instantiation" while silently including an 8B-class line, which is
+15.2 GPU-h high as labelled. The two experiments want opposite ends of the same
+inventory and this page now says so rather than averaging over it; the
+self-consistent all-1B total is 1,755 to 1,803.
 On the owned card at 350 W (NVIDIA GA102 whitepaper, Appendix A Table 9) and
-EUR 0.30/kWh that is 671 to 688 kWh, about **EUR 201 to EUR 206 of
+EUR 0.30/kWh that is 620 to 636 kWh, about **EUR 186 to EUR 191 of
 electricity**. Rented at RTX-3090 community-cloud rates of $0.20 to
-$0.25/GPU-h, **$383 to $491**. The previous figures on this page, first 934 to
-982 GPU-h and then 1,619 to 1,667, were priced off the withdrawn throughput and
-the withdrawn stand-in proposers respectively, and both are superseded.
+$0.25/GPU-h, **$354 to $454**. Three previous figures on this page are
+superseded and named rather than deleted: 934 to 982 GPU-h (withdrawn
+throughput), 1,619 to 1,667 (withdrawn stand-in proposers, limb (a) omitted),
+and 1,917 to 1,965 (Study 2 charged twice, and two rosters under one label).
 
 **Two bands sit on that total and they are independent.** The first is the MFU
 assumption: the 9.1k and 29k tok/s figures assume 25% to 35% against the
-71-TFLOPS dense ceiling, so at the low end the F9 rung is roughly 2,100 GPU-h
-and at the high end roughly 1,450. The second is the proposer roster: at
-0.5B-class proposers the F9 rung is 1,468 and at 8B-class it is 4,707, which is
-a wider band than the MFU one and it is set by a decision rather than by a
-measurement. **The day-one probe resolves the first and the roster freeze
+71-TFLOPS dense ceiling, which is `python3: 0.25*71e12/2.526e9 = 7,027` and
+9,838 tok/s against the planning 9,100, so the F9 rung scales by 1.295 and
+0.925 and the band is **1,421 to 1,990 GPU-h**. (This page previously said
+"roughly 2,100 ... roughly 1,450" while `F9_PREREGISTRATION.md` §12 said
+"roughly 1,200 to 1,800" for the same quantity; the two did not overlap at
+either endpoint, the second was the superseded 1,402.6 total rescaled, and both
+are replaced by the one derivation above.) The second band is the proposer
+roster: at 0.5B-class proposers the F9 rung is 1,377 and at 8B-class it is
+3,773, which is wider than the MFU band and is set by a decision rather than by
+a measurement. **The day-one probe resolves the first and the roster freeze
 resolves the second, and both happen before any arm.**
 
 ### Order on this card
@@ -195,10 +233,10 @@ Ordered by what a result unblocks, not by cost.
 | 4 | **Phase 0**: headless frame and RAM dump, the observation-card renderer, and parity checks 1 and 2 of `LOGOS_HARNESS.md` §3.4 | **0 GPU** (CPU and I/O bound) | Everything on the proposer path reads the card, and the card is built here. The dump has to target 1.6M distinct battle observations for a gated arm, not the 100k the Phase-0 gate asks for |
 | 5 | S4 proposer diversity, **S5 proposer competence**, and `tau_JS` calibration at q = 0.25, all over the outcome space `O` | 1.8 | Three VOID conditions for the price of a rounding error. A null on the gate arms is uninterpretable if the proposers were never diverse (S4) or were never competent (S5), and S4 alone does not catch the second |
 | 6 | Proposer confidence calibration and **F13 limb (b) on the held-out battery in the proposer rendering: the K5 adjudication** | 36.3 | Needs Phase 0 and the calibrated proposers, and needs the RQ-VAE not at all. Run before any training arm, because if K5 fires the rest of F9 is answering the wrong question |
-| 7 | **F13 limb (a) with F14**, debate between open-weight models of distinct pretraining lineage against personas and against continued-pretraining branches | **17.4** | Tests the paper's least defended claim, needs no gradient step, and reuses the row-1 inventory plus a capable-end roster. Derived at last (`F9_PREREGISTRATION.md` §8.4), so it is scheduled rather than deferred. It is still **not** an F9 arm |
+| 7 | **F13 limb (a), then F14 conditional on it**, debate between open-weight models of distinct pretraining lineage against personas and against continued-pretraining branches | **17.4** at a 7-to-8B-class roster; 2.2 at row 1's 1B-class roster; 34.2 without prefix caching | Tests the paper's least defended claim and needs no gradient step. **It does not reuse row 1's inventory**: it needs a second, capable-end roster whose freeze belongs in row 1 as a separate artifact, and an earlier version of this cell said "reuses the row-1 inventory plus a capable-end roster", which is a contradiction inside one sentence. Derived at last (`F9_PREREGISTRATION.md` §8.4), so it is scheduled rather than deferred. **Read in order:** a null F14 is uninterpretable unless limb (a) first returns a nonzero lineage effect, and under a null limb (a) F14 passes by construction. It is still **not** an F9 arm |
 | 8 | Phases 1 to 3: RQ-VAE at the frozen 90-position geometry, parity check 3, tokenizer, leak filter, text corpus | 15 | A failed reconstruction gate, a failed code-recoverability probe or a non-zero leak count voids everything downstream. No LM training until all pass. **Only the learner path waits here** |
 | 9 | F9 Study 1, the powered screen, 125M, five arms, n = 8 | 383.1 + 112.5 generation | The only line in this ladder that yields a test statistic |
-| 10 | F9 Study 2, collapse sub-study, R = 5 | 86.2 + 168.8 generation | Distinguishes a real negative from an insensitive monitor. Its generation is the largest of the three because every seed must generate its own multi-round corpus |
+| 10 | F9 Study 2, collapse sub-study, R = 5, **6 novel runs** | 57.5 + 56.3 generation | Distinguishes a real negative from an insensitive monitor. Its generation is now the **smallest** of the three: an earlier version said it was the largest "because every seed must generate its own multi-round corpus", which `F9_PREREGISTRATION.md` §5.3's frozen rule forbids, since the proposers take no gradient step and the admitted corpus cannot depend on the training seed. A0 is reused from Study 1 at matched seed index rather than re-run |
 | 11 | F9 Study 3, confirmatory at 350M, n = 3 | 549.5 + 112.5, or 274.7 + 56.3 if row 2 fires the token-reduction rule | Largest line, no test statistic. Run last, and reduce it first if the probe disagrees |
 | 12 | F3 and F10 on one shared 1B MoE trainer | 168 to 216 | Independent of F9 and share a harness |
 | 13 | F4 checkpoint conversion | 48 | Independent |
