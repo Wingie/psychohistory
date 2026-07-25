@@ -27,7 +27,7 @@
   <div class="wrap">
     <div class="crumb"><a href="index.html">Home</a> / Tests &amp; data</div>
     <h1>What the data actually says</h1>
-    <p class="lead">A theory that cannot fail is not a theory. So the framework was turned into pre-registered falsifiers and run against real data: Reddit comment dumps (billions of rows), Wikipedia edit histories, and GitHub repositories. Thresholds were frozen <em>before</em> the data was harvested. The headline result is a split exactly in the shape the theory predicts: the structural gear seals as a pass, while three more ambitious claims honestly deflate. Below is every verdict, with its real numbers and figure.</p>
+    <p class="lead">A theory that cannot fail is not a theory. So the framework was turned into pre-registered falsifiers and run against real data: Reddit comment dumps (billions of rows), Wikipedia edit histories, and GitHub repositories. Thresholds were frozen <em>before</em> the data was harvested. The headline result was reported as a split exactly in the shape the theory predicts, with the structural gear sealing as a pass while three more ambitious claims deflated. Then we checked the null under that pass, and retracted it. All four powered claims deflate. Below is every verdict, with its real numbers and figure, including the one we withdrew and why.</p>
   </div>
 </header>
 
@@ -59,7 +59,7 @@
       <table class="scorecard">
         <thead><tr><th>Test</th><th>The bet</th><th>Verdict</th><th>Key number</th></tr></thead>
         <tbody>
-          <tr><td>(ii′)</td><td>Dynamic N<sub>eff</sub> collapse is community-specific before endogenous cascades</td><td class="sc-pass">SEALED PASS</td><td class="dim">9/12 fire, binomial p = 1.7×10⁻⁷, fresh roster</td></tr>
+          <tr><td>(ii′)</td><td>Dynamic N<sub>eff</sub> collapse is community-specific before endogenous cascades</td><td class="sc-refuted">RETRACTED → OPEN</td><td class="dim">reported 9/12 fire at p = 1.7×10⁻⁷; <b>withdrawn</b> — the null couldn't reject it</td></tr>
           <tr><td>(iii)</td><td>Early warning (critical slowing-down) precedes cascades</td><td class="sc-partial">PARTIAL</td><td class="dim">beats calm null p = 0.02; can't tell endo/exo (AUC 0.60)</td></tr>
           <tr><td>(iii′)</td><td>A substantive fraction of cascades are slow B-tipping</td><td class="sc-refuted">REFUTED</td><td class="dim">B-fraction 0.33 &lt; π_B = 0.60; mostly R-tipping shocks</td></tr>
           <tr><td>(i)</td><td>Attention / activity is conserved (zero-sum) at ecosystem scale</td><td class="sc-contradicted">CONTRADICTED</td><td class="dim">finance-subreddit basket ballooned ~14× in the mania</td></tr>
@@ -87,24 +87,25 @@
     <h2>The criticality gear's prediction, sealed on fresh data</h2>
     <p class="lead">This is the load-bearing test: the whole criticality account turns on the claim that the effective number of independent blocks <em>collapses</em> across an onset. The honest story has a twist that took six runs to find, and it is a lesson in not testing the wrong quantity.</p>
 
-    <div class="verdict-card pass" id="neff-pass">
+    <div class="verdict-card refuted" id="neff-pass">
       <div class="verdict-head">
         <span class="vtest">test (ii′)</span>
         <h3>Dynamic N<sub>eff</sub> collapse — community-specificity</h3>
-        <span class="vbadge pass">SEALED PASS</span>
+        <span class="vbadge refuted">RETRACTED → OPEN</span>
       </div>
-      <p>The theory's real claim is <b>specificity</b>: before an endogenous cascade, the <em>existing community's</em> frozen block partition collapses harder than a random reshuffle of the same people. We pre-registered that as the primary endpoint, with a frozen binomial rule, on a <b>fresh roster of 12 r/wallstreetbets cascades disjoint from every prior run</b> (COVID crash, Archegos, Coinbase, the NVDA earnings prints, Credit-Suisse, the 2024 election, and more). It passed cleanly.</p>
+      <p>The theory's real claim is <b>specificity</b>: before an endogenous cascade, the <em>existing community's</em> frozen block partition collapses harder than a random reshuffle of the same people. We pre-registered that as the primary endpoint, with a frozen binomial rule, on a <b>fresh roster of 12 r/wallstreetbets cascades disjoint from every prior run</b> (COVID crash, Archegos, Coinbase, the NVDA earnings prints, Credit-Suisse, the 2024 election, and more). We reported that it passed cleanly at <b>9 / 12</b> cascades and a binomial <b>p = 1.7×10⁻⁷</b>.</p>
+      <p><b style="color:var(--red)">We have retracted that pass and withdrawn the p-value.</b> The p-value is exactly <code>P(X ≥ 9 | n = 12, p₀ = 0.10)</code>, so the assumed no-structure fire rate p₀ = 0.10 carries the whole result — and it was asserted from the construction of the test, never measured. The assertion needs the observed statistic to be interchangeable with the null draws it is scored against, and it is not: the observation uses a partition chosen to maximise community structure, while every null draw is a random reshuffle of the same people. Measured four ways, the rule's false-fire rate on <em>quiet</em> windows comes out at <b>0.49, 0.60, 0.80 and 0.83</b>. The decision rule breaks above <b>0.378</b>. <b>We assert no replacement p-value</b>, because the corrected figure spans more than an order of magnitude across those estimates and we cannot defend a point value.</p>
       <div class="statrow">
-        <div class="statbox good"><div class="sb-num">9 / 12</div><div class="sb-lbl">cascades collapse past their own block-label shuffle null</div></div>
-        <div class="statbox good"><div class="sb-num">1.7×10⁻⁷</div><div class="sb-lbl">binomial p against the no-structure rate (p₀ = 0.10)</div></div>
-        <div class="statbox good"><div class="sb-num">100th pct</div><div class="sb-lbl">median cascade beats <em>all 300</em> reshuffles of its own nodes</div></div>
-        <div class="statbox"><div class="sb-num">×4</div><div class="sb-lbl">independent confirmations of community-specificity</div></div>
+        <div class="statbox"><div class="sb-num">0.49–0.83</div><div class="sb-lbl">measured false-fire rate of the rule on quiet windows, against the 0.10 it assumed</div></div>
+        <div class="statbox"><div class="sb-num">0.014</div><div class="sb-lbl">median shuffle-null 90th percentile — the bar the 0.24 collapses were scored against</div></div>
+        <div class="statbox"><div class="sb-num">0 / 12</div><div class="sb-lbl">cascades that fire once the null holds the community fixed and moves only the onset</div></div>
+        <div class="statbox good"><div class="sb-num">1 / 12</div><div class="sb-lbl">what survives: cascades firing against a null with enough spread to reject them</div></div>
       </div>
       <figure class="testfig">
         <img src="assets/neff_v4_specificity.png" alt="Per-cascade N_eff collapse vs block-label shuffle, fresh WSB roster" loading="lazy" />
-        <figcaption>The sealed primary endpoint (<code>validation/neff_v4/</code>). Left: each cascade's canonical-N<sub>eff</sub> collapse against its own block-label-shuffle 90th percentile (dots); green bars fire, red do not. Right: the observed collapse sits at the very top of its own 300-shuffle distribution for most cascades. The three non-firing cascades are the mechanical / exogenous events (a direct listing, a single Fed rate decision, a stock split) — exactly where a frozen-block N<sub>eff</sub> <em>should</em> be silent.</figcaption>
+        <figcaption>The retracted endpoint, shown as the record of what was claimed (<code>validation/neff_v4/</code>). Left: each cascade's canonical-N<sub>eff</sub> collapse against its own block-label-shuffle 90th percentile (dots); green bars fire, red do not. <b>The dots are the retraction in visual form</b> — ten of the twelve sit below 0.018 while the bars they gate run to 0.35, so the left panel is scoring the <em>sign</em> of each bar, not its specificity. Right: the observed collapse sits at the top of its own 300-shuffle distribution for most cascades, which is what a near-zero null looks like rather than what strong evidence looks like. The reading that the three non-firing cascades are the mechanical / exogenous events is also withdrawn: the roster carries no such field, and the label was read off the firing set afterwards.</figcaption>
       </figure>
-      <p class="testhonest"><b>§ Why this is an honest pass, not a manufactured one.</b> We did <em>not</em> relax the magnitude threshold an earlier run failed (that verdict stands, see below). We tested a <em>different, theory-correct endpoint</em> on <em>fresh</em> data. The September-2024 stimulus case clinches the logic: its raw collapse is only 0.065 — any magnitude bar would discard it — yet it beats every one of its 300 shuffles, because the signal lives in the community structure, not the magnitude.</p>
+      <p class="testhonest"><b>§ What we got right, and what we got wrong.</b> Right: we did <em>not</em> relax the magnitude threshold an earlier run failed (that verdict stands, see below), we tested a theory-correct endpoint on fresh data, and the threshold was frozen before harvest and never moved. Wrong: the <em>null</em>. A frozen threshold does not help when the thing it is applied to cannot reject the hypothesis. The September-2024 stimulus case was presented as clinching the logic — raw collapse only 0.065, yet beating all 300 shuffles — and it is better read as the clearest exhibit of the problem, since its shuffle null's 90th percentile is 0.0028. Full measurement and corrected verdict: <code>validation/neff_v4/NULL_RECALIBRATION.md</code>. The re-test, frozen in advance with every decision bar unchanged and the null replaced: <code>validation/neff_v5/PRE_REGISTRATION_neff_v5.md</code>.</p>
     </div>
 
     <h3 style="margin-top:26px">The twist: why magnitude was the wrong yardstick</h3>

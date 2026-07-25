@@ -77,6 +77,13 @@ measures; a pure external flood of newcomers need not synchronize the pre-existi
    This is theory-consistent (loss of independence of *any* partition = total
    synchronization) but means the shuffle-specificity gate tested a stronger claim than
    test ii' requires. We keep the frozen result and report it as a negative on that gate.
+   *Added on round-2 referee review (`logos/REVIEW_ROUND2.md`, finding P-02):* the median
+   event `shuffle_null_p90` on this arm is **0.4909**, against **0.0137** for the identical
+   code on the later WSB roster, a factor of 36. So the 0/14 here and the 9/10 there are to
+   a large extent a statement about the two substrates' null geometry rather than about
+   their community structure, and the cross-substrate contrast built on the two numbers
+   (`../reddit_wsb/RESULTS.md`, `../NEFF_COLLAPSE_SYNTHESIS.md`) is weaker than we read it
+   as being. On this arm the gate is genuinely strict; on WSB it is genuinely weak.
 2. **Magnitude below f=0.30.** The median is 0.19; pulled down by the heterogeneous
    exogenous-shock cases above. We do NOT lower f to claim a pass.
 3. **Calm-null contamination.** Two "calm" windows (Queen Elizabeth II −1 y, Twitter −1 y)
