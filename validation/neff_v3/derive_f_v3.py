@@ -59,16 +59,44 @@ def route_i_clean_null():
                          modularity=r.get("modularity"), drop_macro=drop,
                          neff_base=r.get("neff_base_macro"),
                          neff_onset=r.get("neff_onset_macro"),
+                         # The 300x block-label shuffle null that analyze_run already
+                         # paid for on every clean window. These three fields were
+                         # computed and then dropped here, one return before
+                         # serialisation, in the run that produced the committed
+                         # derive_f_v3.json (round-2 finding P-03). They are the
+                         # QUIET-WINDOW fire rate -- i.e. the empirical value of the
+                         # v4 rule's null p0, which v4 instead assumes to be 0.10 on a
+                         # construction argument that finding P-01 refutes. Recording
+                         # them changes nothing about f: f is the p95 of
+                         # clean_drops_sorted, which these fields do not enter. It only
+                         # stops the decisive datum being thrown away again.
+                         shuffle_null_p90=r.get("shuffle_null_p90"),
+                         shuffle_pctile_of_obs=r.get("shuffle_pctile_of_obs"),
+                         fires_vs_shuffle=r.get("fires_vs_shuffle"),
                          n_comments=r.get("n_comments_total"),
                          user_cap_hit=r.get("user_cap_hit"),
                          n_threads_subsampled=r.get("n_threads_subsampled")))
         sys.stderr.write(f"  {label:22s} {r.get('status')} K={r.get('K_blocks')} "
-                         f"drop={drop}\n")
+                         f"drop={drop} fires={r.get('fires_vs_shuffle')}\n")
         if (r.get("status") == "OK" and drop is not None
                 and not (isinstance(drop, float) and np.isnan(drop))):
             clean_drops.append(float(drop))
     cd = sorted(clean_drops)
+    # The quiet-window fire rate. This is the EMPIRICAL null p0 for the v4 specificity
+    # rule -- what fraction of genuinely-quiet pseudo-onsets clear their OWN shuffle
+    # null. Reported here, non-gating for f, and deliberately not substituted into any
+    # frozen rule: n=12 is too small to set a threshold on. It is the measurement that
+    # tells you whether p0=0.10 is defensible. See neff_v4/P0_AUDIT.md.
+    fired = [r for r in rows if r.get("status") == "OK"
+             and r.get("fires_vs_shuffle") is not None]
+    n_fire = sum(1 for r in fired if r["fires_vs_shuffle"])
     out = dict(
+        quiet_fire_rate_EMPIRICAL_p0=dict(
+            k_fires=n_fire, n_windows=len(fired),
+            rate=(n_fire / len(fired)) if fired else None,
+            note=("empirical null fire rate for the v4 rule's p0; null if this JSON "
+                  "predates the P-03 fix, in which case re-run derive_f_v3.py"),
+        ),
         n_windows_total=len(picks), n_clean_ok=len(cd),
         clean_drops_sorted=[round(x, 4) for x in cd],
         p75=float(np.percentile(cd, 75)) if cd else None,

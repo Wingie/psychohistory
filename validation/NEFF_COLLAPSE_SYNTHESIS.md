@@ -1,5 +1,14 @@
 # Dynamic N_eff collapse (test ii'): cross-substrate synthesis
 
+
+> **CORRECTION 2026-07-25 — the binomial p is withdrawn.** Every `p=1.7e-7` in this
+> file is conditional on an assumed null fire rate p0=0.10 that this repository's own
+> quiet windows contradict (10 of 12 quiet windows fire; one-sided CP95 lower bound
+> 0.56 against a 0.378 break point for condition (b)). The 9/12 fire count and the
+> median-percentile-1.000 result are measurements and stand. The significance level
+> does not. Audit: `validation/neff_v4/P0_AUDIT.md`.
+
+
 This ties together six runs that together discharge, in a powered form, the criticality
 gear the GitHub pilot could only touch at n=1 ("only suggestive"). Same frozen method
 throughout (`validation/wikipedia/PRE_REGISTRATION_wiki.md`): blocks from a blind pre-onset
@@ -52,8 +61,9 @@ confirmed; the magnitude yardstick, reported and discarded as non-discriminating
    PRIMARY endpoint (`PRE_REGISTRATION_neff_v4.md`, frozen binomial rule: fire-fraction
    >=0.60 AND binomial P(X>=k | n, p0=0.10) <0.01 AND n>=8) and runs it on a fresh roster
    disjoint from the original-10 AND the v3-10 (COVID crash, Archegos, Coinbase, the Nvidia
-   prints, Credit-Suisse, 2024 election, etc). Result: **9/12 fire, binomial p=1.7e-7,
-   median observed collapse at the 100th percentile of its own 300x shuffle. SEALED PASS.**
+   prints, Credit-Suisse, 2024 election, etc). Result: **9/12 fire, median observed collapse at the 100th percentile of its own 300x
+   shuffle.** (The binomial p=1.7e-7 originally reported here is WITHDRAWN; see the
+   correction at the top of this file.)
    This is NOT a relaxation of the magnitude threshold (that stands); it is the correct,
    independently-motivated endpoint tested on new data. The 3 silent cascades are the
    mechanical/exogenous ones (a listing, a Fed rate decision, a stock split), exactly where
@@ -100,14 +110,16 @@ Both substrates fail the sealed conjunction, for the SAME two reasons:
 
 ## Honest status of test ii'
 
-From "only suggestive, n=1" to: **a powered six-pass investigation that ends in a clean
-pre-registered SEALED PASS on the endpoint that is the theory.** The criticality gear's
+From "only suggestive, n=1" to: **a powered six-pass investigation that ends in a
+pre-registered positive COUNT on the endpoint that is the theory, whose significance level
+is withdrawn pending an empirical null.** The criticality gear's
 actual prediction is community-SPECIFICITY: the effective number of independent blocks
 collapses within the existing community's frozen partition (the real partition collapses
 past a block-label shuffle of the same nodes). That prediction is now confirmed FOUR times
 (Wikipedia population-wide negative control 0/14, original WSB 9/10, neff_v3 fresh WSB 9/10,
-neff_v4 fresh pre-registered-primary WSB 9/12 at binomial p=1.7e-7) and SEALED as a frozen
-primary endpoint on a fresh disjoint roster. The single-anecdote objection is gone.
+neff_v4 fresh pre-registered-primary WSB 9/12, p withdrawn) and run as a frozen
+primary endpoint on a fresh disjoint roster. Note the three WSB entries are three looks at
+one substrate, so "four times" overstates their independence. The single-anecdote objection is gone.
 
 What about magnitude? The first passes also tried a blunter yardstick, a frozen MAGNITUDE
 threshold on the raw collapse. Runs 2-5 carried that out honestly (neff_v2 Wikipedia
@@ -157,7 +169,7 @@ py -3.12 validation/neff_v2/analyze_v2.py
 py -3.12 validation/neff_v3/harvest_v3.py
 py -3.12 validation/neff_v3/derive_f_v3.py
 py -3.12 validation/neff_v3/analyze_v3.py
-# Sealed SPECIFICITY-primary re-test (WSB, fresh roster, frozen binomial rule) = SEALED PASS
+# SPECIFICITY-primary re-test (WSB, fresh roster, frozen binomial rule): 9/12 fire, p withdrawn
 py -3.12 validation/neff_v4/harvest_v4.py
 py -3.12 validation/neff_v4/analyze_v4.py
 ```

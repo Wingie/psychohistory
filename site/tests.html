@@ -59,7 +59,7 @@
       <table class="scorecard">
         <thead><tr><th>Test</th><th>The bet</th><th>Verdict</th><th>Key number</th></tr></thead>
         <tbody>
-          <tr><td>(ii′)</td><td>Dynamic N<sub>eff</sub> collapse is community-specific before endogenous cascades</td><td class="sc-pass">SEALED PASS</td><td class="dim">9/12 fire, binomial p = 1.7×10⁻⁷, fresh roster</td></tr>
+          <tr><td>(ii′)</td><td>Dynamic N<sub>eff</sub> collapse is community-specific before endogenous cascades</td><td class="sc-partial">COUNTS POSITIVE, p WITHDRAWN</td><td class="dim">9/12 fire on a fresh roster; the binomial p is withdrawn (assumed null p&#8320;=0.10 contradicted by our own quiet windows)</td></tr>
           <tr><td>(iii)</td><td>Early warning (critical slowing-down) precedes cascades</td><td class="sc-partial">PARTIAL</td><td class="dim">beats calm null p = 0.02; can't tell endo/exo (AUC 0.60)</td></tr>
           <tr><td>(iii′)</td><td>A substantive fraction of cascades are slow B-tipping</td><td class="sc-refuted">REFUTED</td><td class="dim">B-fraction 0.33 &lt; π_B = 0.60; mostly R-tipping shocks</td></tr>
           <tr><td>(i)</td><td>Attention / activity is conserved (zero-sum) at ecosystem scale</td><td class="sc-contradicted">CONTRADICTED</td><td class="dim">finance-subreddit basket ballooned ~14× in the mania</td></tr>
@@ -87,18 +87,19 @@
     <h2>The criticality gear's prediction, sealed on fresh data</h2>
     <p class="lead">This is the load-bearing test: the whole criticality account turns on the claim that the effective number of independent blocks <em>collapses</em> across an onset. The honest story has a twist that took six runs to find, and it is a lesson in not testing the wrong quantity.</p>
 
-    <div class="verdict-card pass" id="neff-pass">
+    <div class="verdict-card partial" id="neff-pass">
       <div class="verdict-head">
         <span class="vtest">test (ii′)</span>
         <h3>Dynamic N<sub>eff</sub> collapse — community-specificity</h3>
-        <span class="vbadge pass">SEALED PASS</span>
+        <span class="vbadge partial">COUNTS POSITIVE — SIGNIFICANCE WITHDRAWN</span>
       </div>
-      <p>The theory's real claim is <b>specificity</b>: before an endogenous cascade, the <em>existing community's</em> frozen block partition collapses harder than a random reshuffle of the same people. We pre-registered that as the primary endpoint, with a frozen binomial rule, on a <b>fresh roster of 12 r/wallstreetbets cascades disjoint from every prior run</b> (COVID crash, Archegos, Coinbase, the NVDA earnings prints, Credit-Suisse, the 2024 election, and more). It passed cleanly.</p>
+      <p>The theory's real claim is <b>specificity</b>: before an endogenous cascade, the <em>existing community's</em> frozen block partition collapses harder than a random reshuffle of the same people. We pre-registered that as the primary endpoint, with a frozen binomial rule, on a <b>fresh roster of 12 r/wallstreetbets cascades disjoint from every prior run</b> (COVID crash, Archegos, Coinbase, the NVDA earnings prints, Credit-Suisse, the 2024 election, and more).</p>
+      <p class="correction-note"><b>Correction, 2026-07-25.</b> This test was previously published here as a SEALED PASS at binomial <i>p</i> = 1.7×10⁻⁷. That p-value is <b>withdrawn</b>. It was computed against an assumed null fire rate p&#8320; = 0.10, justified by an exchangeability argument that does not hold — the observed partition is modularity-optimised, the nulls are random relabellings. Thresholding our own twelve genuinely-quiet windows at each of the twelve shuffle nulls this run measured gives a quiet-window fire rate of 10/12 (one-sided CP95 lower bound 0.56), and the rule's condition (b) breaks above 0.378 — so condition (b) fails at <em>every</em> threshold the run itself measured. The 9/12 count and the 100th-percentile median stand as measurements; the significance level does not. Open item: measure p&#8320; over ≥30 quiet pseudo-onsets. Audit: <code>validation/neff_v4/P0_AUDIT.md</code>.</p>
       <div class="statrow">
         <div class="statbox good"><div class="sb-num">9 / 12</div><div class="sb-lbl">cascades collapse past their own block-label shuffle null</div></div>
-        <div class="statbox good"><div class="sb-num">1.7×10⁻⁷</div><div class="sb-lbl">binomial p against the no-structure rate (p₀ = 0.10)</div></div>
+        <div class="statbox"><div class="sb-num"><s>1.7×10⁻⁷</s></div><div class="sb-lbl">binomial p — <b>WITHDRAWN</b>; assumed p₀ = 0.10 is contradicted by our own quiet windows</div></div>
         <div class="statbox good"><div class="sb-num">100th pct</div><div class="sb-lbl">median cascade beats <em>all 300</em> reshuffles of its own nodes</div></div>
-        <div class="statbox"><div class="sb-num">×4</div><div class="sb-lbl">independent confirmations of community-specificity</div></div>
+        <div class="statbox"><div class="sb-num">×4</div><div class="sb-lbl">confirmations of community-specificity — but three are the same substrate, so not independent</div></div>
       </div>
       <figure class="testfig">
         <img src="assets/neff_v4_specificity.png" alt="Per-cascade N_eff collapse vs block-label shuffle, fresh WSB roster" loading="lazy" />

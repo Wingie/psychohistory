@@ -1,0 +1,150 @@
+{
+  "what": "post-seal audit of the v4 null fire rate p0; proxy sweep, not a re-seal",
+  "published": {
+    "k_fires": 9,
+    "n_powered": 12,
+    "p0": 0.1,
+    "p_published": 1.658350000000001e-07,
+    "p_reproduced": 1.658350000000001e-07,
+    "reproduces_exactly": true
+  },
+  "cond_b_break_p0": 0.3778069874635305,
+  "proxy": {
+    "method": "v3 clean-window magnitude drops thresholded at each shuffle-null p90 measured by v4 on its own events; a stand-in for the discarded per-window fires_vs_shuffle flag (finding P-03)",
+    "n_quiet_windows": 12,
+    "quiet_drops": [
+      -0.2028,
+      -0.1536,
+      0.0235,
+      0.0442,
+      0.0565,
+      0.0724,
+      0.1235,
+      0.2275,
+      0.2719,
+      0.32,
+      0.3649,
+      0.4286
+    ],
+    "rows": [
+      {
+        "threshold": 0.002787523494651173,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.003604677180981333,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.004495197133316433,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.005270899960716539,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.008322970577494529,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.013336573997086211,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.014028962703011105,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.015102038751403065,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.0171205475143728,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.017922722968644507,
+        "k_quiet_fires": 10,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.8333333333333334,
+        "cp95_lower_on_p0": 0.5618945648846886,
+        "p_at_this_rate": 0.8748219073199976,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.09575971000307792,
+        "k_quiet_fires": 6,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.5,
+        "cp95_lower_on_p0": 0.24529980127412515,
+        "p_at_this_rate": 0.072998046875,
+        "cond_b_holds": false
+      },
+      {
+        "threshold": 0.22424397536400098,
+        "k_quiet_fires": 5,
+        "n_quiet": 12,
+        "quiet_fire_rate": 0.4166666666666667,
+        "cp95_lower_on_p0": 0.18102475724232092,
+        "p_at_this_rate": 0.020559497724238377,
+        "cond_b_holds": false
+      }
+    ],
+    "n_thresholds_where_cond_b_holds": 0,
+    "n_thresholds": 12,
+    "quiet_fire_count_range": [
+      5,
+      10
+    ],
+    "modal_k": 10,
+    "modal_cp95_lower_on_p0": 0.5618945648846886
+  },
+  "limitation": "A proxy sweep bounds p0; it does not measure it. The definitive figure needs analyze_v4's fire rule run over >=30 genuinely-quiet pseudo-onsets with each window's OWN shuffle null recorded. That needs the WSB dump and is the open item.",
+  "verdict": "Condition (b) fails at every threshold v4 itself measured. The 1.7e-7 figure is conditional on p0=0.10 and is not supported by the repository's own quiet-window data."
+}
