@@ -7,6 +7,8 @@
 **Date drafted:** 2026-07-25.
 **Source of record:** `logos.tex` §12 (`sec:observation`), its ordering claim, the F9 and F13 falsifier rows in `logos.tex` §15, and the phase and gate table at `logos/LOGOS_HARNESS.md` §7.
 
+**Revision note, proposer pass, 2026-07-25.** This version repairs a design defect that made F9 unrunnable as specified, and it is the largest change to the budget since the throughput correction. §8.1 of the previous revision generated proposals from "two 350M-class stand-in towers"; `LOGOS_HARNESS.md` §7 Phase 4 generated them from "at least two distinct open models". **Neither works**, and `LADDER_ARCHITECTURE.md` §10 had already recorded the conflict as unresolved. The repair is `LOGOS_HARNESS.md` §2.2: the observation gets **two renderings**, a proposer rendering read by frozen open-weight models of distinct lineage and a code rendering read by the learner. What moves here: §2.1 (the proposers, new), §3 (the battery carries both renderings), §4 (S4 restated over the outcome space, S5 added), §5.3 (the yield decision, new), §8.1 (the generation ledger re-derived), §8.2 (limb (b) re-costed), §8.4 (F13 limb (a) and F14 costed for the first time, new), §8.3 (the observation-loss ablation costed rather than left unbuildable), §9.3 (a sixth voiding condition), §11 (the roster and both renderings enter the seal) and §12. **Nothing in this document has been lodged, so nothing marked FROZEN is being broken; freezing happens at §11 and that has not occurred.**
+
 **Revision note, 2026-07-25.** This version reconciles against the corrections that landed in `LOGOS_HARNESS.md` after the first draft was written: the withdrawn throughput figures (§5.4 of that file, reflected in the banner above and §8), the resolved observation tokenizer at 90 tokens per frame rather than 270 (§3.2 there, reflected in §5 here), the inverted model sizing that makes 125M the powered screen (§5.1 there, §8.1 here), the ungated-scoring mandate from round-2 finding X-12 (§2.1 there, §2 here), and falsifier F13 limb (b), which `logos.tex` §15 scopes as an arm of F9 and which the previous budget did not pay for (§8.2 here). Every number touched was recomputed rather than scaled.
 **House format:** matches `validation/PRE_REGISTRATION.md` and `validation/neff_v4/PRE_REGISTRATION_neff_v4.md`. A frozen rule, evaluated exactly ONCE, reported straight.
 
@@ -16,7 +18,17 @@ Values marked **[FROZEN]** are binding once this document is lodged (§11). Valu
 
 ## THE HEADLINE FINDING, STATED FIRST: F9 IS UNDERPOWERED ON ONE CONSUMER GPU, AND THE CONTRAST THE PAPER CARES MOST ABOUT STAYS UNDERPOWERED EVEN AFTER THE FIX
 
-Two claims, in the order of what they cost to repair. Neither is a footnote. Together they are the reason this document exists.
+Three claims, in the order of what they cost to repair. None is a footnote. Together they are the reason this document exists.
+
+### Claim 0, stated first because it is the newest and it moves the total: the experiment as previously specified could not run, and the repair makes the budget roster-dependent
+
+The proposals had two incompatible specifications and neither was executable (§2.1). Fixing it costs nothing in power and changes no endpoint, but it changes what generation is priced against. **Three things follow and all three are disclosed here rather than in §8.**
+
+1. **The F9 total is no longer a single number.** Generation, the `tau_JS` pool, S4, S5 and F13 limb (b) all run on frozen open-weight proposers, and their cost is linear in the proposers' parameter count. At 0.5B-class proposers the F9 total is **1,467.6 GPU-h**, at 1B-class **1,683.6**, at 8B-class **4,707.2** (§8.1). **The roster is not frozen in this document**, so the honest statement of the F9 rung is a band with a named planning instantiation, not a total. What settles it: freezing `proposers/roster.yaml` and measuring quantized proposer inference in the day-one probe.
+2. **Generation is now the second largest line and it is bigger than it was.** It moves from 137.9 to 393.9 GPU-h at the planning instantiation. The old figure was cheap because it was priced against proposers that would have had to be trained first, out of a budget that never paid for them, and that would have been the homogeneous pair finding C-02 says returns a martingale. **The old number bought an instrument that does not exist; the new one buys an instrument that does.**
+3. **Nothing here weakens power.** Seeds, arms, endpoints, effect size, MDE and every equivalence margin are untouched. Two **new voiding conditions** are added (S5 proposer competence, §4; the observation-card parity gate, §9.3f), and a voiding condition can only turn a result into VOID. It cannot manufacture one.
+
+**One thing this pass buys back.** The same proposer inventory is the instrument falsifier **F13 limb (a)** and falsifier **F14** require, so both acquire a derived cost for the first time (§8.4, **17.4 GPU-h**). Three documents, this one included, previously declined to assert it.
 
 ### Claim 1: the ledger budget does not buy even one seed per arm, and the corrected throughput makes that worse by a factor of 2.6
 
@@ -47,12 +59,14 @@ Three consequences follow, each demonstrable:
 |---|---|---|---|
 | Budget implied by `GAPS.md` §2 | 72 to 96 | $14 to $24 rented | ~EUR 10 |
 | Old figure in this document, planned off the withdrawn throughput | 718 | $145 to $180 | ~EUR 76 |
-| **Powered design, re-derived against the corrected throughput** | **~1,400** | **$281 to $351 rented** | **491 kWh, ~EUR 147** |
-| Same, if the day-one probe fires the frozen "reduce T" rule (§8.3) | ~1,073 | $215 to $268 | 376 kWh, ~EUR 113 |
+| Powered design, corrected throughput, withdrawn 350M stand-in proposers | 1,402.6 | $281 to $351 rented | 491 kWh, ~EUR 147 |
+| **Powered design, frozen open-weight proposers, 1B-class planning instantiation** | **1,683.6** | **$337 to $421 rented** | **589 kWh, ~EUR 177** |
+| Same at 0.5B-class proposers / at 8B-class | 1,467.6 / 4,707.2 | $294 to $367 / $941 to $1,177 | 514 / 1,648 kWh |
+| 1B-class, if the day-one probe fires the frozen "reduce T" rule (§8.3) | ~1,298 | $260 to $324 | 454 kWh, ~EUR 136 |
 
-Breakdown in §8.1. The powered programme is 14.6x to 19.5x the current ledger line and is still under four hundred dollars, or under EUR 150 of electricity on a card that is already owned. **The underpowered version is therefore not a budget constraint. It is an unforced error, and this document exists to remove it before the first run rather than to discover it afterwards.**
+Breakdown in §8.1. At the planning instantiation the powered programme is `python3: 1683.6/96 = 17.5` to `1683.6/72 = 23.4` times the current ledger line, and it is about four hundred dollars rented or under EUR 180 of electricity on a card that is already owned. **The underpowered version is therefore not a budget constraint. It is an unforced error, and this document exists to remove it before the first run rather than to discover it afterwards.**
 
-`GAPS.md` §2 and §5 must be corrected from ~718 to **~1,400 GPU-h**, and `GAPS.md` §5's "cheap decisive negative" must be qualified: at n <= 2 no negative is licensed at all.
+`GAPS.md` §2 and §5 must be corrected from ~718 to **~1,700 GPU-h at the 1B-class planning instantiation, stated as a roster-dependent band**, and `GAPS.md` §5's "cheap decisive negative" must be qualified: at n <= 2 no negative is licensed at all. `GAPS.md` also carries F13 limb (b) at 12.7 GPU-h and limb (a) as unpriced; both are superseded by §8.2 and §8.4 here.
 
 ### Claim 2: the corrected budget fixes the ordering test and does NOT fix K3
 
@@ -120,6 +134,20 @@ The four arms of the paper's ordering, as a 2x2 factorial on (disagreement gate)
 | §7 blind outlier rule | P(at least one arm corrupted) at a 20% single-seed corruption rate is 1 - 0.8^5 = **0.672** over five arms, not 1 - 0.8^4 = 0.590 |
 | §8.1 budget | Study 1 is 5 arms x 8 seeds = **40 runs**, and A4 alone is 8 runs = 8 x 9.579 = **76.6 GPU-h** at the corrected 125M throughput (the old figure of 33 GPU-h was planned off the withdrawn throughput) |
 
+### 2.1 The proposers [class FROZEN, roster CALIBRATED]
+
+Every arm except A0 depends on a proposal step, and the previous revision specified it two ways at once. This section fixes what a proposer is. The full argument is `LOGOS_HARNESS.md` §2.2; what is binding here is the following.
+
+**Frozen.** Proposals come from **two or more frozen open-weight models of distinct pretraining lineage**, run at inference, quantized, on the owned card, with **no gradient step anywhere on the proposal path**. They read the **observation card** of `LOGOS_HARNESS.md` §3.4, or the raw frame if the proposer is a vision-language model. **No proposer ever reads an RQ-VAE code**, which is what made the previous specification unexecutable: codes are meaningful only inside the vocabulary and embedding table they were trained into.
+
+**Frozen.** A proposal is a **categorical distribution over the pre-committed outcome space `O`** (`LOGOS_HARNESS.md` §2.3, `|O_A| = 40`, `|O_B| = 4`), plus an action from the enumerated legal set, plus free text that enters the trace and no statistic. **Every statistic in this document that was written against "predictive distributions" is computed over `O`**: the `tau_JS` gate, S4, the yield of §5.3, and the aggregation rules of §8.2. Token-level distributions are not used and cannot be: proposers with different tokenizers share no event space over tokens.
+
+**Frozen.** Distinct lineage is the eligibility rule, taken verbatim from `logos.tex` §15 F13 limb (a): **two models from the same lab, two sizes of one family, or two finetunes of one base checkpoint do not count as distinct and may not fill a slot.** Personas or system prompts over one model are the F13 control condition, never a proposer pair.
+
+**Calibrated, not frozen: which models.** The roster is fixed in `logos-harness/proposers/roster.yaml` with model ids, revisions, quantization, a lineage attestation per slot and a SHA-256 per weight file, lodged in §11 **before** the `tau_JS` calibration pass and therefore before any arm. It is not named here because naming it here would assert an availability and licence check this document has not run, and because the choice is a cost decision the day-one probe informs (§8.1).
+
+**The one thing the roster choice is not free to do.** Generation cost is linear in proposer size (§8.1), so the roster sets the F9 total. Small proposers are cheap and risk being too weak to disagree informatively; large ones are competent and can cost more in generation than the entire training programme. **S4 and S5 are what make that trade decidable rather than arbitrary** (§4), and they run before any arm.
+
 ---
 
 ## 3. Primary endpoint [FROZEN]
@@ -127,7 +155,8 @@ The four arms of the paper's ordering, as a 2x2 factorial on (disagreement gate)
 **g = p_heldout minus p_control**, a per-run scalar, difference-in-differences on the behavioural probe of `LOGOS_HARNESS.md` §3.3.
 
 - **Battery.** 10,000 held-out items and 10,000 control items, enumerated from the Generation-I type chart under the constraint that **exactly one of the four offered moves is super-effective**, so chance is exactly 0.25 in both conditions by construction. RNG seed 20260725, written to `logos-harness/eval/battery_v1.jsonl`, SHA-256 in §11.
-- **Presentation.** A battle-screen observation as RQ-VAE codes plus the trace-schema prefix of `LOGOS_HARNESS.md` §5.3, truncated at `action:`. Under the resolved tokenizer geometry (`LOGOS_HARNESS.md` §3.2: 10x9 = 90 spatial positions, 3 residual levels, **collapsed to one LM position per spatial position**) the observation prefix is **90 codes, not 270**, so a probe item is about 90 + 40 = 130 tokens and the whole 20,000-item battery is one packed pass per checkpoint. Scoring cost is derived in §8.1.
+- **Presentation, and there are now two of them [FROZEN].** Every battery item is stored in **both renderings** of `LOGOS_HARNESS.md` §2.2, generated from the same emulator state and checked for parity by that file's §3.4. **(i) The learner rendering**, which is what the primary endpoint is scored on: a battle-screen observation as RQ-VAE codes plus the trace-schema prefix of §5.3 there, truncated at `action:`. Under the resolved tokenizer geometry (10x9 = 90 spatial positions, 3 residual levels, **collapsed to one LM position per spatial position**) the observation prefix is **90 codes, not 270**, so a probe item is about 90 + 40 = 130 tokens and the whole 20,000-item battery is one packed pass per checkpoint. **(ii) The proposer rendering**, the §3.4 observation card, which is what F13 limb (b) (§8.2), S4 and S5 (§4) are scored on, because no frozen open model can read rendering (i). Both are covered by the battery's SHA-256 in §11. Scoring cost is derived in §8.1.
+  **The primary endpoint g is unaffected by the split.** It is a property of the trained learner, it is scored on rendering (i) only, and no proposer touches it.
 - **Scoring.** Deterministic argmax over the four legal `select_move` continuations by length-normalised total log-probability. No sampling, so decode noise is exactly zero.
 - **Checkpoint.** Final checkpoint only. Intermediate checkpoints are diagnostics.
 
@@ -160,7 +189,13 @@ Holm-corrected within the secondary family, evaluated only if the primary gate (
 - **S1 grounding probe.** Fraction of held-out terms whose top-5 nearest observation codes by cosine come from frames containing that type or move (`LOGOS_HARNESS.md` §3.3), versus the same fraction for control terms, against a 1,000-draw permutation null over code assignment. Not primary: the held-out set is ~11 terms, a hard resolution ceiling, and cosine nearest-neighbour reads representation rather than behaviour. Note the code space is the collapsed one: 90 composite per-position codes per frame, so a "nearest observation code" is a per-position composite, not one of 270 residual-level codes.
 - **S2 collapse monitor.** §6.
 - **S3 mean admitted yield per arm** (`yield(tau) = -log P_M(o_observed | context, action)`, `LOGOS_HARNESS.md` §2). Manipulation check that the gate did what the loop claims. **If mean admitted yield in A3 does not exceed A1, the loop did not run as specified and the run is VOID, not negative.**
-- **S4 proposer diversity.** Mean pairwise Jensen-Shannon divergence between the two proposer models' predictive distributions on a frozen 5,000-item probe set, measured and recorded **before any training arm runs**. **If mean pairwise JS < 0.15 the experiment is VOID**: a null on the gate arms would otherwise be uninterpretable between "the gate does nothing" and "the proposers were not diverse".
+- **S4 proposer diversity.** Mean pairwise Jensen-Shannon divergence between the proposer models' distributions **over the outcome space `O`, in bits** (§2.1), on a frozen 5,000-item probe set in the proposer rendering, measured and recorded **before any training arm runs**. **If mean pairwise JS < 0.15 the experiment is VOID**: a null on the gate arms would otherwise be uninterpretable between "the gate does nothing" and "the proposers were not diverse".
+
+  **What the proposer split changes here, and it is disclosed rather than absorbed.** The 0.15 threshold was set against "predictive distributions" with no distribution named, at a time when the proposers were two copies of one 350M architecture and a token-level divergence at least existed. It is now pinned to a specific object: the factorised joint on `O`, in bits, `|O_A| = 40`. **The number itself is inherited unchanged and is not re-derived against the new object**, which is a real gap. It is tolerable for one reason only: S4 is a VOID gate and not an endpoint, so an inherited threshold can only stop the experiment, never manufacture a result. If the calibration pass shows the realised JS distribution sitting far from 0.15 in either direction, that is recorded in the §11 addendum and reported, not quietly re-tuned.
+
+- **S5 proposer competence [NEW].** Each proposer's own accuracy on the **control** condition of the §3 battery, in the proposer rendering, measured on the same pass as S4 and before any training arm runs. **If any proposer fails to exceed chance (0.25) at one-sided binomial p < 0.01 on 10,000 control items, the experiment is VOID.**
+
+  **Why this is needed and why S4 alone was not enough.** S4 can be satisfied by two incompetent proposers disagreeing at random, which is the failure mode that arrives precisely if the roster is chosen at the cheap end (§2.1). Two models that are both wrong in unrelated ways produce high JS, pass the gate, and turn the disagreement gate into a uniformly random sampler over proposals. Every gate contrast in this design would then be a comparison between random sampling and no sampling, and it would look exactly like a null on H3. The control condition is the right surface because it is text-supported by construction, so a proposer that cannot do it is not being tested on grounding, it is failing to read the card. Cost is inside the §8.1 calibration line.
 
   **Provenance of this gate, corrected.** An earlier draft of this section justified S4 by quoting `LOGOS_HARNESS.md` to the effect that "the towers must be informatively different, or the loop is provably worthless". **That sentence has been withdrawn upstream and this document does not inherit it.** The corrected §1 of that file establishes the opposite: Choi et al. (arXiv:2508.17536) extend the debate martingale explicitly to HETEROGENEOUS agents, so informational diversity does not by itself break it, and the two mechanisms that do break it (confidence weighting, better initialisation) are protocol-internal rather than observational. Tower diversity is therefore a **conjecture of the authors** running against the source it was drawn from, it is falsifier F13, and S4 measures it rather than assuming it. The gate's role is unchanged and its justification is now the weaker and correct one: without measured diversity, a null on A2 versus A1 is uninterpretable. What S4 does **not** do is license the claim that diversity is what makes the loop work; F13 limb (a) tests that and F13 limb (b) is costed in §8.2.
 
@@ -236,6 +271,22 @@ python3: 16 * 9.579 = 153.3 GPU-h
 ```
 
 **MP2 is registered and is NOT in the §8.1 core total.** It is priced as a §8.3 contingent rung, run only if MP1's C1 passes, because an MP2 replication of a null is not informative. Earlier drafts registered MP2 with no line item at all, which is the failure mode this document exists to prevent.
+
+### 5.3 Yield is scored under the PROPOSER ensemble, not the learner [FROZEN]
+
+`logos.tex` §12 and `LOGOS_HARNESS.md` §2 define yield as the surprisal of the observed outcome "under the ensemble's own prediction before it acted". Under the two-path split of §2.1 that sentence has two readings and **neither document said which**, so the corpus each arm trains on was undetermined. Frozen here:
+
+> **`P_M` is the proposer ensemble's pre-action distribution over `O`**, the unweighted mean of the proposers' `p_outcome`, floored at `(1 − eps) P_ens + eps/|O|` with `eps = 1e-3`. It is computed once, at generation time, by `bootstrap/yield_score.py`, which **loads no training checkpoint**.
+
+**Three reasons, in the order that decides it.**
+
+1. **The paper's own wording.** The thing that acts is the proposer ensemble. The learner never acts; it reads traces afterwards. Where this document and the paper could disagree, the paper governs, and here it does not disagree.
+2. **It is what keeps the corpus shared across seeds.** §8.1 generates one corpus per arm and shares it across the 8 seeds, so that the seeds estimate **training-seed** variance with the data held fixed. A learner-side yield makes admission depend on the seed and the arm, which forces one corpus per seed and multiplies Study 1's generation by 8: `python3: 8*112.5 = 900.3` GPU-h against 112.5, a difference of **787.7 GPU-h** bought in exchange for a confound.
+3. **The learner reading is circular at round 1**, when the learner has been trained on no trajectories at all, so its surprisal reports its text pretraining rather than the observation.
+
+**What this decides downstream, since it decides which trajectories are admitted.** The gate threshold `tau_JS` (§7), the S4 diversity gate (§4) and the admission weight are now three functionals of **one** distribution, calibrated on the same 50,000-proposal pool over the same event space. Yield is in **nats** and JS is in **bits**; the units are stated because S4's threshold is absolute and a base change would move it silently. The floor bounds yield at `python3: import math; math.log(40/1e-3) = 10.597` nats on Substrate A, so `w = clip(yield, 0, 10)` almost never binds, which is the intended behaviour of a clip that exists to stop unbounded weights.
+
+**S3's manipulation check is read against this same object** (§4): mean admitted yield in A3 must exceed A1, computed under `P_M` as defined here, and if it does not the run is VOID rather than negative.
 
 ---
 
@@ -327,8 +378,8 @@ python3: z_{1-0.05/3} = 2.1280 ; z_{1-0.05/5} = 2.3263 ; z_{0.80} = 0.8416
 
 | Parameter | Spec status | Frozen value |
 |---|---|---|
-| tau_JS, the disagreement gate | `LOGOS_HARNESS.md` §2 said "Below threshold, discard" and gave no value | **[CALIBRATED]** the value admitting exactly **q = 0.25** of proposals on a 50,000-proposal calibration pool generated **before any training arm runs**. A quantile, not a magic number, mirroring `neff_v4`'s 90th-percentile shuffle rule. Now adopted upstream in `LOGOS_HARNESS.md` §2 |
-| yield weighting | `LOGOS_HARNESS.md` §2 said "Admit weighted by yield" and gave no function | w(tau) = clip(yield(tau), 0, 10), normalised to mean 1 within each round. Now adopted upstream |
+| tau_JS, the disagreement gate | `LOGOS_HARNESS.md` §2 said "Below threshold, discard" and gave no value, and did not say over what distribution | **[CALIBRATED]** the value admitting exactly **q = 0.25** of proposals on a 50,000-proposal calibration pool generated **before any training arm runs**, with the divergence computed **over the outcome space `O`, in bits**, which is the same distribution the yield of §5.3 is scored under and the same one S4 measures. A quantile, not a magic number, mirroring `neff_v4`'s 90th-percentile shuffle rule. Now adopted upstream in `LOGOS_HARNESS.md` §2 |
+| yield weighting | `LOGOS_HARNESS.md` §2 said "Admit weighted by yield" and gave no function, and neither document said whose ensemble | w(tau) = clip(yield(tau), 0, 10) in nats, normalised to mean 1 within each round, scored under the **proposer** ensemble's floored pre-action mixture (§5.3). Now adopted upstream |
 | bootstrap rounds | `LOGOS_HARNESS.md` §2 said only "repeat" | R = 1 for Study 1, R = 5 for Study 2, **with Study 2's five rounds inside the same 1.0e9-token budget** (§6), not five full runs |
 
 ---
@@ -376,24 +427,56 @@ python3: 125M, T=1.0e9 @ 29.0k tok/s : 1.0e9/2.90e4/3600 =  9.579 GPU-h per run
          ratio 61.050/9.579 = 6.37, which is why the seeds are bought at 125M
 ```
 
-**Step 2: the trajectory-generation ledger, derived rather than asserted.** Proposals are generated by the two 350M-class stand-in towers. Forward-only inference costs about one third of the forward-plus-backward FLOPs per token, so the effective proposal throughput is 3 x 9.1k = 27.3k tok/s. Each proposal costs 2 towers x (about 400 tokens of observation-plus-context prefill, plus about 80 generated tokens of prediction, action and reasoning) = 960 tokens processed. Gated arms (A2, A3) over-generate by 1/q = 4x to reach the same admitted U; ungated arms (A1, A4) do not. Under §5.1, a trace is 310 tokens.
+**Step 2: the trajectory-generation ledger, re-derived against the frozen open-weight proposers.** The previous revision priced this line at 137.9 GPU-h against **two 350M-class stand-in towers that nothing in the budget trained**, and §2.1 has withdrawn that instrument. What is unchanged: proposal volume, the 960 tokens processed per proposal (2 proposers x about 400 tokens of card-plus-protocol prefill plus about 80 generated tokens), the 4x over-generation in the gated arms, and the 310-token trace of §5.1. **What changes is the throughput the tokens are priced at, because the proposers are no longer 350M.**
+
+**The throughput model, calibrated so that it reproduces the ledger it replaces.** The frozen 9.1k tok/s at 350M and 2.526 GFLOP/token imply a sustained rate, and forward-only inference is one third of forward-plus-backward:
 
 ```
-python3: traces for U=1.25e8 (125M) = 1.25e8/310 = 403,226   ; for U=2.5e8 (350M) = 806,452
-         ungated arm, 125M: 403226      * 960 / 2.73e4 / 3600 =  3.94 GPU-h
-         gated   arm, 125M: 403226/0.25 * 960 / 2.73e4 / 3600 = 15.75 GPU-h
-         ungated arm, 350M: 806452      * 960 / 2.73e4 / 3600 =  7.88 GPU-h
-         gated   arm, 350M: 806452/0.25 * 960 / 2.73e4 / 3600 = 31.51 GPU-h
-         Study 1 (A1,A4 ungated + A2,A3 gated; ONE corpus per arm, shared across the 8 seeds
-                  so that the 8 seeds estimate TRAINING-seed variance with data held fixed):
-                  2*3.94 + 2*15.75 = 39.4 GPU-h
-         Study 2 (A1,A3, R=5 accumulating rounds; the corpus is model-dependent across rounds
-                  so EACH SEED must generate its own): 3*(3.94+15.75) = 59.1 GPU-h
-         Study 3 (A1 ungated + A3 gated at 350M):     7.88+31.51      = 39.4 GPU-h
-         TOTAL GENERATION = 137.9 GPU-h
+python3: sustained          = 2.526e9 * 9.1e3          = 2.29866e13 FLOP/s
+         inference FLOP/token/param = 2.526e9/3/3.5e8  = 2.4057
+         throughput(N) = 2.29866e13 / (2.4057 * N)
+         check at N = 3.5e8: 2.29866e13/(2.4057*3.5e8) = 27,300 tok/s   # the old ledger's own figure
+         N = 5.0e8 -> 19,110 | 1.0e9 -> 9,555 | 1.5e9 -> 6,370
+         N = 3.0e9 ->  3,185 | 8.0e9 -> 1,194 | 1.4e10 ->  682
 ```
 
-Only admitted proposals are acted on, so the emulator is stepped 403,226 times per grounded 125M arm and not 1.6M times; PyBoy stepping is CPU-bound and contributes zero GPU-hours.
+Decode must be batched at 8 or more so it is compute-bound rather than bandwidth-bound: at 4.25-bit weights an 8B proposer reads 4.24 GB per step and `python3: 8*936e9/4.24e9 = 1,766` tok/s already clears the 1,194 compute cap on the 3090's 936 GB/s.
+
+**Volume, unchanged and re-checked.**
+
+```
+python3: traces for U=1.25e8 (125M) = 1.25e8/310 = 403,226 ; for U=2.5e8 (350M) = 806,452
+         Study 1  2 ungated + 2 gated arms   : 2*403226 + 2*403226/0.25 =  4,032,258 proposals
+         Study 2  3 seeds x (A1 ungated + A3 gated), corpora model-dependent across R=5 rounds
+                  so EACH SEED generates its own : 3*(403226+403226/0.25) = 6,048,387
+         Study 3  A1 ungated + A3 gated at 350M  : 806452 + 806452/0.25   = 4,032,258
+         TOTAL 14,112,903 proposals x 960 tokens = 1.35484e10 tokens processed
+         CHECK against the withdrawn ledger: 1.35484e10/2.73e4/3600 = 137.9 GPU-h, exactly the
+         figure this line used to carry, which is the evidence that only the throughput moved
+```
+
+**And the answer is not a single number.**
+
+```
+python3: generation GPU-h = 1.35484e10 / throughput(N) / 3600
+         2 x 0.5B : 196.9    2 x 1.0B : 393.9    2 x 1.5B : 590.8
+         2 x 3.0B : 1,181.6  2 x 7.0B : 2,757.1  2 x 8.0B : 3,151.0
+```
+
+**Stated plainly: the generation line is not derivable without knowing which open models are used.** It spans a factor of 16 across a roster range that is entirely plausible, and at the top of that range generation alone exceeds every training line in this budget put together. **What would settle it:** freezing `proposers/roster.yaml` (§2.1) and measuring quantized proposer inference on the card in the day-one probe of §8.3, which now covers proposer inference as well as learner training. Until both happen, this document reports a **planning instantiation** and a band, and does not assert a total as if the roster were settled.
+
+**Planning instantiation [NOT frozen]: two proposers of about 1B parameters, distinct lineage, 4-bit.** Chosen because it holds generation to about a third of the four training lines (`python3: 393.9/1222.6 = 0.32`) at a size where distinct-lineage open-weight models are plentiful, not because any roster has been checked. At 3B the generation line alone is 1,181.6 and nearly equals the entire training programme; at 8B it is two and a half times it. **This is a planning figure and it is not a commitment to any model.** At that instantiation:
+
+```
+python3: Study 1: 4032258*960/9555/3600 = 112.5 GPU-h
+         Study 2: 6048387*960/9555/3600 = 168.8 GPU-h
+         Study 3: 4032258*960/9555/3600 = 112.5 GPU-h
+         TOTAL GENERATION = 393.9 GPU-h        (was 137.9 against untrained 350M stand-ins)
+```
+
+**One saving that exists and is not taken.** The roughly 150-token protocol prompt is identical across every proposal, so a prefix cache pays it once instead of 14.1 million times, cutting the per-proposal token count from 960 to about 660 and the line by about 31%. It is not taken because it requires the prompt to be a strict prefix in every proposer's template and this document has not verified that per roster. It is recorded so the lever is visible rather than discovered late.
+
+Only admitted proposals are acted on, so the emulator is stepped 403,226 times per grounded 125M arm and not 1.6M times; PyBoy stepping is CPU-bound and contributes zero GPU-hours. **What is not zero-cost is supplying 1,612,904 distinct battle observations to a gated arm**, which is an I/O and CPU load on the Phase-0 dump rather than a GPU load, and `LOGOS_HARNESS.md` §7 now says so.
 
 **Step 3: evaluation.**
 
@@ -413,17 +496,30 @@ python3: battery scoring: 20000 items * 4 continuations * ~300 tok = 2.40e7 tok,
 | **Study 2, collapse (S2)** | 125M / 1.0e9 | A0, A1, A3 | 3 | 5 within the same 1.0e9 (A0: 1) | 9 | **86.2** |
 | **Study 3, confirmatory scale** | 350M / 2.0e9 | A0, A1, A3 | 3 | 1 | 9 | **549.5** |
 | Outlier replacement reserve, 20% of training | | | | | ~12 | 203.8 |
-| Trajectory generation, all arms, all studies | | | | | | 137.9 |
-| tau_JS calibration pool (50k proposals) plus S4 diversity | | | | | | 0.5 |
-| RQ-VAE training plus frame tokenization | | | | | | 15.0 |
+| **Trajectory generation**, all arms, all studies, **at the 1B-class planning instantiation** | | | | | | **393.9** |
+| tau_JS calibration pool (50k proposals) plus S4 diversity plus S5 competence | | | | | | 1.8 |
+| RQ-VAE training plus frame tokenization plus the §3.4 code-recoverability probes | | | | | | 15.0 |
 | Eval batteries, grounding and collapse probes | | | | | | 12.0 |
-| **F13 limb (b), confidence-weighted aggregation (§8.2)** | | | | | | **12.7** |
-| Day-one throughput and memory probe | | | | | | 2.0 |
-| **TOTAL** | | | | | | **1,402.6, call it ~1,400** |
+| **F13 limb (b), confidence-weighted aggregation (§8.2)** | | | | | | **36.3** |
+| Day-one throughput and memory probe, learner training **and proposer inference** | | | | | | 2.0 |
+| **TOTAL at the planning instantiation** | | | | | | **1,683.6, call it ~1,700** |
 
 ```
-python3: 383.1+86.2+549.5+203.8+137.9+0.5+15.0+12.0+12.7+2.0 = 1402.6
+python3: 383.1+86.2+549.5+203.8+393.9+1.81+15.0+12.0+36.3+2.0 = 1683.6
+         tau_JS pool + S4 + S5 tokens = 50000*960 + 5000*2*480 + 10000*2*480 = 6.24e7
+                                        6.24e7/9555/3600 = 1.81 GPU-h
 ```
+
+**The same table at the two ends of the proposer range**, because three of its lines are roster-dependent and pretending otherwise would be the error this document exists to prevent:
+
+| Proposers | generation | pool + S4 + S5 | limb (b) | **F9 total** | electricity | rented |
+|---|---:|---:|---:|---:|---|---|
+| 2 x 0.5B-class | 196.9 | 0.91 | 18.1 | **1,467.6** | 514 kWh, EUR 154 | $294 to $367 |
+| **2 x 1B-class [planning]** | **393.9** | **1.81** | **36.3** | **1,683.6** | 589 kWh, EUR 177 | $337 to $421 |
+| 2 x 3B-class | 1,181.6 | 5.44 | 108.8 | **2,547.4** | 892 kWh, EUR 267 | $509 to $637 |
+| 2 x 8B-class | 3,151.0 | 14.51 | 290.1 | **4,707.2** | 1,648 kWh, EUR 494 | $941 to $1,177 |
+
+The seven training and probe lines (1,251.6 GPU-h) do not move with the roster. **The band is the roster, not the statistics.**
 
 **What moved, and why, line by line.**
 
@@ -433,32 +529,42 @@ python3: 383.1+86.2+549.5+203.8+137.9+0.5+15.0+12.0+12.7+2.0 = 1402.6
 | Study 2 | 135 | 86.2 | throughput correction (+2.32x) AND the round-accounting correction of §6 (33 runs to 9), which is a **reduction** because the old accounting silently ran 5.0e9 tokens per seed and broke the epoch cap |
 | Study 3 | 208 | 549.5 | throughput correction only (9 x 61.05 against 9 x 23.15). **This is now the largest single line in the budget and it buys n = 3, which supports no test statistic** |
 | Reserve | 101 | 203.8 | 20% of the corrected training cost |
-| Generation | 75 | 137.9 | derived here for the first time; the old 75 was an unshown estimate |
+| Generation | 75, then 137.9 | 393.9 | derived at 137.9 against 350M stand-ins that nothing trained; re-derived here against frozen open-weight proposers at the 1B-class planning instantiation. **Roster-dependent, 196.9 to 3,151.0** |
 | Eval | 20 | 12.0 | derived here; the collapsed 90-tokens-per-frame geometry makes battery items about 130 tokens instead of about 310 |
-| F13 limb (b) | absent | 12.7 | §8.2. `logos.tex` §15 scopes F13 as "an arm of F9" and the old budget could not pay for it |
-| tau_JS pool, day-one probe | absent | 2.5 | both are mandated elsewhere in this document and neither had a line |
+| F13 limb (b) | absent, then 12.7 | 36.3 | §8.2. `logos.tex` §15 scopes F13 as "an arm of F9" and prices limb (b) at 12.7, which was correct against 350M stand-ins and is now stale. **Roster-dependent, 18.1 to 290.1** |
+| tau_JS pool, day-one probe | absent, then 2.5 | 3.8 | the pool now runs on the proposers and carries S5 as well as S4 |
+| F13 limb (a) and F14 | not derived, in three documents | 17.4 | §8.4. The instrument is the proposer inventory §2.1 installs, so the derivation stopped being owed |
 
 **The 125M screen is what makes this affordable, and it is the whole lever.** `LOGOS_HARNESS.md` §5.1 now inverts the spec's original phase order and labels 125M the **powered screen** (n = 8, five arms) and 350M the **confirmatory** replicate (n = 3, three arms). At 125M the entire five-arm n = 8 ordering study is 383.1 GPU-h. The same study at 350M with T = 2.0e9 would be 40 x 61.05 = 2,442 GPU-h, which is 6.4x the whole Study-1 line and 1.7x this entire budget. **Without the inversion the powered design does not fit on one card at any sane electricity bill; with it, the powered part costs less than a third of the total.**
 
-**Cost:** ~1,400 GPU-h. At RTX-3090 community-cloud rates of $0.20 to $0.25 per GPU-h that is **$281 to $351**. On the owned RTX 3090 at 350 W (GA102 whitepaper) and EUR 0.30/kWh it is 1402.6 x 0.350 = **491 kWh, about EUR 147**.
+**Cost:** ~1,700 GPU-h at the planning instantiation. At RTX-3090 community-cloud rates of $0.20 to $0.25 per GPU-h that is **$337 to $421**. On the owned RTX 3090 at 350 W (GA102 whitepaper) and EUR 0.30/kWh it is `python3: 1683.6*0.350 = 589.3` kWh, about **EUR 177**. The 1,402.6 figure the previous revision carried was priced against an instrument that could not be built and is superseded, not scaled.
 
 ### 8.2 F13 limb (b), costed [FROZEN]
 
 `logos.tex` §15 scopes falsifier **F13** as "One consumer GPU (arm of F9)", and its limb (b) is: *calibrated-confidence weighting alone lifting ensemble accuracy without any environment adjudication, which would locate the gain in the protocol rather than in the observation channel.* That is Zhu et al. (arXiv:2601.19921) Theorem 1, under which confidence positively correlated with correctness turns the debate belief process into a strict submartingale with no diversity and no external observation involved. **The previous version of this budget contained no confidence-weighted aggregation line, so the paper claimed an arm the experiment could not pay for.** That is fixed here rather than deferred.
 
-**What limb (b) actually is.** It is an ENSEMBLE-level comparison on the frozen §3 battery, not a pretraining arm. Two aggregation rules over the same two stand-in towers: unweighted majority (the rule A1 and A2 already use to manufacture their pseudo-outcomes) versus calibrated-confidence weighting. No emulator, no RAM, no adjudicator. The endpoint is ensemble accuracy on the 10,000 held-out and 10,000 control items, paired per item, tested by exact McNemar on the discordant pairs at one-sided alpha = 0.05. Item-level n is 20,000, so this limb is well powered on a budget that is a rounding error against Study 1.
+**What limb (b) actually is.** It is an ENSEMBLE-level comparison on the frozen §3 battery **in the proposer rendering** (§3, presentation (ii)), not a pretraining arm. Two aggregation rules over the same two §2.1 proposers: unweighted majority (the rule A1 and A2 already use to manufacture their pseudo-outcomes, and which §5.3 now defines as the argmax of `P_M`) versus calibrated-confidence weighting. No emulator, no RAM, no adjudicator. The endpoint is ensemble accuracy on the 10,000 held-out and 10,000 control items, paired per item, tested by exact McNemar on the discordant pairs at one-sided alpha = 0.05. Item-level n is 20,000, so this limb is well powered on a budget that is a rounding error against Study 1.
 
-**Cost.**
+**What the proposer split changes here.** Two things and neither is cosmetic. **First, the scoring surface**: the previous revision scored limb (b) on a battery presented as RQ-VAE codes, which the proposers cannot read, so the arm as written could not execute and the run order that scheduled it before Phase 1 could not have run either (`TIER0_3090_PLAN.md`, order table). It now scores on the observation card, which needs the Phase-0 dump and **not** the Phase-1 RQ-VAE. **Second, the calibration target**: the proposers are frozen, so the calibration is a **LoRA calibration adapter over frozen base weights**, never a weight update to the base. That is the same object Zhu et al. calibrate (GRPO, LoRA r=64 alpha=32) and it preserves the correspondence to their Theorem 1, which is what the falsifier cites.
+
+**Cost, re-derived at the throughput model of §8.1.** The 12.7 GPU-h this section used to carry was correct for 350M stand-ins and is superseded with them.
 
 ```
-python3: confidence calibration per proposer per seed (GRPO + LoRA r=64 alpha=32, per Zhu et al.):
-           rollouts 5000 prompts * 8 samples * 256 tok = 1.024e7 generated tokens
-           generation 1.024e7/(3*9.1e3)/3600 = 0.104 h ; policy update 1.024e7/9.1e3/3600 = 0.313 h
-           = 0.417 GPU-h
-         battery scoring per proposer per seed: 20000*4*300/(3*9.1e3)/3600 = 0.244 GPU-h
-         8 calibration seeds x 2 proposers x (0.417+0.244) = 10.6 GPU-h
-         +20% slack = 12.7 GPU-h  [BUDGETED]
+python3: per proposer per seed, at proposer size N and throughput(N) from §8.1:
+           calibration rollouts 5000 prompts * 8 samples * 256 tok = 1.024e7 generated tokens
+           policy update priced at the FULL fwd+bwd rate (conservative; a LoRA-only estimator
+           at C = 4ND would be about a third cheaper and is not claimed here)
+           battery scoring 20000 items * 4 continuations * 300 tok = 2.4e7 tokens
+         at 2 x 350M (the withdrawn instrument): 0.104 + 0.313 + 0.244 = 0.661 ; x16 = 10.6 ; +20% = 12.7
+         at 2 x 0.5B : 0.944 per proposer-seed ; x16 = 15.1 ; +20% =  18.1
+         at 2 x 1.0B : 1.888                    ; x16 = 30.2 ; +20% =  36.3   [PLANNING]
+         at 2 x 3.0B : 5.665                    ; x16 = 90.6 ; +20% = 108.8
+         at 2 x 8.0B : 15.108                   ; x16 = 241.7; +20% = 290.1
 ```
+
+**The early text-battery screen, and what it costs if F9 pays for it.** `TIER0_3090_PLAN.md`'s run order wants the cheapest kill shot before anything is built, and on a **text** battery limb (b) needs no emulator, no observation card and no RQ-VAE. The first choice is to take that screen from the E-DIV **A5** arm of `LADDER_ARCHITECTURE.md` §7.3, which is costed in that document and already shares its battery with K5 so the two are comparable. If it has not run, F9's own calibrated proposers can be screened on a text-only battery for one extra scoring pass: `python3: 16*0.698*1.2 = 13.4` GPU-h at the planning instantiation. **The screen is not the verdict.** K5 is adjudicated on the §3 held-out battery in the proposer rendering, which needs the Phase-0 dump, and a text-battery screen that fires is an advance warning that K5 is likely, not K5 itself.
+
+**A cheaper calibrator is registered and is not the primary.** Temperature or Platt scaling of each proposer's own label log-probabilities, fitted on the same curated near-50%-accuracy subset, needs no gradient at all and costs `python3: 16*5000*300/9555/3600 = 0.70` GPU-h at the planning instantiation. It is registered as a **secondary** calibration variant, reported alongside the primary, and it is not promoted to primary because it is not the procedure Zhu et al. use and K5 is stated against their theorem. If the primary is ever dropped for budget, K5 is reported as tested under a **different calibrator** and that is said in the write-up rather than glossed.
 
 **Design constraints, frozen so a positive is not over-read.**
 
@@ -468,7 +574,7 @@ python3: confidence calibration per proposer per seed (GRPO + LoRA r=64 alpha=32
 
 **The training-arm extension is registered and NOT funded here.** "Does a confidence-weighted pseudo-label also install held-out semantics?" would be a sixth arm, A5, identical to A2 except that the pseudo-outcome is confidence-weighted rather than majority-voted. That is 8 x 9.579 = 76.6 GPU-h at 125M. It is a §8.3 contingent rung, triggered only if limb (b) fires at ensemble level, because a null at ensemble level makes the training arm uninformative. **F13 limb (a)**, debate between corpus-disjoint towers tracking the martingale as closely as debate between personas of one model, is NOT in this budget at all and is NOT an F9 arm: it needs models whose pretraining corpora, objectives and alignment histories genuinely differ, and no 350M stand-in trained for this harness supplies that. `logos.tex` §15's "arm of F9" scoping is correct for limb (b) and is **not** correct for limb (a).
 
-**Limb (a) is nevertheless runnable on the same owned card, and an earlier version of this section wrongly implied it was not.** Distinct pretraining lineage is a property of how a model was trained, not of the hardware it runs on, and models with that property already exist: Qwen, Llama, DeepSeek, Mistral and Gemma were pretrained by different organisations on different corpora under different objectives with different alignment histories. That is arguably a **better** instrument for limb (a) than five towers from one lab, which would share data-collection pipelines and filtering decisions and be less independent than they look. The instrument is therefore several existing open-weight models of **different pretraining lineage**, quantized and stepped sequentially on the 24 GB card, with no gradient step anywhere. **Distinct lineage is the treatment variable**: two models from the same lab, or two finetunes of one base checkpoint, do not count as distinct and may not fill a slot. Two things are owed and neither is invented here. First, **the cost is not derived**: sequential inference over a handful of quantized models is cheap relative to every training line in §8.1, but cheap is not a number and this document does not assert one. Second, the **limitation is real**: limb (a) so instrumented tests the diversity claim at the level of independently trained open-weight models rather than at tower scale inside one architecture, and the ensemble under test is not a Mixture-of-Towers. What is genuinely out of reach on this card is the 5 x 2.8T ensemble itself, which is falsifier **F2**, not F13, and the two are not to be conflated.
+**Limb (a) is nevertheless runnable on the same owned card, and after §2.1 it is runnable on the same models.** Distinct pretraining lineage is a property of how a model was trained, not of the hardware it runs on, and models with that property already exist: Qwen, Llama, DeepSeek, Mistral and Gemma were pretrained by different organisations on different corpora under different objectives with different alignment histories. That is arguably a **better** instrument for limb (a) than five towers from one lab, which would share data-collection pipelines and filtering decisions and be less independent than they look. The instrument is therefore several existing open-weight models of **different pretraining lineage**, quantized and stepped sequentially on the 24 GB card, with no gradient step anywhere, which is exactly the inventory F9's proposals now run on. **Its cost is derived in §8.4** rather than left owed, which is what changed. The **limitation is unchanged and real**: limb (a) so instrumented tests the diversity claim at the level of independently trained open-weight models rather than at tower scale inside one architecture, and the ensemble under test is not a Mixture-of-Towers. What is genuinely out of reach on this card is the 5 x 2.8T ensemble itself, which is falsifier **F2**, not F13, and the two are not to be conflated.
 
 ### 8.3 Contingent rungs, priced now so the choice is not made after seeing data [FROZEN]
 
@@ -476,10 +582,48 @@ python3: confidence calibration per proposer per seed (GRPO + LoRA r=64 alpha=32
 |---|---|---|
 | **MP2 replication** (§5.2), A2 and A3 re-run at matched generation budget | MP1 contrast C1 passes | 16 x 9.579 = **153.3** |
 | **A5 confidence-weighted training arm** (§8.2) | F13 limb (b) fires at ensemble level | 8 x 9.579 = **76.6** |
-| **Study 3 token reduction**, T from 2.0e9 to 1.0e9 at 350M | the day-one probe measures below 60% of the planning midpoint | **saves 329.7** (549.5 to 274.7, plus its 20% reserve), taking the total to ~1,073 |
+| **Study 3 token reduction**, T from 2.0e9 to 1.0e9 at 350M | the day-one probe measures below 60% of the planning midpoint | **saves 386.0**: 329.7 on training (549.5 to 274.7 plus its 20% reserve) **and 56.3 on generation**, because halving T halves U, which halves the traces Study 3 needs. `python3: 1683.6-329.7-56.3 = 1297.6`, about ~1,298 at the planning instantiation |
 | **n = 13 at 125M**, to reach a 5-point equivalence margin | never triggered automatically; a decision to fund it, not a result-dependent one | +239.5 on Study 1 |
+| **A6, the observation-loss ablation** (`LOGOS_HARNESS.md` §5.2), A3 re-run with the observation loss unmasked through a factorised head of 3 sub-softmaxes over 1,024 codes | a decision to fund it. Exploratory under §4.1, never confirmatory | 8 x 9.604 = **76.8** |
 
-**Day-one probe [FROZEN].** The corrected throughput is still arithmetic against a published ceiling, not a measurement: `LOGOS_HARNESS.md` §5.4 says so explicitly, and 9.1k tok/s at 350M assumes an MFU inside a 25% to 35% band. **Before committing, run a forward-backward probe with `torch.cuda.max_memory_allocated` and record measured tokens/s at both sizes in §11.** If measured throughput falls below 60% of the planning midpoint, **reduce T before reducing n**, per the row above. Seeds are the inferential currency; tokens are not. If measured throughput comes in ABOVE the planning midpoint, the surplus is spent on seeds in Study 1, not on tokens, and not on Study 3.
+**A6 is costed here rather than left registered-and-unbuildable, which is what the previous revision did.** The switch was registered in `LOGOS_HARNESS.md` §5.2 and made unavailable by the §3.2 collapse decision without a factorised head, and nothing paid for the head. The head is small enough that the objection was never really cost:
+
+```
+python3: head params = 3 * 768 * 1024                                  = 2,359,296
+         extra FLOP/token averaged over the stream = 3*2*2359296*0.145 = 2.053e6
+         baseline 125M training FLOP/token = 2.29866e13/2.90e4         = 7.926e8
+         overhead 2.053e6/7.926e8 = 0.259% ; run 9.579*1.00259 = 9.604 ; n=8 = 76.8 GPU-h
+```
+
+The alternative of running the ablation on the flattened 270-codes-per-frame variant remains available and remains a **different sequence-length regime, not a clean ablation**, so it is the fallback. Either way A6 is outside the core total and outside every confirmatory family.
+
+### 8.4 F13 limb (a) and F14, costed [derived here for the first time]
+
+`logos.tex` §15 says of limb (a): "Cost not yet derived", and of F14: "the same instrument as F13 limb (a). Cost not yet derived". `TIER0_3090_PLAN.md` and `LOGOS_HARNESS.md` said the same. **The reason the derivation was owed is gone**: §2.1 installs an inventory of frozen open-weight models of distinct lineage as the F9 proposers, and that inventory *is* limb (a)'s instrument. What was missing was never a model, it was a protocol with a token count. Here it is.
+
+**The protocol [FROZEN as the costing basis, not as a design freeze].** Limb (a) asks whether debate between models of genuinely different pretraining lineage tracks the martingale as closely as debate between personas of one model. F14 asks the same question with a third condition, two continued-pretraining branches of one base. One instrument, three conditions, one pass:
+
+- **M = 2,000 items**, drawn from the frozen §3 battery in the proposer rendering with RNG seed 20260725, so the items are the ones already sealed and the sample is reproducible.
+- **R = 3 debate rounds**, 2 agents per pair, each round contributing about 150 tokens of argument. With prefix caching each agent processes the transcript once: about 400 tokens of item and protocol plus 2 agents x 3 rounds x 150 = **1,300 tokens per agent per item**.
+- **Pairs.** A roster of 4 distinct-lineage models gives **6** distinct-lineage pairs (the treatment), **4** persona pairs, one per model (the control limb (a) is stated against), and **2** branch pairs for F14, each a published continued-pretrain against the base it descends from. **12 pairs.**
+- **Endpoint.** Per-item belief trajectory over `O`, and the paired difference in round-over-round belief change between conditions, which is what "tracks the martingale" means operationally. n = 2,000 paired items is ample; the binding uncertainty here is the roster, not the item count.
+
+```
+python3: tokens = M * pairs * 2 agents * 1300
+         = 2000*6*2*1300 = 3.120e7   distinct-lineage
+         + 2000*4*2*1300 = 2.080e7   persona control
+         + 2000*2*2*1300 = 1.040e7   F14 branch pairs
+         = 6.240e7 tokens total
+         at 2 x 1B  : 6.24e7/9555/3600 = 1.81 GPU-h ; +20% slack =  2.2
+         at 2 x 3B  : 6.24e7/3185/3600 = 5.44        ; +20%       =  6.5
+         at 2 x 8B  : 6.24e7/1194/3600 = 14.51       ; +20%       = 17.4   [ASSERTED]
+```
+
+**Asserted figure: 17.4 GPU-h**, at a four-model 7-to-8B-class roster, which is the size at which the models are capable enough for the debate to mean anything and where limb (a) is a 2,000-item job rather than a 14-million-proposal one. **The two experiments want different ends of the same inventory and that is not a contradiction**: F9's proposal loop is volume-bound and belongs at the small end (§8.1), limb (a) is item-bound and belongs at the capable end. Cost scales linearly in proposer size, in item count and in pair count, so the three levers are visible and none of them is hidden inside the figure.
+
+**What is not derived, and it is not compute.** F14 needs a **published continued-pretrain of a base whose original is also on the roster**. Whether such a pair exists under an acceptable licence is an availability question this document has not checked, and if it does not, F14's condition cannot be filled by anything on this card at any price. Limb (a) does not depend on that and runs regardless.
+
+**Day-one probe [FROZEN].** The corrected throughput is still arithmetic against a published ceiling, not a measurement: `LOGOS_HARNESS.md` §5.4 says so explicitly, and 9.1k tok/s at 350M assumes an MFU inside a 25% to 35% band. **Before committing, run a forward-backward probe with `torch.cuda.max_memory_allocated` and record measured tokens/s at both sizes in §11. The probe now also measures quantized proposer inference on the frozen roster, prefill and batched decode separately**, because after §2.1 the generation line is roster-dependent and is the second largest in the budget; the probe is minutes of work and its 2.0 GPU-h line absorbs the addition. If measured throughput falls below 60% of the planning midpoint, **reduce T before reducing n**, per the row above. Seeds are the inferential currency; tokens are not. If measured throughput comes in ABOVE the planning midpoint, the surplus is spent on seeds in Study 1, not on tokens, and not on Study 3.
 
 ---
 
@@ -487,7 +631,7 @@ python3: confidence calibration per proposer per seed (GRPO + LoRA r=64 alpha=32
 
 1. **No interim analysis on the primary.** g is computed once, on final checkpoints, after all Study-1 runs complete. No peeking, no sequential stopping, no alpha spending.
 2. **The only permitted early termination is technical**: a run diverges (loss NaN or inf) or trips the blind outlier rule of §7. It is replaced by a fresh seed from the pre-declared seed list `[1001..1024]`, consumed in order.
-3. **Voiding conditions**, checked before any endpoint is computed: (a) S4 proposer diversity < 0.15; (b) S3 mean admitted yield in A3 not exceeding A1; (c) the leak scan finds any held-out term on any of the three surfaces of §3.1, or any control term occurring fewer than 1,000 times; (d) the Phase-1 RQ-VAE reconstruction gate of `LOGOS_HARNESS.md` §7 fails; (e) the Phase-2 trace-terminal-span assertion fails, that is, any trace ends on a loss-masked span, which would give the result frame exactly zero gradient and manufacture a false negative before any GPU ran. Any of these gives **VOID, no directional conclusion**.
+3. **Voiding conditions**, checked before any endpoint is computed: (a) S4 proposer diversity < 0.15 over `O`; (b) S3 mean admitted yield in A3 not exceeding A1, scored under §5.3's proposer ensemble; (c) the leak scan finds any held-out term on any of the three surfaces of §3.1, or any control term occurring fewer than 1,000 times; (d) the Phase-1 RQ-VAE reconstruction gate of `LOGOS_HARNESS.md` §7 fails; (e) the Phase-2 trace-terminal-span assertion fails, that is, any trace ends on a loss-masked span, which would give the result frame exactly zero gradient and manufacture a false negative before any GPU ran; **(f) [NEW] any proposer fails S5, or the observation-card parity gate of `LOGOS_HARNESS.md` §3.4 fails** (a field-list mismatch against the Phase-1 certified fields, an audit below 100% on the four gate fields or below 99% overall, or a card field the code-recoverability probe cannot recover). A parity failure means the proposers and the learner were looking at different observations, under which every gate contrast is a comparison between two different experiments. Any of these gives **VOID, no directional conclusion**.
 4. **Underpowered condition.** If realised sigma_hat makes the realised MDE exceed the pre-declared **0.0792** (§8, five-contrast planning constant at n = 8), the run is reported **UNDERPOWERED**, the realised MDE and TOST margin are published, and no equivalence claim is made. The superseded figure of 0.074 was computed at a three-contrast constant and does not apply to a five-arm design.
 5. Study 2 and Study 3 run regardless of Study 1's outcome. A negative Study 1 does not license skipping the collapse and scale checks; those are what distinguish a real negative from a broken harness.
 
@@ -520,10 +664,13 @@ SHA-256 digests, computed and lodged **before the first training run**:
 | this file | *(fill at lodge)* |
 | `logos-harness/configs/arms.yaml` (A0 to A4, five arms) | *(fill)* |
 | `logos-harness/configs/rqvae.yaml` (90 positions, 3 levels, collapsed per position) | *(fill)* |
+| **`logos-harness/proposers/roster.yaml`** (model ids, revisions, quantization, lineage attestation, per-weight-file sha256) | *(fill)* |
+| **`logos-harness/configs/outcome_space.yaml`** (`O_A`, `O_B`, the label tokens, the floor `eps`) | *(fill)* |
 | calibrated-confidence LoRA adapters, both proposers, 8 seeds (§8.2) | *(fill)* |
 | `logos-harness/configs/heldout_vocab.yaml` | *(fill)* |
 | `logos-harness/configs/bootstrap.yaml` | *(fill)* |
-| `logos-harness/eval/battery_v1.jsonl` | *(fill)* |
+| `logos-harness/eval/battery_v1.jsonl` (**both renderings**, §3) | *(fill)* |
+| **observation-card parity report** (field-list diff, 1,000-frame audit, code-recoverability probe, §3.4 there) | *(fill)* |
 | collapse probe set P | *(fill)* |
 | seed list `[1001..1024]` | *(fill)* |
 
@@ -531,19 +678,23 @@ SHA-256 digests, computed and lodged **before the first training run**:
 
 `validation/PREREGISTRATION_SEAL.md:29-32` concedes that OpenTimestamps "is not installed here" and that no OSF DOI is lodged, and lines 37-44 concede that two prior pre-registrations were authored "in a single working session rather than under an independent prior timestamp". That concession is defensible for retrospective tests over dumps that already existed. **It is not defensible for F9, whose data does not exist yet.** A genuine ex-ante third-party anchor costs nothing here, so accepting the weaker git-only anchor would be a pure unforced loss of evidential value. This is also the correct place to record that `PREREGISTRATION_SEAL.md` names neither `neff_v3` nor `neff_v4` in its scope, so no prior seal covers this document by inheritance.
 
-**Post-calibration addendum**, appended and re-hashed after the calibration pass and before any experimental arm is scored: tau_JS at q = 0.25; s(M1), s(M2), s(M3) from the A0 calibration; **measured 3090 tokens/s at 125M and 350M, and the resulting GPU-hour total recomputed from the measurement rather than from the 71-TFLOPS ceiling**; whether the 60% rule of §8.3 fired and which contingent row it selected; the S4 proposer-diversity value; the leak-scan count and the per-control-term occurrence counts; the measured admission rate at tau_JS.
+**Post-calibration addendum**, appended and re-hashed after the calibration pass and before any experimental arm is scored: tau_JS at q = 0.25; s(M1), s(M2), s(M3) from the A0 calibration; **measured 3090 tokens/s at 125M and 350M, and the resulting GPU-hour total recomputed from the measurement rather than from the 71-TFLOPS ceiling**; whether the 60% rule of §8.3 fired and which contingent row it selected; the S4 proposer-diversity value; **the S5 per-proposer control accuracy and the per-proposer malformed-proposal rate**; **the measured proposer inference throughput and the generation total recomputed from it rather than from the §8.1 planning instantiation**; the leak-scan count and the per-control-term occurrence counts; the measured admission rate at tau_JS.
 
 ---
 
 ## 12. Honesty rails (carried)
 
-- The design is **underpowered at the budget the repository currently assigns it**, by a factor of 14.6 to 19.5, and that is stated at the top of this document rather than in a footnote (see the banner above §0). The ledger's 72 to 96 GPU-h does not buy one seed per arm; at 350M it buys about a quarter of one.
+- The design is **underpowered at the budget the repository currently assigns it**, by a factor of 17.5 to 23.4 at the planning instantiation (14.6 to 19.5 against the superseded stand-in budget), and that is stated at the top of this document rather than in a footnote (see the banner above §0). The ledger's 72 to 96 GPU-h does not buy one seed per arm; at 350M it buys about a quarter of one.
 - The primary endpoint reads **one bit**, grounding versus no grounding. It cannot rank the three ungrounded arms. Stated in §3.2 in advance.
 - The paper's own flagged contribution (H3) is the contrast this design is **worst** powered to detect, and **the corrected budget does not fix it**. K3 requires two equivalence declarations, the tightest declarable margin at n = 8 is 6.2 accuracy points, and the price of a 3-point margin is 1,676 GPU-h in Study 1 alone. Stated in the banner, in §8 and in §10 K3, in advance.
 - **The throughput figures this pre-registration is costed against are still arithmetic, not measurement.** The original 18k to 30k tok/s at 350M was an interpolation from 4090, A30 and L20 runs that exceeded the RTX 3090's dense BF16 ceiling; `LOGOS_HARNESS.md` §5.4 has replaced it with about 9.1k tok/s at 350M and about 29k at 125M, derived against 71 TFLOPS dense and an assumed 25% to 35% MFU. That is a defensible ceiling-based derivation and it is **not** a first-party 3090 log. The day-one probe of §8.3 is the resolution, the frozen response to a shortfall is to reduce T and never n, and until the probe runs the total in §8.1 carries a **band of roughly 1,200 to 1,800 GPU-h** from the MFU assumption alone.
 - **The largest single line in the budget buys no test statistic.** Study 3 at 549.5 GPU-h is 39% of the total and runs at n = 3. It is a scale sanity check, and this document does not pretend otherwise: nothing in §7 tests a hypothesis on Study 3, and a Study-3 disagreement with Study 1 is reported as a scale caveat, never as a refutation.
 - **Any number this harness reports against an external baseline is scored in the ungated arm A4, never on gated output** (§2 Reason 2, round-2 finding X-12). This binds Substrate B in particular: a Brier score, skill score or hold rate against persistence, climatology, a market or a superforecaster panel is a population statistic over a full pre-registered question set, and the disagreement gate selects exactly the difficulty-biased subsample on which such a comparison cannot be scored.
 - Substrate B (the psychohistory validation pipeline as adjudicator) is **not** part of this pre-registration's primary or secondary endpoints. An independent count of the sealed rosters gives 83 rows, 68 distinct onset dates, 58 distinct real-world episodes and 35 carrying a committed endogenous/exogenous label, which caps a paired Substrate-B contrast at a minimum detectable effect of about 0.42 sigma before any disagreement gate discards anything. Substrate B is a directional sanity check that can refute and cannot confirm, and a null from it is not evidence of absence.
+- **The proposals do not come from towers, and after the proposer pass they do not come from anything trained for this experiment either.** They come from frozen open-weight models of distinct lineage reading a text or image rendering of the observation (§2.1). That is a better instrument than the withdrawn 350M stand-ins, which nothing paid to train and which would have been the homogeneous pair the martingale result covers, and it is still not a Mixture-of-Towers. No claim here transfers to tower scale.
+- **The F9 total is roster-dependent and is reported as a band with a planning instantiation, not as a number** (§8.1). Three lines move by a factor of 16 across a plausible roster range. Freezing `proposers/roster.yaml` and measuring proposer inference in the day-one probe is what collapses the band, and both happen before any arm.
+- **S4's 0.15 threshold is inherited, not re-derived against the outcome space it is now computed on** (§4). It is a VOID gate, so it cannot manufacture a result, and the realised distribution is published in the §11 addendum either way.
+- **`logos.tex` §15 disagrees with this document on two figures and the paper has not been edited.** It prices F13 limb (b) at 12.7 GPU-hours and says limb (a)'s cost is not derived. Both were right against the withdrawn stand-ins; §8.2 now gives 36.3 at the planning instantiation and §8.4 gives 17.4 for limb (a) with F14. The paper is the register of record, those edits are owed there, and this rail exists so the disagreement is visible rather than silently resolved in the companion's favour.
 - If the primary endpoint FAILS, that is a real negative for the observation bound and will be reported as such. The rule above is the whole verdict and will not be renegotiated after the numbers land.
 
 ---
@@ -551,9 +702,12 @@ SHA-256 digests, computed and lodged **before the first training run**:
 ## 13. Reproduce
 
 ```
-py -3.12 logos-harness/train/throughput_probe.py      # day-one measured tok/s, 125M and 350M (§8.3)
-py -3.12 logos-harness/eval/battery_build.py          # frozen probe battery + sha256
-py -3.12 logos-harness/eval/proposer_diversity.py     # S4 gate, BEFORE any training
+py -3.12 logos-harness/train/throughput_probe.py      # day-one measured tok/s, 125M and 350M,
+                                                      # AND quantized proposer inference (§8.3)
+py -3.12 logos-harness/bootstrap/render_observation.py --build-cards   # the §3.4 proposer rendering
+py -3.12 logos-harness/bootstrap/parity_check.py      # §3.4 field diff, audit, recoverability probe
+py -3.12 logos-harness/eval/battery_build.py          # frozen battery, BOTH renderings + sha256
+py -3.12 logos-harness/eval/proposer_diversity.py     # S4 over O, and S5 competence, BEFORE training
 py -3.12 logos-harness/bootstrap/calibrate_confidence.py --seed {1001..1008}  # §8.2, BEFORE any arm
 py -3.12 logos-harness/bootstrap/calibrate_gate.py    # tau_JS at q=0.25, BEFORE any training
 py -3.12 logos-harness/train/run_arm.py --arm A0 --model 125m --seed {1001..1008}  # calibration arm first
