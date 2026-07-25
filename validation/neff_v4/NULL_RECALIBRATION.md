@@ -409,6 +409,12 @@ rule for all three before any of them runs.
    window's row. Adding three keys turns section 3.4 from imputed into measured at the
    cost of one re-run of an existing script. This is finding P-03 and it is the cheapest
    real number in this file.
+   **Code status: the three keys are now serialised** (`derive_f_v3.py`, plus an
+   aggregate `quiet_fire_rate_EMPIRICAL_p0` block; `f` is unchanged, being the p95 of
+   `clean_drops_sorted`, which these fields do not enter). **The number does not exist
+   yet.** The fix only takes effect when `derive_f_v3.py` is re-run, and that needs the
+   gitignored WSB dump, which is not on the machine that made this edit. Section 3.4
+   stays imputed until someone with the dump re-runs it.
 2. **Measure `p0` at the sample size P-01 asks for.** Extend
    `neff_v3/clean_windows.py` from 12 quiet pseudo-onsets to at least 30 by relaxing the
    minimum separation from 45 days to 21 and dropping the lowest-volume-first greedy
@@ -442,7 +448,11 @@ files, and in the paper; the data and the code stay exactly reproducible.
 ## Reproduce
 
 ```
-# the arithmetic in sections 1, 3.2-3.5 and 5, over committed JSON only:
+# sections 1 and 3.4, over committed JSON only -- stdlib, no numpy, no dump, no network:
+python3 validation/neff_v4/p0_audit.py
+#   reproduces the published 1.658350e-07 exactly, then the 0.83 quiet-fire reading
+#   and the 0.37781 condition-(b) break point. Emits p0_audit.json.
+# the rest of sections 3.2-3.5 and 5:
 py -3.12 validation/neff_v4/analyze_v4.py     # needs the dump; not re-run here
 # sections 3.1 and 4 call reddit_wsb/neff_collapse_wsb.{neff_macro,_collapse_from_user_mats}
 # unmodified on synthetic substrate; no harvested data required.
