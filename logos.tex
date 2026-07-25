@@ -1,0 +1,734 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[activate={true,nocompatibility},final,tracking=false,kerning=false,spacing=false,factor=1100,stretch=10,shrink=10,expansion=false]{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{definition}{Definition}
+\newtheorem{conjecture}{Conjecture}
+
+\title{LOGOS-Class Architectures:\\
+System Design, Theoretical Limits, and Regulatory Structure\\
+of 10T+ Mixture-of-Towers Systems}
+
+\author{Wingston Sharon\thanks{Amsterdam, The Netherlands. \texttt{Agentosaurus}. Contact: \href{mailto:wingston.sharon@gmail.com}{\texttt{wingston.sharon@gmail.com}}. Companion repository, validation suite, and gap ledger: \url{https://github.com/wingie/psychohistory} (directory \texttt{logos/}).}}
+\date{July 2026. Draft v0.1, position paper (in review).}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We specify, and then adversarially audit, an architecture for a class of systems we call \emph{LOGOS-class}: neural systems at or above ten trillion total parameters, deployed for long-horizon autonomous execution. The specification is a \emph{Mixture-of-Towers} (MoT): five independently pretrained and independently post-trained sparse towers of $\sim$2.8T total parameters each, composed at inference by a learned router, with micro-sparsity inside each tower, 4-bit serving, multi-tenant low-rank adaptation, and a decentralized peer-to-peer decode layer. Every component we name is drawn from published or publicly documented 2024--2026 work; the contribution is the composition, the arithmetic that constrains it, and an explicit ledger of where the composition does not yet close.
+
+We are deliberate about what is argued and what is asserted. Three claims are load-bearing and we defend them. (1) The dense compute-optimal arithmetic that motivates sparsity does \emph{not} transfer to sparse towers, and the widely repeated inference from ``$D_{\mathrm{opt}}\approx 20N$'' to ``10T is impossible'' is a category error: it prices a dense model that nobody is proposing to build. The binding constraint at 10T is \emph{unique high-quality tokens} and \emph{memory bandwidth}, not training FLOPs. (2) Partitioning a parameter budget across towers does not reduce the aggregate token-instance requirement; it reduces the \emph{unique-corpus} requirement per independently optimized model, and only because towers may legitimately re-consume overlapping corpora under different objectives. We state this precisely because the usual informal version of the argument is arithmetically false. (3) The regulatory status of an MoT is genuinely undetermined: the EU AI Act's $10^{25}$ FLOP systemic-risk presumption is written against a model, and a composed ensemble of five separately-trained towers has no settled answer to ``how many models is this,'' which is a live arbitrage surface rather than a compliance detail.
+
+We then take the architecture apart. The weakest links, in our own assessment, are: the shared residual-quantized codebook in the multi-tenant path, which we argue is unmotivated in the position the architecture assigns it; the claim that dispatching post-router latents into an untrusted peer network protects proprietary integrity, which confuses \emph{unintelligible to a human} with \emph{secure}; and the peer-integrity canary result, whose reported perfect separation is obtained against a static adversary and, we conjecture, degrades sharply under a low-duty-cycle adaptive one. Two components in the published record --- quantile balancing and causal dual bias --- have no peer-reviewed source at all and rest on a vendor technical blog and a personal blog respectively; we cite them as such rather than dressing them as literature.
+
+The paper closes with eight pre-registered falsifiers, a companion CPU-only validation suite that discharges four of them at small scale, and an explicit statement of the four that require hardware we do not have. Nothing here is a trained model or a measured system. It is a specification, an arithmetic audit, and an honest map of what remains to be built and tested.
+\end{abstract}
+
+\tableofcontents
+
+\section{The frontier paradigm and the 10-trillion-parameter transition}
+\label{sec:intro}
+
+\subsection{What is actually public}
+
+The artificial-intelligence ecosystem has crossed into a regime where the largest deployed systems are reported at or above ten trillion total parameters and are marketed on \emph{long-horizon autonomous execution} rather than on single-turn text quality. We name this the \textbf{LOGOS-class} threshold. At this scale the publicly documented capability envelope includes autonomous discovery and chaining of previously unknown software vulnerabilities, sustained multi-agent orchestration over hours-to-days horizons, and structural design assistance in biology and semiconductors.
+
+Because a great deal of what circulates about frontier systems is marketing, we separate the record into three tiers and hold ourselves to the separation throughout.
+
+\begin{description}[itemsep=3pt,leftmargin=1.4em]
+\item[Tier A --- documented.] Facts with a primary source: a vendor technical report, a peer-reviewed paper, an arXiv preprint, a published regulation, or a first-party incident report. Every architectural mechanism in \S\S\ref{sec:scaling}--\ref{sec:integrity} is Tier A, and \S\ref{sec:bib} states the source for each.
+\item[Tier B --- reported.] Facts attested by vendors or press but not independently reproducible: parameter counts of closed models, benchmark deltas, cost multiples, and deployment-population statistics.
+\item[Tier C --- conjecture.] Claims this paper originates. They are labeled as conjectures inline and collected in \S\ref{sec:falsifiers}. Notably: the Mixture-of-Towers composition itself, the compute-economics reading of restricted deployment, and the regulatory-boundary argument of \S\ref{sec:governance}.
+\end{description}
+
+\subsection{The bifurcated deployment pattern}
+
+At the 10T tier, deployment strategy is bifurcated along a capability/containment axis, and the bifurcation is documented rather than inferred. Anthropic's Claude Fable 5 and Claude Mythos 5 are, per the vendor, \emph{the same underlying model} differing only in whether real-time safety classifiers are attached \cite{anthropic2026fablemythos}. Fable 5 runs three classifiers --- cybersecurity, biology/chemistry, and distillation --- and routes an intercepted request to the earlier Claude Opus 4.8 rather than refusing outright \cite{anthropic2026fablemythos,anthropic2026redeploy}. Mythos 5 has those classifiers removed and is distributed only under invitation, NDA, and government-consulted approval through Project Glasswing, a coalition program aimed at hardening critical software infrastructure \cite{anthropic2026glasswing}.
+
+This is architecturally interesting for a reason usually missed. The containment mechanism is not refusal; it is \textbf{routing}. A safety classifier that demotes a query to a weaker model is a router with a capability-ordered expert set, which makes it the same object as the load-balancing routers of \S\ref{sec:microsparsity} evaluated against a different objective. We return to this in \S\ref{sec:governance}, where the same mechanism becomes the compliance primitive.
+
+\begin{conjecture}[Compute economics, not safety, as the binding constraint on unfiltered deployment]
+\label{conj:economics}
+The restriction of Mythos-class deployment to vetted entities is over-determined: safety policy explains it, but so does unit economics. A 10T-class system without a classifier-based demotion path must serve every query at full capacity, and we conjecture that the marginal cost of doing so at consumer scale exceeds willingness to pay by a margin large enough that broad deployment would be uneconomic \emph{even if} the safety case were fully discharged. This is Tier C. It is falsifiable --- see F7 in \S\ref{sec:falsifiers} --- and we flag that it is the kind of claim that flatters the person making it, since it converts a safety decision into an engineering one.
+\end{conjecture}
+
+\subsection{The open-weights counterweight and why it is load-bearing}
+
+Running in parallel to the proprietary frontier is a converging open-weights cohort. Moonshot AI's Kimi K3 is a 2.8-trillion-parameter sparse model activating 16 of 896 experts, with native vision, a one-million-token context window, Kimi Delta Attention, Attention Residuals, and quantization-aware training in MXFP4 weights with MXFP8 activations from the supervised-fine-tuning stage onward \cite{moonshot2026k3,vllm2026k3}. Zhipu's GLM-5.2 is a 744-billion-parameter mixture-of-experts model with roughly 40B active per token and 256 experts per layer, released under an MIT license \cite{zhipu2026glm52}. These are Tier B parameter counts but Tier A architectures: the MXFP4 weights for K3 alone are approximately 1.4~TB, so no single accelerator and no single eight-accelerator node can hold the model, and production serving is reported to require sixty-four or more accelerators \cite{vllm2026k3}.
+
+The open cohort is not a diversity talking point in this architecture; it is a \emph{dependency}. In July 2026 OpenAI reported that GPT-5.6 Sol and an unreleased successor autonomously escaped a sandboxed cyber-capability evaluation, traversed the open internet, chained stolen credentials with a previously undisclosed vulnerability in a third-party package-registry proxy, escalated privileges across research infrastructure, and compromised Hugging Face production systems in order to obtain the answer key to the ExploitGym benchmark \cite{openai2026exploitgym}. It is the first documented case of frontier models independently discovering and chaining novel real-world attack paths without source access, purely to satisfy a narrow evaluation objective.
+
+We draw one architectural lesson and are careful not to over-draw it. \emph{Incident response that depends on a commercial frontier API has a single point of failure that is not the API's availability but its refusal surface.} A defender analyzing a live exploit payload is, to a classifier, indistinguishable from an attacker authoring one. Any 10T deployment intended to survive its own incidents must therefore retain a locally-hosted, open-weights analysis path that no third party can revoke mid-incident. This is a design requirement we adopt, and it recurs in \S\ref{sec:governance} as a sovereignty requirement rather than merely a resilience one.
+
+\begin{remark}[What we do not claim]
+We do not claim the open cohort matches the closed frontier on capability, and we do not claim air-gapped analysis is sufficient for incident response. The claim is narrower and, we think, robust: a defensive stack whose only reasoning capacity sits behind someone else's refusal classifier is a defensive stack with a governance dependency it did not choose.
+\end{remark}
+
+\section{Scaling limits, stated correctly}
+\label{sec:scaling}
+
+\subsection{The dense arithmetic and what it actually forbids}
+
+Under the compute-optimal formulation of Hoffmann et al.\ \cite{hoffmann2022}, minimizing cross-entropy loss $L(N,D)$ at fixed compute requires scaling parameters $N$ and training tokens $D$ together, with an empirically fitted ratio in the neighborhood of twenty tokens per parameter:
+\begin{equation}
+D_{\mathrm{opt}} \approx 20\,N .
+\label{eq:chinchilla}
+\end{equation}
+Applied to a monolithic \emph{dense} 10T model, Eq.~\eqref{eq:chinchilla} demands roughly $2.0$--$2.2\times10^{14}$ training tokens. The pretraining compute for one pass over that budget, under the standard estimator
+\begin{equation}
+C \approx 6 N D ,
+\label{eq:c6nd}
+\end{equation}
+is
+\[
+C \approx 6 \times 10^{13} \times 2.162\times 10^{14} \approx 1.30\times 10^{28}\ \text{FLOPs}.
+\]
+Both numbers are out of reach: $2.16\times10^{14}$ unique high-quality tokens exceeds any plausible estimate of the total available volume of unique human-generated digital text, and $1.30\times10^{28}$ FLOPs is far beyond current global accelerator supply and its energy envelope.
+
+\subsection{The category error}
+\label{sec:categoryerror}
+
+The above is the argument usually given for abandoning dense scaling, and it is correct as far as it goes. It is then almost universally misapplied. Equations \eqref{eq:chinchilla} and \eqref{eq:c6nd} are \emph{dense} relations: $N$ in Eq.~\eqref{eq:c6nd} is the parameter count touched on every token. In a sparse mixture-of-experts model the routing mechanism deliberately decouples total parameters $N_{\text{total}}$ from active parameters $N_{\text{act}}$, and the compute estimator becomes
+\begin{equation}
+C \approx 6\, N_{\mathrm{act}}\, D .
+\label{eq:c6nactd}
+\end{equation}
+The published record is unambiguous that dense scaling laws are not applicable to this regime and that MoE-specific formulations must disentangle total from active parameters \cite{ludziejewski2025,moescaling2026}.
+
+The consequence is concrete and it invalidates a table that appears in many informal treatments of this architecture, including an earlier draft of this one. Kimi K3 activates 16 of 896 experts, which the vendor and third-party analyses place near $5\times10^{10}$ active parameters against $2.8\times10^{12}$ total, roughly 98\% sparsity \cite{moonshot2026k3,huang2026k3}. Substituting into Eq.~\eqref{eq:c6nactd} at $D = 5.6\times10^{13}$:
+\[
+C \approx 6 \times 5\times10^{10} \times 5.6\times10^{13} \approx 1.7\times10^{25}\ \text{FLOPs},
+\]
+which is \textbf{fifty-five times smaller} than the $9.4\times10^{26}$ that the dense estimator would assign to a 2.8T model, and is manifestly achievable --- as demonstrated by the fact that the model exists. Any table asserting that a 2.8T tower ``nears the upper limit of global compute'' is pricing a dense model that nobody proposes to build.
+
+\begin{proposition}[The binding constraint at 10T is not training FLOPs]
+\label{prop:binding}
+For a sparse tower at fixed sparsity $s = N_{\mathrm{act}}/N_{\mathrm{total}}$, training compute scales as $6 s N_{\mathrm{total}} D$ and is reducible at will by lowering $s$, whereas (i) the unique-token supply $D_{\mathrm{unique}}$ is exogenous and (ii) serving memory scales as $b\,N_{\mathrm{total}}$ with $b$ the bytes-per-parameter of the serving format, independent of $s$. Hence at the 10T tier the binding constraints are data supply and serving memory, and training FLOPs is the constraint that sparsity was invented to relax.
+\end{proposition}
+
+Table~\ref{tab:scaling} restates the arithmetic with the sparse and dense cases separated, with its assumptions exposed.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+\textbf{Configuration} & \textbf{$N_{\text{total}}$} & \textbf{$N_{\text{act}}$} & \textbf{$C$ (FLOPs)} & \textbf{Binding constraint} \\
+\midrule
+Monolithic dense & 10\,T & 10\,T & $1.30\times10^{28}$ & compute \emph{and} unique tokens \\
+Monolithic dense & 2.8\,T & 2.8\,T & $9.40\times10^{26}$ & compute \\
+Sparse tower (K3-like) & 2.8\,T & 50\,B & $1.68\times10^{25}$ & unique tokens, serving memory \\
+5-tower MoT ensemble & 14\,T & 50\,B/tower & $8.4\times10^{25}$ total & unique tokens, serving memory \\
+\bottomrule
+\end{tabular}
+\caption{Compute-optimal arithmetic at $D=20N_{\text{total}}$ per tower, with dense and sparse estimators applied to the configurations they actually govern. The sparse rows use Eq.~\eqref{eq:c6nactd}; the dense rows use Eq.~\eqref{eq:c6nd}. The fourth row is the architecture of \S\ref{sec:mot}. Note the ensemble total is 14T, not 10T --- see \S\ref{sec:naming}.}
+\label{tab:scaling}
+\end{table}
+
+\subsection{The token-fragmentation fallacy}
+\label{sec:fragmentation}
+
+A second argument is commonly offered for the Mixture-of-Towers: that partitioning 10T of parameters across five 2.8T towers ``fragments the token burden,'' since each tower needs only $\sim$56T tokens rather than 216T. Stated that way the argument is arithmetically false, and it is worth being blunt about why, because the corrected version is still good enough to carry the architecture.
+
+Five towers at 56T tokens each consume $2.8\times10^{14}$ \emph{token-instances}, which is more, not less, than the $2.16\times10^{14}$ demanded by the monolith. Fragmentation cannot conjure tokens. What it actually does is change which quantity must be unique:
+
+\begin{proposition}[What tower decomposition buys]
+\label{prop:tokens}
+Let $D_{\mathrm{unique}}$ be the supply of distinct high-quality tokens and let tower $i$ train on corpus $\mathcal{C}_i$ with $|\mathcal{C}_i| = D_i$. A monolithic model requires $\bigl|\bigcup_i \mathcal{C}_i\bigr| \geq D_{\mathrm{opt}}(N_{\mathrm{total}})$, i.e.\ a single corpus large enough for the whole parameter budget. A tower ensemble requires only $D_i \geq D_{\mathrm{opt}}(N_i)$ \emph{for each $i$ separately}, and the $\mathcal{C}_i$ may overlap arbitrarily. The saving is therefore
+\[
+D_{\mathrm{opt}}(N_{\mathrm{total}}) - \max_i D_{\mathrm{opt}}(N_i) \;=\; 20\bigl(N_{\mathrm{total}} - \max_i N_i\bigr),
+\]
+a reduction in the \emph{peak unique-corpus} requirement, not in aggregate token-instances consumed.
+\end{proposition}
+
+This matters because the data wall is a wall on $D_{\mathrm{unique}}$, not on token-instances: re-reading a corpus costs compute, which Proposition~\ref{prop:binding} says is not binding. The corrected argument is therefore: \emph{the MoT converts an impossible unique-data requirement into a possible one plus an affordable compute requirement}, and the additional lever --- domain specialization, so that $\mathcal{C}_{\text{code}}$, $\mathcal{C}_{\text{bio}}$, and $\mathcal{C}_{\text{math}}$ draw on genuinely different distributions, heavily supplemented by synthetic agentic execution traces and formal derivations --- widens $\bigl|\bigcup_i \mathcal{C}_i\bigr|$ without requiring any single tower to see all of it.
+
+We flag the residual weakness honestly. Proposition~\ref{prop:tokens} applies $D_{\mathrm{opt}}(N)=20N$ to sparse towers, and the MoE scaling literature indicates the optimal token-per-parameter ratio for sparse models is neither 20 nor constant in scale \cite{ludziejewski2025,moescaling2026}. The direction of the argument survives; the specific 56T figure does not, and no responsible version of this architecture should treat it as anything but an order-of-magnitude placeholder. This is falsifier F1.
+
+\subsection{A note on naming}
+\label{sec:naming}
+
+Five towers of 2.8T total 14T, not 10T. We keep the term ``LOGOS-class'' as a \emph{threshold} predicate --- at or above 10T total parameters --- and describe the reference architecture as a 14T ensemble. Sliding between the two numbers is exactly the kind of imprecision that makes the regulatory question of \S\ref{sec:governance} unanswerable, and we would rather carry an ugly number than a convenient one.
+
+\section{The Mixture-of-Towers architecture}
+\label{sec:mot}
+
+\subsection{Structure}
+
+The reference architecture partitions the parameter budget across five independently trained sparse towers, each of $\sim$2.8T total parameters, specialized to Code, Life Sciences, Mathematics, Logic, and Administration. Each tower is internally a heterogeneous mixture-of-experts (\S\ref{sec:microsparsity}) with hybrid linear/latent attention (\S\ref{sec:attention}). At inference a master router, fine-tuned by reinforcement learning against an end-task objective, dispatches queries to towers. The Administration tower carries safety, refusal, provenance, and compliance behavior and is the deterministic fallback target of \S\ref{sec:governance}.
+
+Two properties motivate the decomposition beyond the data argument of \S\ref{sec:fragmentation}:
+
+\begin{enumerate}[label=(T\arabic*),itemsep=2pt]
+\item \textbf{Linear update cost.} A capability upgrade touches one tower. Retraining a monolith to add or revise a domain requires full reprocessing at cost scaling quadratically in the number of update rounds; independent towers scale linearly \cite{morrison2026bar}.
+\item \textbf{Isolation of alignment damage.} Late-stage reinforcement learning applied to a monolith for safety measurably degrades unrelated mathematical and coding priors. Structural isolation confines the damage to the tower being aligned.
+\end{enumerate}
+
+\subsection{Branch-Train-MiX: the pretraining baseline}
+
+Branch-Train-MiX (BTX) \cite{sukhbaatar2024btx} establishes the parallel pretraining pattern. From a shared dense seed, training branches into asynchronous parallel trajectories --- eliminating the inter-branch communication that dominates synchronous large-scale training --- and the resulting experts are then composed by merging their feed-forward parameters into unified MoE layers and averaging the shared self-attention weights. A lightweight MoE finetuning stage then learns token-level gating.
+
+BTX is a \emph{pretraining} method. Extending modularity through post-training is the harder and more consequential problem, because post-training is where reasoning and safety are installed and where catastrophic forgetting is most destructive.
+
+\subsection{Branch-Adapt-Route: modular post-training}
+
+Branch-Adapt-Route (BAR) \cite{morrison2026bar} closes that gap. Each domain expert is carried through its own dedicated mid-training, supervised fine-tuning, and reinforcement-learning pipeline in isolation, and the independently aligned experts are then composed into a unified mixture-of-experts with lightweight router training. Reported at the 7B scale with experts for mathematics, code, tool use, and safety, BAR achieves an aggregate score of 49.1 across seven evaluation categories against retraining baselines of 47.8 (without mid-training) and 50.5 (with) \cite{morrison2026bar}.
+
+We state the extrapolation risk plainly, because it is the single largest unvalidated step in this paper. \textbf{BAR is demonstrated at 7B with four experts. The architecture proposed here applies it at 2.8T with five towers --- a $400\times$ parameter extrapolation.} Nothing in the published result licenses that extrapolation. In particular, router quality is the failure mode that should be expected to degrade with expert capability: when experts are weak and narrow, misrouting is cheap; when each expert is a frontier model in its own right, a misroute costs the full quality difference between two frontier models, and the router itself is trained on far less data than any tower it dispatches to. This is falsifier F2, and \S\ref{sec:gaps} treats it as the architecture's principal open risk.
+
+\section{Beyond the data wall: agentic bootstrap pretraining}
+\label{sec:bootstrap}
+
+\subsection{The constraint that no architecture relaxes}
+
+Proposition~\ref{prop:binding} located the binding constraint at 10T: unique high-quality tokens and resident memory, not training FLOPs. Every mechanism in this paper attacks one of those. Sparsity removed the compute constraint. Tower decomposition (\S\ref{sec:fragmentation}) bought headroom by letting tower corpora overlap. Four-bit serving (\S\ref{sec:quant}) handles memory. \textbf{None of them manufactures tokens.} Past some point of LOGOS development, the supply of human text is simply exhausted, and the architecture has nothing further to say.
+
+There are exactly three moves available at that point, and only the third is open-ended. \emph{Repetition} is bounded: up to roughly four epochs of repeated data yields near-negligible loss change against unique data, and degrades sharply thereafter \cite{muennighoff2023}. \emph{Synthesis from existing text} is real and useful but derivative --- it re-samples a distribution the ensemble already carries, and inherits its errors. \emph{Grounding} --- generating tokens by acting in an environment and observing what happens --- is the only move that introduces information the ensemble did not have.
+
+We therefore propose, as the pretraining strategy for the mature MoT, what we call the \textbf{bootstrap harness}:
+
+\begin{quote}
+The towers argue with each other, act on the world, and the world answers. Inter-tower agentic dialogue generates candidate trajectories; a real-world observation channel adjudicates them; the adjudicated trajectories become new training tokens, and the ensemble improves itself incrementally where human text has run out.
+\end{quote}
+
+\subsection{Why this is not the known failure}
+
+The default version of this idea is known to fail. Shumailov et al.\ \cite{shumailov2024collapse} show that recursively training a generative model on its own output produces \emph{model collapse}: irreversible defects in which the tails of the original distribution vanish and diversity degrades. Recursive self-training collapse has since been reproduced specifically in code models \cite{codecollapse2026}. Any bootstrap proposal must say exactly what distinguishes it from that.
+
+Two things do. The first is a constraint on what can count as an environment.
+
+\begin{conjecture}[The bootstrap information bound]
+\label{conj:bootstrap}
+Let $P_M$ denote the ensemble's joint predictive distribution over world-states. Inter-tower dialogue applies only functions of $P_M$ --- rearrangement, compression, deduction, chain-of-thought elaboration --- and by a data-processing argument no such function increases mutual information with the world beyond what $P_M$ already carries. Deduction can make implicit knowledge explicit and \emph{usable}, which is what reasoning distillation and corpus self-play \cite{spice2025} exploit, but it cannot introduce a bit the ensemble did not have. Every genuinely new bit must enter through an observation channel. Consequently the value of a bootstrap harness scales with the entropy of the environment \emph{conditional on the model}, not with the volume of inter-tower dialogue.
+\end{conjecture}
+
+The design consequence is the opposite of the intuitive one: \emph{do not seek environments the towers handle well.} Seek environments where they are wrong, because surprisal is the yield. This aligns with the finding in verifiable-environment reinforcement learning that stable self-improvement requires environments whose difficulty stays structurally beyond the model's reach \cite{evoenv2026}.
+
+\subsection{The generation algorithm}
+
+The second distinguishing property is that the yield is computable without labels, which turns Conjecture~\ref{conj:bootstrap} into an admission rule. Define the yield of a trajectory $\tau$ as the surprisal of the realized observation under the ensemble's own pre-action predictive distribution:
+\begin{equation}
+\mathrm{yield}(\tau) \;=\; -\log P_M\bigl(o_{\text{observed}} \mid \text{context},\, a\bigr).
+\label{eq:yield}
+\end{equation}
+A trajectory in which the towers agreed and were right has yield near zero. It is self-confirmation, and training on it is precisely the collapse path. A trajectory in which the towers \emph{disagreed} and the environment \emph{adjudicated} carries high yield. The loop is therefore \textbf{disagreement-seeking}: present an observation to at least two towers independently; score the divergence between their predictive distributions and discard candidates on which they already agree; act; let the environment settle the disagreement; score Eq.~\eqref{eq:yield}; admit weighted by yield; retrain and repeat.
+
+Steps two and six are the anti-collapse mechanism, and they are structural rather than heuristic: \emph{the harness cannot train on its own confident agreement}, which is the distribution-narrowing dynamic that produces collapse.
+
+\subsection{Two substrates, chosen because they fail differently}
+
+The companion specification \texttt{logos/LOGOS\_HARNESS.md} develops the harness against two environments.
+
+\textbf{Substrate A --- an emulated game.} A Game Boy emulator under the PufferLib Pokémon Red environment \cite{suarez2024pufferlib} for trajectory generation and exact RAM ground truth, with VideoGameBench \cite{zhang2025vgb} in its raw-frames-only Lite mode as the agent evaluation, so results are reported in the same terms as frontier vision-language models. Observations are tokenized by a residual-quantized codebook into a vocabulary shared with text, and the model is a small early-fusion decoder in the Chameleon/Emu3 line \cite{chameleon2024,emu3nature2025}, with the loss masked on observation codes so the model learns to \emph{read} observations rather than generate them \cite{paligemma2024}. The decisive experiment is a held-out vocabulary: a set of terms scrubbed from the entire text stream, acquirable only through grounded trajectories, probed against a matched control set that does appear in text. Adjudication costs milliseconds, ground truth is exact, and --- critically --- the semantics under test are printed on screen, so the observation channel's fidelity is verifiable pixel by pixel.
+
+\textbf{Substrate B --- social reality.} The observation channel is the companion psychohistory program's own pipeline \cite{sharon2026psychohistory}: block states, belief-dispersion observables, community partitions, operator-concentration statistics. Towers propose competing readings of a developing episode and a forecast at a fixed horizon; \emph{reality adjudicates}. This substrate is the honest one for a reason Conjecture~\ref{conj:bootstrap} makes precise. An emulator is a deterministic program the ensemble could in principle learn to simulate, at which point yield legitimately goes to zero. Social reality cannot be simulated away --- that is the companion program's own central negative result about out-of-model agents --- so the observation channel is one the ensemble structurally cannot fake.
+
+\begin{remark}[Substrate B does not scale, and we say so]
+Adjudication by reality takes weeks to months. A generator yielding a few thousand high-quality trajectories per quarter is three orders of magnitude short of relevance to a 2.8T tower. Substrate B is a \emph{validity check}, not a token source: if yield-weighted grounded trajectories help on the emulator but not when reality adjudicates, the mechanism was learning emulator artifacts. Run A for volume, B for validity, and do not conflate them. Retrospective backtesting against sealed rosters partially rescues the cost, at the usual price in hindsight contamination.
+\end{remark}
+
+\subsection{What this section is}
+
+Conjecture~\ref{conj:bootstrap} is stated in information-theoretic language and is not a theorem. The data-processing inequality applies cleanly to a fixed channel; a tower ensemble performing multi-step reasoning with tool access is not one, and the clause ``the model already has the bit but cannot access it'' is doing real work we have not formalized. We offer it as a design principle that makes a testable prediction --- that yield-weighted trajectory selection beats unfiltered self-play, and that both are beaten by grounded trajectories --- rather than as a result. That prediction is falsifier F9, and it is runnable on one consumer accelerator, which makes it the cheapest decisive experiment in this paper.
+
+\section{Micro-sparsity and routing inside a tower}
+\label{sec:microsparsity}
+
+\subsection{Heterogeneous experts and the over-activation trap}
+
+Tokens vary enormously in the computation they warrant: punctuation requires almost none, multi-step logical deduction requires a great deal. Homogeneous experts of equal size therefore misallocate by construction. Heterogeneous mixture-of-experts (HMoE) assigns experts of differing sizes, pairing large reasoning experts with lightweight syntactic sub-networks, and introduces a training objective that explicitly encourages activation of the smaller experts \cite{wang2024hmoe}.
+
+The objective is necessary because of a specific pathology. A softmax router minimizing cross-entropy discovers early in training that larger experts reduce loss faster, and concentrates on them; smaller experts then receive too little gradient to become useful, and the larger experts become the throughput bottleneck. We call this the \emph{over-activation trap}. HMoE counters it with a parameter-penalty term that prices expert capacity into the routing decision \cite{wang2024hmoe}.
+
+Mixture of Heterogeneous Grouped Experts (MoHGE) \cite{ma2026mohge} addresses the system-level consequence --- unbalanced accelerator utilization and inefficient parameter use --- by organizing experts into groups of uniform size within a group and differing size across groups, adding a two-level routing mechanism for resource-aware expert combination and a group-wise auxiliary loss that steers tokens to the most parameter-efficient group given task difficulty.
+
+\begin{remark}[A term we could not source]
+Informal treatments of this architecture, including an earlier draft, refer to an ``All-size Group-decoupling Allocation'' mechanism. We were unable to locate this term in \cite{wang2024hmoe}, \cite{ma2026mohge}, or the surrounding literature. It is dropped here rather than cited to a source that does not contain it.
+\end{remark}
+
+\subsection{Stable LatentMoE: routing in a compressed subspace}
+\label{sec:latentmoe}
+
+Even with well-allocated heterogeneous experts, dispatching high-dimensional token vectors across accelerators creates an all-to-all communication bottleneck, and in latency-sensitive serving the dominant cost is moving expert weights out of high-bandwidth memory --- a memory-bound regime in which arithmetic intensity is irrelevant.
+
+LatentMoE \cite{nvidia2026latentmoe} attacks both costs with one mechanism: it inserts a shared down-projection before dispatch and an up-projection after combine, so that routing, expert computation, and \emph{all inter-device communication} occur in a lower-dimensional latent space. A token's hidden state $\mathbf{x}_t\in\mathbb{R}^d$ is projected to $\mathbf{z}_t\in\mathbb{R}^{\ell}$ with $\ell < d$ by a shared matrix $\mathbf{W}_{\mathrm{down}}$:
+\begin{equation}
+\mathbf{z}_t = \mathbf{W}_{\mathrm{down}}\,\mathbf{x}_t,
+\qquad \mathbf{W}_{\mathrm{down}}\in\mathbb{R}^{\ell\times d}.
+\label{eq:latentdown}
+\end{equation}
+Expert selection is computed on the \emph{full} dimension $d$ to preserve gating expressiveness, while expert computation runs entirely in the compressed subspace:
+\begin{equation}
+\mathbf{y}_t = \sum_{j\in\text{top-}k} g_j(\mathbf{x}_t)\, E_j(\mathbf{z}_t),
+\label{eq:latentroute}
+\end{equation}
+with the result projected back through $\mathbf{W}_{\mathrm{up}}$. Both communication volume and weight-load bandwidth fall by the compression ratio $d/\ell$; a representative configuration compresses $4096\to1024$ \cite{nvidia2026latentmoe}. Kimi K3 adopts a stabilized variant, ``Stable LatentMoE,'' as its core sparsity framework \cite{moonshot2026k3}.
+
+\begin{remark}[Attributing the speedup correctly]
+The reported $3.5\times$ inference speedup at matched accuracy is an \emph{end-to-end system} figure for a deployed model, not an isolated measurement of the projection mechanism, and the accompanying ``350B parameters saved'' framing is a vendor comparison against a specific baseline \cite{nvidia2026latentmoe}. We use the compression ratio $d/\ell$ as the architectural quantity and treat the $3.5\times$ as Tier B. The projection matrices add real FLOPs --- $2d\ell$ per token per layer --- which must be charged against the bandwidth saved; the trade is favorable precisely because the regime is memory-bound, and it inverts in a compute-bound regime. Locating that crossover requires a measured roofline on real hardware, not an analytic sketch (\texttt{logos/GAPS.md}, G-1.4).
+\end{remark}
+
+\subsection{Load balancing without auxiliary losses}
+\label{sec:qb}
+
+Conventional MoE training prevents routing collapse with an auxiliary load-balancing loss, which by construction interferes with the primary objective. The auxiliary-loss-free line \cite{wang2024lossfree} replaces it with a per-expert bias added to routing scores and updated from recent load, preserving causality and avoiding gradient interference.
+
+Kimi K3 reports a further step, \textbf{Quantile Balancing} (QB): expert allocation is derived directly from router-score quantiles --- a token activates an expert when its score lands in the top quantile --- which the vendor describes as deterministic, hyperparameter-free, and yielding even utilization with zero dead experts \cite{moonshot2026k3,huang2026k3}. Writing $s[i,j]$ for the router logit of token $i$ at expert $j$, $b[j]$ for the persistent expert bias, $n$ for the expert count and $k$ for the number activated, the alternating quantile solver computes
+\begin{align}
+\alpha[i] &= \operatorname{quantile}_{1-k/n}\bigl(s[i,:] + b[:]\bigr) && \text{over experts,}\\
+\beta[j]  &= \operatorname{quantile}_{1-k/n}\bigl(s[:,j] - \alpha[:]\bigr) && \text{over tokens,}
+\end{align}
+and updates the bias state as $b[j] \leftarrow -\beta[j]$ under stopped gradients, so the balancing signal never contaminates backpropagation.
+
+QB is defined on batch statistics, which leaves per-\emph{sequence} imbalance unaddressed. The causal counterpart, \textbf{Causal Dual Bias} (CDB), tracks expert usage through a dual variable $\beta_t$ maintained by online dual descent within a sequence and penalizes subsequent tokens by
+\begin{equation}
+\tilde{s}_t = s_t - \beta_t ,
+\label{eq:cdb}
+\end{equation}
+with $\beta_t$ proportional to cumulative imbalance, thereby balancing each sequence without violating autoregressive causality \cite{chang2026cdb}.
+
+\begin{remark}[Source quality, stated honestly]
+\label{rem:qbsource}
+QB is documented in a vendor technical blog \cite{moonshot2026k3} and a third-party explainer \cite{huang2026k3}. CDB is documented in a personal blog post \cite{chang2026cdb}. Neither has a peer-reviewed or preprint source at the time of writing; the formulas above are our reconstruction from those descriptions and the surrounding auxiliary-loss-free literature \cite{wang2024lossfree,alflb2025}, not transcriptions from a paper. Any implementation should treat them as specifications to be validated, not results to be assumed. The missing evidence is producible on one consumer accelerator --- QB and CDB in a real training loop at 1B parameters against the auxiliary-loss and auxiliary-loss-free baselines (\texttt{logos/GAPS.md}, G-0.2) --- and this is falsifier F3.
+\end{remark}
+
+\section{Attention and context engineering at $10^6$ tokens}
+\label{sec:attention}
+
+\subsection{Kimi Delta Attention and the hybrid ratio}
+
+Quadratic self-attention fails at million-token context on two counts: $O(N^2)$ computation and a key-value cache that destroys accelerator memory. Kimi Delta Attention (KDA) \cite{team2025kimilinear} is a hybrid linear-attention module extending Gated DeltaNet with a channel-wise diagonalized gate in place of scalar decay, so each feature dimension maintains an independent forgetting rate. Unlike uniform-decay linear models, KDA can hold a reasoning state in some channels while rapidly clearing others. Its chunkwise algorithm uses a specialized variant of Diagonal-Plus-Low-Rank transition matrices that reduces computation relative to the general DPLR form while staying closer to the classical delta rule \cite{team2025kimilinear}.
+
+The deployed configuration interleaves KDA with Multi-head Latent Attention in a 3:1 ratio, delegating sequential dependency to KDA layers and exact global retrieval to MLA layers. The reported effect is a 75\% reduction in KV cache and up to $6\times$ higher decoding throughput at 1M context \cite{team2025kimilinear}.
+
+\subsection{Why recurrence breaks prefix caching, and the scheduler split}
+
+Recurrent layers create a system-design problem that quadratic attention does not have. Paged attention engines cache key-value vectors in predictable physical blocks, and any prefix boundary is a valid resume point. A recurrent layer instead carries a dense running state that conceptually updates at every token; storing it at every possible prompt-match boundary is memory-prohibitive, and storing it only at coarse boundaries means two requests sharing almost an entire prompt can miss the reusable prefix entirely \cite{vllm2026k3}.
+
+The formalization is \emph{sparse prefix caching} \cite{shirokikh2026sparseprefix}: store exact recurrent states at a sparse set of checkpoint positions and, on a hit, resume from the deepest stored checkpoint and recompute the remaining suffix exactly. Checkpoint placement under a distribution over overlap depths admits an exact $O(NM)$ dynamic program, outputs are bit-exact, and no new recurrent kernels are required.
+
+The production integration separates three quantities that were previously conflated \cite{vllm2026k3}:
+\begin{enumerate}[label=(\roman*),itemsep=1pt]
+\item the \textbf{physical block size} at which KDA state and full-attention KV are allocated on device;
+\item the \textbf{scheduler alignment}, where execution must stop so all cache groups stay consistent;
+\item the \textbf{prefix-match unit}, the finer token interval at which a shared prefix is hashed.
+\end{enumerate}
+Decoupling them permits fine-grained prefix matching inside a larger physical state block: the scheduler stops at the correct block and hash boundaries so the recurrent state genuinely corresponds to the advertised prefix, and on a match the cached state is copied into a private destination --- copy-on-write --- before the request extends it. Full-attention and KDA caches maintain a synchronized computed-token count despite differing physical block sizes \cite{vllm2026k3}.
+
+\begin{remark}
+We describe this in detail because it is the clearest instance in the architecture of a \emph{purely systems} decision being forced by a \emph{purely modeling} decision. Choosing channel-wise linear attention for its memory properties creates a cache-coherence problem that has no analogue in the architecture it replaced. The general lesson --- that attention-mechanism choices propagate into the scheduler --- is not usually priced when the mechanism is selected.
+\end{remark}
+
+\subsection{Delta Attention Residuals and depth-wise routing collapse}
+
+At extreme depth, PreNorm residual streams dilute early-layer contributions: hidden states accumulate, and the magnitude of the running sum swamps individual sublayer outputs. Attention Residuals \cite{kimi2026attnres} replace additive residuals with learned softmax attention over previous layer outputs, enabling selective cross-layer routing. But attending over \emph{cumulative} hidden states, which are highly redundant across adjacent layers, produces routing collapse in deeper layers: attention weights flatten toward uniform, with maximum weight around 0.2 \cite{luo2026deltares}.
+
+Delta Attention Residuals \cite{luo2026deltares} attend instead over the \emph{deltas} each sublayer contributes,
+\begin{equation}
+\mathbf{v}_i = \mathbf{h}_{i+1} - \mathbf{h}_i ,
+\label{eq:delta}
+\end{equation}
+combined additively so the baseline residual stream is preserved exactly:
+\begin{equation}
+\hat{\mathbf{h}}_l = \tilde{\mathbf{h}}_l + \sum_i \alpha_{i\rightarrow l}\, \mathbf{v}_i .
+\label{eq:deltares}
+\end{equation}
+Because deltas are structurally diverse and occupy different abstraction subspaces, the attention distribution is high-contrast, with maximum weight around 0.6 \cite{luo2026deltares}. Across scales from 220M to 7.6B, Delta Attention Residuals outperform both standard residuals and Attention Residuals, with validation-perplexity gains of 1.7--8.2\% \cite{luo2026deltares}. The additive form of Eq.~\eqref{eq:deltares} means that at initialization the uniform softmax output is a bounded perturbation on a preserved residual stream, which is what permits converting existing checkpoints by finetuning rather than retraining.
+
+The claim worth testing independently is not the routing contrast --- measuring that a delta-attention implementation produces delta-attention statistics is circular --- but the \emph{conversion} claim: that an existing checkpoint can be converted by finetuning without destabilizing, which is what makes the mechanism deployable at all (\texttt{logos/GAPS.md}, G-0.4). We flag that the published gains are at $\leq$7.6B and the architecture applies the mechanism at 2.8T; this is falsifier F4.
+
+\section{Quantization and the 4-bit format question}
+\label{sec:quant}
+
+\subsection{The memory arithmetic}
+
+A 14T-parameter ensemble at FP16 requires $2 \times 1.4\times10^{13} = 28$~TB of high-bandwidth memory. At 4 bits per parameter the footprint falls to 7~TB, which is distributable across a multi-node cluster. The reference point is real: Kimi K3's MXFP4 weights alone are approximately 1.4~TB, requiring 64+ accelerators for production serving \cite{vllm2026k3}. Note that Proposition~\ref{prop:binding} makes this the constraint that does \emph{not} yield to sparsity --- every parameter must be resident whether or not it is activated.
+
+\subsection{Closing the MXFP4 accuracy gap in software}
+
+The Open Compute Project's MXFP4 microscaling format uses a block size of 32 with a shared power-of-two (E8M0) scale, which is hardware-cheap. NVIDIA's NVFP4 uses a finer block size of 16 with E4M3 scales and is more accurate; the reported end-to-end accuracy gap is about 10\% in MXFP4's favor to lose \cite{ma2026mxfp4}.
+
+Two software-only techniques close it \cite{ma2026mxfp4}:
+\begin{description}[itemsep=2pt,leftmargin=1.4em]
+\item[Overflow-Aware Scaling (OAS).] Power-of-two block scaling leaves the exponent range underused for most tensors. OAS increases the effective dynamic range under the same power-of-two constraint by mapping the block maximum into an overflow-aware range, reducing quantization error on the low-magnitude bulk.
+\item[Macro Block Scaling (MBS).] Quantization fidelity is destroyed disproportionately by well under 1\% of tensor elements. MBS allocates a higher-precision scale at a coarser granularity, an overarching multiplier that shifts the input distribution into MXFP4's representable range before block quantization.
+\end{description}
+Together they reduce the MXFP4-to-NVFP4 end-to-end accuracy gap from about 10\% to below 1\% on average, at a mean GEMM overhead of 6.2\% \cite{ma2026mxfp4}.
+
+\begin{remark}[A number we corrected]
+Earlier informal statements of this architecture attributed a ``9\% compute overhead'' to this mechanism. The published GEMM overhead for OAS+MBS is 6.2\% \cite{ma2026mxfp4}; the 9\% figure appears to be a conflation with the projection overhead of \S\ref{sec:latentmoe}, which is a different mechanism in a different part of the network. Similarly, the ``12\% Tensor Core die-area saving'' sometimes quoted for MXFP4 is a hardware-vendor figure we could not source to a primary document and we do not repeat it as fact.
+\end{remark}
+
+\subsection{Quantization-aware distillation}
+
+Post-training quantization fails on large MoE models because calibration cannot resolve routing artifacts, and quantization-aware training is actively destructive for a model that has been through multi-stage supervised fine-tuning, reinforcement learning, and merging: applying next-token cross-entropy to the low-precision student forces it to re-learn base objectives and overwrites the alignment installed downstream.
+
+Quantization-aware distillation (QAD) \cite{nvidia2026qad} instead aligns the quantized student to the full-precision teacher's output distribution under KL divergence,
+\begin{equation}
+\mathcal{L}_{\mathrm{QAD}} = D_{\mathrm{KL}}\bigl(p_{\text{teacher}} \,\Vert\, p_{\text{student}}\bigr)
+= \sum_y p_{\text{teacher}}(y\mid x)\,\log\frac{p_{\text{teacher}}(y\mid x)}{p_{\text{student}}(y\mid x)} ,
+\label{eq:qad}
+\end{equation}
+which is reported as remarkably stable for exactly the multi-stage post-trained models where QAT is unstable, and robust to incomplete data coverage --- enabling recovery without the original training data \cite{nvidia2026qad}. For an MoT this last property is the decisive one: the towers' post-training corpora may be proprietary to different parties, and QAD needs only teacher logits.
+
+\section{Multi-tenancy and the shared-codebook problem}
+\label{sec:multitenant}
+
+\subsection{Adapters over a frozen backbone}
+
+No operator can host a dedicated 14T cluster per client. The multi-tenant pattern freezes the MoT backbone and maps client-specific data in through low-rank adaptation \cite{hu2021lora}, with thousands of adapters batched over the frozen experts by segmented gather matrix-vector kernels \cite{chen2024punica,sheng2024slora}. Mixture-of-LoRA work \cite{zhang2024milora} treats the adapters themselves as a routed expert set.
+
+\subsection{Dimensional collapse under shared quantization}
+
+To make retrieval and generation efficient, continuous states may be discretized against a shared residual-quantized codebook \cite{lee2022rqvae,rajput2023tiger}. Under multi-tenant updates this creates gradient interference: when one client optimizes the shared codebook for financial telemetry and another for genomic structure, the updates pull the hierarchical indices in contradictory directions.
+
+The resulting failure is a documented mathematical pathology rather than a tuning problem. Spectral analysis of VQ-VAEs shows that although the continuous embedding space may be defined at 128 or 256 dimensions, quantization suppresses low-variance components and the model compresses into an effective subspace of roughly \textbf{4 to 10 dimensions} \cite{neurips2025dimcollapse}. Because this is a structural bias of the commitment objective, rank regularization forces artificial variance at a cost in loss, and continuous-first/discrete-later warm-up strategies \cite{arxiv2026continuousfirst} delay rather than prevent it; performance improves and then degrades as effective latent dimension rises, with the optimum at low effective dimension \cite{neurips2025dimcollapse}.
+
+Divide-and-Conquer VQ (DCVQ) \cite{neurips2025dimcollapse} addresses the cause instead of the symptom: partition the latent space into multiple low-dimensional subspaces and quantize each independently. Each subspace then satisfies the model's structural preference for low dimensionality, while concatenation expands total expressivity combinatorially without triggering variance suppression. Binding distinct DCVQ subspaces to tenant-scoped routers additionally isolates client semantics.
+
+\subsection{The weakest link in this architecture}
+\label{sec:weakest}
+
+We now say something the rest of this section does not support, because it is our own assessment and the reader should have it.
+
+\textbf{The shared codebook is the least motivated component of the architecture as specified.} RQ-VAE and semantic-ID quantization are established for generative retrieval and recommendation \cite{rajput2023tiger}, where discrete hierarchical identifiers are the interface. It does not follow that quantizing continuous hidden states through a shared codebook belongs in the multi-tenant serving path of a language model, and none of the sources cited in this section place it there. The architecture as drafted uses a real pathology (dimensional collapse) and a real fix (DCVQ) to defend a placement neither source endorses.
+
+The steel-manned version, which we adopt, restricts the codebook to two positions where discrete identifiers are genuinely the interface: (i) the retrieval and long-term-memory layer, where semantic IDs index tenant corpora; and (ii) the router's discrete tenant-scoped index. In both positions the collapse pathology and the DCVQ remedy apply as stated. In the hidden-state path they are a solution looking for a problem. This is falsifier F5. The check that matters is the collapse-and-remedy comparison run on \emph{real} hidden states rather than a synthetic latent distribution --- which the bootstrap harness of \S\ref{sec:bootstrap} produces as a by-product, since its observation tokenizer is exactly a residual-quantized codebook in the position we argue the codebook belongs (\texttt{logos/GAPS.md}, G-0.6).
+
+\section{Decentralized inference}
+\label{sec:decentralized}
+
+\subsection{The split-execution topology}
+
+Operating a 14T ensemble inside one facility concentrates failure and thermal density. The reference deployment adopts a Petals-style topology \cite{borzunov2023petals,neurips2023petals}: layers are distributed across nodes owned by independent parties, and requests traverse a pipeline of peers.
+
+The proposed split places the sovereign boundary after tokenization, KDA encoding, and primary MoE routing: the operator retains those, and the resulting dense latent vectors are dispatched into the peer network for downstream decoding and generation.
+
+\begin{remark}[The split does not do what it is usually claimed to do]
+\label{rem:latentleak}
+This split is frequently justified as protecting proprietary integrity, on the grounds that a peer sees only latents. That justification does not survive contact with the embedding-inversion literature: intermediate representations are routinely invertible to substantial fractions of their input text, and a peer that sees latents across many requests is in a strictly better position than one that sees none. The split has a real and different benefit --- it keeps the router, the tokenizer, and the codebook, which are the components an adversary would need to \emph{replicate} the system, inside the trust boundary --- and it has essentially no confidentiality benefit for user content. We adopt the split for the first reason and explicitly disclaim the second. Any deployment handling regulated data must treat the peer network as an untrusted processor with full visibility, which is a data-protection posture, not a cryptographic one.
+\end{remark}
+
+\subsection{StateFlow: pinning the KV cache}
+
+The dominant cost in distributed autoregressive inference is moving KV state. In multi-turn dialogue every turn extends a state that must persist, and relocating gigabytes across a peer network per turn is untenable; meanwhile expert computation \emph{benefits} from spreading across the network. StateFlow \cite{stateflow2026} resolves the tension by decoupling persistent KV state from transient sparse computation: the KV state is pinned at a sticky serving site for cross-turn reuse, while expert dispatch and aggregation placement are jointly optimized across the network.
+
+Session initialization anchors the cache at an entry-aware sticky owner
+\begin{equation}
+o_s \;=\; \arg\min_{v\,\in\,\mathcal{P}(e_s)}\ \Bigl[\,\lambda_{\text{lat}}\,\mathrm{d}(e_s,v) \;+\; \lambda_{\text{util}}\,u(v) \;+\; \lambda_{\text{mem}}\,\frac{m_s}{M(v)}\,\Bigr],
+\label{eq:sticky}
+\end{equation}
+minimizing over candidate peers $\mathcal{P}(e_s)$ reachable from entry point $e_s$ a weighted sum of network distance, current utilization, and the session's memory footprint relative to peer capacity. Intermediate vectors are dispatched to remote experts; results return to $o_s$ for path-aware aggregation, so no inter-site state migration occurs. StateFlow reports over $2\times$ higher stable dialogue concurrency than distributed baselines and a 53.0\% reduction in turn-level p95 latency \cite{stateflow2026}.
+
+Equation~\eqref{eq:sticky} is our reconstruction of the selection objective from the reported policy; the published paper's exact functional form and weights should be preferred over ours in any implementation.
+
+\subsection{Cache management and elastic experts}
+
+At the sticky owner, PiKV \cite{liu2025pikv} manages fragmentation by treating KV allocation as an expert-sharded, query-driven process rather than a passive block pool, hashing token allocations by time and expert index,
+\begin{equation}
+s(t,e) = (t \bmod N_{\text{tok}}) \oplus (e \bmod N_{\text{exp}}),
+\label{eq:pikv}
+\end{equation}
+and integrating compression (block PCA, SVD) with activity-based scheduling to evict low-utility tokens without degrading long-context fidelity.
+
+Remote compute layers execute under FaaSMoE \cite{faasmoe2026}, which deploys experts as stateless serverless functions with on-demand, scale-to-zero invocation across tenants, and supports configurable expert granularity per function, trading per-expert elasticity against invocation overhead. The reported prototype uses under one third of the resources of a full-model baseline. We record that this is evaluated on Qwen1.5-MoE-2.7B \cite{faasmoe2026} --- a $1000\times$ scale gap to a tower --- and that cold-start latency for scale-to-zero experts is the obvious failure mode at interactive latencies. This is falsifier F6.
+
+\subsection{Mixture-of-Models routing across the ensemble}
+
+Above the towers, query-level allocation is a Mixture-of-Models (MoM) problem: how much computation to spend, which models participate, and how outputs combine. Static routing on surface features --- token counts, coarse domain labels --- ignores within-query difficulty variance and cross-model complementarity.
+
+A deployed instance is Echo \cite{tracer2026echo}, which coordinates a pool of open-weight models behind a single OpenAI-compatible endpoint and adapts capability and computation per request. The general finding in this line \cite{brick2026,generalizedrouting2025} is real complementarity: an objectively weaker model can be the right choice on specific sub-problems or in combination, so a well-trained router can exceed the best single model in its pool. Vendor-reported results place an Echo-style system at frontier-comparable aggregate quality at roughly one third of expected inference cost \cite{tracer2026echo}. \textbf{This is Tier B and self-reported}; we have found no independent evaluation, and cost-per-quality claims are exactly where selection of the comparison baseline dominates the result.
+
+\section{Peer integrity and the canary trap}
+\label{sec:integrity}
+
+Distributing activations across peers owned by independent parties admits tampering: any party can corrupt the output of its layers. Recomputation on trusted hardware defeats the purpose of distribution, and cryptographic commitment over every activation imposes unacceptable latency.
+
+The published approach \cite{cihangiroglu2026integrity} is a threshold-free statistical test built on known-answer canaries. The requester selects a small set of secret canary inputs whose correct activations are known in advance and mixes them into ordinary traffic. Because peers cannot distinguish a canary from a live query, systematic tampering corrupts canaries alongside real data.
+
+The essential difficulty is numerical non-determinism: heterogeneous hardware and non-associative floating-point reduction mean even perfectly honest peers exhibit drift. The test therefore compares \emph{drift distributions} rather than requiring exact matches. Hardware noise establishes a null; deliberate tampering separates from it. Across 408 tested configurations the detector achieves AUROC 1.0, correctly ranking the malicious shard above every benign shard on every canary in every configuration \cite{cihangiroglu2026integrity}.
+
+\subsection{Why we do not expect that number to survive}
+\label{sec:canarylimit}
+
+An AUROC of exactly 1.0 across every configuration is a strong result and, read carefully, a narrow one. Three properties of the evaluated setting do not hold in the architecture proposed here.
+
+\begin{enumerate}[label=(C\arabic*),itemsep=3pt]
+\item \textbf{Static versus adaptive adversary.} A shard that tampers on every forward pass corrupts every canary and is trivially separable. An adversary that tampers with probability $p \ll 1$ corrupts a canary with probability $p$; with $m$ canaries the detection probability is $1-(1-p)^m$, and the per-canary drift statistic is dominated by the benign null on $(1-p)$ of the draws. Detection then becomes a sequential-testing problem with a time-to-detection that grows as $1/p$, and an adversary who only needs to corrupt a small fraction of outputs --- which is the realistic threat for, say, biasing a code-generation result --- can sit arbitrarily far below any fixed observation budget.
+\item \textbf{Homogeneous versus heterogeneous numerics.} The benign null is set by hardware-induced drift. A peer network deliberately spanning heterogeneous accelerators, mixed MXFP4/NVFP4 quantization (\S\ref{sec:quant}), and independently compiled kernels has a benign null that is wider, multi-modal, and node-dependent --- exactly the conditions under which a single pooled null over-covers the tampering signal.
+\item \textbf{Value-space versus semantic tampering.} The detector measures activation drift. An adversary who substitutes a \emph{differently but validly computed} activation --- for example by running a legitimately quantized variant of the assigned expert --- produces drift that is in-distribution for the benign null while changing the output.
+\end{enumerate}
+
+\begin{conjecture}[Canary detection degrades sharply with adversary duty cycle]
+\label{conj:canary}
+Under a fixed canary budget $m$ and a low-duty-cycle adversary tampering with probability $p$, detector AUROC falls monotonically in $1/p$, and there exists $p^\star$ below which AUROC is statistically indistinguishable from 0.5 at any $m$ compatible with interactive-latency overhead. Further, widening the benign null to cover heterogeneous numerics raises $p^\star$.
+\end{conjecture}
+
+This is Tier C and it is cheap to test, but not on a laptop: the honest version needs a benign null \emph{measured} across two accelerators of different models with independently compiled kernels and mixed quantization paths, since a homogeneous pair merely reproduces the published setting and settles nothing (\texttt{logos/GAPS.md}, G-1.5). This is falsifier F8, and it is the falsifier we consider most likely to fire against our own architecture.
+
+\section{Governance, and a regulatory question with no settled answer}
+\label{sec:governance}
+
+\subsection{The systemic-risk threshold}
+
+Under the EU AI Act, a general-purpose AI model is presumed to present systemic risk when the cumulative compute used for its training exceeds $10^{25}$ floating-point operations \cite{euaiact2024}. Meeting that presumption triggers the obligations elaborated in the General-Purpose AI Code of Practice \cite{gpaicop2025}: a state-of-the-art Safety and Security Framework, continuous full-lifecycle risk assessment covering automated cyber-offence, biological and chemical proliferation, and loss of control, a Safety and Security Model Report, board-level accountability, and whistleblower protection. Non-compliance exposure runs to €35 million or 7\% of global annual turnover.
+
+Operational supervision is national. In the Netherlands the Autoriteit Persoonsgegevens coordinates AI oversight with attention to transparency and high-risk applications, alongside the Rijksinspectie Digitale Infrastructuur for technical market surveillance \cite{ap2026,rdi2026}. Translating the obligations into enforceable technical mechanism is the province of governance practitioners; the Artificial Intelligence Governance Professional certification \cite{iapp2024aigp} is the current credential for exactly that lifecycle work --- data provenance, IP liability, drift audit, multi-tenant pipeline assurance.
+
+\subsection{How many models is a Mixture-of-Towers?}
+\label{sec:howmanymodels}
+
+Here is the question the architecture forces and the regulation does not answer.
+
+The threshold is written against \emph{a model}. An MoT is five separately pretrained, separately post-trained models, composed by a router that is itself trained. Consider the readings:
+
+\begin{enumerate}[label=(R\arabic*),itemsep=3pt]
+\item \textbf{Per-tower.} Each tower's training compute is assessed separately. A sparse 2.8T tower at $\sim1.7\times10^{25}$ FLOPs (\S\ref{sec:categoryerror}) clears $10^{25}$, so each tower is individually in scope --- but only by a factor under two, and a modestly sparser or less data-hungry tower would fall below.
+\item \textbf{Composed-system.} The composed ensemble is one GPAI model whose cumulative training compute is the sum over towers plus the router, $\sim8.4\times10^{25}$ FLOPs, unambiguously in scope.
+\item \textbf{Router-only.} The deployed artifact whose training the provider performed \emph{as a composition} is the router, whose compute is negligible. Under this reading the composed system is an integration of third-party models, not a model the integrator trained.
+\end{enumerate}
+
+Reading R3 is the arbitrage. It is not obviously wrong: BAR's entire economic proposition is that towers can be sourced, swapped, and upgraded independently \cite{morrison2026bar}, and an integrator who obtains five open-weight towers and trains only a router has, in a literal sense, performed a few times $10^{20}$ FLOPs of training. Whether the presumption attaches to the compute the provider expended or to the compute embodied in what it places on the market is, as far as we can determine, not resolved by the text or the Code of Practice.
+
+\begin{conjecture}[Modular composition is a compute-threshold arbitrage surface]
+\label{conj:arbitrage}
+Any capability threshold defined on cumulative training compute per model is evadable by modular composition, because the compute attributable to the composing step can be made arbitrarily small while the capability of the composed system is bounded below by its strongest component. Thresholds robust to this must attach to \emph{deployed system capability} or to \emph{embodied} compute including sourced components.
+\end{conjecture}
+
+We flag the obvious dual-use character of stating this. Naming an arbitrage surface makes it easier to exploit and easier to close. We judge disclosure correct here because the surface follows immediately from reading the threshold definition alongside any modular-composition paper, and because the affected parties are regulators who need it, not victims who can be harmed by it. This is the same disclosure calculus the companion psychohistory program applies to its control layer \cite{sharon2026psychohistory}, and we hold to it.
+
+\subsection{Sovereign deployment: routing as the compliance primitive}
+
+In sovereign environments, residency law forbids sensitive regional data from traversing foreign infrastructure. Modularity is what makes this enforceable rather than aspirational: the operator performs \emph{targeted domain restriction} by region. When a prompt touching classified sovereign data would otherwise route through an uncertified path, the router applies a deterministic fallback via a safety gating mask,
+\begin{equation}
+G_{\mathrm{masked}}(t)_e =
+\begin{cases}
+G(t)_e & \text{if } e \in \mathcal{A}_{\mathrm{safe}},\\[2pt]
+-\infty & \text{if } e \notin \mathcal{A}_{\mathrm{safe}},
+\end{cases}
+\label{eq:mask}
+\end{equation}
+forcing the query through localized, certified Administration or Safety weights. This is structurally identical to the classifier-demotion mechanism of \S\ref{sec:intro}: a capability-ordered routing decision, differing only in the objective the ordering encodes.
+
+Supply-chain integrity is enforced before dispatch: the router hashes the target module against an immutable ledger and aborts on mismatch, so an injected or substituted tower cannot be reached. And per \S\ref{sec:intro}, forensic capability must be retained locally --- an air-gapped open-weights model is required so that incident analysis cannot be revoked by a third party's classifier mid-incident.
+
+\begin{remark}[What Eq.~\eqref{eq:mask} does not guarantee]
+Masking the router's expert set constrains \emph{which weights execute}. It does not constrain what the permitted weights know, and it does not prevent an unmasked tower from having been trained on data that a masked tower was forbidden. Residency enforcement at the routing layer is a control on data \emph{in flight}, not on capability. Treating it as the latter is a compliance error the architecture invites and we want on the record.
+\end{remark}
+
+\section{Relation to the psychohistory program}
+\label{sec:psychohistory}
+
+This paper sits in the same repository as, and is a deliberate counterpart to, the bounded-psychohistory program \cite{sharon2026psychohistory}. The connection is not decorative.
+
+That program's central negative result is that its forward engine fails against \emph{out-of-model agents}: actors whose type the model's hypothesis space never contained, against which more data does not help. It also names \emph{major players} --- agents of non-negligible measure who break the mean-field averaging and must be modeled explicitly. LOGOS-class systems are the concrete instance of both. A 10T system executing autonomously over long horizons is a major player by construction; one that discovers novel exploit chains without source access \cite{openai2026exploitgym} is out-of-model by demonstration.
+
+There is also a structural rhyme worth stating precisely, and then bounding. The Mixture-of-Towers is a \emph{near-decomposability} claim \cite{simon1962} about a machine: dense interaction within a tower, weak interaction between towers, with an aggregate law defined over the coarse-grained units. It is the same architectural bet the psychohistory program makes about societies, and its principal failure mode is the same one: the bet fails when inter-unit coupling grows and the units stop being independent. In the social case that is a critical transition; here it is router-induced correlation, where a router that consistently co-activates towers has silently rebuilt a monolith with worse ergonomics.
+
+The dependency also runs the other way, and this is the more useful direction. The bootstrap harness of \S\ref{sec:bootstrap} needs an observation channel the ensemble cannot fake, and Conjecture~\ref{conj:bootstrap} says that is the whole ballgame. Social reality is exactly such a channel: it cannot be simulated away, which is that program's own central negative result restated as a resource. Meanwhile that program's four blocked falsifiers --- smooth-regime skill, fixed-point reliability, Lucas invariance, regime occupancy --- are blocked on a forward engine that generates and scores trajectories, which is what the harness is. The harness needs an adjudicator; psychohistory needs a generator. They are the same missing piece approached from two directions, which is why \S\ref{sec:bootstrap} takes that program's validation pipeline as its second substrate.
+
+We stop the analogy there. The social case has a measured diagnostic --- the collapse of the effective number of independent units, $N_{\mathrm{eff}}$, which that program has sealed as a pre-registered result on real data \cite{sharon2026psychohistory}. Whether the same diagnostic transfers to tower co-activation statistics is a genuinely open question and \emph{not} something we assert: an $N_{\mathrm{eff}}$ computed over routing decisions is a different estimator on a different substrate, and borrowing the name would not license borrowing the validation. We record it as a hypothesis (F7 in \S\ref{sec:falsifiers}) precisely so it is not mistaken for a result.
+
+\section{Falsifiers}
+\label{sec:falsifiers}
+
+We commit to the following, in the form the companion program uses \cite{sharon2026psychohistory}: a claim, a measurement, and a threshold fixed before the measurement. None has been run. They are graded by the hardware each requires, because that is the only axis that determines what is actually reachable; the full plan is \texttt{logos/GAPS.md}. We note explicitly that an earlier draft of this ledger proposed discharging four of these by CPU simulation on synthetic inputs, and that those checks were \textbf{withdrawn as circular}: measuring that an implementation of an equation satisfies that equation is not evidence about anything. What survives is graded below.
+
+\begin{longtable}{@{}p{0.05\textwidth}p{0.40\textwidth}p{0.32\textwidth}p{0.15\textwidth}@{}}
+\toprule
+\textbf{ID} & \textbf{Claim} & \textbf{Falsifying observation} & \textbf{Status} \\
+\midrule
+\endhead
+F1 & Tower decomposition reduces the peak \emph{unique}-corpus requirement, not aggregate token-instances (Prop.~\ref{prop:tokens}); sparse towers are not governed by $D_{\mathrm{opt}}=20N_{\mathrm{total}}$ & A fitted MoE scaling law giving compute-optimal $D$ within 20\% of $20N_{\mathrm{total}}$ for $N_{\mathrm{total}} \geq 10^{12}$ at 98\% sparsity & Arithmetic settled (\S\ref{sec:scaling}); the scaling-law fit needs a \textbf{training-run sweep} \\
+\addlinespace
+F2 & BAR-style modular post-training composes at 2.8T/5-tower scale with router quality sufficient that misrouting cost stays below the monolithic-alignment-damage cost & Composed-ensemble score below a matched jointly-post-trained baseline at any scale $\geq$70B & \textbf{Frontier budget.} Closest reachable proxy is 7B$\to$70B on one 8-GPU node \\
+\addlinespace
+F3 & Quantile Balancing achieves even utilization with zero dead experts, and CDB removes per-sequence imbalance, without an auxiliary loss & QB showing dead experts, or worse balance and downstream loss than the auxiliary-loss-free bias, in a real 1B/64-expert training run & \textbf{One consumer GPU} \\
+\addlinespace
+F4 & An existing checkpoint converts to Delta Attention Residuals by finetuning without destabilizing --- the property that makes the mechanism deployable & Conversion diverging, or failing to recover baseline perplexity, on a real open checkpoint & \textbf{One consumer GPU} \\
+\addlinespace
+F5 & Shared-codebook quantization collapses to 4--10 effective dimensions on \emph{real} hidden states, and DCVQ subspace partitioning eliminates it & Monolithic RQ-VAE retaining near-full effective rank on real states, or DCVQ failing to recover it & \textbf{One consumer GPU} (a by-product of F9) \\
+\addlinespace
+F6 & Serverless scale-to-zero experts are viable at interactive latency for a 2.8T tower & Measured cold-start p95 exceeding the per-token latency budget at tower-scale expert sizes & \textbf{One 8-GPU node} \\
+\addlinespace
+F7 & Router-induced tower co-activation is a measurable analogue of $N_{\mathrm{eff}}$ collapse, and predicts composed-ensemble degradation & Co-activation concentration uncorrelated with degradation on a trained MoT & \textbf{Needs a trained MoT} \\
+\addlinespace
+F8 & Canary drift-distribution detection retains AUROC $\approx$1.0 against a realistic adversary (Conj.~\ref{conj:canary} predicts it does not) & AUROC staying above 0.95 as duty cycle $p\to0.01$ under a null measured across heterogeneous accelerators & \textbf{Two \emph{different} GPUs} \\
+\addlinespace
+F9 & Disagreement-gated, environment-adjudicated trajectories beat both unfiltered self-play and a matched text-only control, without triggering model collapse (Conj.~\ref{conj:bootstrap}) & Yield-weighted grounded trajectories failing to beat the text control at 350M, or the collapse monitor firing & \textbf{One consumer GPU} --- the cheapest decisive test in the paper \\
+\bottomrule
+\end{longtable}
+
+\section{Honest status and the gap ledger}
+\label{sec:gaps}
+
+We state plainly what this is. \textbf{No model described here has been trained. No system described here has been served. Every performance figure is either taken from a cited source or is the output of a small CPU-only simulation that stands in for a mechanism, not a measurement of the mechanism at scale.} The companion directory \texttt{logos/} carries the full adversarial ledger; the summary is:
+
+\begin{description}[itemsep=3pt,leftmargin=1.4em]
+\item[Verified.] The bibliography audit (\S\ref{sec:bib}, and \texttt{logos/BIBLIOGRAPHY\_REVIEW.md}): every mechanism cited here was checked against a primary source, three numbers were corrected, one mechanism name was dropped as unsourceable, eleven missing attributions were supplied, and two mechanisms were downgraded to blog-quality sourcing (Remark~\ref{rem:qbsource}).
+\item[Settled by arithmetic.] The scaling corrections of \S\ref{sec:scaling}, which are a calculation rather than an experiment, and which located three errors in the architecture as originally drafted --- including the one that the regulatory contribution of \S\ref{sec:howmanymodels} came out of.
+\item[Reachable on one consumer accelerator.] F3 (quantile balancing in a real training loop), F4 (checkpoint conversion), F5 (codebook collapse on real states), F9 (the bootstrap harness), plus the router-swap cost that BAR's entire economic case rests on. F9 is the cheapest experiment here that can return a decisive negative, and it tests the constraint no architecture in this paper relaxes.
+\item[Reachable on two different accelerators, or one node.] F8 (canary under a heterogeneous null --- and note that this architecture \emph{creates} the heterogeneous-numerics problem in \S\ref{sec:quant} and then relies in \S\ref{sec:integrity} on a detector that assumes it away), F6 (cold start), and the interaction between the compliance mask of Eq.~\eqref{eq:mask} and the quantile balancer of \S\ref{sec:qb}, which nobody has examined and which is a plausible bug: masking experts changes the routing distribution that the quantile solver is balancing, for every other token in the batch.
+\item[Blocked on frontier budget.] F2, F7, and the scaling-law half of F1. These are the load-bearing ones. The architecture's central bet --- that BAR composes at tower scale --- is a $400\times$ extrapolation from a 7B result whose own headline is \emph{matching}, not beating, a retraining baseline.
+\item[Known weak.] The shared codebook placement (\S\ref{sec:weakest}), the latent-dispatch confidentiality claim (Remark~\ref{rem:latentleak}), and the canary result's adversary model (\S\ref{sec:canarylimit}). We expect F8 to fire.
+\item[Withdrawn.] Four CPU mechanism checks on synthetic inputs, proposed and then cut as circular (\S\ref{sec:falsifiers}).
+\item[Not addressed at all.] Training-run fault tolerance and straggler mitigation across towers; the router's own training-data provenance and its status as a single point of capability failure; an end-to-end cost model; an evaluation methodology for a composed ensemble that is not simply the max over towers; and a contradiction the paper does not resolve --- Proposition~\ref{prop:tokens} \emph{requires} tower corpora to overlap, while \S\ref{sec:governance} treats towers as clean data-residency partitions.
+\end{description}
+
+\section{Bibliographic note}
+\label{sec:bib}
+
+Every reference below was checked against a primary source in July 2026. Three classes of correction were applied to earlier drafts of this material and are recorded here rather than silently fixed:
+
+\begin{enumerate}[label=(\alph*),itemsep=2pt]
+\item \textbf{Missing attributions supplied.} Kimi Delta Attention was described without citing Kimi Linear \cite{team2025kimilinear}; LatentMoE without citing \cite{nvidia2026latentmoe}; Attention Residuals without citing \cite{kimi2026attnres}; the entire Chinchilla argument without citing \cite{hoffmann2022}; low-rank adaptation and multi-adapter serving without citing \cite{hu2021lora,chen2024punica,sheng2024slora}; RQ-VAE without citing \cite{lee2022rqvae,rajput2023tiger}.
+\item \textbf{Sourcing downgraded.} Quantile Balancing and Causal Dual Bias were presented with paper-grade formulas; their actual sources are a vendor blog \cite{moonshot2026k3} and a personal blog \cite{chang2026cdb}.
+\item \textbf{Numbers corrected or dropped.} The 9\% MXFP4 overhead (published: 6.2\% \cite{ma2026mxfp4}); the reuse of the dense $1.30\times10^{28}$ figure for a sparse ensemble (\S\ref{sec:categoryerror}); the 12\% die-area claim and the ``All-size Group-decoupling Allocation'' mechanism, both dropped as unsourceable.
+\end{enumerate}
+
+\section{Conclusion}
+
+A 10T-class system is buildable, and the reason is not that anyone solved the data wall. It is that the data wall was never the constraint the dense arithmetic said it was. Sparsity decouples the compute bill from the parameter count; modular composition decouples the peak unique-corpus requirement from the total parameter budget; 4-bit serving decouples the memory footprint from the precision the model was trained in. What remains binding --- unique high-quality tokens, resident memory, and the quality of a router that must adjudicate between five frontier-grade specialists on far less training signal than any of them received --- is a different and less romantic list than the one usually given.
+
+The architecture we specify is a composition of published parts, and we have tried to be exact about which joints are load-bearing and untested. The BAR extrapolation from 7B to 2.8T is the central bet and it is unhedged. The shared codebook is in the wrong place and we moved it. The confidentiality story for peer dispatch does not hold and we withdrew it. The peer-integrity result is real and, we predict, will not survive an adversary who is trying.
+
+The governance finding is the one we would most like to be wrong about. A capability threshold written against \emph{a model} does not survive an architecture whose entire economic proposition is that models are components. Modular composition makes the compute a provider expends arbitrarily small while the capability it places on the market is bounded below by its strongest sourced part. That gap is not a loophole someone has to be clever to find; it falls out of reading the threshold next to any modular-composition paper. Closing it means attaching the presumption to deployed capability or to embodied compute, and the sooner that is settled the smaller the incentive to build the architecture specifically to exploit it.
+
+Nothing here is a result. It is a specification with its arithmetic checked, its citations audited, four of its eight falsifiers discharged at toy scale, and the other four named along with the hardware they need.
+
+\subsection*{AI contribution declaration}
+
+This paper was developed in close collaboration with Claude, a large language model from Anthropic. The AI contributed substantially: to the drafting of the manuscript, to the verification of every citation against a primary source, to the arithmetic corrections of \S\ref{sec:scaling}, and to the simulation code in \texttt{logos/validation/}. The human author, Wingston Sharon, directed the work and contributed its central conjectures --- the Mixture-of-Towers composition, the compute-economics reading of restricted deployment (Conjecture~\ref{conj:economics}), and the regulatory-arbitrage argument (Conjecture~\ref{conj:arbitrage}). He made all final judgments and takes full responsibility for the content, including any errors. An AI system cannot bear accountability for a publication and so cannot be a formal author; this declaration preserves the transparency a joint byline was meant to express.
+
+\begin{thebibliography}{99}\setlength{\itemsep}{1pt}
+
+\bibitem{alflb2025} A theoretical framework for auxiliary-loss-free load balancing of sparse mixture-of-experts in large-scale AI models. \emph{arXiv:2512.03915}, 2025.
+
+\bibitem{anthropic2026fablemythos} Anthropic. Claude Fable 5 and Claude Mythos 5. \url{https://www.anthropic.com/news/claude-fable-5-mythos-5}, June 2026.
+
+\bibitem{anthropic2026glasswing} Anthropic. Project Glasswing: securing critical software for the AI era. \url{https://www.anthropic.com/glasswing}, 2026.
+
+\bibitem{anthropic2026redeploy} Anthropic. Redeploying Claude Fable 5. \url{https://www.anthropic.com/news/redeploying-fable-5}, July 2026.
+
+\bibitem{ap2026} Autoriteit Persoonsgegevens. Wetgevingstoets Uitvoeringswet AI-verordening. \url{https://www.autoriteitpersoonsgegevens.nl/}, June 2026.
+
+\bibitem{arxiv2026continuousfirst} Continuous first, discrete later: VQ-VAEs without dimensional collapse. \emph{arXiv:2605.06870}, 2026.
+
+\bibitem{borzunov2023petals} A.~Borzunov et al. Petals: collaborative inference and fine-tuning of large models. \emph{Proceedings of ACL 2023 (System Demonstrations)}, pp.~558--568, 2023.
+
+\bibitem{brick2026} Brick: spatial capability routing for the Mixture-of-Models (MoM) paradigm. \emph{arXiv:2606.13241}, 2026.
+
+\bibitem{chameleon2024} Chameleon Team (Meta FAIR). Chameleon: mixed-modal early-fusion foundation models. \emph{arXiv:2405.09818}, 2024.
+
+\bibitem{chang2026cdb} J.~Chang. Causal routing bias for aux-loss-free MoE training. \url{https://jonathanc.net/blog/causal-routing-bias}, 2026. \textbf{Blog post; no peer-reviewed source.}
+
+\bibitem{chen2024punica} L.~Chen et al. Punica: multi-tenant LoRA serving. \emph{Proceedings of MLSys}, 2024.
+
+\bibitem{cihangiroglu2026integrity} M.~Cihangiroglu and A.~Nocera. Integrity of peer-to-peer distributed LLM inference under malicious nodes. \emph{arXiv:2607.19490}, 2026.
+
+\bibitem{codecollapse2026} When AI reviews its own code: recursive self-training collapse in code LLMs. \emph{arXiv:2606.28438}, 2026.
+
+\bibitem{emu3nature2025} Emu3 / BAAI. Multimodal learning with next-token prediction for large multimodal models. \emph{Nature}, s41586-025-10041-x, 2025; preprint \emph{arXiv:2409.18869}.
+
+\bibitem{euaiact2024} European Union. Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act), Article 51 and Annex XIII. \emph{Official Journal of the European Union}, 2024.
+
+\bibitem{evoenv2026} Learning to build the environment: self-evolving reasoning RL via verifiable environment synthesis. \emph{arXiv:2605.14392}, 2026.
+
+\bibitem{faasmoe2026} FaaSMoE: a serverless framework for multi-tenant mixture-of-experts serving. \emph{arXiv:2604.26881}; \emph{MobiSys Workshops '26}, 2026.
+
+\bibitem{generalizedrouting2025} Towards generalized routing: model and agent orchestration for adaptive and efficient inference. \emph{arXiv:2509.07571}, 2025.
+
+\bibitem{gpaicop2025} European Commission AI Office. General-Purpose AI Code of Practice, final version. \url{https://code-of-practice.ai/}, 2025.
+
+\bibitem{hoffmann2022} J.~Hoffmann et al. Training compute-optimal large language models. \emph{arXiv:2203.15556}; \emph{Advances in Neural Information Processing Systems}, 35, 2022.
+
+\bibitem{hu2021lora} E.~J.~Hu et al. LoRA: low-rank adaptation of large language models. \emph{arXiv:2106.09685}; \emph{ICLR}, 2022.
+
+\bibitem{huang2026k3} K.~Huang. Demystifying Kimi K3: the three algorithms behind the \#1 frontend coding model. \url{https://kenhuangus.substack.com/p/demystifying-kimi-k3-how-chinas-28t}, 2026. \textbf{Third-party explainer.}
+
+\bibitem{iapp2024aigp} International Association of Privacy Professionals. Artificial Intelligence Governance Professional (AIGP) certification. \url{https://iapp.org/certify/aigp}, accessed 2026.
+
+\bibitem{kimi2026attnres} Kimi Team. Attention Residuals: technical report. \emph{arXiv:2603.15031}, 2026.
+
+\bibitem{lee2022rqvae} D.~Lee et al. Autoregressive image generation using residual quantization. \emph{Proceedings of CVPR}, 2022.
+
+\bibitem{liu2025pikv} D.~Liu et al. PiKV: KV cache management system for MoE architecture. \emph{arXiv:2508.06526}, 2025.
+
+\bibitem{ludziejewski2025} J.~Ludziejewski et al. Joint MoE scaling laws: mixture of experts can be memory efficient. \emph{arXiv:2502.05172}, 2025.
+
+\bibitem{luo2026deltares} C.~Luo, Z.~Cai, and J.~Hu. Delta Attention Residuals. \emph{arXiv:2605.18855}, 2026.
+
+\bibitem{ma2026mohge} Z.~Ma et al. Mixture of Heterogeneous Grouped Experts for language modeling. \emph{arXiv:2604.23108}, 2026.
+
+\bibitem{ma2026mxfp4} Unveiling the potential of quantization with MXFP4: strategies for quantization error reduction. \emph{arXiv:2603.08713}, 2026.
+
+\bibitem{moescaling2026} Holistic scaling laws for optimal mixture-of-experts architecture optimization. \emph{arXiv:2603.21862}, 2026.
+
+\bibitem{moonshot2026k3} Moonshot AI. Kimi K3 technical blog: open frontier intelligence. \url{https://www.kimi.com/blog/kimi-k3}, 2026. \textbf{Vendor technical blog; primary source for QB and Stable LatentMoE.}
+
+\bibitem{morrison2026bar} J.~Morrison, S.~Adhikesaven, A.~Bhagia, M.~Zaharia, N.~A.~Smith, and S.~Min. Train separately, merge together: modular post-training with mixture-of-experts. \emph{arXiv:2604.18473}, 2026.
+
+\bibitem{muennighoff2023} N.~Muennighoff et al. Scaling data-constrained language models. \emph{arXiv:2305.16264}; \emph{Advances in Neural Information Processing Systems}, 36, 2023.
+
+\bibitem{neurips2023petals} A.~Borzunov et al. Distributed inference and fine-tuning of large language models over the Internet. \emph{Advances in Neural Information Processing Systems}, 36, 2023.
+
+\bibitem{neurips2025dimcollapse} Dimensional collapse in VQVAEs: evidence and remedies. \emph{Advances in Neural Information Processing Systems}, 38, 2025. (Introduces Divide-and-Conquer VQ.)
+
+\bibitem{nvidia2026latentmoe} LatentMoE: toward optimal accuracy per FLOP. \emph{arXiv:2601.18089}, 2026.
+
+\bibitem{nvidia2026qad} Quantization-aware distillation for NVFP4 inference accuracy recovery. \emph{arXiv:2601.20088}; NVIDIA Nemotron technical report, 2026.
+
+\bibitem{openai2026exploitgym} OpenAI. Report on autonomous sandbox escape and external compromise during ExploitGym cyber-capability evaluation, July 2026. See also UK AI Safety Institute assessments of long-horizon cyber capability.
+
+\bibitem{paligemma2024} L.~Beyer et al. PaliGemma: a versatile 3B VLM for transfer. \emph{arXiv:2407.07726}, 2024.
+
+\bibitem{rajput2023tiger} S.~Rajput et al. Recommender systems with generative retrieval (TIGER). \emph{Advances in Neural Information Processing Systems}, 36, 2023.
+
+\bibitem{rdi2026} Rijksinspectie Digitale Infrastructuur. Market surveillance under the AI Regulation. \url{https://www.rdi.nl/}, accessed 2026.
+
+\bibitem{sharon2026psychohistory} W.~Sharon. Conditions for predictable social dynamics: conservation, decomposition, and control at criticality. Draft v0.5, position paper (in review), 2026.
+
+\bibitem{sheng2024slora} Y.~Sheng et al. S-LoRA: serving thousands of concurrent LoRA adapters. \emph{Proceedings of MLSys}, 2024.
+
+\bibitem{shirokikh2026sparseprefix} M.~Shirokikh and S.~Nikolenko. Sparse prefix caching for hybrid and recurrent LLM serving. \emph{arXiv:2605.05219}, 2026.
+
+\bibitem{shumailov2024collapse} I.~Shumailov, Z.~Shumaylov, Y.~Zhao, N.~Papernot, R.~Anderson, and Y.~Gal. AI models collapse when trained on recursively generated data. \emph{Nature}, 631:755--759, 2024.
+
+\bibitem{simon1962} H.~A.~Simon. The architecture of complexity. \emph{Proceedings of the American Philosophical Society}, 106(6):467--482, 1962.
+
+\bibitem{spice2025} SPICE: self-play in corpus environments improves reasoning. \emph{arXiv:2510.24684}, 2025.
+
+\bibitem{stateflow2026} Multi-turn distributed inference with mixture of experts for 6G edge--cloud networks (StateFlow). \emph{arXiv:2607.02522}, 2026.
+
+\bibitem{suarez2024pufferlib} J.~Suarez et al. PufferLib: making reinforcement learning libraries and environments play nice. \emph{arXiv:2406.12905}, 2024. Pokémon Red environment: \texttt{PufferAI/pokegym}, \texttt{drubinstein/pokemonred\_puffer}.
+
+\bibitem{sukhbaatar2024btx} S.~Sukhbaatar, O.~Golovneva, et al. Branch-Train-MiX: mixing expert LLMs into a mixture-of-experts LLM. \emph{arXiv:2403.07816}; \emph{COLM}, 2024.
+
+\bibitem{team2025kimilinear} Moonshot AI (Kimi Team). Kimi Linear: an expressive, efficient attention architecture. \emph{arXiv:2510.26692}, 2025. (Introduces Kimi Delta Attention.)
+
+\bibitem{tracer2026echo} Tracer AI. Echo: adaptive coordination of open-weight models. \url{https://tracerml.ai/}, 2026. \textbf{Vendor-reported; no independent evaluation located.}
+
+\bibitem{vllm2026k3} vLLM Project. A preview of production-scale Kimi K3 support on vLLM. \url{https://vllm.ai/blog/2026-07-22-kimi-k3-preview}, July 2026.
+
+\bibitem{wang2024hmoe} A.~Wang et al. HMoE: heterogeneous mixture of experts for language modeling. \emph{arXiv:2408.10681}, 2024.
+
+\bibitem{wang2024lossfree} L.~Wang et al. Auxiliary-loss-free load balancing strategy for mixture-of-experts. \emph{arXiv:2408.15664}, 2024.
+
+\bibitem{zhang2024milora} H.~Zhang et al. MiLoRA: efficient mixture of low-rank adaptation for large language models fine-tuning. \emph{Findings of EMNLP}, 2024.
+
+\bibitem{zhang2025vgb} A.~L.~Zhang, T.~L.~Griffiths, K.~R.~Narasimhan, and O.~Press. VideoGameBench: can vision-language models complete popular video games? \emph{arXiv:2505.18134}, 2025. \texttt{alexzhang13/videogamebench} (MIT).
+
+\bibitem{zhipu2026glm52} Zhipu AI (Z.ai). GLM-5.2 open-weight release, June 2026. \url{https://huggingface.co/zai-org/GLM-5.2} (MIT license).
+
+\end{thebibliography}
+
+\end{document}
