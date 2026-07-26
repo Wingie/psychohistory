@@ -70,12 +70,24 @@ is in the mix. Their fixes were QK-norm (essential at both 7B and 34B), a z-loss
 of 1e-5, dropout 0.1 at 7B, and post-attention norm reordering at 34B — which is
 incompatible with dropout, so the two scales needed different recipes.
 
-**That is an argument for towers with nothing to do with FLOPs.** The instability
-arises from forcing modalities of different entropy through *shared parameters
-and a shared softmax*. Tower-structured internals give each modality its own
-parameters, attacking the cause rather than the symptom. It is a stronger
-motivation for Mixture-of-Towers than anything currently in the microarchitecture
-spec, which argues almost entirely from communication cost.
+**A first draft of this section claimed the fix is towers. It is not, and the
+claim does not survive towers being modality-blind.** If towers do not correspond
+to modalities, they do not give any modality its own parameters, so they cannot
+be what addresses an entropy mismatch between modalities.
+
+What addresses it is the **encoder**. Chameleon's verified property is that it has
+*no separate image/text encoders* — discrete codes drawn from wildly different
+entropy distributions pass straight through one shared softmax, which is the
+direct cause of the drift. A design that encodes each modality into a shared,
+normalised latent space before anything is predicted does not create the
+condition in the first place. The lesson is a constraint on the **encoder
+contract**, not an argument for the tower layout: whatever the per-modality
+encoders are, their outputs must be comparable in scale and entropy, because
+that comparability is what buys stability.
+
+Towers may still help second-order — separate parameters mean separate norm
+dynamics — but that is a conjecture, not the mechanism, and the communication
+argument remains the systems case for Mixture-of-Towers.
 
 It is also cheap insurance already taken: this harness's attention carries
 `q_norm` and `k_norm` (`logos/probe/model.py`), so the one fix Chameleon calls
