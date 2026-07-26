@@ -26,14 +26,14 @@ What it settles is which mechanisms are worth spending a 2.8T budget on.
 ## Slot 1 — How is domain disjointness decided? (falsifier F11)
 
 F11 asks whether the domains that towers specialise in are separate enough that
-routing between them pays. Two operationalisations have been built and both are
-dead.
+routing between them pays. Three operationalisations have been built. The two
+model-free ones are dead; the model-relative one works.
 
 | variant | kind | verdict | evidence |
 |---|---|---|---|
 | token-type Jaccard, merge at 0.30 | model-free, lexical | **killed** | Python vs English prose J = 0.3246, above the frozen threshold — the criterion demands that code and prose be merged into one tower. Four unrelated corpora span only 0.26–0.32; the measure has no dynamic range to spend. |
 | normalized compression distance (LZMA, 64 MB dict) | model-free, structural | **killed** | Under a project-disjoint null, separation is +0.0168 and the distributions overlap. |
-| gradient conflict / cross-perplexity transfer | **model-relative** | **live, untested** | Forced by the failure mode of both predecessors; see below. |
+| **gradient conflict** | **model-relative** | **SURVIVES** | Complete separation from step 200 on, under a project-disjoint null, with semantically correct verdicts. Measured; see below. |
 
 ### Why Jaccard died
 
@@ -108,6 +108,64 @@ file that reads `zlib` on disk. That is the same class of defect as a moved
 threshold. The compressor is now a named, pinned parameter written into every
 result record.
 
+### The survivor: gradient conflict
+
+Train one model on the mixture, then ask whether the domains pull its parameters
+in different directions:
+
+    cos(g_a, g_b) = <g_a, g_b> / (|g_a| |g_b|)
+
+Near 1 means one set of weights serves both — merge. Near 0 means separate towers
+can hold both without one overwriting the other.
+
+**It calibrates its own threshold**, which is why it escapes the defect that P-01
+names. Two batches from the *same* domain do not give cosine 1.0, and how far
+below depends on batch size, model scale and training stage — none of which can
+be reasoned about in advance. So the within-domain cosine is measured directly,
+from **project-disjoint** batches, and it *is* the threshold. A pair is separable
+only below the weakest within-domain baseline.
+
+Measured on the same real corpora that killed the other two:
+
+```
+step   within   between    sep    complete separation
+   0   0.7963   0.6560   0.1402   False      <- untrained control
+ 200   0.3007   0.1308   0.1699   True
+ 600   0.2548   0.0870   0.1678   True
+1500   0.2105   0.0765   0.1340   True
+3000   0.1595   0.0387   0.1207   True
+```
+
+**Complete separation from step 200 onward** — every between-domain pair below
+every within-domain baseline. And the verdicts are ones a person would agree
+with, which neither predecessor managed:
+
+```
+markdown|python        +0.4808  separable
+javascript|markdown    +0.5168  separable
+markdown|typescript    +0.5854  separable
+javascript|python      +0.7728  MERGE
+python|typescript      +0.7782  MERGE
+javascript|typescript  +0.8024  MERGE
+```
+
+Prose separates from all three code languages; the code languages merge with each
+other; and the highest between-pair is JavaScript/TypeScript, which genuinely
+should merge. Jaccard called code and prose one domain. NCD ranked markdown and
+Python closer than JavaScript was to itself.
+
+**The untrained control earns its place.** At step 0 the measure reports *not*
+separable, with high absolute cosines, because early gradients are dominated by
+generic structure — byte frequency, whitespace, the shape of the loss surface. A
+single reading at initialisation gives the wrong answer, which is why the
+trajectory is reported rather than a checkpoint. It also shows the measure is not
+trivially separating whatever it is handed.
+
+**Open, and flagged rather than extrapolated:** separation narrows with training,
+0.1699 at step 200 to 0.1207 at 3000, as both cosines decay. Whether it survives
+much longer training is unmeasured. TypeScript is also the weakest domain at 3
+projects and 1.48 MB.
+
 ---
 
 ## Slot 2 — How do towers compose?
@@ -172,12 +230,38 @@ confident about**, despite accepted-label precision of 0.8435 against a Bayes
 ceiling of 0.8503 — near-optimal labels, and training on them still costs
 accuracy. A3 gains in both head and tail.
 
-**Confound, stated rather than buried.** A1' and A3 differ in two ways at once:
-provenance (self-generated versus ground truth) and composition (the
-self-agreement filter accepts a Zipf-head-skewed subset, while A3 sees a
-representative one). This run cannot separate them. The next run subsamples A3
-to A1's key-frequency distribution. Until then the finding is **"the closed loop
-degrades"**, not yet **"because it is closed"**.
+### The confound, split (F9-v3)
+
+A1' and A3 differed in two ways at once: provenance (self-generated versus ground
+truth) and composition (the self-agreement filter accepts a Zipf-head-skewed
+subset, while A3 sees a representative one). A3' isolates provenance by
+construction — it takes the **identical accepted positions** as A1', the same
+keys and the same frequency mix, and substitutes true labels. A1' versus A3'
+therefore varies the label source and nothing else.
+
+```
+total gap        A3  - A1'   +0.0341  t=+69.36
+provenance only  A3' - A1'   +0.0112  t= +8.96
+composition      A3  - A3'   +0.0229
+A3' vs floor                 -0.0170  t=-16.94
+```
+
+**Provenance is real and now isolated.** On identical positions with identical
+keys, ground-truth labels beat self-generated ones at t = +8.96. This is the clean
+evidence for the observation bound, and it survives the strongest confound
+available.
+
+**But it is only a third of the effect.** Two thirds is composition, and A3' sits
+*below the floor* at t = −16.94 **with true labels** — losing the head
+(0.6599 against the floor's 0.6793) exactly as A1' does. Training on a narrowed
+distribution degrades the model regardless of who supplied the labels.
+
+**The architectural consequence.** A trajectory-selection scheme must preserve the
+frequency distribution of what it selects. Selecting on model confidence does not,
+and the resulting harm is independent of whether an adjudicator supplied the
+labels. **Grounding is necessary and it is not sufficient** — a result that the v2
+run, which varied both factors together, would have attributed entirely to
+grounding.
 
 Scope: one model size, one synthetic substrate, nano scale. It is evidence about
 a mechanism, not about 2.8T towers.
@@ -340,13 +424,16 @@ not by waiting for an OOM that never comes.
 
 ## What is live
 
-1. **F11 re-operationalised as a model-relative measure** — gradient conflict
-   first, cross-perplexity transfer second, each with its within-domain null
-   pre-registered before any between-domain number is looked at.
-2. **F9-v3, the confound split** — rerun with A3 subsampled to A1's
-   key-frequency distribution, so provenance is the only difference between the
-   arms. This is what upgrades "the closed loop degrades" to "because it is
-   closed", and it is cheap: the v2 run cost minutes on one card.
-3. **The learned router**, on members that are actually complementary.
+1. **The three-way comparison** — dense vs MoE vs MoT at matched per-token
+   FLOPs, on the real corpora, measuring per-domain bits-per-byte and the mutual
+   information between domain and chosen tower. This is the one that can kill
+   depth-coherent specialisation, the last untested claim in the design.
+2. **A distribution-preserving filter** — the F9-v3 result says selection must
+   not reshape the frequency mix. Stratified acceptance, which takes a fixed
+   share from each frequency band rather than whatever clears a confidence bar,
+   is the obvious candidate and is cheap to test against A1' and A3'.
+3. **Longer-horizon gradient conflict** — separation narrows from 0.1699 to
+   0.1207 between steps 200 and 3000. Whether it survives a full training run is
+   the open question the F11 survivor still carries.
 
 Each of these can kill a piece of the architecture. That is what they are for.
