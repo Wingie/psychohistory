@@ -109,18 +109,31 @@ per-modality tokenizer / encoder      (RQ-VAE or projector, per file type)
 per-modality de-tokenizer             (only if generating that modality)
 ```
 
-### The tension this creates, stated rather than hidden
+### Towers are modality-blind, and that is the point
 
-**If towers correspond to modalities, and modality is known at the input, the
-router is trivial** — you read the file type instead of learning a function. That
-is fine for the systems argument and it hollows out the learned-router research
-claim, which is one of the design's three pillars.
+An earlier draft of this document assumed towers would correspond to modalities,
+and then worried that this made the router trivial — read the file type, skip the
+learned function. **That assumption was wrong, and dropping it removes the
+problem rather than resolving it.**
 
-The resolution is that modality and domain are different axes. Modality supplies
-the strong specialisation signal and the natural device-placement boundary;
-**routing remains non-trivial *within* a modality**, across domains, which is
-exactly what the surviving F11 criterion measures. A tower layout that conflates
-the two would get free routing and lose the research question.
+Modality is an **input-encoding concern**. Everything above the encoder lives in
+one latent space, and a tower never learns "this is a PDF"; it learns whatever
+structure the latents carry. Concretely:
+
+- **Towers are file-type independent.** They operate on embeddings, so the same
+  tower serves a passage that arrived as PDF, as a screenshot, or as native text,
+  provided those encode to similar latents.
+- **The KV cache is over latent embeddings**, so it is shared across modalities
+  by construction. This is a sharper version of the point the KV section of the
+  microarchitecture spec was reaching for and got wrong: cache sharing does not
+  distinguish this design from MoE, but it does distinguish it from separately
+  served per-modality models, which cannot share a latent space at all.
+- **The router stays non-trivial**, because it routes on semantic content rather
+  than on a field that is known for free at the input. The learned-router claim
+  survives intact.
+
+Modality and domain are therefore orthogonal axes, not competing ones. Encoders
+handle the first; towers and the router handle the second.
 
 ### What this changes about the experiments
 
@@ -131,12 +144,31 @@ where towers actually operate. The negative-control discipline survives — an
 entropy-coded modality should show a collapsed within-domain baseline, and if it
 does not, the measurement is not working — but the substrate does not.
 
-Modality separation should be far outside the text range already measured, where
-markdown against Python sat at 0.4808 (separable) and JavaScript against
-TypeScript at 0.8024 (merge). If it is not, tower specialisation is much weaker
-than the design assumes, and that is the point of measuring it.
+Because towers are modality-blind, the quantity of interest is **conflict between
+semantic domains in latent space**, whatever modality they arrived in. The text
+measurements stand as the current reference — markdown against Python at 0.4808
+(separable), JavaScript against TypeScript at 0.8024 (merge) — and the question
+is whether domains that arrive through *different* encoders land far enough apart
+in the shared space to be worth separate towers. If a PDF-derived text and a
+native text of the same domain collapse to within the within-domain null, the
+encoder is doing its job and the tower layout should ignore the distinction,
+which is the outcome the design predicts.
 
 ---
+
+## Streaming and agentic I/O
+
+The same framing covers streaming input and output: a log tail, a screen-capture
+frame sequence, and an emitted button press or mouse movement are all encoder and
+decoder concerns, and none of them reach the towers as anything but latents. This
+is the agentic loop — observation in, action out — and it is where trajectories
+come from, which connects it directly to the observation bound of §12 and to the
+F9 results.
+
+It is out of scope at this budget and recorded so it is not mistaken for a gap.
+Whether the tighter observation-action coupling such a loop needs emerges at
+larger parameter counts is an open question this hardware cannot settle, and it
+should be treated as a conjecture rather than a plan.
 
 ## Status
 
