@@ -181,7 +181,13 @@ Five towers of 2.8T total 14T. We keep ``LOGOS-class'' as a threshold predicate,
 
 \subsection{Structure}
 
-The reference architecture splits the parameter budget across five separately trained sparse towers of about 2.8T total parameters each, where \S\ref{sec:lineage} makes the degree of separation an explicit parameter and finds that Branch-Adapt-Route bounds it below full independence, specialised to Code, Life Sciences, Mathematics, Logic, and Administration. Each tower is internally a heterogeneous mixture-of-experts (\S\ref{sec:microsparsity}) with hybrid linear and latent attention (\S\ref{sec:attention}). At inference a learned router dispatches queries to towers. The Administration tower carries safety, refusal, provenance, and compliance behaviour, and is the fallback target of \S\ref{sec:governance}.
+\textbf{The architecture is one model. The router and the towers are trained together on one mixture, and specialisation is a consequence of that joint training rather than something imposed on it.} No tower is assigned a corpus, no corpus is partitioned before training, and no tower carries a name. This is the claim the rest of the paper is about, and it is worth stating first because the obvious alternative is a different architecture that this one is repeatedly mistaken for.
+
+That alternative is to choose a partition, train a tower per part, and route over the result. It is a real design with published instances (\S\ref{sec:btx}), and it is \emph{not} this one. It forces the specialisation that this architecture asks to emerge, and a router placed over independently trained models is a router over models --- deployed prior art, and the object \S\ref{sec:categoryerror} declines to claim as new. Where this paper reasons about a hand-chosen partition, as \S\ref{sec:partition} does, it is reasoning about that alternative and says so.
+
+Concretely: the parameter budget is divided across $N$ towers of about 2.8T total parameters each, $N$ being a capacity choice in the same sense that an expert count is (\S\ref{sec:emergent}). Each tower is internally a heterogeneous mixture-of-experts (\S\ref{sec:microsparsity}) with hybrid linear and latent attention (\S\ref{sec:attention}). A shared trunk builds the representation the router reads, the router dispatches each segment to one tower, and a shared head consumes the result. Training is joint throughout; \S\ref{sec:lineage} makes the towers' shared pretraining lineage an explicit parameter, which governs \emph{initialisation} rather than whether the corpus is split.
+
+\textbf{Table~\ref{tab:scaling} prints $N = 5$ and names the towers Code, Life Sciences, Mathematics, Logic and Administration. Those names are an illustration of what specialisation might look like if it emerged, and nothing in the architecture produces them.} They are retained because the arithmetic needs a number, and $N = 5$ is that number. They should not be read as an assignment, and \S\ref{sec:f11five} reports the measurement that shows why: asked which of those five a model's gradients actually separate, the answer matches the naming in neither direction. Safety in particular is not among them --- it is a router-level decision, not a tower (\S\ref{sec:governance}).
 
 Beyond the data argument, two properties motivate the split:
 
@@ -190,9 +196,10 @@ Beyond the data argument, two properties motivate the split:
 \item \textbf{Contained alignment damage (Tier C).} Late-stage reinforcement learning applied to a monolith for safety is widely held to degrade unrelated mathematical and coding ability, and structural isolation would confine the damage to the tower being aligned. We could not locate a primary measurement of that alignment tax at frontier scale. We have no source for the stronger claim that mixed-domain training measurably degrades quality, and decline to supply a tier for a word we cannot cite. One of the two enumerated motivations for the tower split is therefore a belief, not a measurement.
 \end{enumerate}
 
-A third property is absent from the update-economics literature, and by the end of this paper it is the one we think matters most: independently trained towers hold \emph{informatively different} views, and \S\ref{sec:observation} shows that informative difference is the precondition for a group of models to learn anything from arguing.
+A third property is absent from the update-economics literature, and by the end of this paper it is the one we think matters most: towers that have specialised hold \emph{informatively different} views, and \S\ref{sec:observation} shows that informative difference is the precondition for a group of models to learn anything from arguing.
 
 \subsection{Branch-Train-MiX, then Branch-Adapt-Route}
+\label{sec:btx}
 
 Branch-Train-MiX \cite{sukhbaatar2024btx} sets the pretraining pattern. From a shared dense seed, training branches into asynchronous parallel runs, which removes the inter-branch communication that dominates synchronous large-scale training. The resulting experts are then merged by combining their feed-forward parameters into mixture-of-experts layers and averaging shared self-attention weights, followed by a light finetuning stage that learns token-level gating.
 
