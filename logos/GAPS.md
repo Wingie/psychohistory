@@ -7,7 +7,7 @@ Companion to `../logos.tex`, in the form of the repository's `RUN_AND_CHECK.md`.
 
 ## 0. Status in one paragraph
 
-The desk work that was open in the previous revision is done: the router design, the cost model, the evaluation metric, the failure semantics, the partition criterion, and the corpus-residency contradiction are all resolved in the paper. **Most of what remains is measurement, and most of it needs accelerators.** **Fourteen** falsifiers now stand in `../logos.tex` §15, which has since minted F11, F12, F13 and F14. Ten of them (F1 to F10) are the rows this ledger tracks. **Seven of the fourteen run on one consumer accelerator: F3, F4, F5, F9, F10, F13 and F14.** That is four independent experiments (F3, F4, F9, F10) plus three riders: F5 falls out of F9 for free, F13's limb (b) is an arm of F9 at **36.3 GPU-h** at the 1B-class planning roster, and F14 shares an instrument with F13's limb (a), a further Tier-0 rung now **derived at 17.4 GPU-h** at a four-model 7-to-8B-class roster, or 2.2 at the 1B-class roster (§2). **F11 and F12 need no accelerator at all** and are two of the §4 items below.
+The desk work that was open in the previous revision is done: the router design, the cost model, the evaluation metric, the failure semantics, the partition criterion, and the corpus-residency contradiction are all resolved in the paper. **Most of what remains is measurement, and most of it needs accelerators.** **Fourteen** falsifiers now stand in `../logos.tex` §15, which has since minted F11, F12, F13 and F14. Ten of them (F1 to F10) are the rows this ledger tracks. **Seven of the fourteen run on one consumer accelerator: F3, F4, F5, F9, F10, F13 and F14.** That is four independent experiments (F3, F4, F9, F10) plus three riders: F5 falls out of F9 for free, F13's limb (b) is an arm of F9 at **36.3 GPU-h** at the 1B-class planning roster, and F14 shares an instrument with F13's limb (a), a further Tier-0 rung now **derived at 17.4 GPU-h** at a four-model 7-to-8B-class roster, or 2.2 at the 1B-class roster (§2). **F12 needs no accelerator at all** and is one of the §4 items below. **F11 no longer belongs in that class and this is a change of cost, not of wording** (see §4): both accelerator-free operationalisations of it have been run and both failed, and the one that survives trains a model, so F11 is now a GPU row.
 
 > **Superseded figures on this line, left labelled so the drift is visible.** This paragraph carried "12.7 GPU-h" for limb (b) and "cost is not yet derived" for limb (a) and F14. Both were correct against the withdrawn 350M stand-in proposers and neither survives the proposer repair (`LOGOS_HARNESS.md` §2.2). **`../logos.tex` §15 has carried 36.3 and 17.4 since v0.3; this ledger, which twice declares the paper the register of record for F-numbers, was the last document still printing the withdrawn pair.** It now follows the register.
 
@@ -114,7 +114,45 @@ Named so they are not mistaken for oversights. **None of these needs an accelera
 - **Training-run fault tolerance across towers.** Five independent frontier training runs have five independent failure processes. No checkpointing or restart story.
 - **Provenance for sourced towers.** Under regulatory reading R3 an integrator sources towers from third parties. What assurance beyond hash-against-ledger? What if a tower is backdoored?
 - **Multi-tenant fairness.** Thousands of adapters over shared frozen experts with scale-to-zero, and no isolation or noisy-neighbour analysis.
-- **Corpus-overlap measurement.** §3.5's partition criterion needs measured corpus disjointness to settle four towers versus five. That is a data question, specified but not run. It is what `ARCHITECTURE_REVIEW.md` F-14 is still open on.
+- **Corpus-overlap measurement — RUN, and the criterion did not survive.** §3.5's
+  partition criterion needs measured corpus disjointness to settle four towers versus
+  five. This row previously said "specified but not run". It has now been run twice on
+  real corpora and **both accelerator-free operationalisations are dead**:
+
+  - **Token-type Jaccard** with the frozen 0.30 merge threshold has no dynamic range.
+    Python against English prose measures 0.3246, *above* the threshold, so the
+    criterion demands that code and prose be merged into one tower. Four unrelated
+    corpora span only 0.26 to 0.32.
+  - **Normalized compression distance** fails under an honest null. Its first reading
+    appeared to vindicate it, but that baseline split each corpus by document, which
+    puts files from one project on both sides and measures within-*project*
+    redundancy. Under a project-disjoint null the separation falls from +0.0746 to
+    +0.0168 and the distributions overlap: markdown and Python sit at 0.9661, closer
+    together than JavaScript sits to itself across projects at 0.9814. Every distance
+    lands between 0.95 and 0.99, so the measure is **saturating rather than
+    resolving**.
+
+  Both asked a question about *text*. Routing pays when one expert's parameters do not
+  substitute for another's, which is a property of a learner — the same move `logos.tex`
+  §12 already makes in defining yield as model-relative surprisal.
+
+  **The surviving operationalisation is gradient conflict**, and it works: complete
+  separation from step 200 onward under a project-disjoint null, with a threshold the
+  measure calibrates from its own within-domain distribution rather than one chosen
+  after the fact. Its verdicts are the ones a reader would give — prose separates from
+  three code languages, the code languages merge with each other, and the highest
+  between-pair is JavaScript against TypeScript. Separation narrows with training
+  (0.1699 at step 200 to 0.1207 at 3000) and behaviour under longer training is
+  unmeasured.
+
+  **This changes F11's cost class.** Gradient conflict trains a model on the mixture, so
+  F11 is no longer accelerator-free. The run that produced the numbers above used a
+  6-layer, 256-wide byte-level model for 3000 steps and cost well under one GPU-hour on
+  a 24 GB consumer card, so it is cheap — but it is not free, and §0's earlier claim
+  that F11 needs no accelerator is **withdrawn**.
+
+  `ARCHITECTURE_REVIEW.md` F-14 remains open, because a criterion that separates four
+  *languages* has not yet been applied to the paper's five *towers*.
 - **Residency-fraction measurement.** §11.4 splits the corpus into a shared core plus residency-bound shards and concedes Proposition 2's headroom shrinks without bounding by how much. With `f` the residency-bound fraction the requirement is `56T x (1 + 4f)` unique tokens, and `f = 1` takes the headroom to zero. Measuring or bounding `f` is a corpus question, not a training run. It is what `ARCHITECTURE_REVIEW.md` F-15 is still open on.
 - **Whether motivation T1 survives a revised seed.** `../logos.tex` §3.1 gives two enumerated motivations for the tower split, and (T1) is **linear update cost**: "a capability upgrade touches one tower", against a monolith whose cost grows quadratically in update rounds. That statement is made for **independent** towers. §3.3 then establishes that the towers this architecture can actually build are branches of one common seed, and at `g = 0.98` that seed is 98 percent of every tower's token budget. **What a revision of the seed costs is unaddressed.** If the seed is revised, the branches are revised with it and the update touches all five towers, not one; if the seed is frozen instead, the ensemble's floor is frozen with it. Neither branch of that is priced, neither is argued, and **no falsifier in §15 covers it.** Recorded, not invented: the paper does not state a decision rule here and this ledger does not manufacture one.
 - **Adapter economics with divergent towers.** `../logos.tex` §8.1 prices multi-tenancy as thousands of low-rank adapters batched over **one frozen backbone**. The reference architecture has no one backbone. With towers that diverge, a tenant needs an adapter **per reachable tower**, and a query the router sends to a tower the tenant has no adapter on is served **ungrounded** on that tenant's data. §3.3's table records that adapter warm start needs `λ ≥ 1` precisely because transfer needs weight-space proximity, so the cost falls with lineage sharing and rises with divergence, the same knob again. The multiplier on adapter training and storage, and the failure semantics for the ungrounded route (there is no degradation flag specified for it in §11.3), are **unpriced and unspecified**.
@@ -181,7 +219,7 @@ Fixing any one of them in isolation moves the other two. Raising `g` to rescue t
 6. **F2 proxy at 7B to 70B.** One node. The closest reachable version of the central bet.
 7. Everything else waits on hardware that does not exist for this project.
 
-**F11 and F12 sit outside this list because they need no accelerator and can run alongside any of it.** They are corpus measurements, and §4a makes F12 sharper than it was: `f` is not a free parameter over `[0,1]` once `g` is fixed, it is bounded above by `1 - g`, so measuring `g` on an actual training plan bounds `f` without touching a corpus. That is the cheapest thing in this ledger and it is not yet done.
+**F12 sits outside this list because it needs no accelerator and can run alongside any of it. F11 no longer does** — see §4: its two accelerator-free forms are dead and the survivor trains a model, though at well under one GPU-hour it is still the cheapest measurement in this ledger. They are corpus measurements, and §4a makes F12 sharper than it was: `f` is not a free parameter over `[0,1]` once `g` is fixed, it is bounded above by `1 - g`, so measuring `g` on an actual training plan bounds `f` without touching a corpus. That is the cheapest thing in this ledger and it is not yet done.
 
 **Before any of it:** the two CRITICAL findings in §6 were desk work, and **both have now had their disclosure applied** — C-02 as a labelled conjecture with falsifier F13, P-01 as a retraction with no replacement p-value. See the status notes in §6; neither is "cleared", and the ledger below is written on the corrected claims, not the withdrawn ones.
 
