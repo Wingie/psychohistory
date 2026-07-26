@@ -273,7 +273,13 @@ For that deliberate case, a partition chosen by intuition is the thing routing w
 
 Applying the criterion gives an uncomfortable answer. Mathematics and Logic share most of their corpus, share an alignment objective, and are revised on the same cadence; they fail all three axes and should merge. Administration separates cleanly on all three: its corpus is policy and procedure, its objective actively conflicts with capability maximisation, and it is revised whenever regulation changes rather than whenever capability improves. Code and Life Sciences separate on corpus and cadence.
 
-So the criterion says \textbf{four towers}, not five: Code, Life Sciences, Mathematics-and-Logic, and Administration. We keep the five-way figure in Table~\ref{tab:scaling} for continuity with the arithmetic, and record that the architecture's own partition rule does not support it. Settling this needs corpus-overlap measurements rather than argument, which makes it a data question we can specify. It is falsifier F11. It has since been run in the scoped form of \S\ref{sec:measured}, and the run changed the criterion's cost class: the operationalisation that survives needs an accelerator, where the two that do not need one both failed.
+So the criterion says \textbf{four towers}, not five: Code, Life Sciences, Mathematics-and-Logic, and Administration. \textbf{That verdict has since been measured, and it is wrong in both directions} (\S\ref{sec:f11five}). Mathematics and Logic are the \emph{most} opposed pair in the corpus, and Administration --- the domain this subsection says separates cleanly on all three axes --- is the one that merges. We leave the argument standing above rather than quietly restating it, because what the measurement refutes is not only the conclusion but the way it was reached, and that is the more useful thing to have on the record.
+
+The reasoning above is an argument from \textbf{subject matter}. Mathematics and Logic are intellectually adjacent, a library shelves them together, and it is natural to conclude that a model would want the same parameters for both. A model does not see subject matter. It sees LaTeX preprints against discussion prose, and those pull its weights in opposite directions while a court opinion and a clinical paper pull them the same way despite having nothing in common as subjects. \textbf{Corpus overlap is a property of content; gradient conflict is a property of what the model needs, and P1 conflates the two.}
+
+There is also a defect in the shape of the question, and it is the same defect that killed the two dead operationalisations of \S\ref{sec:f11run}. Every pair of these domains overlaps: they are all English, all technical, all drawn from the same byte vocabulary. Token-type Jaccard failed because four \emph{unrelated} corpora spanned only $0.26$ to $0.32$, which is a statement that overlap is universal. So ``do these two overlap'' was never a discriminating question, and P1 asks a \textbf{binary} question of a \textbf{continuous} quantity and then thresholds it. Towers will share structure whatever partition is chosen. The question worth asking is not whether two towers overlap but whether the marginal tower earns its parameters, and that is measured by removing it (F16), not predicted from a corpus statistic.
+
+\textbf{The three axes are not co-equal, and the paper has been treating them as though they were.} P1 is a property of data, it is measurable, and it has now been measured. P3 is an operational fact about an organisation's release history, not a property of a corpus at all. P2 --- objective conflict --- is the axis Administration actually needs, and it is unmeasured here, because operationalised as written it requires reinforcement learning on each domain and a cross-domain benchmark read, which this hardware cannot buy. A rule of the form ``differ on at least two of three'' hides that asymmetry behind a count.
 
 The criterion above is qualitative as stated, and a falsifier cannot be built on ``the level at which the criterion merges them'' unless that level is a number. Each axis therefore gets an operationalisation and a cut point.
 
@@ -962,6 +968,61 @@ Complete separation --- every between-domain pair below every within-domain base
 The untrained control earns its place in the table. At step 0 the measure reports \emph{not} separable, with uniformly high cosines, because early gradients are dominated by generic structure --- byte frequency, whitespace, the shape of the loss surface. A single reading at initialisation returns the wrong answer, which is why a trajectory is reported rather than a checkpoint, and it is also the evidence that the measure is not trivially separating whatever it is handed.
 
 \paragraph{What this costs, and what it leaves open.} The cost class of F11 has changed and \S\ref{sec:falsifiers} is corrected accordingly. The two operationalisations that needed no accelerator are the two that failed; the survivor requires training a model on the mixture, which puts F11 on the consumer-accelerator list rather than off the hardware ledger entirely. Two things remain open and are flagged rather than extrapolated. Separation narrows monotonically with training, from $0.1699$ at step 200 to $0.1207$ at step 3000, as both cosines decay; whether it survives a full training run is unmeasured, and a criterion that dissolves at convergence would be no criterion. And the measure has been applied to four programming languages, not to the five reference domains of \S\ref{sec:partition}. Until it is, the "four towers, not five" verdict remains an argument rather than a measurement, and F11 is not discharged.
+
+\subsection{The criterion, run on the five reference domains}
+\label{sec:f11five}
+
+\S\ref{sec:f11run} applied gradient conflict to four programming languages, and noted that until it was pointed at the five domains \S\ref{sec:partition} names, ``four towers, not five'' remained an argument rather than a measurement. It has now been pointed at them. Corpora are drawn from the Pile's components --- GitHub, PubMed Central, arXiv and DM~Mathematics, StackExchange, FreeLaw and USPTO --- at 12~MB per domain, with the within-domain null built from disjoint document buckets.
+
+\begin{center}
+\begin{tabular}{@{}lr@{\qquad}lrl@{}}
+\toprule
+\multicolumn{2}{@{}l}{within-domain null} & \multicolumn{3}{l}{between-domain} \\
+\midrule
+code           & 0.0893 & logic $\vert$ mathematics          & $-0.0159$ & separable \\
+administration & 0.1766 & administration $\vert$ mathematics & $-0.0153$ & separable \\
+logic          & 0.1708 & code $\vert$ mathematics           & $-0.0078$ & separable \\
+life sciences  & 0.1887 & life sciences $\vert$ mathematics  & $+0.0019$ & separable \\
+mathematics    & 0.2119 & code $\vert$ life sciences         & $+0.0418$ & separable \\
+               &        & administration $\vert$ code        & $+0.0555$ & separable \\
+               &        & life sciences $\vert$ logic        & $+0.0811$ & separable \\
+               &        & code $\vert$ logic                 & $+0.0851$ & separable \\
+               &        & administration $\vert$ life sciences & $+0.1047$ & \textbf{MERGE} \\
+               &        & administration $\vert$ logic       & $+0.1102$ & \textbf{MERGE} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Complete separation is \emph{false}: two pairs sit above the weakest within-domain baseline, which is code at $0.0893$. That is already a difference from the source-tree run, where every pair separated --- the five reference domains overlap more than four programming languages do, which is the reverse of what the corpus work assumed.
+
+\paragraph{How to read it, decided before the run.} The null here is weaker than the source-tree null and its error has a known direction. The Pile's test shard carries no metadata beyond the component name, so there is nothing to group by and documents are dealt into buckets by content hash; one author's several papers can land on both sides, which inflates the within-domain cosine, lifts the threshold, and admits more pairs as separable. The bias therefore runs toward \textbf{over-separation}. A \textbf{merge} verdict was reached against it and is robust; a \textbf{separable} verdict runs with it and is not. This asymmetry was recorded before the measurement, and it is what makes an imperfect null readable rather than merely regrettable.
+
+\paragraph{The verdict contradicts \S\ref{sec:partition} in both directions.} That subsection argues Mathematics and Logic merge and that Administration separates cleanly on all three axes. Under the reading above, the defensible half of the contradiction is the robust one: \textbf{Administration merges with Life Sciences and with Logic}. The Mathematics--Logic result is the most opposed pair measured, at $-0.0159$, and Mathematics also has the \emph{highest} within-domain coherence at $0.2119$ --- a consistent picture of a genuinely distinct distribution --- but it is a separable verdict and therefore in the direction the bias favours, so we report it as unsupported for merging rather than as a refutation.
+
+\paragraph{What it means, which is not what it first looks like.} The interesting finding is not that a partition was scored wrongly. It is \emph{why}. Administration is defined by what it is \textbf{for} --- declining, citing policy, complying --- and not by what its text looks like. A court opinion and a clinical paper are both formal English prose, and a byte-level model asked to predict them wants the same updates. \textbf{No corpus partition will produce an Administration tower}, at this scale or any other, because the property that makes it a distinct tower is not present in its corpus. If the architecture wants one, it has to be made with a training objective, which is P2, which is the axis nobody has measured. \S\ref{sec:governance} depends on this: it routes refusals to Administration as though that tower were a destination the partition hands you, and it is not.
+
+\subsection{Dense against expert routing against tower routing}
+\label{sec:threeway}
+
+The comparison \S\ref{sec:mot} needs is a dense model, per-layer expert routing and per-segment tower routing trained on one mixture at matched per-token cost. It has now run, at $d_{\mathrm{model}} = 384$, twelve layers, four units, a trunk-tower-head split of 3--7--2, on a 26.9~MB four-domain source mixture for 26{,}000 steps.
+
+\begin{center}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+arm & params & mean bpb & javascript & markdown & python & typescript \\
+\midrule
+dense & 16{,}722{,}816 & \textbf{1.1562} & 0.8440 & 1.8155 & 1.1264 & 0.8389 \\
+moe   & 73{,}368{,}960 & 1.1616 & 0.8272 & 1.8348 & 1.1685 & 0.8158 \\
+mot   & 45{,}644{,}928 & 1.2497 & 0.9297 & 1.9273 & 1.2262 & 0.9154 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{The expert-routing row is void and is printed only so the run is reported whole.} That arm carried a defect found after it completed: its attention blocks used a module that carries its own feed-forward, and the routed expert output was added on top, so every layer ran two feed-forward networks. It was a dense model with a redundant routed FFN, its active parameters were $3.56\times10^{7}$ against the dense arm's $1.67\times10^{7}$, and ``matched per-token FLOPs'' was false in its favour. Tower routing was never affected, because a tower is legitimately a stack of complete blocks, so \textbf{the dense-against-tower comparison stands and the expert column does not}.
+
+Tower routing is worse than dense by $0.0935$ bits per byte. Three conditions of the run were recorded before this number existed, and they bound what it can support. The towers were trained from scratch, which is $\lambda = 0$, where \S\ref{sec:lineage} specifies $\lambda = 1$. The mixture is 26.9~MB seen 4.0 times, so every arm is far from its compute-optimal point and the sparse arm furthest, since at matched per-token cost it carries more total parameters. And the four domains are ones \S\ref{sec:f11run} reports as largely merging, so the mixture has roughly two effective domains for four towers to divide. \textbf{The result is therefore that depth-coherent specialisation did not pay here, under conditions the architecture does not propose}; it is not evidence that it cannot pay under conditions it does.
+
+Two quantities from the same run do not depend on the quality comparison. The mutual information between domain and tower assignment is \textbf{0.4237 of the 2.0000 bits} available, so segment routing is not domain-blind --- a point against reading Mixtral's token-level null as settling the question at every granularity, and the first datum for F15. And on one real training step, expert routing moved $113{,}061{,}888$ bytes in twelve dispatches against tower routing's $6{,}291{,}456$ in one, a factor of \textbf{17.97}, which is the claim of \S\ref{sec:commsrun} measured on the comparison rather than on an instrumented forward pass.
 
 \subsection{Dispatch traffic, counted rather than derived}
 \label{sec:commsrun}
