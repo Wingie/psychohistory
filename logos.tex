@@ -1002,7 +1002,25 @@ Complete separation is \emph{false}: two pairs sit above the weakest within-doma
 
 \paragraph{How to read it, decided before the run.} The null here is weaker than the source-tree null and its error has a known direction. The Pile's test shard carries no metadata beyond the component name, so there is nothing to group by and documents are dealt into buckets by content hash; one author's several papers can land on both sides, which inflates the within-domain cosine, lifts the threshold, and admits more pairs as separable. The bias therefore runs toward \textbf{over-separation}. A \textbf{merge} verdict was reached against it and is robust; a \textbf{separable} verdict runs with it and is not. This asymmetry was recorded before the measurement, and it is what makes an imperfect null readable rather than merely regrettable.
 
-\paragraph{The verdict contradicts \S\ref{sec:partition} in both directions.} That subsection argues Mathematics and Logic merge and that Administration separates cleanly on all three axes. Under the reading above, the defensible half of the contradiction is the robust one: \textbf{Administration merges with Life Sciences and with Logic}. The Mathematics--Logic result is the most opposed pair measured, at $-0.0159$, and Mathematics also has the \emph{highest} within-domain coherence at $0.2119$ --- a consistent picture of a genuinely distinct distribution --- but it is a separable verdict and therefore in the direction the bias favours, so we report it as unsupported for merging rather than as a refutation.
+\paragraph{Which of these verdicts is a property of the corpora.} The table above is the final checkpoint, and \S\ref{sec:f11run} already committed this measurement to the opposite discipline --- ``a single reading at initialisation returns the wrong answer, which is why a trajectory is reported rather than a checkpoint''. Applied to its own run, that rule removes verdicts. Across the four trained checkpoints the pair verdicts are:
+
+\begin{center}
+\begin{tabular}{@{}lcccc l@{}}
+\toprule
+pair & 200 & 600 & 1500 & 3000 & \\
+\midrule
+administration $\vert$ life sciences & M & M & M & M & \textbf{stable} \\
+administration $\vert$ logic         & M & M & s & M & unstable \\
+code $\vert$ logic                   & s & M & s & M & unstable \\
+life sciences $\vert$ logic          & M & s & s & s & unstable \\
+the other seven pairs                & s & s & s & s & stable \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{One merge verdict survives every checkpoint, and it is Administration against Life Sciences.} The three that change all involve Logic, and they change because they sit within a few thousandths of the bar: at step 3000 code $\vert$ logic is $0.0042$ below it and life sciences $\vert$ logic $0.0082$ below. A second bias compounds this and is separate from the metadata argument above. The threshold is the \emph{minimum} of five per-domain means, and a minimum over noisy estimates lands low, so the bar is biased downward and pairs are admitted as separable for that reason alone. Both biases push the same way, which is why the asymmetry of \S\ref{sec:f11five} is if anything understated. The run that produced this table serialised only the means of its replicate cosines, so a margin of $0.0042$ cannot yet be compared against replicate spread; the harness now persists the per-replicate values it was discarding, and the question is open until a run using it is read.
+
+\paragraph{The verdict contradicts \S\ref{sec:partition} in both directions.} That subsection argues Mathematics and Logic merge and that Administration separates cleanly on all three axes. Under the reading above, the defensible half of the contradiction is the robust one: \textbf{Administration merges with Life Sciences}, the one verdict that is both reached against the metadata bias and stable across training. The companion Administration--Logic merge printed in the table is \emph{not} stable and is withdrawn as evidence, which weakens the finding from two merges to one without changing its direction. The Mathematics--Logic result is the most opposed pair measured, at $-0.0159$, and Mathematics also has the \emph{highest} within-domain coherence at $0.2119$ --- a consistent picture of a genuinely distinct distribution --- but it is a separable verdict and therefore in the direction the bias favours, so we report it as unsupported for merging rather than as a refutation.
 
 \paragraph{The consequence: Administration was never a tower.} Administration is defined by what it is \textbf{for} --- declining, citing policy, complying --- not by what its text looks like, and a court opinion and a clinical paper are both formal English prose that a model wants the same updates for. No corpus partition produces it, at this scale or any other, and the measurement above is the direct evidence.
 
