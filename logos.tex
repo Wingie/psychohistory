@@ -1052,30 +1052,36 @@ Two quantities from the same run do not depend on the quality comparison. The mu
 \subsection{Does the router earn its place, and does each tower?}
 \label{sec:f15f16}
 
-F15 and F16 ask the two questions the emergent reading leaves standing, and both are answered by evaluating one trained model under substituted routing, with nothing retrained. A Mixture-of-Towers with four towers was trained for 20{,}000 steps on the five-domain mixture of \S\ref{sec:f11five}, 234{,}179 segments, with a load-balance weight of $0.01$. Held-out bits per byte:
+F15 asks whether the router earns its place and F16 whether each tower does. Both were answered by evaluating one trained model under substituted routing, with nothing retrained: a Mixture-of-Towers with four towers trained for 20{,}000 steps on the five-domain mixture of \S\ref{sec:f11five}, 234{,}179 segments, load-balance weight $0.01$. Replacing the learned assignment with an arbitrary one cost $0.1604$ bits per byte and routing everything to one tower cost $0.1395$, and this paper reported on that basis that F15 did not fire.
+
+\textbf{That reading is withdrawn.} The substitution test does not measure what its name claims, and the demonstration is that five further arms have now been run with the same instrument.
 
 \begin{center}
-\begin{tabular}{@{}lrr@{}}
+\begin{tabular}{@{}llrrrrr@{}}
 \toprule
-routing & bpb & vs learned \\
+corpus & router & $T$ & MI$/H$ & learned & random $-$ learned & oracle $-$ learned \\
 \midrule
-learned            & \textbf{1.5150} & --- \\
-random assignment  & 1.6754 & $+0.1604$ \\
-constant, tower 0  & 1.6545 & $+0.1395$ \\
-\midrule
-tower 0 disabled   & 1.5621 & $+0.0471$ \\
-tower 1 disabled   & 1.5464 & $+0.0314$ \\
-tower 2 disabled   & 1.5560 & $+0.0410$ \\
-tower 3 disabled   & 1.5478 & $+0.0328$ \\
+Pile          & ungated        & 4 & 0.291 & 1.5150 & $+0.1604$ & --- \\
+Pile          & ungated        & 4 & 0.248 & 1.5920 & $+0.0025$ & $-0.0109$ \\
+Pile          & gated          & 4 & 0.201 & 1.5108 & $+0.1336$ & $-0.0204$ \\
+trajectories  & gated          & 4 & 0.146 & 0.5474 & $+0.2486$ & $-0.0126$ \\
+Pile          & gated          & 2 & 0.000 & 1.4508 & $+0.5826$ & $-0.0000$ \\
+trajectories  & gated, aux $0$ & 4 & 0.000 & 0.5227 & $+2.4591$ & $+0.0000$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\textbf{F15 does not fire.} Replacing the learned assignment with an arbitrary one costs $0.1604$ bits per byte on identical weights --- same parameters, same capacity, same forward cost, with only the choice of tower changed. The routing decision is load-bearing, and the failure mode the falsifier exists to catch, a router that has produced a lookup table with extra steps, is not what this model did. Routing to a single tower is also worse by $0.1395$, so more than one tower is being used for something.
+MI$/H$ normalises the domain--tower mutual information by the realised routing entropy, so it does not reward a router for merely spreading load. The last two rows are collapsed routers: mutual information exactly zero, routing entropy exactly zero, every held-out segment to a single tower. \textbf{They return the two largest margins in the table}, one of them by an order of magnitude, and across the four gated arms the margin rises monotonically as specialisation falls.
 
-\textbf{F16 does not fire, on the weaker of its two readings.} Every tower costs something to remove, between $0.0314$ and $0.0471$, and the four costs are close enough that no tower is dead weight and none is carrying the others. But F16's row records that this direction is the ambiguous one: a cost is consistent with the tower having been necessary and equally consistent with the router never having been trained to redistribute its traffic. The unambiguous outcome would have been a tower that costs nothing, and none did.
+The mechanism is mechanical. The test perturbs the assignment of a model trained under a particular assignment distribution. Under collapse, three of the four towers were never trained on anything; randomising routes three quarters of the evaluation into untrained weights, and the model's own loss is the measure of that damage. Under balanced specialisation all four towers are competent and exchanging them costs little. \textbf{The quantity being measured is how badly the towers depend on the routing distribution they were trained under, which is proximity to collapse, and specialisation makes it smaller rather than larger.} The two top rows are a byte-identical replicate pair differing only in data order; they hold the two highest MI$/H$ values in the table and straddle almost its entire margin range between them.
 
-\paragraph{What this does not say.} It does not say that a Mixture-of-Towers beats a dense model on this corpus. This run trains one architecture and substitutes its routing; there is no dense arm, and the only dense comparison available is \S\ref{sec:threeway}'s, which is on a different and weaker mixture and went the other way. \textbf{``Routing is load-bearing'' and ``the architecture is better than dense'' are separate claims, and only the first is measured here.} Nor does it settle whether the balanced load --- normalised routing entropy $0.9947$, towers receiving 92, 77, 66 and 85 segments --- was discovered or imposed, since a load-balance term was active throughout; the arm with that term set to zero is what separates those.
+The same objection applies to F16 in its weaker direction. The four disable-one-tower costs of $0.0314$ to $0.0471$ that this paper reported were $-0.0004$ to $+0.0006$ in the replicate, and in the collapsed arms disabling the live tower costs everything while disabling the other three costs exactly nothing. A disable cost tracks whether a tower received traffic during training, which is the same confound.
+
+\textbf{The instrument that survives is oracle routing}, and it was in the same output throughout. Scoring every held-out segment through every tower and taking the best is the ceiling any router could reach on those weights, so it separates a router choosing badly from towers with nothing to choose between. It reads between $-0.0109$ and $-0.0204$ bits per byte on the Pile and $-0.0126$ on trajectories. The between-run spread on this rig, measured from the replicate pair, is $\pm 0.16$ bits per byte.
+
+\textbf{So a perfect router is worth roughly one to two hundredths of a bit per byte, on both corpora, gated and ungated, and that is an order of magnitude below the noise of the rig measuring it.} At this scale the towers do not differentiate enough for the routing decision to be worth anything, and the two falsifiers written to detect that were not capable of detecting it. F15 and F16 revert to unrun. The oracle gap is what should replace them, and it needs error bars before it is quoted as a bound rather than as a reading.
+
+\paragraph{What this does not say.} It does not say a Mixture-of-Towers is worse than a dense model; there is no dense arm here, and \S\ref{sec:threeway}'s comparison is confounded separately. It does not transfer to scale: a 17M-parameter mixture with four towers over five domains is a rig for finding design defects, and the defect it found is in the measurement. It also does not say the gated router changed nothing --- gating restores the routing gradient that \S\ref{sec:emergent} assumes, and the gated Pile arm has the best held-out bits per byte of any four-tower run --- only that the test used to certify the result cannot certify it.
 
 \subsection{Dispatch traffic, counted rather than derived}
 \label{sec:commsrun}
@@ -1093,7 +1099,7 @@ Five results, one of them a survivor of two failures, one of them a correction t
 \section{Falsifiers}
 \label{sec:falsifiers}
 
-Each entry is a claim, a measurement, and the hardware the measurement needs. Three of the sixteen have now been run: F11 in the scoped form of \S\ref{sec:measured}, which partially discharges it, and F15 and F16 in \S\ref{sec:f15f16}, neither of which fired; the other thirteen have not been run. This table is the complete list of the paper's \emph{falsifiers}. It is not the complete list of open measurement: the work ledger at \texttt{logos/GAPS.md} carries further measurements that are budgeted but carry no falsifier identifier, together with items that are data questions rather than experiments.
+Each entry is a claim, a measurement, and the hardware the measurement needs. Three of the sixteen have been run. F11 has been run in the scoped form of \S\ref{sec:measured} and is partially discharged; F15 and F16 were evaluated on a single trained checkpoint and reported as not firing, and that reading is \textbf{withdrawn} in \S\ref{sec:f15f16} --- the substitution test both rely on measures proximity to router collapse rather than specialisation, and returns its largest margins on the arms that have none. Both revert to unrun, and the two falsifier statements below need rewriting around oracle routing before they are worth running again. The other thirteen have not been run. This table is the complete list of the paper's \emph{falsifiers}. It is not the complete list of open measurement: the work ledger at \texttt{logos/GAPS.md} carries further measurements that are budgeted but carry no falsifier identifier, together with items that are data questions rather than experiments.
 
 An earlier version also stated that two falsifiers, F11 and F12, need no accelerators at all. That is now true of F12 only. Both of F11's accelerator-free operationalisations were built, run, and failed, and the criterion that survives requires training a model on the domain mixture (\S\ref{sec:f11run}). What changed is the cost class of the measurement, not the wording of the ledger.
 
@@ -1156,7 +1162,7 @@ That is also where the tower architecture stops being an accounting convenience,
 
 One last thing about status, stated here because the abstract states it and the two should not disagree. The machine this paper specifies is not buildable at any budget behind this work, and the larger configurations it reasons about are further away still. That is not a hedge and it is not an apology, because it is the same sentence as the paper's own conclusion: if the binding quantity at the top of the ladder is observation bandwidth rather than parameters, then an unreachable rung is not merely unaffordable, it is the wrong thing to be reaching for. What remains reachable is the part that was going to carry the information anyway. The composition-gap curve $\Delta(N)$ from about 1B to 70B is measurable on hardware that exists here, it is falsifier F2's own quantity evaluated where it can be evaluated, and it is useful in both directions: it tells an operator with a frontier budget whether modular composition holds at scale, or it tells them not to spend the run. F9 and the other consumer-accelerator falsifiers are reachable. F12 needs no accelerator; F11 was thought not to and does, for the reason \S\ref{sec:f11run} gives, and it has been run on the hardware that exists here. That is the programme, and none of it waits on the 14T ensemble.
 
-Almost nothing here is a result. It is a specification with its arithmetic checked, its citations audited against primary sources, its weakest components relocated or withdrawn, and sixteen falsifiers stated with the hardware each requires. Ten of them fit on a desktop and one needs no accelerator. The exception is \S\ref{sec:measured}, which reports the three falsifiers that have been run: two ways of asking F11's question are dead, a third survives on four programming languages at $1.7\times10^{7}$ parameters and has since been applied to the five reference domains (\S\ref{sec:f11five}), where complete separation failed; and F15 and F16 were run on a trained checkpoint and neither fired. A full training run has not been reached. The architecture itself remains untrained and unserved at every scale, and the measurements are instruments for the falsifiers rather than instances of the machine.
+Almost nothing here is a result. It is a specification with its arithmetic checked, its citations audited against primary sources, its weakest components relocated or withdrawn, and sixteen falsifiers stated with the hardware each requires. Ten of them fit on a desktop and one needs no accelerator. The exception is \S\ref{sec:measured}, which reports the three falsifiers that have been run: two ways of asking F11's question are dead, a third survives on four programming languages at $1.7\times10^{7}$ parameters and has since been applied to the five reference domains (\S\ref{sec:f11five}), where complete separation failed; and F15 and F16, which were reported as not firing on one trained checkpoint and whose reading \S\ref{sec:f15f16} now withdraws, because the substitution test they share returns its largest margins on routers that collapsed to a single tower. \textbf{Both revert to unrun, and the instrument that replaces them --- oracle routing --- puts the value of a perfect router at one to two hundredths of a bit per byte against a between-run spread of $\pm 0.16$.} A full training run has not been reached. The architecture itself remains untrained and unserved at every scale, and the measurements are instruments for the falsifiers rather than instances of the machine.
 
 \subsection*{AI contribution declaration}
 
