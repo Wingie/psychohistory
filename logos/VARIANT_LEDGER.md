@@ -132,9 +132,55 @@ and it is the one where the framing needed the most repair.
 | variant | loop | verdict |
 |---|---|---|
 | unfiltered hard pseudo-labels, argmax decoding | closed | **killed, but for the wrong reason** |
-| self-consistency–filtered self-training | closed | **live, and decisive** |
+| self-consistency–filtered self-training | closed | **killed — worst arm measured** |
+| disagreement-gated self-training | closed | **killed** |
 | distillation from a stronger model | open (other model) | works; diffuses a frontier, does not advance one |
-| adjudicated / verified trajectories | open (verifier) | survives |
+| adjudicated / verified trajectories | open (verifier) | **only surviving arm** |
+
+### The measurement
+
+Eight seeds, paired within seed, token counts matched exactly at 6000 supervised
+positions per arm, sampling rather than argmax, on the Zipfian substrate.
+
+```
+arm                     acc      vs floor       t
+A0_floor             0.5903         --          --
+A3_grounded          0.5962      +0.0059     +12.34
+A1_unfiltered        0.5828      -0.0075     -18.11
+A2_gated             0.5763      -0.0140     -23.27
+A1p_self_consistent  0.5621      -0.0282     -49.57
+grounded vs closed-filtered      +0.0341     +69.36
+```
+
+**Only the arm with an exogenous signal improves.** Every closed loop degrades,
+and the self-consistency–filtered arm — built the way working self-training
+methods build it, and the one the sharpening literature predicts *should* gain —
+is the worst of the four. Filtering is not merely insufficient here; it is worse
+than not filtering.
+
+The frequency bands rule out the obvious reading:
+
+```
+                       head      b2      b3    tail
+A0_floor             0.6793  0.0078  0.0047  0.0032
+A3_grounded          0.6861  0.0078  0.0041  0.0038
+A1p_self_consistent  0.6470  0.0056  0.0035  0.0021
+```
+
+This is not a failure to learn the tail. A1' **loses the head it was most
+confident about**, despite accepted-label precision of 0.8435 against a Bayes
+ceiling of 0.8503 — near-optimal labels, and training on them still costs
+accuracy. A3 gains in both head and tail.
+
+**Confound, stated rather than buried.** A1' and A3 differ in two ways at once:
+provenance (self-generated versus ground truth) and composition (the
+self-agreement filter accepts a Zipf-head-skewed subset, while A3 sees a
+representative one). This run cannot separate them. The next run subsamples A3
+to A1's key-frequency distribution. Until then the finding is **"the closed loop
+degrades"**, not yet **"because it is closed"**.
+
+Scope: one model size, one synthetic substrate, nano scale. It is evidence about
+a mechanism, not about 2.8T towers.
 
 ### The correction that matters
 
@@ -297,11 +343,10 @@ not by waiting for an OOM that never comes.
 1. **F11 re-operationalised as a model-relative measure** — gradient conflict
    first, cross-perplexity transfer second, each with its within-domain null
    pre-registered before any between-domain number is looked at.
-2. **F9-v2 on the Zipfian substrate** — five arms, eight seeds, token counts
-   matched exactly, sampling rather than argmax, results persisted as an
-   artifact. The decisive arm is the self-consistency–filtered closed loop: if it
-   beats the floor, the bound must be re-worded as a ceiling; if only the
-   grounded arm does, the bound survives its strongest available test.
+2. **F9-v3, the confound split** — rerun with A3 subsampled to A1's
+   key-frequency distribution, so provenance is the only difference between the
+   arms. This is what upgrades "the closed loop degrades" to "because it is
+   closed", and it is cheap: the v2 run cost minutes on one card.
 3. **The learned router**, on members that are actually complementary.
 
 Each of these can kill a piece of the architecture. That is what they are for.
