@@ -261,7 +261,9 @@ The failure mode to expect gets worse with scale rather than better. When expert
 \subsection{How many towers, and which}
 \label{sec:partition}
 
-The five-way split into Code, Life Sciences, Mathematics, Logic, and Administration has been asserted and never justified. A partition chosen by intuition is the thing routing was invented to avoid, so here is a criterion instead. Towers should be separated when they differ on at least two of three axes:
+The five-way split into Code, Life Sciences, Mathematics, Logic, and Administration runs through this paper as though it were a specification. \textbf{It is an illustration, and the distinction is load-bearing enough that getting it wrong invalidates the subsection you are reading.} \S\ref{sec:emergent} makes the case; the short version is that in an end-to-end trained mixture nothing is named, the router learns the split, and no tower is the Mathematics tower. The criterion below is therefore stated for the case where an operator \emph{does} partition a corpus deliberately --- Branch-Train-MiX with hand-chosen branch corpora --- and it does not apply to the emergent case at all.
+
+For that deliberate case, a partition chosen by intuition is the thing routing was invented to avoid, so here is a criterion instead. Towers should be separated when they differ on at least two of three axes:
 
 \begin{enumerate}[label=(P\arabic*),itemsep=2pt]
 \item \textbf{Corpus disjointness.} Proposition~\ref{prop:tokens}'s benefit comes entirely from $\bigl|\bigcup_i \mathcal{C}_i\bigr|$ exceeding $\max_i |\mathcal{C}_i|$. Two towers drawing on the same corpus contribute nothing to it.
@@ -284,6 +286,21 @@ The criterion above is qualitative as stated, and a falsifier cannot be built on
 Those cut points are engineering choices and nothing validates them. A reader who prefers different numbers should say which and re-run F11 against them, and so should we if a first run shows the bar is in the wrong place --- that is ordinary instrument calibration, not a concession.
 
 P1 has since been run, and it failed for a reason no choice of cut point repairs: on the four corpora measured, the entire dynamic range of the measure is narrower than the gap it is being asked to resolve. \S\ref{sec:measured} reports what replaced it. P1 is left as written above because the replacement is only interpretable next to what it replaced.
+
+\subsection{Towers are learned, and the count is a hyperparameter}
+\label{sec:emergent}
+
+Everything above assumes an operator names the domains and then decides how many towers those names deserve. That assumption should be stated rather than inherited, because the architecture this paper argues for does not make it.
+
+In an end-to-end trained Mixture-of-Towers the router is learned and the towers are not labelled. Nothing tells tower three that it handles mathematics; it handles whatever the router sends it, and the router learns what to send from the loss. Under that reading the tower count is a \textbf{capacity hyperparameter}, in exactly the sense that an expert count is in a mixture-of-experts, and asking whether Mathematics and Logic ``deserve'' separate towers is a category error --- no tower is the Mathematics tower. \textbf{The ``four towers, not five'' verdict of \S\ref{sec:partition} is a statement about a deliberately partitioned corpus, and it does not carry over.}
+
+The count is also not load-bearing for correctness. A system can train with five towers and serve with four: \S\ref{sec:unreachable} already specifies that path, routing to the next-best tower and attaching a degradation flag. What a redundant tower costs is parameters and serving capacity, not correctness, so ``how many towers'' is a provisioning question and the honest way to settle it is to measure what each tower earns rather than to derive a number from a corpus taxonomy.
+
+There is a reason to expect the learned partition not to look like a human one. Mixtral's routing analysis searched for topical specialisation among its experts using subsets of the Pile --- ArXiv, PubMed, PhilPapers --- and did not find it: assignment correlated with syntax, token identity and positional locality, and the distribution over experts looked much the same whichever subset was fed in \cite{jiang2024mixtral}. At token-level granularity, then, the question ``do domains appear in routing'' already has a published answer, and it is no. Whether \emph{segment-level} routing into \emph{deep} towers behaves differently is open, and it is the version of the question worth running, because it is asked on the corpus where the token-level version came back empty.
+
+This also settles a tension with \S\ref{sec:categoryerror}. Partitioning a corpus by hand, training one tower per partition, and routing over the result is a router over independently trained models, which is the design this paper rejects as deployed prior art rather than a new object. The emergent reading is the one under which a Mixture-of-Towers is a single model. The two objections are the same objection.
+
+What follows for measurement is that the instrument changes. A partition criterion \emph{predicts}, from corpus statistics, whether two towers will prove redundant. Disabling a tower and measuring what the corpus loses \emph{is} the redundancy, needs no threshold, no within-domain null and no assumption about how independent the corpora are, and --- decisively for unlabelled towers --- asks about tower three rather than about a named domain. Whether a learned router beats random and constant assignment on identical weights is the prior question, because a router that beats neither has produced a lookup table with extra steps.
 
 \subsubsection*{The partition has a second axis, and it is not symmetric with the first}
 
@@ -317,6 +334,7 @@ The design that follows has three parts.
 Part (iii) has a consequence worth stating plainly, because it is a structural property of the architecture and not a tuning detail. \textbf{The router will be well trained exactly where verification is cheap, and poorly trained everywhere else.} Code and mathematics generate free labels. Life sciences, policy, and open-ended reasoning do not. So routing quality will be uneven across towers in a way that correlates with domain verifiability, and the towers most in need of good routing are the ones that will get the worst of it. Any deployment should measure routing quality per domain rather than in aggregate, or this asymmetry will hide inside a good average.
 
 \subsection{What happens when a tower is unreachable}
+\label{sec:unreachable}
 
 A distributed five-tower system will lose towers. The contract we adopt is a three-step ladder, and the important property is that every step is visible to the caller:
 
@@ -1123,6 +1141,8 @@ This paper was developed in close collaboration with Claude, a large language mo
 \bibitem{nvshmem2026ibgda} NVSHMEM device-initiated communication for mixture-of-experts all-to-all dispatch: IBGDA against CPU-proxy round-trip latency. \emph{arXiv:2604.00317}, 2026. \textbf{Source of the 16.7 to 24.3 microsecond intra-datacentre round trips quoted in \S\ref{sec:dispatch}. Read for the round-trip figures only.}
 
 \bibitem{hu2024routerbench} Q.~J.~Hu, J.~Bieker, X.~Li, N.~Jiang, B.~Keigwin, G.~Ranganath, K.~Keutzer, and S.~K.~Upadhyay. RouterBench: a benchmark for multi-LLM routing systems. \emph{arXiv:2403.12031}, 2024. \textbf{Source of AIQ, and of the non-decreasing convex hull used here as the cost-quality frontier. Its Oracle Router is a per-item maximum over $k$ models and carries the chance inflation of \S\ref{sec:routereval} in full; it is a reported reference line, not a term inside AIQ, so AIQ's value is unaffected.}
+
+\bibitem{jiang2024mixtral} A.~Q.~Jiang et al. Mixtral of Experts. \emph{arXiv:2401.04088}, 2024. \textbf{Routing analysis (\S5) reports no topical specialisation among experts on Pile subsets (ArXiv, PubMed, PhilPapers): assignment tracks syntax, token identity and positional locality, and the distribution over experts is similar across subsets.}
 
 \bibitem{ong2024routellm} I.~Ong, A.~Almahairi, V.~Wu, W.-L.~Chiang, T.~Wu, J.~E.~Gonzalez, M.~W.~Kadous, and I.~Stoica. RouteLLM: learning to route LLMs with preference data. \emph{arXiv:2406.18665}, 2024.
 
