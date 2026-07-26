@@ -1031,6 +1031,34 @@ Tower routing is worse than dense by $0.0935$ bits per byte. Three conditions of
 
 Two quantities from the same run do not depend on the quality comparison. The mutual information between domain and tower assignment is \textbf{0.4237 of the 2.0000 bits} available, so segment routing is not domain-blind --- a point against reading Mixtral's token-level null as settling the question at every granularity, and the first datum for F15. And on one real training step, expert routing moved $113{,}061{,}888$ bytes in twelve dispatches against tower routing's $6{,}291{,}456$ in one, a factor of \textbf{17.97}, which is the claim of \S\ref{sec:commsrun} measured on the comparison rather than on an instrumented forward pass.
 
+\subsection{Does the router earn its place, and does each tower?}
+\label{sec:f15f16}
+
+F15 and F16 ask the two questions the emergent reading leaves standing, and both are answered by evaluating one trained model under substituted routing, with nothing retrained. A Mixture-of-Towers with four towers was trained for 20{,}000 steps on the five-domain mixture of \S\ref{sec:f11five}, 234{,}179 segments, with a load-balance weight of $0.01$. Held-out bits per byte:
+
+\begin{center}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+routing & bpb & vs learned \\
+\midrule
+learned            & \textbf{1.5150} & --- \\
+random assignment  & 1.6754 & $+0.1604$ \\
+constant, tower 0  & 1.6545 & $+0.1395$ \\
+\midrule
+tower 0 disabled   & 1.5621 & $+0.0471$ \\
+tower 1 disabled   & 1.5464 & $+0.0314$ \\
+tower 2 disabled   & 1.5560 & $+0.0410$ \\
+tower 3 disabled   & 1.5478 & $+0.0328$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{F15 does not fire.} Replacing the learned assignment with an arbitrary one costs $0.1604$ bits per byte on identical weights --- same parameters, same capacity, same forward cost, with only the choice of tower changed. The routing decision is load-bearing, and the failure mode the falsifier exists to catch, a router that has produced a lookup table with extra steps, is not what this model did. Routing to a single tower is also worse by $0.1395$, so more than one tower is being used for something.
+
+\textbf{F16 does not fire, on the weaker of its two readings.} Every tower costs something to remove, between $0.0314$ and $0.0471$, and the four costs are close enough that no tower is dead weight and none is carrying the others. But F16's row records that this direction is the ambiguous one: a cost is consistent with the tower having been necessary and equally consistent with the router never having been trained to redistribute its traffic. The unambiguous outcome would have been a tower that costs nothing, and none did.
+
+\paragraph{What this does not say.} It does not say that a Mixture-of-Towers beats a dense model on this corpus. This run trains one architecture and substitutes its routing; there is no dense arm, and the only dense comparison available is \S\ref{sec:threeway}'s, which is on a different and weaker mixture and went the other way. \textbf{``Routing is load-bearing'' and ``the architecture is better than dense'' are separate claims, and only the first is measured here.} Nor does it settle whether the balanced load --- normalised routing entropy $0.9947$, towers receiving 92, 77, 66 and 85 segments --- was discovered or imposed, since a load-balance term was active throughout; the arm with that term set to zero is what separates those.
+
 \subsection{Dispatch traffic, counted rather than derived}
 \label{sec:commsrun}
 
