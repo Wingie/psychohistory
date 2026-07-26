@@ -119,8 +119,26 @@ LOGOS :  2 ×  1 × 8192 × 2  =  32.8 KB per token
                                  32× less traffic
 ```
 
-The reduction factor is exactly `L_w`, the tower depth. It gets *better* as
-towers get deeper, which is the opposite of MoE's scaling.
+The reduction factor is the routed depth, and it gets *better* as towers deepen —
+the opposite of MoE's scaling.
+
+**Measured against the implementation**, not just derived. `CommsLedger` counts
+bytes crossing a device boundary from the routing decisions a forward pass
+actually makes, with home placement by index and no affinity scheduling (the
+pessimistic case, which disfavours the design being argued for):
+
+```
+MoE  L=4     3.43×  the traffic of one tower dispatch
+MoE  L=12   10.28×
+MoE  L=32   27.44×
+```
+
+Two accounting notes, because the first version of this measurement was wrong by
+three orders of magnitude. A segment dispatch moves the **whole segment** — `T`
+token-activations — not a single `d_model` vector; counting it as one vector
+reported a 1318× advantage where the true figure is the routed-layer count. And
+each dispatch is counted twice, out and back, identically for both
+architectures.
 
 **Why this matters more than it looks.** All-to-all at every layer is why MoE
 inference wants a fat homogeneous interconnect — NVLink, InfiniBand, one
@@ -133,29 +151,34 @@ token-level MoE cannot support.
 This is the claim to lead with, because it is checkable without training
 anything.
 
-### 3.2 KV cache: per-tower, not per-expert (fact, with a caveat)
+### 3.2 KV cache: **this claim was wrong, and the implementation refuted it**
 
-Attention lives inside towers, so KV structure differs from MoE in kind.
+This section originally argued that LOGOS gets `N×` the parameters at `1×` the
+KV cost, and presented that as an advantage over MoE. **It is not one.**
+Instrumenting both architectures at equal total depth gives *identical* cache
+sizes — 1,572,864 bytes each in the reference configuration, and the equality is
+now a regression test.
 
-In MoE, attention is dense and shared; only FFNs are sparse. **KV cache is
-therefore full dense cost** — Mixtral caches like a dense model of its depth.
+The error was forgetting that MoE's attention is **dense and shared**. Mixtral
+caches like a dense model of its depth precisely because only its FFNs are
+sparse — so MoE *already* buys N-fold FFN parameters at 1× KV. A tower caches
+`L_t + L_w + L_h`, which at equal total depth is the same number of layers. There
+is nothing to win here.
 
-In LOGOS with per-segment routing, a sequence occupies exactly one tower, so it
-caches:
+What the KV argument actually separates LOGOS from is **separately served
+models**, which cannot share a cache or a trunk at all. That is a real
+distinction, and it is an argument against the dispatcher design in §1 — not
+against MoE.
 
-```
-KV(sequence) = trunk layers (L_t) + one tower's layers (L_w) + head (L_h)
-```
+**What per-segment routing does still buy** is that the cache stays contiguous
+and single-tower. Under token-level routing a sequence's tokens scatter across
+all towers, every tower must cache its own subset, and the total is *worse* than
+either baseline once fragmentation is counted. So per-segment routing remains
+load-bearing — it just protects against a regression rather than delivering a
+gain.
 
-which is the KV of a *dense model of depth* `L_t + L_w + L_h`, while the
-parameter count is `trunk + N · tower + head`. **N× the parameters at 1× the KV
-and 1× the per-token FLOPs.**
-
-**The caveat that kills the naive version.** This holds only for per-segment
-routing. Under token-level routing a sequence's tokens scatter across all towers,
-every tower needs KV for its subset, and the total returns to dense — plus
-fragmentation. Per-segment routing is not a simplification here; it is what the
-KV argument rests on.
+**The honest consequence:** the systems case for LOGOS over MoE rests on §3.1
+alone.
 
 **And the honest cost:** batching. A server holding N towers can only batch
 together sequences routed to the same tower, so effective batch size per tower is
