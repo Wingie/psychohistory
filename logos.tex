@@ -1047,6 +1047,10 @@ mot   & 45{,}644{,}928 & 1.2497 & 0.9297 & 1.9273 & 1.2262 & 0.9154 \\
 
 Tower routing is worse than dense by $0.0935$ bits per byte. Three conditions of the run were recorded before this number existed, and they bound what it can support. The towers were trained from scratch, which is $\lambda = 0$, where \S\ref{sec:lineage} specifies $\lambda = 1$. The mixture is 26.9~MB seen 4.0 times, so every arm is far from its compute-optimal point and the sparse arm furthest, since at matched per-token cost it carries more total parameters. And the four domains are ones \S\ref{sec:f11run} reports as separable but closely related --- JavaScript against TypeScript at $+0.8024$ is the pair it says genuinely should merge --- so the mixture offers fewer effective domains than there are towers to divide it. \textbf{The result is therefore that depth-coherent specialisation did not pay here, under conditions the architecture does not propose}; it is not evidence that it cannot pay under conditions it does.
 
+\paragraph{A fourth condition, found afterwards, and what happened when it was repaired.} The three above were recorded before the number existed. This one was not, and it is a defect rather than a caveat. The optimiser split matched the substring \texttt{head} to decide which parameters to exclude from Muon. The dense decoder names its unembedding \texttt{head}, which is correctly excluded; a Mixture-of-Towers additionally names its shared output stack \texttt{head}, so fourteen ordinary transformer matrices were excluded too and trained under AdamW with weight decay while the dense arm's equivalent layers stayed on decay-free Muon. \textbf{Two of the tower arm's twelve layers were on a different optimiser from the dense arm's, in the run that produced $0.0935$.} It is also substring containment used as a classifier, which this work bans elsewhere on exactly the grounds that it fails silently.
+
+The split now matches on parameter role rather than on a substring. A rerun with the repair in place, at pilot scale on a different corpus, puts the tower arm last again --- dense $1.3842$, per-layer experts $1.3727$, towers $1.5213$, so $+0.1371$ against dense --- and a 60-step pilot before the repair gave $+0.0855$. Three runs spanning both sides of the repair therefore agree on the direction. \textbf{They do not agree on a magnitude and should not be read as though they did}: the step counts are $60$, $3000$ and $26{,}000$, the corpora differ, and the expert arm's parameter count moved from $73{,}368{,}960$ to $45{,}052{,}800$ between them, so the model code changed as well. The repaired comparison at the step count that produced $0.0935$ has not been reported here because it has not finished. What can be said is that the optimiser asymmetry was real, is fixed, and did not turn out to be the explanation.
+
 Two quantities from the same run do not depend on the quality comparison. The mutual information between domain and tower assignment is \textbf{0.4237 of the 2.0000 bits} available, so segment routing is not domain-blind --- a point against reading Mixtral's token-level null as settling the question at every granularity, and the first datum for F15. And on one real training step, expert routing moved $113{,}061{,}888$ bytes in twelve dispatches against tower routing's $6{,}291{,}456$ in one, a factor of \textbf{17.97}, which is the claim of \S\ref{sec:commsrun} measured on the comparison rather than on an instrumented forward pass.
 
 \subsection{Does the router earn its place, and does each tower?}
@@ -1079,28 +1083,32 @@ The same objection applies to F16 in its weaker direction. The four disable-one-
 
 \textbf{The instrument that survives is oracle routing}, and it was in the same output throughout. Scoring every held-out segment through every tower and taking the best is the ceiling any router could reach on those weights, so it separates a router choosing badly from towers with nothing to choose between. It reads between $-0.0109$ and $-0.0204$ bits per byte on the Pile and $-0.0126$ on trajectories.
 
-\paragraph{Error bars, and a correction they force.} Three replicates of one configuration --- Pile, gated, four towers, load-balance weight $0.01$, 20{,}000 steps, differing only in seed and therefore in data order --- separate what varies between runs from what does not.
+\paragraph{Error bars, and a correction they force.} Four replicates of one configuration --- Pile, gated, four towers, load-balance weight $0.01$, 20{,}000 steps, differing only in seed and therefore in data order --- separate what varies between runs from what does not.
 
 \begin{center}
-\begin{tabular}{@{}lrrrr@{}}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-quantity & mean & min & max & s.d. \\
+quantity & mean & min & max & s.d. & s.e.m. \\
 \midrule
-learned bits per byte      & 1.4999 & 1.4937 & 1.5108 & \textbf{0.0094} \\
-oracle $-$ learned         & $-0.0189$ & $-0.0288$ & $-0.0076$ & 0.0107 \\
-random $-$ learned (F15)   & $+0.1750$ & $+0.0721$ & $+0.3195$ & \textbf{0.1288} \\
-MI$/H$                     & 0.2238 & 0.1294 & 0.3411 & 0.1077 \\
-assignment stability       & 0.6646 & 0.5250 & 0.7688 & 0.1257 \\
-towers earning $>0.005$    & 3.00 & 2 & 4 & 1.00 \\
+learned bits per byte      & 1.5083 & 1.4937 & 1.5335 & \textbf{0.0185} & 0.0092 \\
+oracle $-$ learned         & $-0.0250$ & $-0.0431$ & $-0.0076$ & 0.0149 & 0.0075 \\
+random $-$ learned (F15)   & $+0.1561$ & $+0.0721$ & $+0.3195$ & \textbf{0.1117} & 0.0559 \\
+MI$/H$                     & 0.2747 & 0.1294 & 0.4273 & 0.1344 & 0.0672 \\
+assignment stability       & 0.6672 & 0.5250 & 0.7688 & 0.1027 & 0.0514 \\
+towers earning $>0.005$    & 3.25 & 2 & 4 & 0.957 & 0.479 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\textbf{Held-out bits per byte is the stable quantity and everything about the routing is not.} The model's loss moves by $0.0171$ across the three runs; the substitution margin moves by $0.2474$ over the same three, more than fourteen times as far. A single-run F15 number therefore carries almost no information, which is a second and independent reason to withdraw the reading above --- the first being the collapse confound, which explains the very large margins but not this spread among healthy routers.
+\textbf{Held-out bits per byte is the stable quantity and everything about the routing is not.} The model's loss moves by $0.0398$ across the four runs; the substitution margin moves by $0.2474$ over the same four, six times as far, and MI$/H$ moves by $0.2978$ on a quantity whose whole range is $[0,1]$. A single-run F15 number therefore carries almost no information, which is a second and independent reason to withdraw the reading above --- the first being the collapse confound, which explains the very large margins but not this spread among healthy routers.
 
-\textbf{This also corrects a claim made earlier in this section's history.} The $\pm 0.16$ figure quoted here as a between-run spread was the spread of the \emph{substitution margin}, and applying it to bits per byte was a category error. Measured directly, the between-run standard deviation of held-out bits per byte is $0.0094$. Against that, the oracle gap of $-0.0189$ is roughly twice its own between-run standard deviation and about three standard errors from zero at $n=3$. \textbf{It is very small, and it is not noise.} The earlier statement that a perfect router is worth an order of magnitude less than the noise of the rig is withdrawn: the comparison was against the wrong quantity's spread. What survives is that a perfect router is worth roughly two hundredths of a bit per byte on both corpora, which is a real effect and a very small one.
+\textbf{This also corrects a claim made earlier in this section's history.} The $\pm 0.16$ figure quoted here as a between-run spread was the spread of the \emph{substitution margin}, and applying it to bits per byte was a category error. Measured directly, the between-run standard deviation of held-out bits per byte is $0.0185$. Against that, the oracle gap of $-0.0250$ is $1.7$ times its own between-run standard deviation and about three and a third standard errors from zero. \textbf{It is very small, and it is not noise.} The earlier statement that a perfect router is worth an order of magnitude less than the noise of the rig is withdrawn: the comparison was against the wrong quantity's spread. What survives is that a perfect router is worth roughly two hundredths of a bit per byte on both corpora, which is a real effect and a very small one.
 
-\textbf{The number of towers that earn their place is a property of the seed.} At $N=4$ under one configuration it is $2$, $3$ and $4$ across the three runs. Any F16 reading taken from a single run is therefore a reading about that run. \textbf{F15 reverts to unrun}; the oracle gap is what should replace it, and it needs error bars before it is quoted as a bound rather than as a reading. F16 does not revert, because the tower-count sweep below supplies a reading its confound does not reach, and on that reading \textbf{it fires}.
+\textbf{Within the healthy regime the substitution margin and MI$/H$ are simply uncorrelated}, which is worth stating separately because an earlier reading of this section proposed a monotone inverse relation between them. Over the four replicates: $0.129 \to +0.0721$, $0.201 \to +0.1336$, $0.341 \to +0.3195$, $0.427 \to +0.0995$. The most specialised run returns nearly the smallest margin. The inverse ordering holds only across the boundary between collapsed and non-collapsed routers, where it is an artefact of untrained towers rather than a law.
+
+\textbf{The number of towers that earn their place is a property of the seed.} At $N=4$ under one configuration it is $2$, $3$, $4$ and $4$ across the four runs. Any F16 reading taken from a single run is therefore a reading about that run.
+
+That the run with the highest MI$/H$ also carries the largest oracle gap and the \emph{worst} held-out loss is the section in one line: more specialisation gave a perfect router more to exploit and left the model itself worse. \textbf{F15 reverts to unrun}; the oracle gap is what should replace it, and it needs error bars before it is quoted as a bound rather than as a reading. F16 does not revert, because the tower-count sweep below supplies a reading its confound does not reach, and on that reading \textbf{it fires}.
 
 \paragraph{F16 then fires, on a reading the confound does not reach.} Varying the tower count is a fourth way to move the same quantity, and it agrees with the three above. Four arms on the Pile, gated, load-balance weight $0.01$, 20{,}000 steps, at \emph{identical per-token cost} --- one tower is active per segment whatever $N$ is, so only the parameter count and the dispatch pattern change:
 
