@@ -1062,84 +1062,17 @@ Two quantities from the same run do not depend on the quality comparison. The mu
 \subsection{Does the router earn its place, and does each tower?}
 \label{sec:f15f16}
 
-F15 asks whether the router earns its place and F16 whether each tower does. Both were answered by evaluating one trained model under substituted routing, with nothing retrained: a Mixture-of-Towers with four towers trained for 20{,}000 steps on the five-domain mixture of \S\ref{sec:f11five}, 234{,}179 segments, load-balance weight $0.01$. Replacing the learned assignment with an arbitrary one cost $0.1604$ bits per byte and routing everything to one tower cost $0.1395$, and this paper reported on that basis that F15 did not fire.
+F15 and F16 were run on a trained checkpoint and reported as not firing, on a substitution test: replace the learned assignment with an arbitrary one, and with a constant one, on identical weights. Learned routing cost $0.1604$ bits per byte less than random and $0.1395$ less than constant. \textbf{Both readings are withdrawn, and the test itself is retired.}
 
-\textbf{That reading is withdrawn.} The substitution test does not measure what its name claims, and the demonstration is that five further arms have now been run with the same instrument.
+\textbf{The substitution margin measures proximity to router collapse, not specialisation.} Six arms now share the instrument, and the two whose routers collapsed onto a single tower --- mutual information exactly zero, routing entropy exactly zero --- return the two largest margins in the set, $+0.5826$ and $+2.4591$. The mechanism is mechanical: under collapse most towers were never trained, so randomising the assignment routes most of the evaluation into untrained weights, and the model's own loss measures that damage rather than the value of routing. Among healthy routers the margin is not merely uninformative but unstable, spanning $+0.0721$ to $+0.3195$ across four seeds of one configuration --- fourteen times the spread of the loss itself. F16 fails the same way: a tower's disable cost tracks whether it received traffic during training.
 
-\begin{center}
-\begin{tabular}{@{}llrrrrr@{}}
-\toprule
-corpus & router & $T$ & MI$/H$ & learned & random $-$ learned & oracle $-$ learned \\
-\midrule
-Pile          & ungated        & 4 & 0.291 & 1.5150 & $+0.1604$ & --- \\
-Pile          & ungated        & 4 & 0.248 & 1.5920 & $+0.0025$ & $-0.0109$ \\
-Pile          & gated          & 4 & 0.201 & 1.5108 & $+0.1336$ & $-0.0204$ \\
-trajectories  & gated          & 4 & 0.146 & 0.5474 & $+0.2486$ & $-0.0126$ \\
-Pile          & gated          & 2 & 0.000 & 1.4508 & $+0.5826$ & $-0.0000$ \\
-trajectories  & gated, aux $0$ & 4 & 0.000 & 0.5227 & $+2.4591$ & $+0.0000$ \\
-\bottomrule
-\end{tabular}
-\end{center}
+\textbf{The instrument that survives is oracle routing}, and it needs no labels. Score every held-out segment through every tower, keep the best: that is the ceiling any router could reach on those weights, and the gap between it and the learned router is exactly the loss the router leaves on the table. It reads $-0.0250 \pm 0.0075$ bits per byte over four seeds. Mutual information against a domain label is not an alternative and should not be reported as one --- \S\ref{sec:threeway} gives the control showing it is produced by the load-balance term alone.
 
-MI$/H$ normalises the domain--tower mutual information by the realised routing entropy, so it does not reward a router for merely spreading load. The last two rows are collapsed routers: mutual information exactly zero, routing entropy exactly zero, every held-out segment to a single tower. \textbf{They return the two largest margins in the table}, one of them by an order of magnitude, and across the four gated arms the margin rises monotonically as specialisation falls.
+\paragraph{Why none of this is evidence about the architecture.} Every arm above ran at \textbf{$0.68$ epochs}. Mixture specialisation arises from capacity pressure \emph{at convergence}: a model that has converged and still cannot fit its data has a reason to divide labour, because division of labour is then the loss-minimising configuration. A model that has not converged has no such reason --- it is early, not capacity-bound, and additional towers are capacity it is not yet using. The measurements were taken in a regime where the phenomenon under test cannot appear.
 
-The mechanism is mechanical. The test perturbs the assignment of a model trained under a particular assignment distribution. Under collapse, three of the four towers were never trained on anything; randomising routes three quarters of the evaluation into untrained weights, and the model's own loss is the measure of that damage. Under balanced specialisation all four towers are competent and exchanging them costs little. \textbf{The quantity being measured is how badly the towers depend on the routing distribution they were trained under, which is proximity to collapse, and specialisation makes it smaller rather than larger.} The two top rows are a byte-identical replicate pair differing only in data order; they hold the two highest MI$/H$ values in the table and straddle almost its entire margin range between them.
+This is a regime error and not a scale error, which matters because the two have different remedies. A larger model at $0.68$ epochs fails identically. It also accounts for the one result that no undertraining story fits: at eight towers the held-out loss got \emph{worse} and every tower became free to remove, which is what adding unused capacity to an unconverged model looks like.
 
-The same objection applies to F16 in its weaker direction. The four disable-one-tower costs of $0.0314$ to $0.0471$ that this paper reported were $-0.0004$ to $+0.0006$ in the replicate, and in the collapsed arms disabling the live tower costs everything while disabling the other three costs exactly nothing. A disable cost tracks whether a tower received traffic during training, which is the same confound.
-
-\textbf{The instrument that survives is oracle routing}, and it was in the same output throughout. Scoring every held-out segment through every tower and taking the best is the ceiling any router could reach on those weights, so it separates a router choosing badly from towers with nothing to choose between. It reads between $-0.0109$ and $-0.0204$ bits per byte on the Pile and $-0.0126$ on trajectories.
-
-\paragraph{Error bars, and a correction they force.} Four replicates of one configuration --- Pile, gated, four towers, load-balance weight $0.01$, 20{,}000 steps, differing only in seed and therefore in data order --- separate what varies between runs from what does not.
-
-\begin{center}
-\begin{tabular}{@{}lrrrrr@{}}
-\toprule
-quantity & mean & min & max & s.d. & s.e.m. \\
-\midrule
-learned bits per byte      & 1.5083 & 1.4937 & 1.5335 & \textbf{0.0185} & 0.0092 \\
-oracle $-$ learned         & $-0.0250$ & $-0.0431$ & $-0.0076$ & 0.0149 & 0.0075 \\
-random $-$ learned (F15)   & $+0.1561$ & $+0.0721$ & $+0.3195$ & \textbf{0.1117} & 0.0559 \\
-MI$/H$                     & 0.2747 & 0.1294 & 0.4273 & 0.1344 & 0.0672 \\
-assignment stability       & 0.6672 & 0.5250 & 0.7688 & 0.1027 & 0.0514 \\
-towers earning $>0.005$    & 3.25 & 2 & 4 & 0.957 & 0.479 \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\textbf{Held-out bits per byte is the stable quantity and everything about the routing is not.} The model's loss moves by $0.0398$ across the four runs; the substitution margin moves by $0.2474$ over the same four, six times as far, and MI$/H$ moves by $0.2978$ on a quantity whose whole range is $[0,1]$. A single-run F15 number therefore carries almost no information, which is a second and independent reason to withdraw the reading above --- the first being the collapse confound, which explains the very large margins but not this spread among healthy routers.
-
-\textbf{This also corrects a claim made earlier in this section's history.} The $\pm 0.16$ figure quoted here as a between-run spread was the spread of the \emph{substitution margin}, and applying it to bits per byte was a category error. Measured directly, the between-run standard deviation of held-out bits per byte is $0.0185$. Against that, the oracle gap of $-0.0250$ is $1.7$ times its own between-run standard deviation and about three and a third standard errors from zero. \textbf{It is very small, and it is not noise.} The earlier statement that a perfect router is worth an order of magnitude less than the noise of the rig is withdrawn: the comparison was against the wrong quantity's spread. What survives is that a perfect router is worth roughly two hundredths of a bit per byte on both corpora, which is a real effect and a very small one.
-
-\textbf{Within the healthy regime the substitution margin and MI$/H$ are simply uncorrelated}, which is worth stating separately because an earlier reading of this section proposed a monotone inverse relation between them. Over the four replicates: $0.129 \to +0.0721$, $0.201 \to +0.1336$, $0.341 \to +0.3195$, $0.427 \to +0.0995$. The most specialised run returns nearly the smallest margin. The inverse ordering holds only across the boundary between collapsed and non-collapsed routers, where it is an artefact of untrained towers rather than a law.
-
-\textbf{The number of towers that earn their place is a property of the seed.} At $N=4$ under one configuration it is $2$, $3$, $4$ and $4$ across the four runs. Any F16 reading taken from a single run is therefore a reading about that run.
-
-That the run with the highest MI$/H$ also carries the largest oracle gap and the \emph{worst} held-out loss is the section in one line: more specialisation gave a perfect router more to exploit and left the model itself worse. \textbf{F15 reverts to unrun}; the oracle gap is what should replace it, and it needs error bars before it is quoted as a bound rather than as a reading. F16 does not revert, because the tower-count sweep below supplies a reading its confound does not reach, and on that reading \textbf{it fires}.
-
-\paragraph{F16 then fires, on a reading the confound does not reach.} Varying the tower count is a fourth way to move the same quantity, and it agrees with the three above. Four arms on the Pile, gated, load-balance weight $0.01$, 20{,}000 steps, at \emph{identical per-token cost} --- one tower is active per segment whatever $N$ is, so only the parameter count and the dispatch pattern change:
-
-\begin{center}
-\begin{tabular}{@{}rrrrrrr@{}}
-\toprule
-$N$ & live & MI$/H$ & stability & learned & random $-$ learned & oracle $-$ learned \\
-\midrule
-2 & 1 & 0.000 & 1.000 & 1.4508 & $+0.5826$ & $-0.0000$ \\
-4 & 2 & 0.174 & 0.916 & 1.4607 & $+0.3767$ & $-0.0065$ \\
-4 & 4 & 0.201 & 0.769 & 1.5108 & $+0.1336$ & $-0.0204$ \\
-8 & 0 & 0.156 & 0.109 & 1.6808 & $+0.0058$ & $-0.0149$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-``Live'' counts towers whose removal costs more than $0.005$ bits per byte. The substitution margin again falls as live towers rise, on a knob unrelated to the balancing term or the corpus. \textbf{At $N=8$ every one of the eight towers is free to remove}, the eight costs spanning $-0.0008$ to $+0.0011$, which is F16's unambiguous direction and the clean merge signal its row was written to detect. The confound that voids the earlier reading does not reach this one: routing entropy is $2.433$ of $3.000$ and every tower carried traffic throughout, so no tower's zero cost can be attributed to its never having been trained. Inter-tower cosine is $0.2143$ against $0.2710$ at initialisation and assignment stability is $0.109$, so the towers barely separated and the partition churns between checkpoints. Eight towers that all received traffic are mutually redundant, and held-out bits per byte degrade monotonically with tower count at constant per-token cost, from $1.4508$ to $1.6808$.
-
-\textbf{F16 fires on this run, and the replicates above say how far that carries.} The $N=8$ arm has no replicate, and at $N=4$ the count of towers earning more than $0.005$ bits per byte is $2$, $3$ and $4$ across three runs of one configuration. The quantity F16 reads is seed-unstable at $N=4$, so a single $N=8$ run showing all eight free is a firing on that run rather than a discharged falsifier, and it is recorded as such. What makes it worth recording anyway is that the spread at $N=4$ is between two and four live towers while the $N=8$ result is zero out of eight, which is outside the range the $N=4$ replicates explore. Replicating $N=8$ across seeds is the measurement that would settle it and it has not been bought.
-
-One qualification belongs with that, and it is a defect in how the sweep was specified rather than a hedge: at a fixed step budget each of $N$ towers sees roughly $1/N$ of the segments, so the $N=8$ arm trained each tower on a quarter of what the $N=2$ arm's single live tower received. The sweep does not separate capacity from per-tower training budget. What survives is the narrower claim --- at this budget, on this mixture, eight towers do not differentiate --- and not the general one that tower count is worthless.
-
-\paragraph{Dispatch cost, measured on the same four arms.} Per-token FLOPs are constant across the sweep, so the whole of its wall-clock growth is dispatch: $1707$, $2703$ and $4657$ seconds at $N = 2, 4, 8$, a factor of $2.73$ for no additional per-token compute. The count of non-empty tower invocations moves $1 \to 2 \to 8$ over the same span, so this is a reading on the sequential dispatch loop rather than a scaling law, and \S\ref{sec:commsrun}'s ledger is the instrument that isolates it. It is reported here because the arithmetic of \S\ref{sec:dispatch} treats dispatch as free and it is not.
-
-\paragraph{What this does not say.} It does not say a Mixture-of-Towers is worse than a dense model; there is no dense arm here, and \S\ref{sec:threeway}'s comparison is confounded separately. It does not transfer to scale: a 17M-parameter mixture with four towers over five domains is a rig for finding design defects, and the defect it found is in the measurement. It also does not say the gated router changed nothing --- gating restores the routing gradient that \S\ref{sec:emergent} assumes, and the gated Pile arm has the best held-out bits per byte of any four-tower run --- only that the test used to certify the result cannot certify it.
+\paragraph{What would actually test it.} Not a larger model, and not more seeds on this rig. A task small enough to train to genuine convergence, with capacity requirement that can be dialled, and the tower count held against it: below some capacity demand one tower fits everything and the mixture pays dispatch for nothing; above it, one tower cannot and $N$ towers at identical per-token cost can. \textbf{The location of that crossover is the claim.} If no setting produces one --- if a single tower wins at every capacity demand at matched per-token cost --- the design is refuted, and unlike anything reported above that would be a result rather than an artifact of the instrument.
 
 \subsection{Dispatch traffic, counted rather than derived}
 \label{sec:commsrun}
