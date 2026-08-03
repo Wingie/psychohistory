@@ -235,10 +235,160 @@ available hardware.
 2. **Who runs the routing/comms layer?** Client-side inside the trust boundary
    (`logos.tex:675` keeps tokenisation, encoding and primary routing inside the
    operator boundary), on every node, or both?
+      - agentosaurus.com via b9agent in flowstate-agents
 3. **What does a tower emit — a finished answer, or an intermediate state another
    tower continues from?** "Build on and correct" implies the latter, which is a
    much stronger requirement on the codebook.
+      - from my understanding of papers its like both like how does adaptinve thinking work
+      - if i have low budget only the 12b tower, if i have high, maybe 70bm, if i have ultra pro pax trhinking -> then it can loop over the towers continious,ty more towers again and again, the output when it is satisfied is the "ANSWER" right?
 4. **Action heads** — screenshot in, browser control out. A tower with a different
    head, or a modality path spliced at the encoder per `MULTIMODAL.md`?
+      - yes its the ultiumate goal
 5. **Is the size ladder per-domain or global?** Each domain with its own
    277M → 70B, or one ladder all domains escalate through?
+      - who cares? but lower sizes have to be more specialized as they are smaller and can hold less knowlesge
+      - ibn the end iots about the user what he ops the distriburted system to learn to be an expert on
+      - example -> i would like the suystem to prediuct m,e the weather
+
+---
+
+# What the owner's answers settle, 2026-08-03
+
+Each answer closes a design question and opens an engineering one. Taken
+together they are more specific than anything the paper contains.
+
+## 1. The codebook is a continuously-trained shared artifact
+
+Answer: trained continuously, shared across towers by its nature, with towers
+updating locally on their own data and the network taking a **full update** on a
+period (the owner said "everyday").
+
+That is federated learning, and it is a harder object than a codec. Three
+consequences that follow immediately:
+
+- **Codes drift, so a tower's understanding of another tower's output has a
+  shelf life.** Between syncs, tower A encodes with codebook version `t` while
+  tower B decodes with version `t` too — fine. Across a sync boundary, in-flight
+  work is encoded against a version that no longer exists. Every message needs a
+  **codebook version stamp**, and a receiver that cannot honour it must be able
+  to say so rather than silently mis-decode. Silent mis-decode is the worst
+  available failure here because it produces fluent, wrong continuations.
+- **Local update + periodic global merge is exactly the setting where codebook
+  collapse is documented.** Local drift concentrates usage on a subset of
+  entries; the standard mitigations (dead-code re-initialisation, EMA updates,
+  usage-balanced commitment) are per-node and interact badly with averaging.
+  `evis.py` already has a `codebook_utilisation` gate — that instrument is now
+  load-bearing and needs to run per node and after every merge.
+- **"Full update" needs a definition.** Averaging codebooks across nodes is not
+  the same as averaging weights: entry `k` on node A and entry `k` on node B are
+  not the same concept unless something keeps them aligned. Either the merge is
+  index-aligned by construction (all nodes start from one book and only ever
+  update in place) or it needs an assignment step. This is the single most
+  under-specified part of the design and it should be settled before code.
+
+## 2. The comms layer already exists: agentosaurus.com via b9agent
+
+Answer: `agentosaurus.com` via **b9agent** in `flowstate-agents`.
+
+This is the biggest practical finding in the whole re-analysis, because it means
+the distributed substrate is **not** a greenfield build. `backend/beta9` is
+already a serverless GPU runtime with a gateway, worker agents, Tailscale VPN
+networking between heterogeneous machines, and inference routing. That is the
+routing/comms layer the paper describes as unbuilt.
+
+So the work is not "build a P2P network". It is:
+
+- a **codec at the b9agent boundary** — encode to codes before the hop, decode
+  after
+- a **tower registry** — which tower, which size, which domain, which codebook
+  version, on which node
+- the **routing/escalation policy**, which is the only genuinely new component
+
+`parallax_bench.py` and `swarm_sim.py` simulate scheduling and incentives with
+no sockets. Beta9 has the sockets. They should meet.
+
+## 3. Adaptive thinking: budget sets the ceiling, satisfaction ends the loop
+
+Answer, in the owner's words: *"if i have low budget only the 12b tower, if i
+have high, maybe 70b, if i have ultra pro max thinking then it can loop over the
+towers continuously, more towers again and again, the output when it is
+satisfied is the ANSWER."*
+
+So a tower emits **both**: an intermediate state while the loop continues, and a
+finished answer when it stops. The loop is the mechanism, and it has two
+controls:
+
+- **budget** — a ceiling on which towers may be reached, set per request
+- **satisfaction** — the halt criterion, evaluated per iteration
+
+This is test-time compute scaling across a network rather than within one model,
+and it makes two things concrete that were vague before. First, the halt
+criterion is now the highest-value unbuilt component, not the router: with a
+budget ceiling in place, choosing *when to stop* is what decides both cost and
+quality. Second, `tower-growth.md`'s unresolved tension is resolved by this
+answer — *"LoRA stages buy capacity; full-tower stages buy compute. 'More
+thinking' points at the latter."* Looping over whole towers is compute. The
+owner's design buys thinking, not capacity.
+
+The measured constraint from `chain_depth_init` still binds and is now
+load-bearing rather than academic: naive repetition costs +0.3915 nats at the
+first repeat and degrades monotonically. **A loop that returns to a tower must be
+gated to a no-op at step 0 (ReZero), or more thinking makes the answer worse.**
+
+## 4. Action heads are the goal, not a side quest
+
+Answer: yes, screenshot in / browser control out is the ultimate goal.
+
+`MULTIMODAL.md`'s contract already specifies the shape — per-modality encoder
+into a shared latent space, shared trunk, router, towers, shared head,
+per-modality de-tokeniser. Nothing is implemented. The relevant near-term note is
+that an action head makes the **satisfaction criterion measurable**: a browser
+task either reached the goal state or it did not. That is a real halt signal and
+a real reward, and it is much better than any proxy the text corpus offers.
+
+## 5. Small means SPECIALISED, and the user names the domain
+
+Answer: *"lower sizes have to be more specialized as they are smaller and can
+hold less knowledge… in the end it's about what the user wants the distributed
+system to learn to be an expert on. Example: I would like the system to predict
+me the weather."*
+
+This inverts the usual reading of a distillation ladder. The 277M tier is not a
+worse generalist — it is a **narrow expert**, and it is narrow *because* it is
+small. Capacity forces specialisation rather than merely permitting it.
+
+Two things follow, and the second retires an argument this project has been
+having with itself all day:
+
+- **The ladder is effectively per-domain**, whatever the org chart says: a small
+  tier can only be small if it is narrow, so "one global 277M" is not a coherent
+  object.
+- **Specialisation is USER-DIRECTED, not emergent.** The user says what the
+  system should become expert on; the system acquires trajectories for it and
+  trains a tower. Every experiment from g8 to g17 tried to make specialisation
+  *emerge* from a homogeneous corpus, and today's measurements say it does not
+  and cannot — one tower carried the model, another took 29% of the gradient and
+  cost +0.0068 nats to remove, and `break_symmetry` moved inter-tower cosine
+  1.000004 → 1.000004. That whole line of work was answering a question the
+  architecture does not ask.
+
+**The weather example is therefore not a side experiment.** It is the worked
+example of the entire system: a user names a domain, the trajectory-generation
+layer acquires real-world observations for it, a tower is finetuned into an
+expert, and the routing layer learns to reach it. `wip-specs/logos/kalshi-weather-shard.md`
+is the first instance, and hermes is already fetching the data.
+
+---
+
+## What this makes the build order
+
+1. **`latentmoe_bench` verdict 3** — does routing survive compression. Built,
+   never run, and it gates whether towers can be distributed at all.
+2. **Codebook versioning and merge semantics** — under-specified above, and
+   everything downstream inherits it.
+3. **The codec at the b9agent boundary**, since the transport already exists.
+4. **The halt criterion**, which answer 3 promotes above the router.
+5. **A ReZero gate on any repeated tower**, without which looping degrades.
+
+And explicitly **not**: more emergent-specialisation arms on a homogeneous
+corpus. Answer 5 retires that line.
