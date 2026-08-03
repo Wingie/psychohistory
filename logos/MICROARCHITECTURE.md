@@ -392,3 +392,50 @@ is the first instance, and hermes is already fetching the data.
 
 And explicitly **not**: more emergent-specialisation arms on a homogeneous
 corpus. Answer 5 retires that line.
+
+---
+
+## The grounding answer — how divergence is actually avoided, 2026-08-03
+
+Owner: *"the smaller towers basically are getting distilled by the larger
+towers, and the data generation using external environment data (weather,
+satellite scans in real time over the cities) avoids codebook divergence, or the
+data required to train larger arms."*
+
+This answers the merge problem raised under question 1 above, and it answers it
+differently on each axis.
+
+**Size axis — alignment by construction.** A small tower distilled from a large
+one inherits its teacher's representation. Same lineage, same referents; the
+codes agree because the student was trained to match the teacher. This is the
+same property that lets KV carry along the size axis, and it means no merge
+step is needed there at all.
+
+**Domain axis — alignment by shared external referent.** The failure mode raised
+above was that entry `k` on node A and entry `k` on node B are not the same
+concept unless something keeps them aligned. Continuously-arriving real-world
+observation supplies that something: if every node trains against the same
+weather over the same cities and the same satellite passes, the codes have a
+**common external referent**. The book is pinned to reality rather than to
+another node's weights, and reality does not drift.
+
+**And the same stream solves the data problem, which is the binding constraint
+at 100T.** The trajectory corpus is 251,992,064 tokens — 2.86% of Chinchilla for
+a 0.6B model, and a rounding error against anything larger. Environmental
+observation is unlimited, self-supervised (predict the next observation, no
+labels and no synthetic-data pipeline), and **carries its own ground truth**,
+because tomorrow scores yesterday's forecast. Every capability number this
+project has produced is `gold_novel`, a proxy whose denominator the model itself
+controls. A forecast that resolves is not a proxy.
+
+**The limit, stated so it is not discovered later.** Grounding aligns the region
+of code space that touches shared observation. A code for "SQL syntax error" has
+no weather referent, so purely linguistic or domain-internal regions of the book
+are still only aligned by the periodic merge. The anchor is strong where towers
+observe the same world and absent where they do not, and a merge should know
+which regions are which rather than averaging uniformly across both.
+
+**Satellite imagery makes the multimodal encoder near-term.** Question 4's
+action-head/multimodality path was filed as the ultimate goal. Real-time scans
+over cities are images, so the per-modality encoder in `MULTIMODAL.md` is not a
+later phase — it is how the grounding data enters the system in the first place.
