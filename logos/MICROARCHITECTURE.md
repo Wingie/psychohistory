@@ -95,7 +95,16 @@ token, out and back:
 ```
 MoE            1.05 MB / token
 LOGOS raw     32.8   KB / token       32×
-LOGOS coded   20     B  / token   ~52,000×
+LOGOS coded   20     B  / token   ~52,000x   <- HYPOTHETICAL, at d=8192
+
+MEASURED, 2026-08-04, at the size actually running (d_model=1024, Qwen3-0.6B):
+raw payload is 2 x 1024 = 2048 B/token and the codebook ships 10 B/token, so
+the real ratio is **204.8x**, recorded in
+`probe_results/tower_handoff_run1_randomproj.json` (`compression_vs_raw`). The
+52,000x above is arithmetic for a d=8192 model nobody has run, and the
+"40k tokens -> 400 KB per hop" line below inherits the same hypothetical. Both
+are kept because the SCALING argument holds -- the ratio grows with d_model --
+but neither is a measurement and neither should be quoted as one.
 ```
 
 At the sizes that matter, that is the difference between impossible and routine:
