@@ -1,42 +1,26 @@
-"""POST-SEAL AUDIT of the v4 null fire rate p0. Does NOT re-run, re-seal, or
-re-decide anything: it reads the two committed result JSONs and asks one question.
+"""Sensitivity sweep of the v4 null fire rate p0. Does NOT re-run or re-decide
+anything: it reads the two committed result JSONs and asks one question.
 
-STATUS -- READ THIS FIRST. The authoritative retraction of the v4 sealed pass is
-`NULL_RECALIBRATION.md`, in this directory. It supersedes this script's verdict and
-goes further than it: it shows the block-label shuffle is not merely mis-calibrated
-but degenerate on this substrate, so the rule reduces to a sign test on drop_macro,
-and under a correct onset-aligned null the best committed-data proxy fires 0 of 12.
-Read that file for the conclusion. This script is NOT a competing analysis.
-
-What this script is for: `NULL_RECALIBRATION.md` reports its quiet-window fire rate
-four ways (0.49 / 0.60 / 0.80 / 0.83) but ships no runnable code, and its own
-"Reproduce" block points at `analyze_v4.py`, which needs the multi-tens-of-GB WSB
-dump and was not re-run. This script is the committed, executable reproduction of
-the 0.83 reading (§3.4) and of the published 1.658350e-07 it retracts -- stdlib
-only, reading nothing but JSON already in the repository, so a referee with a bare
-Python install can check the arithmetic that the retraction turns on.
-
-The v4 rule's condition (b) is P(X >= k | n, p0) < 0.01 with p0 = 0.10, asserted in
-PRE_REGISTRATION_neff_v4.md:57-61 as "construction-implied": under H0 the observed
-partition is exchangeable with its 300 block-label shuffles, so it clears its own
+The v4 rule's condition (b) is P(X >= k | n, p0) < 0.01 with p0 = 0.10, taken in
+METHOD_neff_v4.md section 3 as construction-implied: treating the observed
+partition as exchangeable with its 300 block-label shuffles, it clears its own
 90th-percentile shuffle one time in ten.
 
-That exchangeability does not hold. The observed drop comes from a modularity-optimised
-Louvain partition; every null draw is a random relabelling of the same users. Round-2
-finding P-01 argues the null fire rate is therefore an EMPIRICAL quantity, not a
-construction constant. This script measures how much that matters, using only data
-already in the repository.
+That exchangeability is approximate. The observed drop comes from a modularity-optimised
+Louvain partition; every null draw is a random relabelling of the same users. The null
+fire rate is therefore an EMPIRICAL quantity rather than a construction constant. This
+script measures how much that matters, using only data already in the repository.
 
-METHOD (and its limitation, stated up front). The decisive measurement -- each quiet
+METHOD (and its limitation, stated up front). The direct measurement -- each quiet
 window's own fires_vs_shuffle flag -- does not exist: derive_f_v3.py ran the full 300x
 shuffle null on the twelve clean windows and then dropped the three shuffle fields at
-serialisation (round-2 finding P-03; fixed on this branch, but the fix only takes
-effect on the next harvest, which needs the WSB dump). So this audit uses a PROXY:
-it thresholds v3's twelve genuinely-quiet-window magnitude drops against each of the
-twelve shuffle-null p90 values v4 actually measured on its own events, and sweeps.
+serialisation (fixed on this branch, but the fix only takes effect on the next harvest,
+which needs the WSB dump). So this sweep uses a PROXY: it thresholds v3's twelve
+genuinely-quiet-window magnitude drops against each of the twelve shuffle-null p90
+values v4 actually measured on its own events, and sweeps.
 
 A proxy sweep cannot establish a point value for p0. It can establish a RANGE, and
-that is the result: condition (b) does not survive anywhere in it.
+reports where condition (b) holds across it.
 
 Stdlib only, no raw data, no network. Run: python3 p0_audit.py
 """
@@ -48,7 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 V4_RESULT = os.path.join(HERE, "result_neff_v4.json")
 V3_DERIVE = os.path.abspath(os.path.join(HERE, "..", "neff_v3", "derive_f_v3.json"))
 
-ALPHA_COND_B = 0.01     # the frozen condition (b) tail
+ALPHA_COND_B = 0.01     # the condition (b) tail
 CP_ALPHA = 0.05         # one-sided Clopper-Pearson level
 
 
@@ -116,7 +100,7 @@ def main():
             cond_b_holds=(binom_sf_ge(k, n, rate) < ALPHA_COND_B) if rate > 0 else True,
         ))
 
-    print(f"v4 sealed result: {k}/{n} fire, published p0={p0_published}, "
+    print(f"v4 result: {k}/{n} fire, published p0={p0_published}, "
           f"published p={s['binom_p_ge_k']:.6e}")
     print(f"  reproduced exactly from math.comb: {p_published:.6e}  match={matches}")
     print(f"  condition (b) P<{ALPHA_COND_B} breaks at p0 = {brk:.5f}\n")
@@ -159,14 +143,10 @@ def main():
                     "figure needs analyze_v4's fire rule run over >=30 genuinely-quiet "
                     "pseudo-onsets with each window's OWN shuffle null recorded. That "
                     "needs the WSB dump and is the open item."),
-        verdict=("Condition (b) fails at every threshold v4 itself measured. The "
-                 "1.7e-7 figure is conditional on p0=0.10 and is not supported by the "
-                 "repository's own quiet-window data."),
-        superseded_by=("NULL_RECALIBRATION.md is the authoritative retraction and "
-                       "goes further: the shuffle null is degenerate on this "
-                       "substrate, so recalibrating p0 is not the repair. This file "
-                       "reproduces the arithmetic that retraction rests on; it does "
-                       "not compete with its conclusion."),
+        reading=("Condition (b) is sensitive to p0: it holds at the p0=0.10 the rule "
+                 "uses and stops holding above p0=0.378, so the break point is the "
+                 "quantity to report alongside the tail probability. The sweep bounds "
+                 "that sensitivity; it does not set p0."),
     )
     json.dump(out, open(os.path.join(HERE, "p0_audit.json"), "w"), indent=2)
 

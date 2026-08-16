@@ -1,5 +1,5 @@
 """Stream the WSB comments .zst once; (a) build a daily comment-volume histogram
-(to corroborate onset selection honestly) and (b) capture the compact fields
+(to corroborate onset selection) and (b) capture the compact fields
 (author, link_id, created_utc) for every comment that falls inside ANY roster run's
 harvest window. Resumable + memory-light (streaming, never decompresses the whole
 7.1 GB file).

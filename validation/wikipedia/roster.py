@@ -1,6 +1,6 @@
 """Frozen roster for the Wikipedia dynamic-N_eff-collapse test (test ii').
 
-Committed BEFORE harvest (see PRE_REGISTRATION_wiki.md). Single source of truth for
+Committed BEFORE harvest (see METHOD_wiki.md). Single source of truth for
 both harvest.py and neff_collapse_wiki.py.
 
 Inclusion rule: the article must have ALREADY EXISTED with steady editing before its

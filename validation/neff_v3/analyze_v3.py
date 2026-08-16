@@ -1,9 +1,9 @@
-"""SEALED evaluation of test (ii') v3 on the FRESH WSB roster.
+"""Evaluation of test (ii') v3 on the FRESH WSB roster.
 
-Reuses validation/reddit_wsb/neff_collapse_wsb.py's frozen pipeline. For each fresh
+Reuses validation/reddit_wsb/neff_collapse_wsb.py's pipeline. For each fresh
 event: build the pre-onset co-thread graph, blind-Louvain partition, macro variance-
 ratio N_eff baseline-vs-onset drop, 300x block-label-shuffle null. Then evaluate the
-FROZEN four-condition decision rule (PRE_REGISTRATION_neff_v3.md section 5) ONCE,
+four-condition decision rule (METHOD_neff_v3.md section 5),
 against the clean-null distribution + f from derive_f_v3.json.
 
 Emits result_neff_v3.json + figure_v3.png. Run: py -3.12 analyze_v3.py
@@ -118,8 +118,8 @@ def main():
         decision=dict(cond1_magnitude=cond1, cond2_beats_clean_null=cond2,
                       cond3_specificity=cond3, cond4_powered=cond4),
         failed_conditions=failed,
-        VERDICT=("SEALED PASS (structured/endogenous-community regime)"
-                 if sealed_pass else "SEALED NOT"),
+        VERDICT=("PASS (structured/endogenous-community regime)"
+                 if sealed_pass else "NOT A PASS"),
     )
     out = dict(summary=summary, runs=results,
                clean_null_drops=clean_drops,

@@ -14,7 +14,7 @@ The framework describes a **prediction–control duality**. At a critical transi
 - the regime monitor and skill-horizon estimate;
 - the structural and concentration observables (block detection, N_eff, HHI/Gini, semantic critical-slowing-down);
 - the **mechanism-classifier** form of the operator detector (gradual-internal-buildup vs sudden-external-shock; *aggregate* concentration statistics);
-- the validation code, the aggregate results, and the pre-registration protocol.
+- the validation code and the aggregate results.
 
 **Deliberately NOT provided (offensive / control-synthesis):**
 

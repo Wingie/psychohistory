@@ -13,7 +13,7 @@ two-covariate model on standardized log proxies zv = z(log v), zs = z(log s):
     M_s     : b1 = 0        (steering alone — the stopper null)
     M_ratio : b2 = -b1      (the ratio v/s — the s/acc form)
 
-The key falsification test (pre-registered in the README): does adding s to
+The key comparison (specified in the README): does adding s to
 v improve fit? LR(M_full vs M_v) with 1 df. If p > 0.1 in three or more of
 the four historical domains, the steering term is decoration and s/acc
 loses its empirical leg. Symmetrically LR(M_full vs M_s) asks whether speed
@@ -138,7 +138,7 @@ def domain_comparison(v, s, y, years=None, log_v=True, log_s=True,
         "auc": {m: auc(scores[m], y) for m in fits},
         "aic": {m: fits[m]["aic"] for m in fits},
         "bic": {m: fits[m]["bic"] for m in fits},
-        # the pre-registered falsifier: does s add power over v alone?
+        # the primary comparison: does s add power over v alone?
         "lr_p_s_given_v": lr_test(fits["full"]["loglik"],
                                   fits["v"]["loglik"], 1),
         # the symmetric stopper test: does v add power over s alone?

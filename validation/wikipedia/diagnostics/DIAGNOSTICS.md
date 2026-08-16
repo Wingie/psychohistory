@@ -1,6 +1,6 @@
 # Diagnostic variations on the Wikipedia dynamic-N_eff-collapse test (test ii')
 
-These four variations do NOT re-run the frozen pre-registered test and do NOT move its
+These four variations do NOT re-run the main test and do NOT move its
 pass/fail line. They diagnose WHY the frozen result was "directional support (event-vs-calm
 p<0.01) but not a frozen-rule pass": median event drop 0.19 < f=0.30, 0/14 fire vs the
 block-label-shuffle null, and cond3 (event median > calm 90th pctile) failed.
@@ -8,7 +8,7 @@ block-label-shuffle null, and cond3 (event median > calm 90th pctile) failed.
 Every script reuses the FROZEN analysis functions from `neff_collapse_wiki.py` verbatim by
 import (`coedit_graph`, `blind_partition`, `block_bucket_matrix`, `neff_macro`,
 `neff_pearson`, `collapse_for_partition`, `analyze_run`) via `_shared.py`. No frozen file
-(`PRE_REGISTRATION_wiki.md`, `roster.py`, `result_wiki_neff.json`) was modified. All outputs
+(`METHOD_wiki.md`, `roster.py`, `result_wiki_neff.json`) was modified. All outputs
 are NEW files in this directory. Run each with `py -3.12 diagnostics/<script>.py`.
 
 Harvest fact that bounds V2: each article's `focal_revs` cover only two islands, the event

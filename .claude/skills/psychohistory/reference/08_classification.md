@@ -176,7 +176,7 @@ a transaction is "counted" is a property of H, not of the forward model M.)
 - **Recommendation: DROP from a serious coverage run.** It exercises no dynamics — no transport, no
   blocks, no reflexivity, no criticality — so it teaches the engine nothing and consumes a slot.
 - But *explain why* when you drop it: it is a question about `H`, the definitional map, not about `Ξ`'s
-  evolution. (If someone insists, the honest one-liner is: "yes, by the definition of GDP as the sum of
+  evolution. (If someone insists, the one-liner is: "yes, by the definition of GDP as the sum of
   final expenditures — this is a tautology about the accounting identity, not a prediction.")
 
 ---

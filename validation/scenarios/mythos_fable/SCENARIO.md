@@ -2,7 +2,7 @@
 
 > **"The smarter it is, what happens to humanity?"**
 
-> ⚠️ **HONESTY RAIL — READ FIRST.** This is a **SPECULATIVE forward projection**, a
+> ⚠️ **SCOPE — READ FIRST.** This is a **SPECULATIVE forward projection**, a
 > **scenario conjecture with illustrative parameters**, **NOT a measured, calibrated, or
 > validated prediction**. No parameter here is fit to data. The bounded-psychohistory
 > framework's own thesis (L5 criticality) is that, near a critical transition, the
@@ -179,7 +179,7 @@ holding the **date** with none.
 
 ---
 
-## 7. Honesty caveats (restated, prominent)
+## 7. Caveats (restated, prominent)
 
 1. **Scenario, not forecast.** Illustrative parameters, zero empirical calibration. Do not
    cite any date here as a prediction.

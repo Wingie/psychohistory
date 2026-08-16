@@ -1,5 +1,5 @@
 """Test (iii') bifurcation-mix conjecture: classify each roster event B / N / R under
-two independent, pre-registered rules (see PREREG.md, frozen BEFORE this ran), compute
+two independent rules (see METHOD.md), compute
 the B-fraction under each, and the structural-vs-substantive inter-rater agreement.
 
 STRUCTURAL rule (blind to early-warning / N_eff SCORE): keyed on
@@ -22,7 +22,7 @@ WIKI_DATA = os.path.join(VAL, "wikipedia", "data")
 WIKI_V1 = os.path.join(VAL, "wikipedia", "diagnostics", "v1_newcomer_flood.json")
 WSB_DATA = os.path.join(VAL, "reddit_wsb", "data")
 
-# ---- frozen thresholds (committed in PREREG.md BEFORE this computation) ----
+# ---- thresholds (see METHOD.md) ----
 SHARE_HI = 0.20
 ABRUPT_HI = 8.0
 PI_B = 0.60

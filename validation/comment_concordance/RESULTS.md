@@ -25,7 +25,7 @@ carry a per-post lethain model against the actual approved answer.
   yielded no real vetted answer (a moderation note, a clarifying question, a bare
   link, or an off-topic aside).
 
-### Honesty about the harvest
+### The harvest
 
 Arctic Shift archives each thread close to its posting time, so the snapshot
 sometimes predates the full approved answer or froze scores early. 68/88 posts
@@ -125,7 +125,7 @@ valence** ("concentration is fine here", "this isn't a bubble", "the run doesn't
 apply"), the template has no way to represent that and quietly disagrees — which
 the old textbook check papered over as AGREES.
 
-## Caveats (honest)
+## Caveats
 
 - **LLM-judged agreement is subjective.** AGREE/PARTIAL/DISAGREE were assigned by
   one reader (me). Several PARTIALs could defensibly be AGREE or DISAGREE; the

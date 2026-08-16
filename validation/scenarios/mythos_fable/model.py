@@ -34,7 +34,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # ----------------------------------------------------------------------
-# PARAMETERS  (HONESTY: which are real-ish vs guessed)
+# PARAMETERS  (which are real-ish vs guessed)
 # ----------------------------------------------------------------------
 # real-ish (observed trends):
 #   delta  -- cost/token falls ~10x/yr  (well documented, REAL-ISH)

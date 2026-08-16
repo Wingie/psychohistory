@@ -20,7 +20,7 @@ so the monoculture REQUIRES an external centralized Second Foundation -- which i
 then also the maximal-control / minimal-accountability danger. Hence model
 diversity L_eff SUBSTITUTES for centralized control.
 
-HONESTY RAIL: illustrative parameters, no calibration. The simulation demonstrates
+SCOPE: illustrative parameters, no calibration. The simulation demonstrates
 the STRUCTURE (divergence vs boundedness; lag; L_eff scaling); the magnitudes are
 not a forecast.
 

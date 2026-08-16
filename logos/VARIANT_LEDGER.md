@@ -6,7 +6,7 @@ record of which members of that family have been built, measured, and killed.
 The architecture has roughly a dozen slots — how disjointness is decided, how
 towers compose, where trajectories come from, when a gate fires, what substrate
 a claim is measured on. Each slot admits several concrete fillings, and the
-falsifier suite is the filter that decides between them. A variant that dies
+measurement suite is the filter that decides between them. A variant that dies
 under the filter is not a mistake to be tidied away; it is a measurement of the
 design space, and it is the reason the surviving configuration can be built on
 with confidence rather than merely believed.
@@ -16,14 +16,14 @@ framework did to them, what survived, and what is still live.** There will be
 further variants with different accuracies and efficiencies; the point of the
 ledger is that each one arrives with its predecessors' cause of death attached.
 
-**Honest status.** LOGOS has zero runs at its designed scale. Every number below
+**Status.** LOGOS has zero runs at its designed scale. Every number below
 comes from nano-scale probes on one RTX 3090 (24 GB, compute capability 8.6) or
 from measurements over real corpora on CPU. Nothing here settles a 2.8T claim.
 What it settles is which mechanisms are worth spending a 2.8T budget on.
 
 ---
 
-## Slot 1 — How is domain disjointness decided? (falsifier F11)
+## Slot 1 — How is domain disjointness decided? (measurement F11)
 
 F11 asks whether the domains that towers specialise in are separate enough that
 routing between them pays. Three operationalisations have been built. The two
@@ -68,7 +68,7 @@ mean within-domain (project-disjoint)          0.9673      inflation +0.0578
 mean between-domain                            0.9841
 separation vs naive null                       +0.0746
 separation vs project-disjoint null            +0.0168
-complete separation under honest null          False
+complete separation under project-disjoint null  False
 ```
 
 Project straddle fractions in the naive split ran 33–100%, so the inflation was
@@ -182,7 +182,7 @@ architecture does not propose.
 
 ---
 
-## Slot 3 — Where do trajectories come from? (falsifier F9, §12)
+## Slot 3 — Where do trajectories come from? (measurement F9, §12)
 
 This is the slot that decides whether anything is left past the human-data wall,
 and it is the one where the framing needed the most repair.
@@ -300,7 +300,7 @@ Three formulations were tried and discarded before one held:
   encodes and what this restatement briefly lost.
 - ~~"closed loop → collapse"~~ — **over-stated.** Under accumulation rather than
   replacement, test error has a finite upper bound independent of iteration
-  count. The honest verb is **plateaus at a ceiling set by the base
+  count. The correct verb is **plateaus at a ceiling set by the base
   distribution's coverage**, degrading only when real data is discarded too.
 
 ### What survives
@@ -319,7 +319,7 @@ its consequence, a jagged capability edge, and the data-wall paper itself routes
 the escape through verifiability. We cite it. We claim only the
 architecture-specific derivation and the loop. We also inherit the standing
 objection: verifiability makes a task trainable, not tractable, and graph
-3-colouring is the counterexample a referee will raise.
+3-colouring is the standing counterexample.
 
 **A fourth move exists past exhaustion, and the paper lists three.** Repeat,
 self-synthesise, and ground are there; **distil from a stronger model** is not.

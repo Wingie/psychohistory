@@ -123,7 +123,7 @@ Per-ticker mention density, 2020-09 to 2021-02, for GME/AMC/BB/NOK/BBBY/KOSS.
 }
 ```
 
-**Read — two metrics, one honest answer.** The data give a *split* signal that is
+**Read — two metrics, one answer.** The data give a *split* signal that is
 itself the interesting result:
 
 - **Peak clustering (the overdetermination signature): SYSTEMIC.** All **6 of 6**
@@ -296,7 +296,7 @@ to show GME spiking alone — the data show the opposite.
 
 ---
 
-## Honest caveats
+## Caveats
 
 - **Proxy, not price.** Reddit mention-density measures *attention*, not market
   short-interest or price. The independently-documented market facts (GME SI

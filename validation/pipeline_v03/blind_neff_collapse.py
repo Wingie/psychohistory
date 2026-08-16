@@ -21,7 +21,7 @@ Substrates:
   (b) AskEconomics: nodes = users; edge weight = number of comment threads
       (link_id) in which both authored a comment (co-participation).
 
-Honest about graph-construction choices and small n. Pure transforms.
+States graph-construction choices and small n. Pure transforms.
 """
 import json
 import os

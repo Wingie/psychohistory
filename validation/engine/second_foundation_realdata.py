@@ -33,14 +33,14 @@ PRIMARY METRIC (the divergence window, onset -> flag).
 The integrated forecast error over the divergence window (ramp onset to the
 monitor flag) directly contrasts open-loop DIVERGING against closed-loop TRACKING.
 We report this ratio, the detection lag (steps from onset to the flag), and we
-ALSO report the full window through the collapse with an honest note, because at
+ALSO report the full window through the collapse with a note, because at
 the collapse step itself the frozen-flat open-loop accidentally lands near the
 post-collapse level while the ramp-tracking closed-loop eats the full collapse
 surprise (z = -4.71). That collapse-step surprise is precisely what the monitor
 flags: the value of the closed loop at the break is the DETECTION, while across
 the divergence window it is the lower tracking error. Both are stated plainly.
 
-HONEST SCOPE (stated positively)
+SCOPE (stated positively)
 --------------------------------
 One block, one real OOD event, monthly resolution: a real-data instance of the
 detect-and-correct chain. The magnitudes (the exact error ratio) are properties

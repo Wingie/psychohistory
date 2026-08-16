@@ -31,7 +31,7 @@
       "COND1 magnitude: median 0.1383 < f 0.3936",
       "COND2 beats-clean-null: median 0.1383 <= clean_p90 0.3604; MannWhitney p=0.06895672970625476"
     ],
-    "VERDICT": "SEALED NOT"
+    "VERDICT": "NOT A PASS"
   },
   "runs": [
     {

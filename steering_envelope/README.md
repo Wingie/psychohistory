@@ -57,7 +57,7 @@ historical transitions better than v alone or s alone?**
       fit.py            nested logistic/Gaussian comparisons, AUC, AIC/BIC,
                         LR tests, leave-one-decade-out
       roads.py aviation.py finance.py nuclear.py ai_proxy.py run_all.py
-      curated/          committed hand-coded s-proxies, sources + honesty notes
+      curated/          committed hand-coded s-proxies, sources + coding notes
       data/             raw downloads (gitignored, regenerable)
       results/          per-domain JSON results
     notebooks/          01_model.ipynb, 02_validation.ipynb (executed)
@@ -70,7 +70,7 @@ Quickstart:
     python -m pytest steering_envelope/tests -q      # acceptance suite
     python -m steering_envelope.validate.run_all     # fetches+caches, fits, figures
 
-## Pre-registered analysis (frozen before the published run)
+## Analysis specification
 
 Fit windows, event definitions and holdouts:
 
@@ -124,10 +124,10 @@ The null binary result is retained and reported in `results/roads.json`
 | ai | leading indicators | — | — | no outcome data; ratio peaked 2014-16 above every historical corner band, now below its own mean on these proxies |
 
 Scoreboard: the steering term survives in 2/3 fittable domains
-(falsification required it to fail in 3/3 or 2/3); speed survives in 2/3.
+(the stated losing condition was surviving in 0-1 of 3); speed survives in 2/3.
 Where the tests are sharpest (finance, the only true panel), the **ratio
 form generalizes best out-of-sample**, which is precisely the s/acc form.
-Aviation is logged as the technical miss the frozen rules require, with the thermostat reading recorded beside it: the one domain with an institutional speed governor shows no v-signal, exactly as a well-obeyed envelope rule predicts (governed throttle: no v-signal; ungoverned roads and credit: v-signal in both). The
+Aviation is logged as a technical miss, with the thermostat reading recorded beside it: the one domain with an institutional speed governor shows no v-signal, exactly as a well-obeyed envelope rule predicts (governed throttle: no v-signal; ungoverned roads and credit: v-signal in both). The
 Schularick-Taylor credit-boom result reproduces before our addition is
 tested. Model-layer acceptance: the e/acc preset lands 61% crash+pileup,
 the saxxer preset's plurality outcome is convoy (0.79), the mean-field

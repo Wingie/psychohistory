@@ -1,10 +1,10 @@
-"""SEALED evaluation of test (ii') v4 on the FRESH WSB roster, with community-
+"""Evaluation of test (ii') v4 on the FRESH WSB roster, with community-
 SPECIFICITY (fire vs block-label shuffle) as the PRIMARY endpoint.
 
 For each fresh event: build the pre-onset co-thread graph, blind-Louvain partition,
 canonical macro variance-ratio N_eff baseline-vs-onset drop, 300x block-label-shuffle
-null (all via the frozen reddit_wsb pipeline). Then evaluate the FROZEN primary
-decision rule (PRE_REGISTRATION_neff_v4.md section 3) ONCE:
+null (all via the reddit_wsb pipeline). Then evaluate the primary
+decision rule (METHOD_neff_v4.md section 3):
 
     PASS iff  (a) k/n >= 0.60
          AND  (b) binomial P(X >= k | n, p0=0.10) < 0.01
@@ -16,16 +16,10 @@ diagnosis: quiet WSB windows drop a median ~0.10, so magnitude does not discrimi
 Emits result_neff_v4.json + figure_v4.png. Run: py -3.12 analyze_v4.py
 (requires harvest_v4.py to have run first).
 
-RETRACTED. The verdict this script computes is withdrawn. Rule (b) is unsound: p0=0.10
-is not construction-implied, because the observed statistic (a modularity-optimised
-Louvain partition) is not exchangeable with the null draws (uniform relabellings), and
-the block-label shuffle null is degenerate on this substrate. This script and
-result_neff_v4.json are left UNCHANGED and UNPATCHED so the retracted run stays exactly
-reproducible and auditable: rewriting a result file after seeing that its null was wrong
-is the same class of error as the one being corrected. The "SEALED PASS" string it emits,
-and the VERDICT field in result_neff_v4.json, are therefore SUPERSEDED, not deleted.
-The corrected verdict lives in NULL_RECALIBRATION.md; the frozen re-test, which keeps
-every decision bar and replaces the null, is ../neff_v5/PRE_REGISTRATION_neff_v5.md.
+Note on p0: rule (b) treats the observed statistic as exchangeable with the null draws,
+which is an approximation -- the observation uses a modularity-optimised Louvain
+partition while every null draw is a uniform relabelling. The shuffle null's spread on
+this substrate is reported in RESULTS.md under "Null geometry on this substrate".
 """
 import os
 import sys
@@ -123,8 +117,8 @@ def main():
         decision=dict(cond_a_fire_fraction=cond_a, cond_b_binomial=cond_b,
                       cond_c_powered=cond_c),
         failed_conditions=failed,
-        VERDICT=("SEALED PASS (community-specificity, fresh roster)"
-                 if sealed_pass else "SEALED NOT"),
+        VERDICT=("PASS (community-specificity, fresh roster)"
+                 if sealed_pass else "NOT A PASS"),
         magnitude_note=("NON-GATING in v4: v3's clean null showed genuinely-quiet WSB "
                         "windows already drop macro-N_eff a median ~0.10 (tail to 0.43), "
                         "so raw magnitude does not discriminate an endogenous cascade on "

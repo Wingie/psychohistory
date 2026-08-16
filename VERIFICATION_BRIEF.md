@@ -67,16 +67,16 @@ numerical suite testing its postulates for internal consistency. The core argume
    loop (vestigial `d=...` and `tau.append(rbar)` later overwritten) and the final
    E4 figure was produced by a separate inline script. Clean merge wanted.
 7. **Paper claims vs sims.** The sims verify *internal consistency only* (the paper's
-   own equations produce the claimed phenomena). Confirm the paper never overclaims
-   empirical validation. §Limits has a falsifiability list — check the sims don't get
-   cited as satisfying it.
+   own equations produce the claimed phenomena). Confirm the paper does not cite them
+   as empirical validation. §Limits lists the program's empirical commitments — check
+   the sims don't get cited as satisfying them.
 8. **Factual spot-checks.** SVB running-example claims (§1 and threaded): high-level
    accuracy of the March 2023 sequence (community-concentrated run, Twitter
    acceleration, Sunday deposit guarantee). Citations: Lasry-Lions 2007, Simon 1962/
    1971, Airoldi 2008, Scheffer 2009, Pathak 2022 — verify all real and correctly
    attributed. Lethain/systems library attribution.
 
-## Known weaknesses (don't let us hide them)
+## Known weaknesses
 
 - The MFG "solved inside the forward model" closure (Eq. closure) is asserted, not
   demonstrated; no MFG solver exists in sims.py. E5 is a 1-D cartoon of the fixed-point
@@ -90,5 +90,4 @@ numerical suite testing its postulates for internal consistency. The core argume
 ## Verdict format requested
 
 Per item above: PASS / FAIL / PARTIAL with one-line justification, plus any corrected
-code or corrected equations. Be adversarial. The authors explicitly prefer a broken
-claim found now over a referee finding it later.
+code or corrected equations. A broken claim found now is worth more than one found later.

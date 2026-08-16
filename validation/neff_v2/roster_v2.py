@@ -1,9 +1,9 @@
-"""FRESH roster for the SEALED dynamic-N_eff-collapse test (test ii', v2).
+"""FRESH roster for the dynamic-N_eff-collapse test (test ii', v2).
 
-Committed BEFORE harvest (see PRE_REGISTRATION_neff_v2.md). DISJOINT from the 20
-tuning titles in validation/wikipedia/roster.py -- none reused.
+See METHOD_neff_v2.md. DISJOINT from the 20 tuning titles in
+validation/wikipedia/roster.py -- none reused.
 
-Inclusion rule (frozen): article ALREADY EXISTED with steady editing before a clean
+Inclusion rule: article ALREADY EXISTED with steady editing before a clean
 EXTERNAL onset (public event date, not chosen from edit data); a genuinely-quiet
 pre-onset calm window plausibly exists; selected for pre-onset activity to clear K>=3,
 NOT for collapse outcome; mix endogenous-community and a few exogenous shocks.
@@ -39,7 +39,7 @@ POST_DAYS = 21
 EDITOR_CAP = 150
 CALM_OFFSET_DAYS = 365   # kept only so harvest can pull a calm island for the clean-null
                          # window search; the clean null is the V2 genuinely-quiet window,
-                         # NOT this fixed offset (see PRE_REGISTRATION_neff_v2.md).
+                         # NOT this fixed offset (see METHOD_neff_v2.md).
 
 
 def calm_onset(onset_iso):

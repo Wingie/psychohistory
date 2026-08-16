@@ -8,7 +8,7 @@
 > loop** (the "Second Foundation") *mathematically necessary*, and why in a model
 > **monoculture** that controller is simultaneously **necessary and dangerous**.
 
-> ⚠️ **HONESTY RAIL — READ FIRST.** This is a **theoretical / scenario analysis with
+> ⚠️ **SCOPE — READ FIRST.** This is a **theoretical / scenario analysis with
 > illustrative parameters**, **not a calibrated forecast**. No number here is fit to
 > data. The simulations demonstrate the **STRUCTURE** — divergence vs boundedness,
 > the detection lag, and how post-shock error scales with `L_eff` — and the
@@ -337,7 +337,7 @@ and dangerous in the same breath**, and it is *least* dangerous precisely when i
 
 ---
 
-## Honest caveats (restated, prominent)
+## Caveats (restated, prominent)
 
 1. **Scenario, not forecast.** Illustrative parameters, zero empirical calibration.
    No number is a prediction. The **simulation demonstrates the STRUCTURE**
@@ -355,7 +355,7 @@ and dangerous in the same breath**, and it is *least* dangerous precisely when i
 4. **EWS blind spots apply (L5).** Detection here is post-hoc change-point detection,
    which is exactly the regime where early-warning signals fail (N-tipping /
    R-tipping have no precursor). The Second Foundation is an *after-onset repair*, not
-   an early-warning system — consistent with the framework's anti-overclaim discipline
+   an early-warning system — consistent with the framework's scoping discipline
    and with Asimov (the Mule wins move one).
 5. **Internal consistency only.** Like all psychohistory sims, this verifies the
    cartoon is self-consistent. It is **never** evidence about the real world.

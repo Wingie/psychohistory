@@ -1,5 +1,5 @@
 {
-  "test": "pre-registration (i) conservation / zero-sum attention, ECOSYSTEM scale",
+  "test": "test (i) conservation / zero-sum attention, ECOSYSTEM scale",
   "proxy": "weekly submission count (activity proxy for attention-minutes)",
   "thresholds": {
     "X_drift_bound": 0.15,
@@ -90,5 +90,5 @@
     "churn_TV": 0.3945,
     "churn_pct": 39.4
   },
-  "scale_caveat": "Submission count is an activity proxy for attention-minutes, not a direct measure. This finance/meme basket is NOT the whole attention economy; a balloon here can be genuine import of attention from outside the basket (people reallocating from non-finance subs and from offline) rather than a refutation of the GLOBAL sub-generational-budget claim. The pre-registered global test fixes the scale to the top-N platform total, which this single-ecosystem basket does not span."
+  "scale_caveat": "Submission count is an activity proxy for attention-minutes, not a direct measure. This finance/meme basket is NOT the whole attention economy; a balloon here can be genuine import of attention from outside the basket (people reallocating from non-finance subs and from offline) rather than a contradiction of the GLOBAL sub-generational-budget claim. The global test fixes the scale to the top-N platform total, which this single-ecosystem basket does not span."
 }

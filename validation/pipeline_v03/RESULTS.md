@@ -116,7 +116,7 @@ component of the pre-onset slice → K, modularity. Freeze partition; advance wi
 
 **VERDICT: near-decomposability (blocks distinct pre-lock) is CONFIRMED blind on
 Reddit (modularity 0.75); the N_eff *collapse* is only suggestive (1 GitHub repo,
-ratio 0.77) and NULL on the Reddit designated onset.** This is the honest split: the
+ratio 0.77) and NULL on the Reddit designated onset.** The split: the
 *structural* half (distinct pre-onset blocks, recovered without selection bias) is
 robust; the *dynamic* half (collapse across the onset) is not established here,
 because the only substrate with a real cascade onset (GitHub) has no pre-onset
@@ -177,7 +177,7 @@ mechanisms here: **+0.90 on the endogenous GME cascade vs +0.01 on the exogenous
 tariff shock.** The belief vector carries early-warning information the scalar
 density provably could not — which is the precise critique this objective targets.
 
-**Honest caveats:** n = 2 events (1 endogenous, 1 exogenous) — illustrative, not a
+**Caveats:** n = 2 events (1 endogenous, 1 exogenous) — illustrative, not a
 calibrated classifier; the GME corpus is a **capped sample** (≤100 posts/2-day query
 from Arctic Shift search, 2500 total; not the full firehose); WSB titles are short
 and noisy ("nice", emoji); daily bucketing with a 4-bucket sub-window gives short
@@ -197,7 +197,7 @@ Files: `result_semantic_csd.json`, `figure_semantic_csd.png`, `reharvest_text.py
 | block structure | post-hoc *known* meme basket (selection bias flagged) | **blind** Louvain finds K=16 distinct blocks at **modularity 0.75** — bias-free near-decomposability |
 | early warning | impersonal volume-CSD **washed out** (AUC≈0.5) | **semantic** CSD fires +0.90 on endogenous GME, +0.01 on exogenous tariff — **discriminates** |
 
-## Overall honest assessment
+## Overall assessment
 
 Two of the three upgrades land cleanly. **OBJ 3 (concentration invariant)** is the
 strongest result: one time-invariant flag fires across both platforms, operationalizing
