@@ -7,7 +7,7 @@ deliberately **silent on individuals**. It supplies the *source terms* (inflows)
 *totals* (conserved boundaries) that the faster layers (L2 attention, L3 blocks, L5
 criticality) ride on top of.
 
-> Rule of thumb: if the honest answer is "flows at rate x with attrition y imply stock z
+> Rule of thumb: if the answer is "flows at rate x with attrition y imply stock z
 > in two quarters," you are in L1 and you should just *build the stock-flow and run it*.
 
 ---
@@ -223,6 +223,6 @@ recurs for every institutional-design question.
       until fetched.
 - [ ] **Institutional questions:** pair the stock-flow with qualitative incentive reasoning
       ("LLM'd and lethained") and defer the fusion to **L7**.
-- [ ] **Honesty:** L1 is reliable but **silent on individuals and on timing of fast events**.
+- [ ] **Scope:** L1 is reliable but **silent on individuals and on timing of fast events**.
       Never let an L1 stock-flow masquerade as a forecast of a panic, a crash, or a vote —
       those live on L4/L5.

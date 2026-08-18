@@ -16,7 +16,7 @@ collapse:
   PR_baseline and PR_onset for the REAL partition and for shuffled partitions, and
   ask whether the REAL onset PR-collapse (PR_base - PR_onset) is more extreme than
   the shuffle distribution. If real != shuffle on STRUCTURE, a specificity signal
-  survives even though the scalar gate fired 0/14. Honest either way.
+  survives even though the scalar gate fired 0/14.
 
 Writes v3_specificity.json.
 """

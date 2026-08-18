@@ -23,7 +23,7 @@ Matrix form `x_{t+1} = F x_t + w`, `F = [[1, 1], [0, phi]]`. This is a log rando
 
 **Observation operator** `H = [1, 0]`: we observe the level (= log-activity) plus measurement/sampling noise `v ~ N(0, R)`. So `y_t = a_t + v`.
 
-Noise levels are estimated from the data scale (variance of 1-step log changes, `step_var = 0.0289`): `Q = diag(0.5·step_var, 0.25·step_var)`, `R = 0.3·step_var`. One block, honest and simple — no per-step tuning, no peeking at future data.
+Noise levels are estimated from the data scale (variance of 1-step log changes, `step_var = 0.0289`): `Q = diag(0.5·step_var, 0.25·step_var)`, `R = 0.3·step_var`. One block, simple — no per-step tuning, no peeking at future data.
 
 ### EnKF loop + forward test (the point)
 Standard **stochastic (perturbed-observation) EnKF**, `N = 80` members:
@@ -58,7 +58,7 @@ All metrics are in **log-activity units** (dimensionless log-counts).
 ### Verdict — does assimilation beat the baselines?
 
 - **vs Climatology: YES.** The EnKF beats climatology on every metric (RMSE 0.181 vs 0.224, CRPS 0.101 vs 0.118). Assimilation clearly extracts more than the unconditional running mean — it tracks the level.
-- **vs Persistence: NO (essentially tied, marginally worse).** EnKF RMSE 0.1806 vs persistence 0.1786 (+1.1%); CRPS 0.1005 vs 0.0937 (+7%). On a monthly log random walk, **last value is a hard baseline to beat**, and the EnKF does not beat it here. This is an **honest negative** for the strong form of the smooth-regime skill claim at monthly resolution on this single block.
+- **vs Persistence: NO (essentially tied, marginally worse).** EnKF RMSE 0.1806 vs persistence 0.1786 (+1.1%); CRPS 0.1005 vs 0.0937 (+7%). On a monthly log random walk, **last value is a hard baseline to beat**, and the EnKF does not beat it here. This is a **negative** for the strong form of the smooth-regime skill claim at monthly resolution on this single block.
 
 So `enkf_beats_all_baselines = false`. The assimilation loop runs, is well-calibrated, and dominates climatology, but it does **not** demonstrate skill over persistence on this series.
 
@@ -77,7 +77,7 @@ This is the constructive half of the result: even where the EnKF does not beat p
 
 ---
 
-## Honest caveats
+## Caveats
 
 - **One block, one series.** AskEconomics only. Nothing here generalizes; it is a single demonstration.
 - **Simple forward model.** Local-linear-trend in log-activity. No seasonality, no exogenous drivers, no coupling to other blocks. A richer model might (or might not) beat persistence.
@@ -86,8 +86,8 @@ This is the constructive half of the result: even where the EnKF does not beat p
 - **Noise levels are heuristic** (fractions of the empirical 1-step variance), not fitted by MLE. Different `Q/R/phi` would shift the numbers; they were fixed *a priori* from the data scale to avoid in-sample tuning, but they are not optimal.
 - **What this is:** a demonstration that the assimilation loop **runs end-to-end, is strictly causal, yields a SCORED forward forecast distribution, is well-calibrated, and that its misspecification monitor fires on a real regime break.** It is **not** a validated forecaster, and on this block it does **not** establish skill over persistence.
 
-### Tie to the falsification program
-The smooth-regime skill claim is **falsifiable** and was put at risk here: a forward test that fails to beat persistence is a real, reportable negative, and we report it as one. The claim survives only in the weaker, defensible form — *better than climatology, well-calibrated, and equipped with a working out-of-model detector* — pending richer models, more blocks, and finer resolution.
+### What the smooth-regime skill claim comes to here
+A forward test that fails to beat persistence is a real, reportable negative, and it is reported as one. The claim holds in the weaker form — *better than climatology, well-calibrated, and equipped with a working out-of-model detector* — pending richer models, more blocks, and finer resolution.
 
 ---
 

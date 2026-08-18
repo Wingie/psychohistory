@@ -109,11 +109,11 @@ The DFV / Roaring Kitty signal rises **monotonically for 13 consecutive weeks**
 together at the squeeze. The operator was a sustained, self-amplifying internal
 voice for a full quarter — exactly the operator-priming signature.
 
-**Honest nuance:** the *peak-to-peak* lead-lag is **0 weeks** — operator and crowd
+**Nuance:** the *peak-to-peak* lead-lag is **0 weeks** — operator and crowd
 peak in the same week. The operator lead lives in the **shape and duration of the
 run-up**, not in a clean weekly peak offset. At weekly resolution the true DFV→crowd
 lead (days) is below the resolution floor. So GameStop is operator-LED by *buildup*,
-**coincident by peak-timing**. We report both and do not overclaim a peak lead.
+**coincident by peak-timing**. Both are reported; no peak lead is claimed.
 
 ### 2. AskEconomics 2025 tariff shock — tariff/Trump vs aggregate  (exogenous / contrast)
 
@@ -188,7 +188,7 @@ fluctuation statistics do not.
 
 ---
 
-## Honest caveats
+## Caveats
 
 - **n = 2 events (3 series). Illustrative, not conclusive.** One endogenous case
   and two exogenous contrasts. This demonstrates the detector *can* separate the
@@ -206,7 +206,7 @@ fluctuation statistics do not.
 - **The external-entity-mention proxy for AskEconomics is imperfect.** "tariff",
   "Trump", "inflation", "Fed" are crude stand-ins for the would-be operator. The
   2025 tariff DID have a genuine ~3-week anticipatory ramp because the policy was
-  pre-announced — so "no internal lead at all" is too strong; the honest statement
+  pre-announced — so "no internal lead at all" is too strong; the accurate statement
   is "a *short* news-anticipation ramp, not a *sustained* internal-operator
   buildup." "inflation"/"Fed" are perennial background topics, so their flatness is
   partly a base-rate artifact.

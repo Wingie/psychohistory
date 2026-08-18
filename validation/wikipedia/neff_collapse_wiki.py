@@ -15,7 +15,7 @@ For each frozen roster run (event + matched-calm):
   5. Concentration (Upgrade-3 cross-domain): editor edit-count gini/hhi/top5 pre-onset.
 
 Emits result_wiki_neff.json + figure_wiki_neff.png. Evaluates the FROZEN decision rule
-from PRE_REGISTRATION_wiki.md. Run: py -3.12 neff_collapse_wiki.py
+from METHOD_wiki.md. Run: py -3.12 neff_collapse_wiki.py
 """
 import json
 import os

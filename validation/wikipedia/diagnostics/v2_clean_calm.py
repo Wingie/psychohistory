@@ -9,7 +9,7 @@ harvested pre-onset span: slide a 49-day window and choose the start with the
 LOWEST focal-edit volume, treating its center as a clean "calm onset", then run
 the frozen collapse pipeline (frozen pre-onset partition + macro metric) on it.
 
-HARVEST CONSTRAINT (honest): the event-arm focal_revs only span ~[onset-90d,
+HARVEST CONSTRAINT: the event-arm focal_revs only span ~[onset-90d,
 onset+22d]; the calm-arm focal_revs span ~[onset-455d, onset-343d]. So the
 available pre-onset coverage is roughly two islands near onset-365d and near
 onset-90d, NOT a continuous 2-year record. We search the cleanest window inside

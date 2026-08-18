@@ -19,7 +19,7 @@
 
 **VERDICT: CONTRADICTS (as a within-sub test).** Net of the simplex constraint there is no genuine cross-topic trade-off, and the total budget visibly inflates under the shock. The one strong anti-correlation is a mechanical residual artifact, not conservation.
 
-**Honest caveat.** A single subreddit is a **weak proxy** for the ecosystem-wide attention-conservation claim. Conservation in the framework is across the *whole media ecosystem*; one sub can freely import/export attention from the rest of the internet, so within-sub elasticity does NOT refute ecosystem-level conservation. Treat this as a pilot signal, not a verdict on the framework.
+**Caveat.** A single subreddit is a **weak proxy** for the ecosystem-wide attention-conservation claim. Conservation in the framework is across the *whole media ecosystem*; one sub can freely import/export attention from the rest of the internet, so within-sub elasticity does NOT refute ecosystem-level conservation. Treat this as a pilot signal, not a verdict on the framework.
 
 **What fuller data would need.** Cross-subreddit (ideally cross-platform) total attention with a fixed denominator — a panel of many subs/sites measured simultaneously — so the simplex is over the real ecosystem, plus a permutation null for the de-trended correlation matrix.
 
@@ -39,7 +39,7 @@
 
 **Key interpretation.** The tariff shock was an **exogenous policy surprise** (rate/noise-induced tipping). The framework *predicts no critical-slowing-down* for such events. The observed NULL is therefore **consistent with the framework's own claim** — and importantly, we did NOT manufacture a false positive from reactive volume. (Had we seen a strong pre-event rise beating the null, that would have been evidence *against* the CSD claim or merely reactive volume; we did not.)
 
-**Honest caveat.** This is one event, in one sub, over ~10 weeks. A NULL on a single exogenous shock confirms the *negative* prediction but says nothing about the *positive* one (that endogenous bifurcations DO show CSD) — we have no labeled endogenous-bifurcation event here to test that direction.
+**Caveat.** This is one event, in one sub, over ~10 weeks. A NULL on a single exogenous shock confirms the *negative* prediction but says nothing about the *positive* one (that endogenous bifurcations DO show CSD) — we have no labeled endogenous-bifurcation event here to test that direction.
 
 **What fuller data would need.** Multiple labeled events of *both* kinds — exogenous shocks (expect null) and endogenous build-ups like bubbles/bank-runs (expect a rise) — to estimate a real ROC, not a single-point AUC.
 
@@ -58,12 +58,12 @@
 
 **VERDICT: INCONCLUSIVE-PILOT (method demonstrated; first number suggests strong coupling).** The numbers point to substantial synchronization (5 nominal blocks collapse to N_eff ≈ 1.5–2.2 effective), but the window is far too short to trust.
 
-**Honest caveat.** The overlap is only **12 days**. With ~12 points, both the correlation matrix and the variance-ratio N_eff are high-variance and easily inflated by a single shared weekly/news cycle (the 05-15 spike likely dominates). This is a **feasibility pilot that demonstrates the METHOD and yields a first number, not a conclusive test.** These location subs also share language/EU-news exposure, so high coupling is unsurprising and is not evidence for the framework's specific near-decomposability prediction.
+**Caveat.** The overlap is only **12 days**. With ~12 points, both the correlation matrix and the variance-ratio N_eff are high-variance and easily inflated by a single shared weekly/news cycle (the 05-15 spike likely dominates). This is a **feasibility pilot that demonstrates the METHOD and yields a first number, not a conclusive test.** These location subs also share language/EU-news exposure, so high coupling is unsurprising and is not evidence for the framework's specific near-decomposability prediction.
 
 **What fuller data would need.** Months of overlapping daily data across all blocks (to stabilize variance-ratio), plus a within-block / between-block separation-of-timescales test, and a null from shuffled or unrelated subreddits to show N_eff < N is specific rather than generic.
 
 ---
 
-## Overall Honest Assessment
+## Overall Assessment
 
-What we have now **actually measured against real social data**, for the first time: (1) the event-detector and the strict-cutoff early-warning + base-rate-null pipeline are **real and working**, and on a genuinely exogenous shock they correctly returned **NULL** (AUC 0.36/0.21) — the framework's *negative* CSD prediction survived a fair test that could have falsified it; (2) the macro variance-ratio N_eff estimator runs on real multi-block data and yields a concrete number (N_eff ≈ 1.5–2.2 of 5). What we **cannot** yet claim: the zero-sum *conservation* law (the within-sub test CONTRADICTS it, but a single sub is the wrong measurement scale, so this is unresolved, not falsified), the *positive* CSD prediction (no endogenous-bifurcation event in this data), and the block-synchronization claim (12-day window is a feasibility demo only). In short: one falsifiable prediction passed a real test, one cleanly contradicts at the wrong scale, and the rest remain **internal-consistency-only** pending longer spans, more labeled events, and ecosystem-wide (cross-subreddit/cross-platform) attention totals.
+What we have now **actually measured against real social data**, for the first time: (1) the event-detector and the strict-cutoff early-warning + base-rate-null pipeline are **real and working**, and on a genuinely exogenous shock they correctly returned **NULL** (AUC 0.36/0.21), matching the framework's *negative* CSD prediction; (2) the macro variance-ratio N_eff estimator runs on real multi-block data and yields a concrete number (N_eff ≈ 1.5–2.2 of 5). What we **cannot** yet claim: the zero-sum *conservation* law (the within-sub test CONTRADICTS it, but a single sub is the wrong measurement scale, so this is unresolved), the *positive* CSD prediction (no endogenous-bifurcation event in this data), and the block-synchronization claim (12-day window is a feasibility demo only). In short: one prediction passed a real test, one cleanly contradicts at the wrong scale, and the rest remain **internal-consistency-only** pending longer spans, more labeled events, and ecosystem-wide (cross-subreddit/cross-platform) attention totals.

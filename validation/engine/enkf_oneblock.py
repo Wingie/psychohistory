@@ -44,7 +44,7 @@ OBSERVATION OPERATOR
 OUTPUTS (written next to this file)
     enkf_forward.png   forecast vs actual w/ ensemble spread + innovation monitor
     enkf_results.json  RMSE/CRPS/coverage for EnKF vs persistence vs climatology
-    RESULTS.md         method, numbers, verdict, monitor result, honest caveats
+    RESULTS.md         method, numbers, verdict, monitor result, caveats
 
 CPU only. numpy + matplotlib(Agg). No GPU, no sklearn.
 """
@@ -113,7 +113,7 @@ def run_enkf(y, n_ens=N_ENS, phi=PHI, seed=SEED):
     F = np.array([[1.0, 1.0], [0.0, phi]])
     H = np.array([[1.0, 0.0]])
 
-    # --- noise levels, estimated from the data scale (one block, honest & simple)
+    # --- noise levels, estimated from the data scale (one block, simple)
     dy = np.diff(y)
     step_var = float(np.var(dy))                 # scale of 1-step changes in log-activity
     Q = np.array([[0.5 * step_var, 0.0],         # process noise on [level, trend]
@@ -209,7 +209,7 @@ def main():
     idx = res["target_idx"]
     actual = y[idx]
 
-    # restrict scoring to AFTER spin-up (filter warmed) for an honest comparison
+    # restrict scoring to AFTER spin-up (filter warmed) for a like-for-like comparison
     keep = idx >= SPINUP
     sidx = idx[keep]
     a = y[sidx]

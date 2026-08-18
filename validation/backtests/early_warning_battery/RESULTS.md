@@ -1,4 +1,4 @@
-# Early-warning falsification battery — RESULTS
+# Early-warning battery — RESULTS
 
 **Question.** The bounded-psychohistory framework predicts *critical slowing
 down* (rising variance + lag-1 autocorrelation of fluctuations) in the run-up to
@@ -83,7 +83,7 @@ the un-detrended level; this is *why* the detrended CSD detector is the primary.
   framework needs **does not hold** at this N and resolution.
 - This **does not contradict** the framework (GME is a genuine positive and no
   endogenous case is systematically worse than its controls), but it **falls
-  short of confirming** the dissociation. Honest reading: *promising on the
+  short of confirming** the dissociation. Reading: *promising on the
   cleanest cases, unproven as a general dissociation.*
 
 ### Window-sensitivity (transparency — the verdict is NOT tuned to a window)
@@ -104,7 +104,7 @@ all four avoids cherry-picking.
 
 ---
 
-## Honest caveats (read before citing any number)
+## Caveats (read before citing any number)
 1. **Activity proxy.** Submission *density* (posts/hr from the first 100 posts of
    a week) is a proxy for posting rate, not a clean count, and not sentiment or
    belief. It tracks the GME cascade convincingly but is one step removed from
@@ -117,23 +117,23 @@ all four avoids cherry-picking.
    *coarsest exactly for the exogenous controls*, so their AUCs (e.g. inflation
    0.832) are unreliable and may be inflating the apparent non-separation.
 4. **Heuristic labels and onsets.** Both are judgment calls, listed explicitly in
-   `roster.md` so a reviewer can flip them (e.g. FTX endo vs exo, Luna onset
+   `roster.md` so a reader can flip them (e.g. FTX endo vs exo, Luna onset
    week) and re-run. The verdict is sensitive to a couple of these.
 5. **Small N, shared subreddits.** 6 endogenous / 4 exogenous, several sharing a
    subreddit → events are not independent; the Mann–Whitney is underpowered.
 6. **r/wallstreetbets aggregate gap.** The Arctic Shift aggregate endpoint could
    not serve wsb at all; the decisive case rests entirely on the search-density
    proxy. Cross-checking against an independent count source would strengthen it.
-7. **Preliminary, not publication-grade.** This is a real falsification *attempt*
-   with a guard against the prosecutor's fallacy, not a finished study.
+7. **Preliminary.** This is a single battery run with a guard against the
+   prosecutor's fallacy, not a finished study.
 
 ### What a stronger battery would add
 - **Finer resolution** (daily counts) → many more Kendall-τ points → far less
   chunky per-event AUCs and a real null distribution.
 - **True counts**, not density, via a complete-coverage dump (e.g. Pushshift
   archives) — especially for the busy meme subs.
-- **A bigger, pre-registered roster** (20–40 events) across many independent
-  subreddits, with labels and onsets fixed *before* scoring, enough to power the
+- **A bigger roster** (20–40 events) across many independent subreddits, with
+  labels and onsets set independently of the scores, enough to power the
   Mann–Whitney.
 - **Sentiment/belief series**, not just activity, to test the mechanism the
   theory actually names.

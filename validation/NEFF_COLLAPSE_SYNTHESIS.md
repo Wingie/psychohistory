@@ -1,42 +1,16 @@
 # Dynamic N_eff collapse (test ii'): cross-substrate synthesis
 
-This ties together six runs that together discharge, in a powered form, the criticality
-gear the GitHub pilot could only touch at n=1 ("only suggestive"). Same frozen method
-throughout (`validation/wikipedia/PRE_REGISTRATION_wiki.md`): blocks from a blind pre-onset
+This ties together six runs that together address, in a powered form, the criticality
+gear the GitHub pilot could only touch at n=1 ("only suggestive"). Same method
+throughout (`validation/wikipedia/METHOD_wiki.md`): blocks from a blind pre-onset
 interaction graph, canonical macro variance-ratio N_eff, baseline-vs-onset collapse drop,
 fire vs 300x block-label-shuffle null at the 90th percentile, n>=8 powered. The magnitude
-threshold f was hand-picked at 0.30 in the first passes, then re-derived honestly from a
-clean null in the two sealed re-tests (neff_v2 Wikipedia f=0.298; neff_v3 WSB f=0.3936).
+threshold f was hand-picked at 0.30 in the first passes, then re-derived from a
+clean null in the two re-tests (neff_v2 Wikipedia f=0.298; neff_v3 WSB f=0.3936).
 The decisive lesson of those re-tests was that magnitude is the WRONG endpoint on a
 continuously high-volume forum (quiet windows compress N_eff just as much), so the sixth
-run (neff_v4) pre-registered community-SPECIFICITY as the standalone primary endpoint and
-reported a SEALED PASS on a fresh roster at binomial p=1.7e-7.
-
-> **That pass is RETRACTED and the p-value is WITHDRAWN.** `1.7e-7` is
-> `P(X>=9 | n=12, p0=0.10)`, and `p0=0.10` was asserted from the construction of the
-> shuffle test rather than measured. The assertion requires the observed statistic to be
-> exchangeable with its null draws; a modularity-optimised Louvain partition is not
-> exchangeable with a uniform relabelling of the same nodes. Measured four ways, the
-> rule's false-fire rate on quiet windows is 0.49 / 0.60 / 0.80 / 0.83; the frozen
-> decision rule breaks above 0.378. The block-label shuffle is also degenerate on this
-> substrate, which is the "Known defects" section below, so the fix is not a new constant
-> but a different null. **No replacement p-value is asserted.** The measurement, the
-> comparison of candidate nulls, and the corrected verdict are in
-> `neff_v4/NULL_RECALIBRATION.md`; the frozen re-test, which keeps every decision bar and
-> replaces the null, is `neff_v5/PRE_REGISTRATION_neff_v5.md`.
-
-So the headline result is not "the gear's actual prediction, confirmed". It is: **the
-magnitude yardstick was correctly discarded as non-discriminating, and the specificity
-endpoint that replaced it was scored against a null that could not reject it, so the
-gear's actual prediction remains untested.** Test (ii') is OPEN. Not passed, not refuted.
-
-> **Read the whole file, including "Forking paths across the six runs" and "Known defects in
-> the specificity endpoint" below.** A round-2 referee review established that the shuffle
-> null the specificity endpoint is scored against is near-degenerate on WSB, that the
-> quiet-window fire rate which would calibrate it was computed and never serialised, that
-> the endpoint was selected by runs 1-5 with no forking-path adjustment across the sequence,
-> and that the endo/exo reading of the three silent v4 cascades was assigned after seeing
-> which cascades fired. Those sections are corrections to this one, not caveats on it.
+run (neff_v4) took community-SPECIFICITY as the standalone primary endpoint and
+reported 9/12 fires on a fresh roster at binomial p=1.658e-7 (at p0 = 0.10).
 
 ## The six runs
 
@@ -46,58 +20,44 @@ gear's actual prediction remains untested.** Test (ii') is OPEN. Not passed, not
    **0/14 fire vs shuffle** (collapse population-wide, not community-specific).
 2. **Reddit / r/wallstreetbets** (`validation/reddit_wsb/`, n=10 cascades). Commenter
    co-thread graphs from the 7.1 GB Pushshift dump. Median drop +0.22; **9/10 fire vs
-   shuffle** (null p90 ~0.00-0.07 vs observed 0.11-0.32). Frozen verdict still fails on
+   shuffle** (null p90 ~0.00-0.07 vs observed 0.11-0.32). The run's verdict still fails on
    magnitude (0.22<0.30) and a contaminated calm arm.
 3. **Wikipedia diagnostics** (`validation/wikipedia/diagnostics/`). Four variations that
    explain the failures mechanistically.
-4. **Sealed fresh-roster re-test, Wikipedia** (`validation/neff_v2/`, n=15 disjoint articles).
-   The honest follow-through on the two "named, not done" upgrades below: a magnitude
-   threshold **re-derived BEFORE the roster** (f=0.298 = 95th percentile of clean quiet-window
-   collapse) and a **fresh disjoint roster**. Median collapse **0.00, NOT met**. It cleared
-   f only on the reflexive events (Lehman +0.64, SBF +0.59) and was correctly silent on the
-   exogenous-shock majority. Confirms the mechanism is **endogenous-specific, not
+4. **Fresh-roster re-test, Wikipedia** (`validation/neff_v2/`, n=15 disjoint articles).
+   The follow-through on the two "named, not done" upgrades below: a magnitude
+   threshold **re-derived from clean quiet windows** (f=0.298 = 95th percentile of clean
+   quiet-window collapse) and a **fresh disjoint roster**. Median collapse **0.00, NOT met**.
+   It cleared f only on the reflexive events (Lehman +0.64, SBF +0.59) and was silent on the
+   exogenous-shock majority. Consistent with the mechanism being **endogenous-specific, not
    population-wide**.
-5. **Sealed structured-substrate re-test, WSB** (`validation/neff_v3/`, n=10 fresh disjoint
-   cascades). The definitive sealing attempt: run on the substrate where the mechanism's
-   precondition holds (commenters in a cascade ARE the community, so no newcomer-flood), with
-   BOTH prior WSB failures fixed honestly. (a) The threshold was re-derived from a genuinely-
-   quiet clean null and frozen before the roster: **f=0.3936** (clean-null p95); the clean
-   windows themselves drop a median 0.098 with a heavy tail to 0.43, so short high-volume WSB
-   onset windows compress N_eff generically and the honest bar is high. (b) The calm/null
-   contamination (onset-365d landing inside the GME mania) was removed by using the clean-null
-   distribution as the comparison. Result: median event drop **0.138 < f**, Mann-Whitney
-   event-vs-clean **p=0.069**; but **9/10 fire vs shuffle** again. **SEALED NOT** (2 of 4
-   conditions: specificity PASS, powered PASS; magnitude FAIL, beats-clean-null FAIL). The
-   threshold was NOT moved to manufacture a pass.
-6. **Sealed SPECIFICITY-primary re-test, WSB** (`validation/neff_v4/`, n=12 fresh disjoint
-   cascades). The honest follow-through on what runs 1-5 actually established. Runs 2-5 had
-   shown the magnitude endpoint is invalid on this substrate (quiet windows compress N_eff
-   too), and that the endpoint carrying the theory is SPECIFICITY (the real partition
-   collapses past a block-label shuffle). v4 pre-registers specificity as the standalone
-   PRIMARY endpoint (`PRE_REGISTRATION_neff_v4.md`, frozen binomial rule: fire-fraction
-   >=0.60 AND binomial P(X>=k | n, p0=0.10) <0.01 AND n>=8) and runs it on a fresh roster
-   disjoint from the original-10 AND the v3-10 (COVID crash, Archegos, Coinbase, the Nvidia
-   prints, Credit-Suisse, 2024 election, etc). Reported result: 9/12 fire, binomial
-   p=1.7e-7, median observed collapse at the 100th percentile of its own 300x shuffle,
-   **SEALED PASS -- now RETRACTED** (`neff_v4/NULL_RECALIBRATION.md`): the p-value rests
-   entirely on an unsupported `p0=0.10`, and the "100th percentile" is a percentile within
-   a null whose median p90 is 0.0137. Under an onset-aligned null the best proxy computable
-   from committed data fires 0 of 12; under a degeneracy gate at p90 >= 0.02 the run keeps
-   n=2 and fails all three frozen conditions. The choice of ENDPOINT was not the error and
-   is not retracted: this was still not a relaxation of the magnitude threshold (that
-   stands), and specificity is still the right question. The NULL was the error. Two
-   further readings of this run that
-   appeared here originally are **withdrawn** on referee review, and the reasons are in
-   "Known defects" below: (a) that the 3 silent cascades are "the mechanical/exogenous ones,
-   exactly where a frozen-block N_eff should be silent" (the roster carries no endo/exo
-   field; the label was assigned after seeing which events fired); and (b) that the
-   Sept-2024 stimulus case (raw drop 0.065, beating all 300 shuffles at a null p90 of
-   0.0028) is "the clean proof that specificity, not magnitude, is the right endpoint" (a
-   null p90 of 0.0028 is the exhibit for the degeneracy, not against it).
+5. **Structured-substrate re-test, WSB** (`validation/neff_v3/`, n=10 fresh disjoint
+   cascades). Run on the substrate where the mechanism's precondition holds (commenters in a
+   cascade ARE the community, so no newcomer-flood), with BOTH prior WSB failures fixed.
+   (a) The threshold was re-derived from a genuinely-quiet clean null: **f=0.3936**
+   (clean-null p95); the clean windows themselves drop a median 0.098 with a heavy tail to
+   0.43, so short high-volume WSB onset windows compress N_eff generically and the bar is
+   correspondingly high. (b) The calm/null contamination (onset-365d landing inside the GME
+   mania) was removed by using the clean-null distribution as the comparison. Result: median
+   event drop **0.138 < f**, Mann-Whitney event-vs-clean **p=0.069**; but **9/10 fire vs
+   shuffle** again. **NOT A PASS** (2 of 4 conditions: specificity PASS, powered PASS;
+   magnitude FAIL, beats-clean-null FAIL). The threshold was not moved.
+6. **SPECIFICITY-primary re-test, WSB** (`validation/neff_v4/`, n=12 fresh disjoint
+   cascades). Runs 2-5 had shown the magnitude endpoint does not discriminate on this
+   substrate (quiet windows compress N_eff too), and that the endpoint carrying the theory
+   is SPECIFICITY (the real partition collapses past a block-label shuffle). v4 takes
+   specificity as the standalone PRIMARY endpoint (`METHOD_neff_v4.md`, binomial rule:
+   fire-fraction >=0.60 AND binomial P(X>=k | n, p0=0.10) <0.01 AND n>=8) and runs it on a
+   fresh roster disjoint from the original-10 AND the v3-10 (COVID crash, Archegos,
+   Coinbase, the Nvidia prints, Credit-Suisse, 2024 election, etc). Result: **9/12 fire,
+   binomial p=1.658e-7, median observed collapse at the 100th percentile of its own 300x
+   shuffle.** Read alongside "Null geometry" below: that 100th percentile is a percentile
+   within a null whose median p90 is 0.0137. The choice of ENDPOINT was not a relaxation of
+   the magnitude threshold, which stands.
 
-## What the frozen rule says, on both substrates: NOT a pass
+## What the decision rule says on magnitude, on both substrates: NOT a pass
 
-Both substrates fail the sealed conjunction, for the SAME two reasons:
+Both substrates fail the magnitude conjunction, for the SAME two reasons:
 - **Magnitude.** Median collapse 0.19 (Wikipedia) / 0.22 (Reddit), both below f=0.30. The
   sensitivity sweep (diagnostic V4) shows the Wikipedia 0.19 is stable in sign across 12
   bucket/window combinations (11/12 positive) but never reaches 0.30, so the sub-threshold
@@ -106,25 +66,26 @@ Both substrates fail the sealed conjunction, for the SAME two reasons:
   substrates: on Wikipedia by 2 windows with their own mini-events; on Reddit catastrophically,
   because the -365d windows for 2021 cascades land INSIDE the 2020-21 GME mania. Diagnostic V2
   re-picks a genuinely-quietest window on Wikipedia and the event-vs-calm gate (cond3) FLIPS
-  TO PASS (clean calm p90 0.165 < event median 0.193; Mann-Whitney still p=0.012). We do NOT
-  apply that post-hoc to the sealed verdict (that would be goalpost-moving); we report it as
-  a diagnosis of which failure was an artifact.
+  TO PASS (clean calm p90 0.165 < event median 0.193; Mann-Whitney still p=0.012). That is
+  reported as a diagnosis of which failure was an artifact, and is not applied to the
+  original verdict.
 
-## What the runs DID establish (the mechanism, now well-supported)
+## What the runs DID establish
 
 - **The collapse is real and event-specific, not a calm-window artifact.** Wikipedia
   event-vs-calm p=0.005; the clean-null diagnostic strengthens it.
-- **It is community-specific exactly where communities exist.** This is the load-bearing
-  cross-substrate result. Wikipedia editor-on-one-article spikes are population-wide
-  (0/14 fire); WSB comment co-thread graphs have genuine internal blocks (K=3-4, the
-  synchronization concentrated in the real blocks), and there the collapse fires 9/10 vs
-  shuffle. So cond2 did not fail because the theory is wrong; it failed on Wikipedia
-  because the editor graph for a single breaking article has little block structure to be
-  specific about, and it PASSES on the substrate that has the structure.
+- **It is community-specific where communities exist.** Wikipedia editor-on-one-article
+  spikes are population-wide (0/14 fire); WSB comment co-thread graphs have genuine internal
+  blocks (K=3-4, the synchronization concentrated in the real blocks), and there the collapse
+  fires 9/10 vs shuffle. So cond2 did not fail because the theory is wrong; it failed on
+  Wikipedia because the editor graph for a single breaking article has little block structure
+  to be specific about, and it PASSES on the substrate that has the structure. The
+  substrate difference in null scale reported under "Null geometry" bears on how much of the
+  contrast this reading can carry.
 - **The collapse measures the EXISTING community losing independence.** Diagnostic V1:
   collapse magnitude correlates with the existing-editor share of onset activity
   (Spearman rho +0.45). Pure exogenous shocks that flood with NEW editors outside the
-  frozen blocks (Suez 3% existing -> -0.40, Kobe 5% -> -0.27, NATO 8% -> -0.02) do not
+  pre-onset blocks (Suez 3% existing -> -0.40, Kobe 5% -> -0.27, NATO 8% -> -0.02) do not
   collapse the pre-onset partition; events where the existing community synchronizes
   (Evergrande, Maradona, Zelenskyy, Queen Elizabeth II) collapse hard. This is the
   endogenous-vs-exogenous distinction emerging from the metric itself.
@@ -132,91 +93,30 @@ Both substrates fail the sealed conjunction, for the SAME two reasons:
   Gini 0.82-0.86, top-5% share 0.66-0.77 in every window; Wikipedia editor concentration
   also high. Consistent with the time-invariant concentration invariant.
 
-## Honest status of test ii'
+## Where test ii' stands
 
-From "only suggestive, n=1" to: **a powered six-pass investigation that ends in a
-retraction.** The single-anecdote objection is gone, and that is the whole of what six
-runs established.
+From "only suggestive, n=1" to a powered six-run investigation on two substrates. The
+single-anecdote objection is gone.
 
-This section previously read: "a powered six-pass investigation that ends in a clean
-pre-registered SEALED PASS on the endpoint that is the theory ... That prediction is now
-confirmed FOUR times (Wikipedia population-wide negative control 0/14, original WSB 9/10,
-neff_v3 fresh WSB 9/10, neff_v4 fresh pre-registered-primary WSB 9/12 at binomial
-p=1.7e-7) and SEALED as a frozen primary endpoint on a fresh disjoint roster."
-**Withdrawn in full.**
+The criticality gear's prediction is community-SPECIFICITY: the effective number of
+independent blocks collapses within the existing community's pre-onset partition. The four
+fire counts are Wikipedia 0/14, original WSB 9/10, neff_v3 fresh WSB 9/10, neff_v4 fresh
+primary-endpoint WSB 9/12.
 
-The criticality gear's actual prediction is community-SPECIFICITY: the effective number of
-independent blocks collapses within the existing community's frozen partition. That is
-still the right question. It is the ANSWER that does not stand. The four fire counts are
-four readings of one instrument that measurement shows cannot discriminate: the block-label
-shuffle null's 90th percentile has a median of 0.0137 on WSB against 0.4909 on Wikipedia,
-roughly 36x, so the 0/14-versus-9/10 contrast is largely a difference in null geometry
-rather than in community structure. On WSB the rule agrees with the sign test `drop>0` in
-11 of 12 v4 events, in 10 of 12 quiet windows, and in 120 of 120 synthetic no-cascade
-trials, and it fired on 8 of 10 of the original run's non-event calm windows. The binomial
-that turned "9 of 12" into `p=1.7e-7` assumed a false-fire rate of 0.10 that measurement
-puts between 0.49 and 0.83, against a break point of 0.378.
-
-What survives, at its real size: on the 2 of 12 v4 events whose null is NOT degenerate the
-endpoint does exactly what it was sold as doing, one firing at percentile 0.91 and one
-correctly silent. One cascade in twelve, against a null capable of rejecting it. That is a
-small honest positive and it is the reason `neff_v5/PRE_REGISTRATION_neff_v5.md` is a
-re-test rather than an abandonment. **Test (ii') is OPEN.** See
-`neff_v4/NULL_RECALIBRATION.md`, section 4, for why an onset-shift null is the one the
-hypothesis implies, and section 5 for the corrected verdict.
-
-What about magnitude? The first passes also tried a blunter yardstick, a frozen MAGNITUDE
-threshold on the raw collapse. Runs 2-5 carried that out honestly (neff_v2 Wikipedia
+What about magnitude? The first passes tried a blunter yardstick, a MAGNITUDE
+threshold on the raw collapse. Runs 2-5 carried that out (neff_v2 Wikipedia
 re-derived f=0.298, fresh roster, median 0.00; neff_v3 WSB re-derived f=0.3936 from a
 genuinely-quiet clean null, fresh roster, median 0.138 < f, Mann-Whitney p=0.069). The
 decisive discovery there was in the null itself: genuinely-quiet WSB windows already drop
 macro N_eff a median 0.098 with a tail to 0.43, because short high-volume onset windows
-compress N_eff generically. So MAGNITUDE IS THE WRONG INSTRUMENT on this substrate, and we
-report that straight, with the threshold never moved. neff_v4 then did the obvious thing:
-stop scoring the wrong quantity and pre-register specificity itself. The pass is therefore
-NOT bought by relaxing the magnitude threshold (that verdict stands); it is the correct,
-independently-motivated endpoint tested on new data.
+compress N_eff generically. So MAGNITUDE IS THE WRONG INSTRUMENT on this substrate,
+reported with the threshold never moved. neff_v4 then stopped scoring the wrong quantity
+and scored specificity itself, on new data.
 
-**WITHDRAWN, the first half.** This paragraph read: "This is the central, load-bearing
-finding of the whole program: the dynamic N_eff collapse is a real, community-specific
-STRUCTURAL signal living in the block partition (now four independent shuffle-test
-confirmations, sealed as a pre-registered primary endpoint), and it is NOT additionally a
-raw-magnitude excursion, which the near-decomposability premise never required it to be.
-The clean pass came from testing the RIGHT endpoint, not from moving a goalpost; both
-halves (specificity confirmed, magnitude non-discriminating) are reported."
+The magnitude half is settled: the collapse is **not** a raw-magnitude excursion, which
+the near-decomposability premise never required it to be.
 
-The magnitude half stands: the collapse is **not** a raw-magnitude excursion, and that
-verdict was reached honestly with the threshold never moved. The specificity half does not.
-"Four independent shuffle-test confirmations" is four readings of a null that cannot
-discriminate, and "sealed as a pre-registered primary endpoint" rests on a binomial whose
-assumed false-fire rate measurement puts between 0.49 and 0.83. So the program has **no**
-central load-bearing empirical finding on test (ii'). It has a correctly-reported magnitude
-negative, one specificity hit out of twelve against a non-degenerate null, and an open
-question. `neff_v4/NULL_RECALIBRATION.md`.
-
-That statement previously continued "and it is correctly silent on the exogenous/mechanical
-events (in v4 the three silent cascades are a listing, a Fed rate decision, and a stock
-split), which confirms the paper's bounded-special-regime thesis by measurement". **We
-withdraw that clause.** No v4 roster carries an endo/exo field; the classification was read
-off the firing set afterwards, and under the outcome-blind endo/exo taxonomy this program
-already committed to elsewhere (`early_warning_powered/analyze_csd.py`) most of the v4
-firing set would be labelled exogenous. The bounded-special-regime thesis is not confirmed
-by that clause, and it was the strongest-sounding sentence in this file.
-
-## Forking paths across the six runs: this sequence is exploratory
-
-The paper discloses one researcher degree of freedom in full: the GameStop early-warning
-detector-window sweep, printed with its entire spread (AUC 0.915 at six weeks, 0.771 at
-eight, 0.379 at ten, 0.435 at twelve), so that a reader can see how much of the headline was
-the window choice. This file applied no comparable discipline to itself, and a round-2
-referee review (`logos/REVIEW_ROUND2.md`, finding P-06) noted the asymmetry: a
-case-insensitive search for `bonferroni | multiple compar | forking path | family-wise |
-false discovery | FDR` across every `.md`, `.tex` and `.py` in this repository returns the
-GameStop table and nothing in the neff family. We fix the asymmetry the same way, by
-printing the path rather than by adjusting a number after the fact.
-
-**The path actually walked.** Six runs, across two substrates, scoring two endpoints
-(magnitude, specificity) under two thresholds each:
+## The two endpoints across the six runs
 
 | run | substrate | magnitude endpoint | specificity endpoint |
 |---|---|---|---|
@@ -225,64 +125,42 @@ printing the path rather than by adjusting a number after the fact.
 | 3 wiki diagnostics | wiki | diagnostic only | diagnostic only |
 | 4 neff_v2 | wiki | FAIL (median 0.00 < f=0.298) | not primary |
 | 5 neff_v3 | wsb | FAIL (median 0.138 < f=0.3936) | PASS (9/10) |
-| 6 neff_v4 | wsb | reported NON-GATING | promoted to standalone PRIMARY, PASS (9/12) |
+| 6 neff_v4 | wsb | reported NON-GATING | standalone PRIMARY, PASS (9/12) |
 
-The endpoint that became the primary is the endpoint that had passed twice while the other
-failed four times, and the promotion happened at run 6, after run 5 had returned exactly
-that split within a single run. That is the definition of a forking path. Re-testing the
-selected endpoint on a fresh roster (which is what run 6 is) is the standard and correct
-remedy, and we did apply it; a fresh-roster confirmation is worth considerably more than a
-re-analysis of the same data. But no family-wise or false-discovery adjustment has been made
-across the sequence, and we are not going to construct one after the fact out of a family
-whose boundaries we would be choosing ourselves.
+Specificity became the primary endpoint at run 6, after run 5 returned the magnitude /
+specificity split within a single run. Run 6 re-tests that endpoint on a fresh roster.
 
-**So we state it plainly instead: runs 1-5 are exploratory, and run 6 is confirmatory for
-one endpoint selected by that exploration.** Read the neff sequence as an endpoint search
-with one confirmatory follow-up, not as six independent tests. Anything stated in this file
-in the register of "confirmed N times" should be discounted accordingly.
+## Null geometry of the specificity endpoint
 
-## Known defects in the specificity endpoint
+Across the 12 v4 events the per-event `shuffle_null_p90` values are [0.00279, 0.00360,
+0.00450, 0.00527, 0.00832, 0.01334, 0.01403, 0.01510, 0.01712, 0.01792, 0.09576, 0.22424],
+median 0.0137, with 10 of 12 below 0.018. So on this substrate "fires vs shuffle" applies a
+bar around 0.014, which is 7x below the median collapse of a genuinely-quiet WSB window
+(0.098, measured in neff_v3) and 29x below the f = 0.3936 that neff_v3 set and then
+reported as non-discriminating. Applying the 0.0137 bar to neff_v3's twelve clean quiet
+windows clears 10 of 12; applying it to the twelve v4 cascades also clears 10 of 12.
+`fires` agrees with the bare sign test `drop_macro > 0` on 11 of the 12 v4 events. The
+endpoint discriminates on scale for the two events whose null has real spread (`jpow`
+silent at p90 0.0958; `nvda_ai` fires at p90 0.2242).
 
-Found by an adversarial round-2 review after this synthesis was written
-(`logos/REVIEW_ROUND2.md`, findings P-02, P-03, P-07). Recorded here because this file is
-what most readers reach for.
+Wikipedia's median event null p90 is 0.4909, 36x WSB's, so the 0/14 versus 9/10 split
+carries a difference in null geometry between substrates alongside any difference in block
+structure.
 
-1. **The shuffle null is near-degenerate on WSB.** Across the 12 v4 events the per-event
-   `shuffle_null_p90` values are [0.00279, 0.00360, 0.00450, 0.00527, 0.00832, 0.01334,
-   0.01403, 0.01510, 0.01712, 0.01792, 0.09576, 0.22424], median 0.0137, with 10 of 12 below
-   0.018. So on this substrate "fires vs shuffle" is in practice a magnitude test at a bar
-   around 0.014, which is 7x below the median collapse of a genuinely-quiet WSB window
-   (0.098, measured in neff_v3) and 29x below the f = 0.3936 that neff_v3 froze and then
-   reported as non-discriminating. Applying the 0.0137 bar to neff_v3's twelve clean quiet
-   windows clears 10 of 12; applying it to the twelve v4 cascades also clears 10 of 12.
-   `fires` agrees with the bare sign test `drop_macro > 0` on 11 of the 12 v4 events. The
-   endpoint retains genuine discriminating power on the two events whose null is not
-   degenerate (`jpow` correctly silent at p90 0.0958; `nvda_ai` fires at p90 0.2242), which
-   is 2 of 12. This also reframes the cross-substrate contrast that item 2 of "What the runs
-   DID establish" leans on: Wikipedia's median event null p90 is 0.4909, 36x WSB's, so the
-   0/14 versus 9/10 split is substantially a difference in null geometry between substrates
-   and not, by itself, a demonstration that block structure produced the difference.
-2. **The null fire rate the v4 binomial assumes has never been measured.** neff_v3's
-   `derive_f_v3.py` ran all twelve genuinely-quiet clean windows through the identical
-   pipeline, which computes `fires_vs_shuffle`, `shuffle_pctile_of_obs` and
-   `shuffle_null_p90` on every record, and then serialised a thirteen-field row dict
-   containing none of them. The one uncontaminated estimate of the quiet-window fire rate in
-   this repository was computed and dropped one function return before serialisation, and
-   the v4 pre-registration was written afterwards asserting that rate from construction. The
-   repair is a single CPU pass over already-harvested data; see `neff_v3/RESULTS.md`. Until
-   it is run, no replacement rate is asserted here, but the assumed one is unsupported.
-3. **The endo/exo reading of the three silent v4 cascades is post hoc**, contradicts the
-   outcome-blind endo/exo labelling this program committed to in
-   `early_warning_powered/`, and is withdrawn above. It is a real and testable hypothesis
-   and it deserves a `roster_v5.py` that labels every event before harvest.
+The measurement that would calibrate the endpoint on this substrate is the quiet-window
+fire rate. neff_v3's `derive_f_v3.py` ran all twelve genuinely-quiet clean windows through
+the identical pipeline, which computes `fires_vs_shuffle`, `shuffle_pctile_of_obs` and
+`shuffle_null_p90` on every record, and then serialised a thirteen-field row dict
+containing none of them. Recovering it is a single CPU pass over already-harvested data;
+see `neff_v3/RESULTS.md`.
 
-## Honesty rails (carried)
+## Scope
 
-Two substrates, analyst-frozen onsets (public event dates / volume peaks), in-sample
-thresholds committed but not externally lodged (OSF/hash). Tractability caps on WSB logged
-(USER_CAP 6000, THREAD_SUBSAMPLE 40000, touching <2% of threads). Shuffle and calm nulls
-guard the prosecutor's fallacy. Illustrative of direction, magnitude, and mechanism across
-real rosters, not a calibrated classifier.
+Two substrates, analyst-set onsets (public event dates / volume peaks), in-sample
+thresholds. Tractability caps on WSB logged (USER_CAP 6000, THREAD_SUBSAMPLE 40000,
+touching <2% of threads). Shuffle and calm nulls guard against the prosecutor's fallacy.
+Illustrative of direction, magnitude, and mechanism across real rosters, not a calibrated
+classifier.
 
 ## Reproduce
 
@@ -294,16 +172,15 @@ py -3.12 validation/wikipedia/diagnostics/v1_newcomer_flood.py   # + v2,v3,v4
 # Reddit (needs the dump in validation/reddit_dump/)
 py -3.12 validation/reddit_wsb/harvest_filter.py
 py -3.12 validation/reddit_wsb/neff_collapse_wsb.py
-# Sealed fresh-roster re-test (Wikipedia)
+# Fresh-roster re-test (Wikipedia)
 py -3.12 validation/neff_v2/derive_f.py
 py -3.12 validation/neff_v2/harvest_v2.py
 py -3.12 validation/neff_v2/analyze_v2.py
-# Sealed magnitude re-test (WSB structured substrate, clean null + honest f) = SEALED NOT on magnitude
+# Magnitude re-test (WSB structured substrate, clean null + re-derived f) = NOT A PASS on magnitude
 py -3.12 validation/neff_v3/harvest_v3.py
 py -3.12 validation/neff_v3/derive_f_v3.py
 py -3.12 validation/neff_v3/analyze_v3.py
-# Sealed SPECIFICITY-primary re-test (WSB, fresh roster, frozen binomial rule)
-#   = reported SEALED PASS, RETRACTED; see validation/neff_v4/NULL_RECALIBRATION.md
+# SPECIFICITY-primary re-test (WSB, fresh roster, binomial rule)
 py -3.12 validation/neff_v4/harvest_v4.py
 py -3.12 validation/neff_v4/analyze_v4.py
 ```

@@ -1,4 +1,4 @@
-# Powered semantic early-warning across the WSB roster (falsifier iii) - RESULTS
+# Powered semantic early-warning across the WSB roster (test iii) - RESULTS
 
 **Powered POWER test of the semantic critical-slowing-down (CSD) early-warning
 observable.** This converts the n=2 semantic-CSD pilot (the embedding-variance
@@ -30,7 +30,7 @@ calm-window null, and endo-events beat the calm null with **Mann-Whitney one-sid
 p = 0.020**. Pooling all ten events vs the ten calm windows is also significant
 (p = 0.032).
 
-So the honest verdict is split and we report both halves:
+The verdict is split, and both halves are reported:
 
 - **The directional claim survives and is powered.** Pre-onset semantic CSD rises
   before endogenous WSB cascades relative to guard-banded calm baselines, with a
@@ -43,7 +43,7 @@ So the honest verdict is split and we report both halves:
   pre-onset semantic-CSD rises. The detector flags "something is building" better
   than it flags "this build is reflexive vs externally driven."
 
-This is a HONEST PARTIAL POSITIVE, not the clean AUC the n=2 pilot hinted at.
+This is a PARTIAL POSITIVE, not the clean AUC the n=2 pilot hinted at.
 
 ## Numbers
 
@@ -121,12 +121,12 @@ Several calm windows still score positive (svb calm +0.190, market_selloff calm
 - **Classifier:** pre-onset `score = tau_var + tau_ar1`. ROC/AUC via the
   Mann-Whitney U identity. Boettiger null = matched-calm CSD scores.
 
-## Honesty rails
+## Scope
 
-Retrospective; in-sample (no externally-lodged thresholds); submission-text proxy
+Retrospective; in-sample; submission-text proxy
 (not the full comment stream); single embedding model (all-MiniLM-L6-v2); n = 5
 per class so the AUC has a wide confidence interval (a single event swap moves it
-substantially). The endo-vs-exo AUC of 0.60 is reported as the HONEST near-null it
+substantially). The endo-vs-exo AUC of 0.60 is reported as the near-null it
 is. The load-bearing positive is the narrower, better-powered claim: semantic CSD
 rises before endogenous WSB cascades relative to a guard-banded calm null
 (p = 0.020, 5/5 events above their own calm). We do not relabel events by outcome

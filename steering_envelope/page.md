@@ -395,7 +395,7 @@ So, the call, by seat.
 
 If you build: publish your envelope. Your corner list, your grip
 metrics, and the rule that connects them. "We slow when X" is a
-falsifiable safety culture. Vibes are not.
+safety culture anyone can check. Vibes are not.
 
 If you govern: fund grip, not just brakes, and never confuse
 suppression with steering. The quiet period grew fast with its hands on

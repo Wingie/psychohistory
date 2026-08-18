@@ -26,7 +26,7 @@ def main() -> dict:
     print("[5/5] ai ...")
     r_ai = ai_proxy.run()
 
-    # the pre-registered scoreboard: p(s|v) <= 0.1 in how many of the
+    # the scoreboard: p(s|v) <= 0.1 in how many of the
     # fittable historical domains? (nuclear is a case study by design; roads
     # and aviation are judged on the stricter first-difference test, finance
     # on the panel logit)
@@ -68,7 +68,7 @@ def _verdict(s_adds: dict, v_adds: dict) -> str:
     ns, nv = sum(s_adds.values()), sum(v_adds.values())
     n = len(s_adds)
     if ns == 0:
-        return ("FALSIFIED: the steering term is decoration; s/acc loses "
+        return ("NO SUPPORT: the steering term is decoration; s/acc loses "
                 "its empirical leg")
     if nv == 0:
         return "s dominates everywhere: the stopper position gains support"

@@ -1,12 +1,10 @@
-# Pre-registration: SEALED dynamic-N_eff-collapse test on a FRESH Wikipedia roster (test ii', v2)
+# Method: dynamic-N_eff-collapse test on a fresh Wikipedia roster (test ii', v2)
 
-**Status: this file is written, and f is frozen, BEFORE any fresh-roster article is
-selected, harvested, or analyzed.** It exists to convert test (ii') from "directional
-support" to an honest SEALED PASS or an honest NOT, with the pass line fixed in advance.
+This document describes the v2 design: how the threshold f is derived, how the clean
+null is defined, the decision rule, and the fresh-roster inclusion rule.
 
-The prior frozen test (`validation/wikipedia/PRE_REGISTRATION_wiki.md`,
-`validation/NEFF_COLLAPSE_SYNTHESIS.md`) was NOT a sealed pass for two reasons that were
-named, not hidden:
+The prior run (`validation/wikipedia/METHOD_wiki.md`,
+`validation/NEFF_COLLAPSE_SYNTHESIS.md`) had two design weaknesses:
 
 1. The threshold **f = 0.30** was picked to beat the langchain pilot's 0.23. That is a
    competitive anchor, not a principled one.
@@ -14,16 +12,14 @@ named, not hidden:
    (Queen Elizabeth II - 1 y and Twitter - 1 y had their own mini-events, inflating the
    calm 90th percentile to 0.29 and defeating cond3).
 
-This v2 fixes BOTH, pre-registers the fixes, and then runs on a FRESH roster of articles
-that were NOT used in any tuning.
+v2 fixes both, and runs on a fresh roster of articles that were not used in any tuning.
 
 ---
 
-## 1. The principled threshold f (derived from existing data only, frozen here)
+## 1. The principled threshold f (derived from existing data only)
 
-`derive_f.py` (run BEFORE the fresh roster exists; reads ONLY the existing 20-article
-tuning data in `validation/wikipedia/data/` and the verified engine) derives f by two
-routes.
+`derive_f.py` reads only the existing 20-article tuning data in
+`validation/wikipedia/data/` and the verified engine, and derives f by two routes.
 
 ### Route (i) PRIMARY -- clean-null 95th percentile (this sets f)
 
@@ -31,7 +27,7 @@ Using the existing Wikipedia data and the V2 clean-null method (imported verbati
 `validation/wikipedia/diagnostics/v2_clean_calm.py`): for each existing event article,
 re-pick the genuinely-quietest 49-day window inside the harvested pre-onset span (lowest
 focal-edit volume, with enough real activity in both baseline and probe sub-windows that
-the metric stays non-degenerate), and run the frozen collapse pipeline at that clean
+the metric stays non-degenerate), and run the collapse pipeline at that clean
 pseudo-onset. This yields the distribution of clean-calm N_eff drops a genuinely-quiet
 window produces.
 
@@ -48,13 +44,11 @@ principled replacement for the old hand-picked 0.30: it converges on nearly the 
 number, but now because the clean-null 95th percentile lands there, not because 0.30 beat
 a competitor.
 
-**Integrity caveat, stated in advance, not used to move f:** n = 10 is small, so the 95th
-percentile interpolates toward the single largest clean drop (Kobe Bryant 0.430), which
-makes it the least stable summary of this distribution. We freeze f at the p95 = 0.298 as
-the prompt specifies (95th percentile). We do NOT lower f to the more stable p90 = 0.165,
-even though that would make a pass easier, because the pre-registration route says p95.
-If a reader prefers the more robust p90, the fresh-roster median is reported against both
-so the verdict is legible either way, but the SEALED line is f = 0.298.
+n = 10, so the 95th percentile interpolates toward the single largest clean drop (Kobe
+Bryant 0.430), which makes it the least stable summary of this distribution. f is set at
+the p95 = 0.298 as the design specifies. The fresh-roster median is also reported against
+the more robust p90 = 0.165, so the outcome is legible either way; the decision line is
+f = 0.298.
 
 ### Route (ii) CROSS-CHECK -- engine sanity bound (does NOT set f)
 
@@ -74,11 +68,11 @@ heterogeneity at low K). So **f = 0.298 sits well below the physically attainabl
 it is not an impossibly high bar. The long-window K = 64 E4 reference collapse is 0.186
 on the sign metric (the canonical 61 -> 1.0 expressed as a drop), which is the conservative
 end; the short higher-K windows reach much further. f = 0.298 is bounded above by what the
-mechanism can produce and above the clean-null base rate. **f is FROZEN at 0.298.**
+mechanism can produce and above the clean-null base rate.
 
 ---
 
-## 2. Clean-null definition (frozen)
+## 2. Clean-null definition
 
 The matched-calm null is the V2 genuinely-quiet window, NOT onset - 365 d. For each fresh
 event article: slide a 49-day window across the harvested pre-onset focal-edit dates;
@@ -86,17 +80,17 @@ require the full metric span to lie inside one harvested coverage island and bot
 baseline and onset probe sub-windows to contain real activity (base_vol >= 5, onset_vol
 >= 3) so the metric is non-degenerate; among qualifying windows pick the one with the
 LOWEST focal-edit volume in its 49-day stretch; treat its center as a clean pseudo-onset
-and run the frozen collapse pipeline there. This is `quietest_pseudo_onset` /
-`collapse_at`, reused verbatim.
+and run the collapse pipeline there. This is `quietest_pseudo_onset` / `collapse_at`,
+reused verbatim.
 
 ---
 
-## 3. Decision rule (frozen, evaluated once on the fresh roster)
+## 3. Decision rule
 
-Let event drops be the per-article frozen macro-N_eff collapse drops on the fresh roster
+Let event drops be the per-article macro-N_eff collapse drops on the fresh roster
 (K >= 3 articles only), and clean drops be the clean-null drops from section 2.
 
-The dynamic-collapse mechanism (test ii') is a **SEALED PASS** iff ALL of:
+The dynamic-collapse mechanism (test ii') **PASSES** iff ALL of:
 
 1. **Magnitude.** median event drop >= **f = 0.298**.
 2. **Beats the clean null.** event drops exceed clean-calm drops at the 90th percentile
@@ -108,17 +102,14 @@ The dynamic-collapse mechanism (test ii') is a **SEALED PASS** iff ALL of:
    300-permutation shuffle null) in **>= 50%** of event articles.
 4. **Powered.** **n >= 8** fresh event articles yield a non-trivial partition (K >= 3).
 
-If all four hold on n >= 8, test (ii') is a sealed positive and ii' is converted from
-"directional support" to a sealed result. If any fail, that is reported straight, naming
-exactly which condition failed and by how much. The threshold f and the rule are NOT
-moved after the fresh-roster numbers are seen.
+If any condition fails, the result names which one failed and by how much.
 
 Supplementary (reported, not gating): paired Wilcoxon where event and clean windows pair
 per article; the Mann-Whitney effect direction; per-article table.
 
 ---
 
-## 4. Fresh roster inclusion rule (frozen; selection blind to collapse outcome)
+## 4. Fresh roster inclusion rule (selection blind to collapse outcome)
 
 - The article must have ALREADY EXISTED with steady editing before a clean EXTERNAL onset
   (a public event date, not chosen from edit data), so a pre-onset editor partition exists.
@@ -131,15 +122,13 @@ per article; the Mann-Whitney effect direction; per-article table.
   exogenous shocks, selected for pre-onset activity to clear K >= 3, NOT for collapse
   outcome. Aim for >= 10 so >= 8 survive K >= 3.
 
-The fresh roster is committed in `roster_v2.py` and harvested by `harvest_v2.py` into
+The fresh roster is in `roster_v2.py` and harvested by `harvest_v2.py` into
 `validation/neff_v2/data/`.
 
 ---
 
-## 5. Honesty rails (carried)
+## 5. Scope
 
-Single platform (Wikipedia); analyst-frozen onsets (public event dates); thresholds
-committed in this file but not externally lodged to OSF/hash, so this is a sealed PILOT,
-not the externally-notarized FA-0 test. The clean-null and block-label-shuffle nulls guard
-the prosecutor's fallacy. f is derived from existing data, frozen before the fresh roster,
-and not moved after results. Result is reported straight either way.
+Single platform (Wikipedia); analyst-set onsets (public event dates). The clean-null and
+block-label-shuffle nulls guard against the prosecutor's fallacy. f is derived from the
+existing tuning data, independently of the fresh roster.

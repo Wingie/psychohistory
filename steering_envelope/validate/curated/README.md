@@ -1,12 +1,12 @@
-# Curated tables: sources and honesty notes
+# Curated tables: sources and coding notes
 
 These small hand-coded tables are the steering-capacity (`s`) proxies and
 case-study inputs that no single machine-readable public dataset provides.
 They are committed (unlike the raw downloads in `../data/`, which are
 gitignored and regenerable via `datasets.py`). Every number here is either a
 documented institutional date or an explicitly flagged order-of-magnitude
-approximation. If you improve a coding, keep the pre-registered fit windows
-in the main README unchanged or report the change.
+approximation. If you improve a coding, keep the fit windows specified in
+the main README unchanged or report the change.
 
 ## us_road_steering.csv
 
@@ -39,7 +39,7 @@ break years follow the financial-repression and liberalization literature
 pre-1914 regulation, interwar chaos, post-Depression re-regulation, the
 Bretton Woods repression era (1945-72, the famous near-zero-crisis "quiet
 period"), staged liberalization from 1973, the light-touch peak before
-2008, Basel III afterwards. HONESTY NOTE: this is one global era coding,
+2008, Basel III afterwards. NOTE ON SCOPE: this is one global era coding,
 not a country-level index; country-level liberalization indices exist only
 post-1973. The LR tests in `finance.py` therefore measure whether even this
 coarse an s-proxy adds signal over credit growth — a deliberately hard test
@@ -55,7 +55,7 @@ order-of-magnitude reads of IAEA PRIS aggregates and OWID nuclear data.
 `s_regulator` codes regulator maturity (pre-NRC, post-TMI reforms, WANO
 1989, post-Fukushima). No formal fit is performed on this table — 7 rows,
 10 events — only rate comparisons with wide priors, as the main README
-pre-registers.
+specifies.
 
 ## ai_steering.csv
 

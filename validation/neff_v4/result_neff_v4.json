@@ -25,7 +25,7 @@
       "cond_c_powered": true
     },
     "failed_conditions": [],
-    "VERDICT": "SEALED PASS (community-specificity, fresh roster)",
+    "VERDICT": "PASS (community-specificity, fresh roster)",
     "magnitude_note": "NON-GATING in v4: v3's clean null showed genuinely-quiet WSB windows already drop macro-N_eff a median ~0.10 (tail to 0.43), so raw magnitude does not discriminate an endogenous cascade on this substrate. Specificity is the valid endpoint."
   },
   "runs": [

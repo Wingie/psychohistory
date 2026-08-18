@@ -1,4 +1,4 @@
-"""Falsifier (iii) POWERED early-warning analysis.
+"""Test (iii) POWERED early-warning analysis.
 
 For each roster window (event pre-onset + matched calm) harvested by
 harvest_text.py:
@@ -17,7 +17,7 @@ guard-banded null from the matched-calm windows.
 
 Run:  py -3.12 analyze_csd.py   ->  result_powered.json, figure_roc.png
 
-Honesty: retrospective, in-sample, single embedding model, submission-text proxy.
+Scope: retrospective, in-sample, single embedding model, submission-text proxy.
 """
 import json
 import os
@@ -237,7 +237,7 @@ def main():
     json.dump(results, open(os.path.join(HERE, "result_powered.json"), "w"), indent=2)
     make_figure(results)
 
-    print("\n==== POWERED SEMANTIC EARLY-WARNING (falsifier iii) ====")
+    print("\n==== POWERED SEMANTIC EARLY-WARNING (test iii) ====")
     print(f"events OK: {len(ev)}/10   endo={len(endo_scores)} exo={len(exo_scores)}")
     print(f"AUC (endo vs exo)         = {auc:.3f}")
     print(f"endo mean CSD = {results['roc']['endo_mean']:.3f}   "
@@ -287,7 +287,7 @@ def make_figure(results):
     ax.axhline(0, color="k", lw=0.5, alpha=0.5)
     ax.set_ylabel("pre-onset semantic-CSD score (tau_var + tau_ar1)")
     ax.set_title("CSD-score separation + Boettiger null")
-    fig.suptitle("Falsifier (iii): powered semantic critical-slowing-down across WSB roster",
+    fig.suptitle("Test (iii): powered semantic critical-slowing-down across WSB roster",
                  fontsize=12)
     fig.tight_layout()
     fig.savefig(os.path.join(HERE, "figure_roc.png"), dpi=120)

@@ -1,8 +1,8 @@
 """Domain study 4: civil nuclear power — a case study, not a fit.
 
 Seven decades, ten INES>=4-class events. With N this small a logistic fit
-would be numerology, so this module does only what the pre-registration
-allows: decade-level event rates per reactor-year with Jeffreys (Gamma)
+would be numerology, so this module does only what the sample supports:
+decade-level event rates per reactor-year with Jeffreys (Gamma)
 credible intervals, and the ordinal question — do high-v/s decades sit
 above low-v/s decades in event rate?
 

@@ -1,8 +1,7 @@
-"""Principled derivation of the frozen threshold f for the neff_v2 sealed test.
+"""Principled derivation of the threshold f for the neff_v2 test.
 
-Run BEFORE the fresh roster is harvested. Uses ONLY the EXISTING tuning data
-(validation/wikipedia/data, the 20-article roster) and the engine simulation.
-NOTHING here touches the fresh neff_v2 roster.
+Uses ONLY the EXISTING tuning data (validation/wikipedia/data, the 20-article
+roster) and the engine simulation. NOTHING here touches the fresh neff_v2 roster.
 
 Route (i)  PRIMARY -- clean-null distribution.
   Re-pick, per existing event article, the genuinely-quietest 49-day window inside

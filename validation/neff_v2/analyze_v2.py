@@ -1,10 +1,10 @@
-"""SEALED analysis for test ii' v2 on the FRESH roster.
+"""Analysis for test ii' v2 on the FRESH roster.
 
-Reuses the FROZEN analysis functions from validation/wikipedia/neff_collapse_wiki.py
+Reuses the analysis functions from validation/wikipedia/neff_collapse_wiki.py
 (coedit_graph, blind_partition, block_bucket_matrix, neff_macro, collapse_for_partition,
 analyze_run) and the V2 clean-null window picker (quietest_pseudo_onset, collapse_at)
-verbatim by import. Applies the FROZEN threshold f and decision rule from
-PRE_REGISTRATION_neff_v2.md. Nothing here is tuned.
+verbatim by import. Applies the threshold f and decision rule from
+METHOD_neff_v2.md. Nothing here is tuned.
 
 Emits result_neff_v2.json + figure_neff_v2.png. Run: py -3.12 analyze_v2.py
 """
@@ -31,7 +31,7 @@ import neff_collapse_wiki as N   # noqa: E402 frozen analysis functions
 import roster_v2 as R            # noqa: E402
 import v2_clean_calm as V2       # noqa: E402 clean-null window picker
 
-# ---- FROZEN values (from PRE_REGISTRATION_neff_v2.md / derive_f.json) ----
+# ---- FROZEN values (from METHOD_neff_v2.md / derive_f.json) ----
 FROZEN_F = 0.298       # Route (i) clean-null 95th percentile, frozen before harvest
 P90 = 0.90             # fire-vs-shuffle and beats-clean pctile
 MIN_N = 8
@@ -173,7 +173,7 @@ def make_figure(rows, summary):
         ax[1].axvline(summary["median_event_drop"], ls=":", c="#8e44ad",
                       label=f"event median={summary['median_event_drop']:.2f}")
     ax[1].set_xlabel("N_eff collapse drop"); ax[1].set_ylabel("articles")
-    ax[1].set_title(f"Event vs clean null  --  SEALED: {summary['SEALED_VERDICT']}", fontsize=10)
+    ax[1].set_title(f"Event vs clean null  --  {summary['SEALED_VERDICT']}", fontsize=10)
     ax[1].legend(fontsize=8)
     fig.tight_layout()
     fig.savefig(os.path.join(HERE, "figure_neff_v2.png"), dpi=120)

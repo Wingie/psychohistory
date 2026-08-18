@@ -1,4 +1,4 @@
-"""Falsifier (iii) POWERED early-warning harvest.
+"""Test (iii) POWERED early-warning harvest.
 
 Stream the WSB *submissions* .zst exactly ONCE and capture submission TEXT
 (title + selftext) for every submission that falls inside any roster harvest

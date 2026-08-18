@@ -36,14 +36,14 @@ challenged. EWS rolling window = 6 weeks for every event.
 | `europe_covid2020` | r/europe | 2020-03-02 | exogenous | COVID lockdown shock — an exogenous unexpected announcement, not a community-internal build-up. |
 | `crypto_ftx2022` | r/CryptoCurrency | 2022-11-07 | exogenous | FTX insolvency revelation (CoinDesk article → Binance tweet); a sudden external announcement, not a slow reflexive build-up. |
 
-## Notes / honest limits on the roster
+## Notes / limits on the roster
 - **N is small** (6 endogenous, 4 exogenous) and several events share subreddits,
   so events are not fully independent.
 - Some labels are arguable. FTX is treated as exogenous (the trigger was a leaked
   balance sheet + Binance announcement landing suddenly); one could argue an
   endogenous bank-run dynamic followed. Luna is treated as endogenous (the
   death-spiral is mechanically self-reinforcing). These choices are stated so a
-  reviewer can flip them and re-run.
+  reader can flip them and re-run.
 - r/AskEconomics is low-volume, so 100 posts span many days and the weekly
   density is **temporally smeared** — the proxy is coarsest exactly for the
   exogenous controls. Treat their AUCs as conservative/noisy.

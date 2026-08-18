@@ -109,7 +109,7 @@
       <div class="math-eq">$$J = \underbrace{\rho\,v}_{\text{advection}} \;-\; \underbrace{D\,\nabla\rho}_{\text{diffusion}} \;+\; \underbrace{\rho\,b}_{\text{belief drift}}.$$</div>
       <p class="math-where"><b>Where:</b> <code>v</code> is a baseline advective velocity (where attention is already heading); <code>D</code> is a diffusion constant (attention spreads to neighbouring topics); <code>b</code> is the belief drift field — a <em>direction</em> that biases the flux. Valence (approve vs reject) rides on top of all this as a separate, non-conserved order parameter, the magnetization analogue.</p>
       <p class="math-where"><b>Reading it:</b> high $\rho$ with $b$ pointing inward is legitimacy; high $\rho$ with $b$ pointing outward is crisis — a bank at 48-hour run intensity. Demo A above is exactly this equation with $v=0$, a small $D$, and a tunable $b$ toward one topic.</p>
-      <p class="testhonest"><b>§ Honest:</b> the advective and belief terms are an exact directed transport; the diffusion term conserves only the <em>integral</em> of $\rho$, not a per-unit ledger. The continuity equation is a statement about the total, not a receipt for each unit of attention.</p>
+      <p class="testhonest"><b>§ Scope:</b> the advective and belief terms are an exact directed transport; the diffusion term conserves only the <em>integral</em> of $\rho$, not a per-unit ledger. The continuity equation is a statement about the total, not a receipt for each unit of attention.</p>
     </div>
   </div>
 </section>
@@ -225,12 +225,12 @@
   <div class="wrap">
     <div class="eyebrow">6 · Observation &amp; assimilation</div>
     <h2>Estimating the state, and knowing when you have left the model</h2>
-    <p class="lead">The engine is a state-space system: it estimates a hidden social state, assimilates noisy observations, runs a perturbed ensemble forward, and reports its spread plus an honest skill horizon. The load-bearing piece is the self-diagnosis — a monitor that fires when reality has left the model (the "Mule" / out-of-distribution event).</p>
+    <p class="lead">The engine is a state-space system: it estimates a hidden social state, assimilates noisy observations, runs a perturbed ensemble forward, and reports its spread plus an explicit skill horizon. The load-bearing piece is the self-diagnosis — a monitor that fires when reality has left the model (the "Mule" / out-of-distribution event).</p>
     <div class="math-block">
       <h3>The ensemble update and the misspecification monitor</h3>
       <div class="math-eq">$$x_a = x_f + K\big(y - Hx_f\big), \qquad z_t = \frac{y_t - H x_{f,t}}{\sqrt{S_t}}.$$</div>
-      <p class="math-where"><b>Where:</b> $x_f$ is the forecast (prior) state, $y$ the observation, $H$ the observation operator, $K$ the Kalman gain that optimally weights prior against data, and $x_a$ the updated (posterior) estimate. The second quantity $z_t$ is the <em>normalized innovation</em>: the surprise of each observation in units of its own predicted standard deviation $\sqrt{S_t}$. When $|z_t|$ blows past its expected range, the model is being falsified in real time — no future information required.</p>
-      <p class="math-where"><b>What the data showed:</b> run strictly causally on r/AskEconomics monthly activity, the filter beat climatology and was best-calibrated, but did <em>not</em> beat a persistence (last-value) baseline — an honest negative. The win was the monitor firing at $z=-3.33$ on a real April-2025 regime break. <a class="math-link" href="tests.html#enkf">▸ the full EnKF test</a></p>
+      <p class="math-where"><b>Where:</b> $x_f$ is the forecast (prior) state, $y$ the observation, $H$ the observation operator, $K$ the Kalman gain that optimally weights prior against data, and $x_a$ the updated (posterior) estimate. The second quantity $z_t$ is the <em>normalized innovation</em>: the surprise of each observation in units of its own predicted standard deviation $\sqrt{S_t}$. When $|z_t|$ blows past its expected range, reality has left the model in real time — no future information required.</p>
+      <p class="math-where"><b>What the data showed:</b> run strictly causally on r/AskEconomics monthly activity, the filter beat climatology and was best-calibrated, but did <em>not</em> beat a persistence (last-value) baseline. The win was the monitor firing at $z=-3.33$ on a real April-2025 regime break. <a class="math-link" href="tests.html#enkf">▸ the full EnKF test</a></p>
     </div>
   </div>
 </section>

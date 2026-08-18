@@ -52,7 +52,7 @@ These reproduce the paper's sim-table numbers; **import them, do not re-derive.*
 | `skill_horizon(K, W, …)` | `tau*` from ensemble-spread growth vs climatological spread; **collapses as `W` → criticality** | L5/L7 |
 | `systems_stockflow(spec_str, rounds)` | the lethain stock-and-flow helper for the slow conserved core | L1 |
 
-> Honesty rail: these sims verify **internal consistency only**. Never cite a sim run as
+> Rail: these sims verify **internal consistency only**. Never cite a sim run as
 > empirical validation.
 
 ### `validation/pipeline_v03/` — the v0.3 observation-operator upgrades (L2 / L6)
@@ -101,36 +101,30 @@ construction); `RESULTS.md` in that directory records the pilot outputs.
 
 5. **Synthesize via the Prime Radiant (L7)** (`reference/07_prime_radiant.md`): fuse the
    active layers into one reading, state the dominant mechanism and cross-terms, set the
-   objective from the regime, and **report with the skill horizon `tau*` and honest caveats**,
+   objective from the regime, and **report with the skill horizon `tau*` and its caveats**,
    using the output template in `SKILL.md`.
 
 ---
 
-## 4. Honesty rails to carry (non-negotiable)
+## 4. Rails to carry (non-negotiable)
 
 - **Mention-density is a scalar shadow of the vector theory.** Prefer the semantic / embedding
   observables (semantic CSD, centroid dispersion); a scalar count cannot see belief dispersion
   rising while volume is flat.
-- **Results are preliminary on small n.** The pilots run on modest corpora; treat every number
-  as illustrative of the *procedure*, not as a validated effect.
-- **A backtest discharges no pre-registered test.** Retrospective fits on already-resolved
-  episodes are hypothesis-generating, not confirmatory. They do not count as the falsification
-  the program owes.
-- **Pre-register thresholds before lodging.** Fix and time-stamp every numeric threshold *before*
-  you see the out-of-sample data, so there is no freedom to move the goalposts after the fact.
+- **Small n.** The pilots run on modest corpora; treat every number as illustrative of the
+  *procedure*, not as a measured effect size.
+- **Retrospective fits are hypothesis-generating.** A fit on an already-resolved episode tells
+  you the procedure runs; it does not establish that the mechanism generalizes.
 - And the sims verify internal consistency only — never cite a sim as empirical validation.
 
 ---
 
-## 5. Worked examples and the test protocol
+## 5. Worked examples
 
 - **`validation/`** holds the worked pilots: the **Reddit** pilots (AskEconomics text and the
   GME/WSB episode) and the **GitHub** pilot (`validation/github/`, the LLM-agent contributor
   cohort), plus `validation/backtests/` for the early-warning / block-sync / operator backtests
   and `validation/pipeline_v03/RESULTS.md` for the v0.3 operator outputs.
-- **`validation/PRE_REGISTRATION.md`** is the test protocol: the pre-registered, time-stamped
-  falsification tests (the seal / registry mechanism, the enumerated tests, and the proposed
-  thresholds to freeze before lodging). Read it before claiming any result is a confirmation.
 
 ---
 

@@ -3,12 +3,12 @@
 Panel: JST Macrohistory R6, 18 countries, 1875-2020, excluding the world
 wars (1914-1918, 1939-1945) as in Schularick-Taylor 2012. v = trailing
 5-year annualized real credit growth (tloans deflated by CPI). s = the
-era-coded regulation/repression index (curated; honesty notes in
+era-coded regulation/repression index (curated; coding notes in
 curated/README.md). Event = systemic crisis flag (crisisJST).
 
 Step 1 reproduces the known result (credit booms predict crises: the v-only
 logit has beta > 0 and beats chance). Step 2 is our addition: does the
-steering term improve on it? Pre-registered falsifier: LR(full vs v) —
+steering term improve on it? The primary comparison: LR(full vs v) —
 p > 0.1 here counts against s/acc.
 
 Run `python -m steering_envelope.validate.finance`.

@@ -11,7 +11,7 @@ Detector logic is **reused verbatim** from the Reddit work:
 - detrended critical-slowing-down (CSD) Kendall-tau detector + base-rate-null AUC ← `backtests/early_warning_battery/battery.py`
 - operator lead-lag (first-differenced xcorr) + buildup-shape classifier ← `backtests/major_player_signal/detector.py`
 
-**Stance:** adversarial and honest. All numbers below are real script outputs
+**Stance:** adversarial. All numbers below are real script outputs
 (`test1_structural.json`, `test2_early_warning.json`, `test3_operator.json`,
 `results_all.json`), not placeholders.
 
@@ -184,8 +184,8 @@ chance). The operator-signal result is the informative split: the *concentration
 mechanism replicates strongly (a single dominant founder drives each cascade, mean
 commit share 0.62), but the *gradual-buildup* signature that discriminated the
 Roaring Kitty case does **not** appear, because GitHub repos ignite within weeks of
-creation rather than after a months-long accumulation. Net: this is a genuine,
-honest cross-domain probe in which two of three findings reproduce and the third
+creation rather than after a months-long accumulation. Net: this is a genuine
+cross-domain probe in which two of three findings reproduce and the third
 reproduces in mechanism but not in temporal shape — consistent with the framework
 being **domain-general in its structural/coordination claims** while its
 critical-transition timing claims are platform- and timescale-dependent.
@@ -197,7 +197,7 @@ critical-transition timing claims are platform- and timescale-dependent.
 
 ---
 
-## HONEST CAVEATS (read before citing)
+## CAVEATS (read before citing)
 
 - **Proxy, not stars.** `/stats/contributors` reports **commits**, an *activity* proxy
   for the star-driven *attention* cascade. The GH Archive probe shows commits track

@@ -50,7 +50,7 @@ validation/reddit_dump/fetch.log
 
 # ALL harvested / cached per-run data across every test dir (regenerable from the
 # dump or public APIs via each test's harvest script; never commit). The committed
-# artifacts (pre-registration, analysis scripts, result JSON, RESULTS.md, figures)
+# artifacts (method docs, analysis scripts, result JSON, RESULTS.md, figures)
 # live ABOVE data/ and are kept.
 validation/**/data/
 validation/reddit_wsb/data/*.jsonl
@@ -69,7 +69,7 @@ Thumbs.db
 
 # Keep: psychohistory.pdf, psychohistory.tex, sims, requirements, README/LICENSE/ETHICS,
 # all figures (_verify_out/, figures/, validation/**/*.png), every validation script +
-# pre-registration + result JSON + RESULTS.md, the multi-page site/, and the skill
+# method doc + result JSON + RESULTS.md, the multi-page site/, and the skill
 # (.claude/skills/psychohistory/). Raw/large data and build artifacts are NOT committed.
 
 # steering_envelope: raw downloaded data cache (regenerable via validate/datasets.py fetchers)
