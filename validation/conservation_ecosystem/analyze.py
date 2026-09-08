@@ -1,18 +1,18 @@
-"""Ecosystem-scale conservation test (pre-registration test (i)) - analysis step.
+"""Ecosystem-scale conservation test (test (i)) - analysis step.
 
 Reads weekly_counts.json (per-sub weekly submission counts) and tests, over a
-pre-registered MANIA window vs a CALM baseline window of equal length:
+MANIA window vs a CALM baseline window of equal length:
 
   (a) TOTAL attention drift = (mean basket total in MANIA) / (mean in CALM) - 1.
-      Pre-registered bound X = 15%. If the total balloons (>> +15%), conservation
+      Bound X = 15%. If the total balloons (>> +15%), conservation
       is CONTRADICTED at this scale.
   (b) COMPOSITION churn = total-variation distance between the CALM share vector
       and the MANIA share vector = 0.5 * sum_i |share_mania_i - share_calm_i|.
-      Pre-registered floor Y = 40%.
+      Floor Y = 40%.
 
 Submission count is an ACTIVITY PROXY for attention-minutes. A finance/meme basket
 is NOT the whole attention economy, so a balloon here can be genuine import from
-outside the basket rather than a refutation of the global conservation claim.
+outside the basket rather than a contradiction of the global conservation claim.
 
 Windows (8 weeks each, by Monday labels):
   CALM  : 2020-10-05 .. 2020-11-23 (8 Mondays, autumn 2020, pre-mania)
@@ -106,7 +106,7 @@ def main():
         verdict_note = ("neither clean balloon nor clean flat-with-churn")
 
     result = {
-        "test": "pre-registration (i) conservation / zero-sum attention, ECOSYSTEM scale",
+        "test": "test (i) conservation / zero-sum attention, ECOSYSTEM scale",
         "proxy": "weekly submission count (activity proxy for attention-minutes)",
         "thresholds": {"X_drift_bound": X, "Y_churn_floor": Y},
         "basket": subs,
@@ -138,8 +138,8 @@ def main():
             "direct measure. This finance/meme basket is NOT the whole attention "
             "economy; a balloon here can be genuine import of attention from outside "
             "the basket (people reallocating from non-finance subs and from offline) "
-            "rather than a refutation of the GLOBAL sub-generational-budget claim. The "
-            "pre-registered global test fixes the scale to the top-N platform total, "
+            "rather than a contradiction of the GLOBAL sub-generational-budget claim. The "
+            "global test fixes the scale to the top-N platform total, "
             "which this single-ecosystem basket does not span."
         ),
     }

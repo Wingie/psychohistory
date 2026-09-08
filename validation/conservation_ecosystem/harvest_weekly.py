@@ -1,4 +1,4 @@
-"""Ecosystem-scale conservation test (pre-registration test (i)) - harvest step.
+"""Ecosystem-scale conservation test (test (i)) - harvest step.
 
 Stream each finance/meme-basket SUBMISSIONS .zst once and build a weekly
 submission-count series per subreddit over 2020-06-01 .. 2021-07-04 (spanning

@@ -503,7 +503,7 @@ function renderTable(){
         <div class="lab">dominant mechanism</div><p class="mech">${escapeHtml(r.dominant_mechanism)}</p>
         <div class="lab">reading</div><p>${escapeHtml(r.reading)}</p>
         <div class="lab">skill horizon</div><p>${escapeHtml(r.skill_horizon)}</p>
-        <div class="lab">key falsifier</div><p>${escapeHtml(r.key_falsifier)}</p>
+        <div class="lab">what would break this reading</div><p>${escapeHtml(r.key_falsifier)}</p>
       </div></td></tr>` : '';
     return head + detail;
   }).join('');
@@ -587,7 +587,7 @@ function classify(text){
   let reading;
   const dom = layers.find(l=>l!=='L1' && l!=='L6') || layers[0];
   if (set.size === 1 && set.has('L1')){
-    reading = `This is a slow-stock question (L1) — demographics, debt, wages, fiscal capacity. The dramatic machinery (criticality, reflexivity) does not apply; it resolves as comparative statics over parameters, and most likely needs a number fetched. The honest verdict is the quiet core, not a forecast of a transition.`;
+    reading = `This is a slow-stock question (L1) — demographics, debt, wages, fiscal capacity. The dramatic machinery (criticality, reflexivity) does not apply; it resolves as comparative statics over parameters, and most likely needs a number fetched. The verdict is the quiet core, not a forecast of a transition.`;
   } else {
     const names = layers.map(l=>l).join(', ');
     reading = `This routes onto ${names}. The dominant mechanism sits at ${dom} (${LAYER_BLURB[dom]}). ` +

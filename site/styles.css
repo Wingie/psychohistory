@@ -468,7 +468,7 @@ a.hub-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); b
 .method-rail ul { margin: 6px 0 0; padding-left: 1.1em; }
 .method-rail li { color: var(--ink-dim); margin-bottom: 6px; }
 
-/* ---- falsifier scorecard ---- */
+/* ---- test scorecard ---- */
 .scorecard td:first-child { font-family: var(--mono); font-size:.8rem; color: var(--gold); white-space:nowrap; }
 .scorecard .sc-pass        { color: var(--green); font-weight:600; }
 .scorecard .sc-partial     { color: var(--amber-warn); font-weight:600; }

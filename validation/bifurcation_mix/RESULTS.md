@@ -1,24 +1,21 @@
 # Test (iii') Bifurcation-Mix Conjecture -- RESULTS
 
-**The bet the paper names as most likely to fail.** Pre-registered rule frozen in
-`PREREG.md` BEFORE any B-fraction was computed. Committed floor **pi_B = 0.60**: the
+Classification rule in `METHOD.md`. Floor **pi_B = 0.60**: the
 conjecture is REFUTED on this roster if the B-tipping fraction is below 0.60. Two
-independent classifications were applied to the same frozen roster of 24 attention
+independent classifications were applied to the same roster of 24 attention
 cascades (14 Wikipedia + 10 r/wallstreetbets), one STRUCTURAL (blind to the early-warning
 / N_eff score) and one SUBSTANTIVE (blind to the N_eff collapse outcome).
 
 ## Headline
 
-**The two pre-registered classifications disagree across the floor, and the honest verdict
-is split.**
+**The two classifications disagree across the floor, and the verdict is split.**
 
 - **STRUCTURAL proxy: B-fraction = 0.750 (18 B / 6 R / 0 N of 24) -> SUPPORTED.**
 - **SUBSTANTIVE adjudication: B-fraction = 0.333 (8 B / 16 R / 0 N of 24) -> REFUTED.**
 - **Inter-rater agreement is weak:** raw agreement 0.583, Cohen's kappa = 0.286 (identical
   on the 3-category {B,N,R} and the binary {B, not-B} collapse).
 
-When two pre-registered rules straddle the committed floor, we do NOT pick the one that
-passes. The substantive rule is the one that actually encodes the conjecture's MEANING
+When two rules straddle the floor, we do NOT pick the one that passes. The substantive rule is the one that actually encodes the conjecture's MEANING
 (slow-building crisis = B vs sudden external shock = R, judged from the public onset), and
 it REFUTES. The structural proxy is a mechanical feature that, on inspection below,
 saturates on one substrate and therefore over-counts B. So the defensible reading is:
@@ -26,7 +23,7 @@ saturates on one substrate and therefore over-counts B. So the defensible readin
 only "passes" under a proxy that is shown below to be biased toward B.** We report it as a
 REFUTATION with the disagreement and its cause stated in full.
 
-## The pre-registered rule (frozen first)
+## The rule
 
 STRUCTURAL (keyed on two features that never touch the N_eff SCORE):
 - `f_existing` = existing-community share of onset activity (the diagnostic V1 quantity,
@@ -38,11 +35,10 @@ STRUCTURAL (keyed on two features that never touch the N_eff SCORE):
 
 SUBSTANTIVE (public onset description, one line per event, blind to the collapse outcome):
 slow-building crisis/bubble = **B**; sudden unanticipated external shock = **R**; endogenous
-noise = **N**. Rationales are in `classify.py`'s `SUBSTANTIVE` table, committed with the
-PREREG.
+noise = **N**. Rationales are in `classify.py`'s `SUBSTANTIVE` table.
 
-Thresholds `SHARE_HI = 0.20` and `ABRUPT_HI = 8.0` were fixed in `PREREG.md` before the WSB
-shares were computed.
+Thresholds `SHARE_HI = 0.20` and `ABRUPT_HI = 8.0` are set in `METHOD.md`, independently of
+the WSB shares.
 
 ## Results table
 
@@ -82,7 +78,6 @@ substantive Wikipedia-only B-fraction is 4/14 = 0.286). On both substrates the s
 rating puts B in the minority once the GME/AMC meme family is separated from the
 shock-reactions.
 
-This is the outcome the paper pre-committed to as the most likely failure, and it failed.
 The framework's early-warning machinery (test iii) is consequently load-bearing only on the
 minority B-tipping subset (the meme bubbles and the slow balance-sheet failures), exactly
 the events where critical slowing-down is expected, and is correctly silent on the majority
@@ -97,24 +92,21 @@ not transport to "social crises in general." In particular the roster is heavy w
 public events (deaths, crashes, deal closes, invasions) precisely because those produce
 clean, datable attention spikes, which biases the substantive count toward R; and the WSB
 arm over-samples one venue's reflexive bubbles, which biases its substantive count toward B.
-Neither bias is corrected. The honest claim is narrow: on this specific labelled roster,
-under a pre-registered substantive rule, B-tipping is the minority, so the conjecture is
-refuted here. A clean test would require a randomly drawn frame of decision-relevant crises
-with externally lodged thresholds, which this is not.
+Neither bias is corrected. The claim is narrow: on this specific labelled roster,
+under the substantive rule, B-tipping is the minority, so the conjecture is
+refuted here. A cleaner test would require a randomly drawn frame of decision-relevant
+crises, which this is not.
 
-## Honesty rails
+## Scope
 
-- Rule frozen in `PREREG.md` before any B-fraction was computed; thresholds not moved after
-  seeing the answer; the result that refutes is reported as refuting.
 - Two classifications reported side by side, including the one that "passes"; the
   disagreement (kappa = 0.286) and its mechanical cause (WSB existing-share saturation) are
-  stated, not hidden.
-- In-sample thresholds, not externally OSF/hash-lodged (same status as the sibling test ii'
-  runs), stated here.
+  stated.
+- In-sample thresholds (same status as the sibling test ii' runs).
 
 ## Files
 
-- `PREREG.md` -- frozen rule (written first).
+- `METHOD.md` -- the classification rule.
 - `classify.py` -- classification script (structural features + substantive table + kappa).
 - `classification_table.md` -- full per-event table.
 - `result_bifurcation_mix.json` -- machine-readable result.

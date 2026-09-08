@@ -18,7 +18,7 @@ and forecast only as far as the state-dependent skill horizon allows.
 
 **Working principle: nothing is "out of scope."** Every question routes to at least one
 layer. Value judgments ("is inequality good or bad?") are not refused - they are converted
-to a *positive* prediction of the valence distribution across blocks (L0). The honest
+to a *positive* prediction of the valence distribution across blocks (L0). The
 output categories are: **MODELED**, **PARTIAL**, **NEEDS-DATA** (the data-acquisition
 layer must fetch a number), or **NORMATIVE-AS-VALENCE** (resolved per block, not in the
 absolute).
@@ -175,13 +175,13 @@ and N_eff from the macro variance-ratio - NOT from Pearson correlation of fluctu
 A new user can stand up their own (defensive) psychohistory analysis engine from this
 bundle. The full, concrete guide — prerequisites, the verified primitives and which layer
 each implements, the v0.3 observation operators, the workflow for analyzing a NEW
-domain/corpus, the honesty rails, and pointers to the worked Reddit + GitHub pilots and the
-pre-registration protocol — is in **`reference/09_build_your_own.md`**. It builds the
+domain/corpus, the operating rails, and pointers to the worked Reddit + GitHub pilots — is
+in **`reference/09_build_your_own.md`**. It builds the
 monitor, not the manipulator: the SAFETY guardrail above applies to anything built with it.
 
 ---
 
-## Honesty rails (do not violate)
+## Operating rails (do not violate)
 
 - The sims verify *internal consistency only*. Never cite a sim as empirical validation.
 - "Attention conservation" is conservation of a *normalized probability measure* (the

@@ -407,7 +407,7 @@ def validate(template, result_label, post, batch):
     the post's flair. Returns (verdict, justification).
 
     verdict in {AGREES, PARTIAL, DISAGREES, NA}. The justification is one line.
-    These judgements encode standard economics; the honesty caveat (no comment
+    These judgements encode standard economics; the caveat (no comment
     bodies) applies to ALL of them.
     """
     label = result_label.lower()

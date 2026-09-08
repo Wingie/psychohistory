@@ -4,7 +4,7 @@ Panel: US, annual, 1926-2023 (VMT series begins 1921; the first five years
 feed the growth window). v = trailing 5-year annualized VMT growth.
 s = cumulative steering-stack index (curated interventions with a 5-year
 phase-in). Event = deterioration year: fatalities per 100M VMT rise
-year-over-year. Pre-registered in the module README; run
+year-over-year. Specified in the module README; run
 `python -m steering_envelope.validate.roads`.
 
 Also reports a +-50% weight-jitter robustness check on the curated steering

@@ -1,4 +1,4 @@
-"""Wikimedia harvester for the SEALED dynamic-N_eff-collapse test (test ii', v2).
+"""Wikimedia harvester for the dynamic-N_eff-collapse test (test ii', v2).
 
 Same logic as validation/wikipedia/harvest.py, but reads the FRESH roster_v2 and
 caches into validation/neff_v2/data/. Public Wikimedia API only (prop=revisions,

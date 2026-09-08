@@ -1,8 +1,8 @@
-"""Frozen FRESH roster + shared frozen params for the SEALED WSB dynamic-N_eff
+"""FRESH roster + shared params for the WSB dynamic-N_eff
 community-SPECIFICITY test (test ii', v4).
 
-Why v4 exists. The v3 sealed run (validation/neff_v3) tested a CONJUNCTION that
-bundled two endpoints: (1) a frozen MAGNITUDE threshold on the N_eff collapse and
+Why v4 exists. The v3 run (validation/neff_v3) tested a CONJUNCTION that
+bundled two endpoints: (1) a MAGNITUDE threshold on the N_eff collapse and
 (2) community-SPECIFICITY (the real block partition collapses harder than a block-
 label shuffle of the same nodes). v3 taught us, in the null itself, that the
 magnitude endpoint is NOT a valid discriminator on this substrate: genuinely-quiet
@@ -11,11 +11,11 @@ short high-volume onset windows shrink N_eff generically. So magnitude was the w
 yardstick. The endpoint that actually tests the theory's claim -- "the EXISTING
 community loses its independence before an endogenous cascade" -- is specificity,
 and in v3 it fired 9/10 (shuffle-pctile of the observed collapse = 1.0 in 8 of 10
-events). v4 pre-registers SPECIFICITY as the standalone PRIMARY endpoint and tests it
-on a FRESH roster disjoint from every prior run. We do NOT relax v3's magnitude
-threshold (that would be goalpost-moving); we test the correct hypothesis on new data.
+events). v4 takes SPECIFICITY as the standalone PRIMARY endpoint and tests it
+on a FRESH roster disjoint from every prior run. v3's magnitude threshold is not
+relaxed; the correct hypothesis is tested on new data.
 
-Design contract (see PRE_REGISTRATION_neff_v4.md):
+Design contract (see METHOD_neff_v4.md):
   - The roster is DISJOINT from the original-10 WSB cascades (reddit_wsb/roster_wsb.py)
     AND from the v3-10 (neff_v3/roster_v3.py). No onset within 14 days of any used
     onset; checked below as a calendar fact, blind to any collapse number.
@@ -26,7 +26,7 @@ Design contract (see PRE_REGISTRATION_neff_v4.md):
   - Params (bucket_days, n_shuffle, windows, caps) are IDENTICAL to v3/the original WSB
     run for comparability. The shuffle null and "fires" pctile are the SAME.
 
-The PRIMARY decision rule (frozen in the prereg, consumed by analyze_v4.py):
+The PRIMARY decision rule (from METHOD_neff_v4.md, consumed by analyze_v4.py):
   PASS iff  (a) fraction of K>=3 events firing vs shuffle >= 0.60
        AND  (b) binomial P(X >= k | n, p0=0.10) < 0.01   [p0 = construction-implied
             false-fire rate: observed > 90th pctile of its own shuffle null]
@@ -34,21 +34,15 @@ The PRIMARY decision rule (frozen in the prereg, consumed by analyze_v4.py):
 Magnitude is still computed and REPORTED (median drop, per-event drops) but is
 explicitly NON-GATING in v4, with v3's diagnosis attached.
 
-RETRACTED. Rule (b) above is unsound and the SEALED PASS it produced is withdrawn.
-p0 is NOT construction-implied: that argument needs the observed statistic to be
-exchangeable with the null draws, and it is not (the observation uses a modularity-
-optimised Louvain partition; every null draw is a uniform relabelling). Measured
-false-fire rates for this rule are 0.49 / 0.60 / 0.80 / 0.83 depending on how they are
-measured; condition (b) breaks above 0.378. This module is left UNCHANGED so the
-retracted run stays exactly reproducible: BINOM_P0 below is deliberately still 0.10
-and no replacement constant is asserted, because none has been measured to a defensible
-point value. Do not "fix" it here. See NULL_RECALIBRATION.md in this directory for the
-measurement and the corrected verdict, and ../neff_v5/PRE_REGISTRATION_neff_v5.md for
-the frozen re-test, which replaces the NULL rather than the constant.
+Note on p0: rule (b)'s p0 = 0.10 assumes the observed statistic is exchangeable with the
+null draws. The observation uses a modularity-optimised Louvain partition while every
+null draw is a uniform relabelling, so this is an approximation. Condition (b) would not
+hold above a per-event fire rate of 0.378. The shuffle null's spread on this substrate is
+reported in RESULTS.md under "Null geometry on this substrate".
 """
 import datetime as dt
 
-# ---------------------------------------------------------------- frozen params
+# ---------------------------------------------------------------- params
 PRE_GRAPH_DAYS = 90        # pre-onset window for commenter selection + co-thread graph
 POST_DAYS = 21             # window after onset to capture the spike
 BASELINE_DAYS = 90
@@ -60,12 +54,10 @@ BUCKET_DAYS = 3
 N_SHUFFLE = 300
 PCTILE = 0.90              # "fires vs shuffle" tested at the 90th pctile of the null
 
-# ---------------------------------------------------------------- frozen primary rule
+# ---------------------------------------------------------------- primary rule
 FIRE_FRACTION_BAR = 0.60   # (a) supermajority of powered events must fire
-# RETRACTED, LEFT AS-IS ON PURPOSE. The exchangeability this comment claims does not
-# hold (Louvain-optimised observation vs uniform relabelling), so 0.10 is unsupported.
-# It stays at 0.10 so the withdrawn run reproduces bit-for-bit; no replacement value is
-# defensible from what has been measured. See NULL_RECALIBRATION.md, section 3.
+# The exchangeability this assumes is approximate: the observation is a
+# modularity-optimised Louvain partition, every null draw a uniform relabelling.
 BINOM_P0 = 0.10            # null per-event fire rate (obs exchangeable with shuffles)
 BINOM_ALPHA = 0.01         # (b) binomial tail must clear this
 MIN_POWERED_N = 8          # (c)

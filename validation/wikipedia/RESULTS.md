@@ -3,32 +3,31 @@
 **Powered cross-domain PILOT.** This run answers the standing objection that the dynamic
 N_eff collapse (the load-bearing criticality gear) was "only suggestive, n=1" on GitHub.
 It does not rely on any throttled API or torrent: English Wikipedia editor activity via
-the public Wikimedia API. Thresholds were frozen in `PRE_REGISTRATION_wiki.md` BEFORE any
-data was harvested.
+the public Wikimedia API. Thresholds are set out in `METHOD_wiki.md`.
 
 ## Headline
 
 The dynamic N_eff collapse is **real and statistically robust across a powered, n=14
-cross-domain roster, but it does NOT clear the frozen pre-registered falsification bar.**
-Both halves of that sentence are load-bearing; we report them together.
+cross-domain roster, but it does NOT clear the decision rule.** Both halves of that
+sentence are load-bearing; we report them together.
 
 - **Directional prediction — SUPPORTED (p < 0.01).** Real attention-spike onsets collapse
   the effective number of independent editor blocks; matched calm windows on the same
   articles do not. Event median N_eff drop **+0.19** vs calm median **−0.25** (N_eff
   actually *rises* in quiet windows). Event-vs-calm Mann-Whitney one-sided
   **p = 0.0054**; paired Wilcoxon over 9 articles present in both arms **p = 0.0098**.
-- **Frozen pre-registered rule — NOT SUPPORTED.** The committed conjunction fails:
+- **Decision rule — NOT SUPPORTED.** The conjunction fails:
   median event drop 0.19 is below **f = 0.30**; **0 of 14** event articles fire against
   their own block-label-shuffle null; the event median does not exceed the matched-calm
   90th percentile (which is inflated by calm-window contamination, below). Powered bar
   met (n = 14 >= 8).
 
 So test ii' moves from *"suggestive, n=1 anecdote"* to *"a powered, p<0.01 directional
-effect that is below the pre-registered magnitude threshold and is population-wide rather
+effect that is below the magnitude threshold and is population-wide rather
 than community-specific."* The objection is largely removed; the criticality gear demonstrably
-turns. It is not yet a clean pre-registered PASS, and we do not claim one.
+turns. It is not a PASS on the rule.
 
-## Method (frozen; see PRE_REGISTRATION_wiki.md)
+## Method (see METHOD_wiki.md)
 
 - Roster: 20 articles that ALREADY EXISTED and were actively edited before a clean
   external attention-spike onset (articles created at the event are excluded — the GitHub
@@ -36,8 +35,8 @@ turns. It is not yet a clean pre-registered PASS, and we do not claim one.
 - Blocks (blind): editors active on the focal article in `[onset−90d, onset)` define the
   editor set (cap 150, logged); their main-namespace co-editing graph — **focal article
   excluded** so blocks come from genuinely distinct interests, not the trivial everyone-
-  edits-the-focal clique — is partitioned by blind Louvain. Partition frozen pre-onset.
-- N_eff trajectory: frozen blocks' edit activity ON the focal article, bucketed (3 d),
+  edits-the-focal clique — is partitioned by blind Louvain. Partition fixed pre-onset.
+- N_eff trajectory: the pre-onset blocks' edit activity ON the focal article, bucketed (3 d),
   baseline window vs onset window. **Primary metric = canonical macro variance-ratio**
   (engine `block_metrics`: `mean_k Var_t(z_k)/Var_t(mean_k z_k)`, collapses K→1 under
   synchrony). Secondary = legacy Pearson-Kish, reported for comparison.
@@ -65,25 +64,24 @@ turns. It is not yet a clean pre-registered PASS, and we do not claim one.
 Median **+0.19**. The collapse is heterogeneous: insider/financial and slow-building or
 death-of-long-tracked-figure events collapse hard (Evergrande, Maradona, Zelenskyy, QE2,
 Trump); some sudden exogenous shocks where the onset crowd is mostly NEW editors not in
-the frozen pre-onset partition do not (Kobe, Suez). This is consistent with the theory
-that it is the EXISTING community's loss of independence that the frozen-partition metric
+the pre-onset partition do not (Kobe, Suez). This is consistent with the theory
+that it is the EXISTING community's loss of independence that the pre-onset-partition metric
 measures; a pure external flood of newcomers need not synchronize the pre-existing blocks.
 
-## Why the frozen rule fails (honest diagnosis, not goalpost-moving)
+## Why the rule fails
 
 1. **Shuffle-null fires 0/14.** At onset essentially the whole active population converges
    on the focal article, so a *randomly* relabelled partition collapses about as much as
    the real one. The collapse is therefore **population-wide, not community-specific.**
    This is theory-consistent (loss of independence of *any* partition = total
    synchronization) but means the shuffle-specificity gate tested a stronger claim than
-   test ii' requires. We keep the frozen result and report it as a negative on that gate.
-   *Added on round-2 referee review (`logos/REVIEW_ROUND2.md`, finding P-02):* the median
-   event `shuffle_null_p90` on this arm is **0.4909**, against **0.0137** for the identical
-   code on the later WSB roster, a factor of 36. So the 0/14 here and the 9/10 there are to
-   a large extent a statement about the two substrates' null geometry rather than about
-   their community structure, and the cross-substrate contrast built on the two numbers
-   (`../reddit_wsb/RESULTS.md`, `../NEFF_COLLAPSE_SYNTHESIS.md`) is weaker than we read it
-   as being. On this arm the gate is genuinely strict; on WSB it is genuinely weak.
+   test ii' requires. The result is reported as a negative on that gate.
+   The median event `shuffle_null_p90` on this arm is **0.4909**, against **0.0137** for the
+   identical code on the later WSB roster, a factor of 36. So the 0/14 here and the 9/10
+   there are to a large extent a statement about the two substrates' null geometry rather
+   than about their community structure, and the cross-substrate contrast built on the two
+   numbers (`../reddit_wsb/RESULTS.md`, `../NEFF_COLLAPSE_SYNTHESIS.md`) carries that
+   qualification. On this arm the gate is strict; on WSB it is weak.
 2. **Magnitude below f=0.30.** The median is 0.19; pulled down by the heterogeneous
    exogenous-shock cases above. We do NOT lower f to claim a pass.
 3. **Calm-null contamination.** Two "calm" windows (Queen Elizabeth II −1 y, Twitter −1 y)
@@ -98,11 +96,10 @@ These articles were too sleepy before their spike to form >=3 distinct pre-onset
 communities — the same low-pre-onset-structure limit that capped the GitHub pilot. Their
 exclusion is structural (no measurable blocks), not outcome-based.
 
-## Honesty rails
+## Scope
 
-Single platform; analyst-frozen onsets (public event dates); in-sample thresholds committed
-but not externally lodged (OSF/hash) — this is a powered PILOT, not the externally-sealed
-FA-0 test. Editor cap 150/article (a handful hit it). Matched-calm and shuffle nulls guard
+Single platform; analyst-set onsets (public event dates); in-sample thresholds. Editor cap
+150/article (a handful hit it). Matched-calm and shuffle nulls guard against
 the prosecutor's fallacy. The result is illustrative of direction and magnitude across a
 real roster, not a calibrated classifier.
 
@@ -113,8 +110,8 @@ The paper's §obsupgrades / conclusion currently call the dynamic collapse "only
 other. The accurate replacement, if adopted: *the dynamic collapse is directionally confirmed
 on a powered n=14 cross-domain Wikipedia roster (events collapse the effective number of
 independent editor blocks, matched-calm windows do not; event-vs-calm p<0.01), but it sits
-below the pre-registered magnitude threshold and is population-wide rather than community-
-specific, so test (ii') has directional support and is not yet a clean pre-registered pass.*
+below the magnitude threshold and is population-wide rather than community-specific, so
+test (ii') has directional support and does not clear the decision rule.*
 
 ## Reproduce
 

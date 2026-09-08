@@ -1,20 +1,18 @@
-# SEALED dynamic-N_eff-collapse test on a fresh roster (test ii', v2)
+# Dynamic-N_eff-collapse test on a fresh roster (test ii', v2)
 
 **Verdict: NOT A PASS.** On a fresh, disjoint roster of Wikipedia articles, with the
-threshold f derived from existing data and frozen in advance and the calm null built from
-genuinely-quiet windows, the dynamic N_eff collapse does NOT clear the sealed rule. The
-prior "directional support" does not convert to a sealed result here. This is reported
-straight; the threshold and rule were not moved after the numbers were seen.
+threshold f derived from existing data and the calm null built from genuinely-quiet
+windows, the dynamic N_eff collapse does NOT clear the decision rule. The prior
+"directional support" does not convert to a positive result here.
 
-## What was sealed before harvest
+## Design
 
-The two honest fixes were pre-registered in `PRE_REGISTRATION_neff_v2.md` and the threshold
-was derived by `derive_f.py` using ONLY the existing 20-article tuning data and the verified
-engine, BEFORE the fresh roster was selected:
+The two fixes are described in `METHOD_neff_v2.md`, and the threshold was derived by
+`derive_f.py` using ONLY the existing 20-article tuning data and the verified engine:
 
 - **f re-derived principledly.** Route (i): the clean-null distribution (the V2
   genuinely-quiet window method applied to the existing data) gives, over n = 10 clean
-  windows, percentiles p90 = 0.165 and **p95 = 0.298**. f was frozen at the 95th
+  windows, percentiles p90 = 0.165 and **p95 = 0.298**. f was set at the 95th
   percentile, **f = 0.298**: a passing event must beat what a genuinely-quiet window
   produces 95 percent of the time. This lands almost exactly on the old hand-picked 0.30,
   but now because the clean-null 95th percentile is there, not because 0.30 beat a
@@ -23,13 +21,12 @@ engine, BEFORE the fresh roster was selected:
   windows matched to the Wikipedia bucketing reaches median macro-collapse 0.72 (K = 4) and
   0.79 (K = 5), so f = 0.298 sits well below the physically attainable collapse and is not
   an impossibly high bar.
-- **Clean null frozen.** The calm arm is the V2 genuinely-quiet window, not the contaminated
+- **Clean null.** The calm arm is the V2 genuinely-quiet window, not the contaminated
   fixed onset - 365 d offset.
 
-Integrity caveat carried from the pre-registration: n = 10 is small, so the p95 interpolates
-toward the single largest clean drop (Kobe 0.43), making it the least stable summary. We
-froze f at p95 = 0.298 as the route specifies and did NOT lower it to the more robust
-p90 = 0.165. As it happens the verdict is insensitive to this choice (see below).
+n = 10 is small, so the p95 interpolates toward the single largest clean drop (Kobe 0.43),
+making it the least stable summary. f is set at p95 = 0.298 as the route specifies, not at
+the more robust p90 = 0.165. The verdict is insensitive to this choice (see below).
 
 ## Fresh roster
 
@@ -43,7 +40,7 @@ K >= 3**, so the test is powered (n = 11 >= 8).
 
 ## Result
 
-| quantity | value | frozen target | pass |
+| quantity | value | target | pass |
 |---|---|---|---|
 | median event drop | **0.000** | >= f = 0.298 | NO |
 | event > clean p90 (0.311) AND MWU p < 0.05 | 0.000 vs 0.311; p = 0.617 | both | NO |
@@ -60,7 +57,7 @@ The verdict is robust to the f caveat: the median event drop is 0.00, which fail
 against the more stable clean-null p90 = 0.165, so no reasonable choice of f along the
 clean-null distribution rescues a pass.
 
-## Honest reading: why this roster is weaker than the tuning roster
+## Why this roster is weaker than the tuning roster
 
 The tuning roster had a median event drop of 0.19 with a significant event-vs-calm
 separation; this fresh roster has a median of 0.00 and no separation. The fresh roster is
@@ -73,37 +70,37 @@ editor community itself converged on the event. This is consistent with the esta
 mechanism (the collapse tracks the existing community losing independence, not raw onset
 volume), but it means a roster selected blind to outcome and skewed toward exogenous
 financial shocks does not, on aggregate, clear the bar. Selecting for collapse magnitude
-would have biased the test; we did not, and the honest consequence is a NOT.
+would have biased the test, and was not done.
 
 ## What this does and does not establish
 
-- It does NOT seal test (ii'). The sealed conjunction fails on magnitude, on the clean-null
+- It does NOT establish test (ii'). The conjunction fails on magnitude, on the clean-null
   contrast, and on shuffle-firing, on a powered fresh roster.
 - It does confirm, on out-of-sample data, that the collapse is heterogeneous and
   outcome-dependent in exactly the direction the newcomer-flood diagnostic predicted:
   endogenous-community events (Lehman, SBF) collapse, exogenous floods (Ethereum, Reddit,
   Dogecoin) do not, and a blind mix of the two averages to zero.
-- The paper's criticality gear (test ii') therefore stays honestly UNCONFIRMED at the
-  sealed level. The directional/mechanistic findings from the prior synthesis stand; a
-  sealed pass would require either a roster pre-screened for high existing-community
+- The paper's criticality gear (test ii') therefore stays UNCONFIRMED on this roster.
+  The directional/mechanistic findings from the prior synthesis stand; a
+  pass would require either a roster pre-screened for high existing-community
   involvement (which biases the test and was deliberately avoided here) or a different
   substrate where the pre-onset blocks are the ones that actually activate.
 
 ## Files
 
-- `PRE_REGISTRATION_neff_v2.md` -- written first; f frozen at 0.298 before harvest.
+- `METHOD_neff_v2.md` -- the design; f = 0.298.
 - `derive_f.py` / `derive_f.json` -- principled f derivation (Route i clean-null p95;
   Route ii engine bound).
 - `roster_v2.py` -- fresh 15-article roster, disjoint from tuning.
 - `harvest_v2.py` -- Wikimedia harvester (adapted from wikipedia/harvest.py).
-- `analyze_v2.py` -- sealed analysis (reuses frozen functions + V2 clean-null verbatim).
-- `result_neff_v2.json` -- full per-article result and frozen decision.
+- `analyze_v2.py` -- the analysis (reuses the pipeline functions + V2 clean-null verbatim).
+- `result_neff_v2.json` -- full per-article result and decision.
 - `figure_neff_v2.png` -- per-article collapse vs f, and event-vs-clean distributions.
 
 ## Reproduce
 
 ```
-py -3.12 validation/neff_v2/derive_f.py        # derive + freeze f (existing data only)
+py -3.12 validation/neff_v2/derive_f.py        # derive f (existing data only)
 py -3.12 validation/neff_v2/harvest_v2.py       # fresh roster (Wikimedia API)
-py -3.12 validation/neff_v2/analyze_v2.py       # sealed verdict
+py -3.12 validation/neff_v2/analyze_v2.py       # verdict
 ```

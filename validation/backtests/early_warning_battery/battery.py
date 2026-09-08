@@ -1,6 +1,6 @@
 #!/usr/bin/env py -3.12
 """
-EARLY-WARNING FALSIFICATION BATTERY  (multi-cascade, empirical).
+EARLY-WARNING BATTERY  (multi-cascade, empirical).
 
 Turns the single-cascade early-warning test (validation/temporal/
 test_early_warning.py) into a BATTERY across a labeled roster of Reddit
@@ -381,7 +381,7 @@ def main():
 
     # ---- window-sensitivity sweep (transparency; not used to pick the verdict) ----
     print("\n" + "=" * 100)
-    print("WINDOW SENSITIVITY (primary CSD detector) -- reported for honesty, NOT tuned to")
+    print("WINDOW SENSITIVITY (primary CSD detector) -- reported in full, NOT tuned to")
     print("=" * 100)
     sweep = []
     for W in (6, 8, 10, 12):

@@ -6,7 +6,7 @@ SECOND FOUNDATION -- PART A: REGIME / LINEAGE MODEL
 Extends the MYTHOS FABLE scenario with MODEL-LINEAGE DIVERSITY, the model:human
 ratio M/H, and a RESOURCE layer.
 
-HONESTY RAIL: this is a THEORETICAL / SCENARIO analysis with ILLUSTRATIVE
+SCOPE: this is a THEORETICAL / SCENARIO analysis with ILLUSTRATIVE
 parameters. No number here is fit to data. The robust content is the STRUCTURE
 (the shape of how L_eff and human N_eff move across regimes), not the magnitudes.
 

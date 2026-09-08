@@ -1,11 +1,10 @@
-"""Frozen FRESH roster + shared frozen params for the SEALED WSB dynamic-N_eff
+"""FRESH roster + shared params for the WSB dynamic-N_eff
 collapse test (test ii', v3).
 
 This is the single source of truth for harvest_v3.py, derive_f_v3.py and
-analyze_v3.py. EVERY date / param here is committed BEFORE the fresh-roster
-collapse numbers are computed.
+analyze_v3.py.
 
-Design contract (see PRE_REGISTRATION_neff_v3.md):
+Design contract (see METHOD_neff_v3.md):
   - The fresh roster is DISJOINT from the original 10 WSB cascades in
     validation/reddit_wsb/roster_wsb.py (no onset reused).
   - Each onset is an EXTERNAL, publicly-dated market event (date source noted per
@@ -15,14 +14,14 @@ Design contract (see PRE_REGISTRATION_neff_v3.md):
   - Params (bucket_days, n_shuffle, windows, caps) are IDENTICAL to the prior WSB
     run (validation/reddit_wsb) for comparability.
 
-The FROZEN threshold f is derived separately by derive_f_v3.py (95th percentile of
-a CLEAN WSB null) and recorded in derive_f_v3.json + the prereg BEFORE this fresh
-roster is harvested. f is NOT defined in this file because it is data-derived; the
-DECISION RULE that consumes it is frozen in the prereg and in analyze_v3.py.
+The threshold f is derived separately by derive_f_v3.py (95th percentile of
+a CLEAN WSB null) and recorded in derive_f_v3.json. f is NOT defined in this file
+because it is data-derived; the DECISION RULE that consumes it is in METHOD_neff_v3.md
+and in analyze_v3.py.
 """
 import datetime as dt
 
-# ---------------------------------------------------------------- frozen params
+# ---------------------------------------------------------------- params
 PRE_GRAPH_DAYS = 90        # pre-onset window for commenter selection + co-thread graph
 POST_DAYS = 21             # window after onset to capture the spike
 BASELINE_DAYS = 90         # full-trajectory span lead-in (= PRE_GRAPH_DAYS)

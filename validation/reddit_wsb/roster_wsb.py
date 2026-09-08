@@ -3,7 +3,7 @@
 Mirrors validation/wikipedia/roster.py. Single source of truth for harvest_filter.py
 and neff_collapse_wsb.py.
 
-Onset selection (documented honestly):
+Onset selection:
   - The PRIMARY onset is the canonical endogenous GameStop reflexive cascade,
     2021-01-25 (external/public date, not chosen from the data).
   - The remaining onsets are distinct WSB activity-surge events. Each is anchored to a

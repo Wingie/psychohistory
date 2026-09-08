@@ -150,5 +150,5 @@ contribution is the *decomposition and the band*, never a false-precision single
       feed back into the owning layer.
 - [ ] **Move the scope verdict** NEEDS-DATA → PARTIAL/MODELED once the number is fetched and
       cited; record the move.
-- [ ] **Honesty:** a number without a source URL and date is not acquired. Report ranges and
+- [ ] **Sourcing:** a number without a source URL and date is not acquired. Report ranges and
       disagreement, not false precision. Clearly label any placeholder/illustrative figure.

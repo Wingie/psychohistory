@@ -1,11 +1,11 @@
-"""Derive and FREEZE the threshold f for the v3 SEALED WSB test.
+"""Derive the threshold f for the v3 WSB test.
 
 Route (i) PRIMARY -- clean WSB null (this sets f):
   For each of the 12 frozen CLEAN windows (clean_windows.pick_clean_onsets), run the
   FROZEN collapse pipeline (same as the event arm: pre-onset co-thread graph -> blind
   Louvain partition -> canonical macro variance-ratio N_eff, baseline vs onset drop)
   at that clean pseudo-onset. This yields the clean-null macro-N_eff drop distribution.
-  f := its 95th percentile. p90 reported for legibility; seal is on p95.
+  f := its 95th percentile. p90 reported for legibility; the decision line is p95.
 
 Route (ii) CROSS-CHECK -- engine E4 sanity bound (does NOT set f):
   Reuses validation/neff_v2/derive_f.py's logic verbatim: the verified coupled-block
@@ -84,12 +84,11 @@ def route_i_clean_null():
     cd = sorted(clean_drops)
     # The quiet-window fire rate. This is the EMPIRICAL null p0 for the v4 specificity
     # rule -- what fraction of genuinely-quiet pseudo-onsets clear their OWN shuffle
-    # null. Reported here, non-gating for f, and deliberately not substituted into any
-    # frozen rule: n=12 is too small to set a threshold on. It is the measurement that
-    # tells you whether p0=0.10 is defensible. This is step 1 of "What would settle
-    # it" in neff_v4/NULL_RECALIBRATION.md §6; note that file's finding that the
-    # shuffle null is degenerate here, so a measured p0 bounds the damage rather than
-    # repairing the rule. The frozen re-test is neff_v5/PRE_REGISTRATION_neff_v5.md.
+    # null. Reported here, non-gating for f, and not substituted into any
+    # decision rule: n=12 is too small to set a threshold on. It is the measurement that
+    # tells you whether p0=0.10 is defensible. The shuffle null is near-degenerate on
+    # this substrate (see neff_v4/RESULTS.md, "Null geometry"), so a measured p0 bounds
+    # the effect rather than repairing the rule.
     fired = [r for r in rows if r.get("status") == "OK"
              and r.get("fires_vs_shuffle") is not None]
     n_fire = sum(1 for r in fired if r["fires_vs_shuffle"])

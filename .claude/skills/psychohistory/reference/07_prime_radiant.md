@@ -25,7 +25,7 @@ equations and re-emit. It is a working model, not a verdict carved in stone.
   fixed point vs imitative → bistable / multiple fixed points.
 - **L6 data** — fetched, URL-cited magnitudes; integrity diagnosis.
 
-> Honesty rail: the sims verify **internal consistency only**. Never cite a sim run as
+> Rail: the sims verify **internal consistency only**. Never cite a sim run as
 > empirical validation. Numbers below are illustrative of the *procedure*.
 
 ---
@@ -54,8 +54,8 @@ equations and re-emit. It is a working model, not a verdict carved in stone.
    - reflexive/controllable → **recommend minimal-intervention control** (the announcement /
      guarantee that moves the fixed point).
 6. **Compute the skill horizon** `tau*` via `engine.skill_horizon` (ensemble-spread growth vs
-   climatological spread). `tau*` **collapses** as `W` rises toward criticality — report it
-   honestly; near-critical `tau*` is short.
+   climatological spread). `tau*` **collapses** as `W` rises toward criticality — report the
+   collapsed value; near-critical `tau*` is short.
 7. **Assign confidence** (low/med/high + why) — driven by regime, data quality (L6), and
    model agreement.
 8. **List falsifiers** — the concrete observation that would break the reading.
@@ -74,7 +74,7 @@ ACTIVE LAYERS: L2 attention (over-concentration), L4 reflexivity (self-fulfillin
 DOMINANT MECHANISM: Endogenous attention/capital concentration locked in by imitative
                     coupling — the price is high partly because it is high (a reflexive
                     near-fixed-point), which is the definition of an over-concentrated,
-                    fragile regime rather than a falsifiable "wrong valuation."
+                    fragile regime rather than a simple "wrong valuation."
 
 MODEL:
   L2 (attention transport): valuation share is a conserved-salience carrier with belief
@@ -105,7 +105,7 @@ FORECAST / STRUCTURAL CLAIM:
   attention (L2) sustained by an imitative, bistable reflexive regime (L4) in an
   over-synchronized market (L5). That state is FRAGILE and shows early-warning signatures
   (rising synchrony S, falling N_eff, rising variance & lag-1 autocorrelation, breadth
-  collapse). The honest claim: we can forecast the FRAGILITY and read the early-warning
+  collapse). The claim: we can forecast the FRAGILITY and read the early-warning
   signals; we CANNOT forecast the POP DATE. The pop is on the unpredictable branch — a
   bistable, near-critical transition whose timing is set by which shock arrives when, not by
   the current state. Objective therefore = "predict the transition, not the branch": flag

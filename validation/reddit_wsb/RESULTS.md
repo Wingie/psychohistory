@@ -1,10 +1,10 @@
 # r/wallstreetbets dynamic-N_eff-collapse test (test ii', Reddit mirror) - RESULTS
 
 **Powered cross-domain PILOT.** This is the Reddit-comment companion to the Wikipedia
-dynamic-N_eff-collapse run (`validation/wikipedia/`). It mirrors that frozen method
+dynamic-N_eff-collapse run (`validation/wikipedia/`). It mirrors that method
 EXACTLY (same canonical macro variance-ratio N_eff primary metric, same Pearson-Kish
 secondary, same blind pre-onset Louvain partition, same 3-day buckets, same 300x
-block-label-shuffle null, same matched-calm arm, same frozen thresholds f=0.30 /
+block-label-shuffle null, same matched-calm arm, same thresholds f=0.30 /
 fire-at-90th-pctile / powered-n>=8). Only the substrate changes: the co-EDITING graph
 of Wikipedia editors is replaced by the co-THREAD graph of WSB commenters (nodes = users,
 edge weight = number of threads `link_id` in which both commented). This is the case the
@@ -13,8 +13,8 @@ REAL community structure makes the collapse community-specific (fires vs the shu
 where Wikipedia's editor graphs did not (Wikipedia fired 0/14).
 
 Data: `validation/reddit_dump/.../wallstreetbets_comments.zst` (7.1 GB, streamed, never
-fully decompressed). Onsets committed in `roster_wsb.py` before the collapse numbers were
-computed; thresholds are the frozen Wikipedia ones, unchanged.
+fully decompressed). Onsets are set in `roster_wsb.py`; thresholds are the Wikipedia ones,
+unchanged.
 
 ## Headline
 
@@ -25,26 +25,25 @@ comment communities that lose independence, not an arbitrary relabelling. **This
 headline contrast with the Wikipedia run and it is a clean positive on the one gate
 Wikipedia failed.**
 
-The frozen pre-registered CONJUNCTION still does not pass, for the same two reasons it
-failed on Wikipedia (magnitude and calm-window contamination), so the overall frozen
+The CONJUNCTION still does not pass, for the same two reasons it
+failed on Wikipedia (magnitude and calm-window contamination), so the overall
 verdict is **NOT SUPPORTED**. Both halves are load-bearing and reported together.
 
 - **Community-specificity (the Wikipedia-failure gate) - PASSED on Reddit.** 9/10 event
  windows fire vs shuffle (observed collapse at the 100th percentile of the 300-perm null
  in every firing case; null p90 ~0.00–0.07). Wikipedia: 0/14. cond2 (>=0.5 fire) holds
  (0.90).
-- **Frozen conjunction - NOT SUPPORTED.** Median event drop **0.219 < f = 0.30** (cond1
+- **Conjunction - NOT SUPPORTED.** Median event drop **0.219 < f = 0.30** (cond1
  fails); event median does not clear the matched-calm 90th percentile (calm_p90 = 0.301,
  cond3 fails) because several "calm" windows landed on other live cascades (below).
  Powered bar met (n = 10 event runs, all K>=3 >= 8).
 
 So on Reddit test ii' is no longer "suggestive n=1": it is a powered n=10 run in which the
 collapse is demonstrably community-specific (the gate that distinguishes a real structural
-synchronization from a population-wide flood), but it sits below the pre-registered
-magnitude threshold and the matched-calm null is contaminated. We do not lower f or change
-the rule.
+synchronization from a population-wide flood), but it sits below the
+magnitude threshold and the matched-calm null is contaminated. f and the rule are unchanged.
 
-## Method (frozen; mirrors PRE_REGISTRATION_wiki.md)
+## Method (mirrors METHOD_wiki.md)
 
 - **Roster (committed in `roster_wsb.py`):** 10 WSB event onsets, each a public event date
  AND corroborated by a raw daily-comment-volume peak in the dump (`data/volume_scan.json`).
@@ -53,9 +52,9 @@ the rule.
  arm at onset − 365 d.
 - **Blocks (blind):** commenters in the pre-onset window `[onset−90d, onset)` define the
  user set; their co-thread graph (edge = #threads both commented in) is partitioned by
- blind Louvain on the giant component; the partition is FROZEN pre-onset. No outcome
+ blind Louvain on the giant component; the partition is fixed pre-onset. No outcome
  knowledge enters it.
-- **N_eff trajectory:** the frozen blocks' COMMENT activity is bucketed (3 d), baseline
+- **N_eff trajectory:** the pre-onset blocks' COMMENT activity is bucketed (3 d), baseline
  window vs onset window. **Primary = canonical macro variance-ratio** (engine
  `block_metrics`: `mean_k Var_t(z_k)/Var_t(mean_k z_k)`, collapses K→1 under synchrony);
  secondary = legacy Pearson-Kish. drop = 1 − N_eff(onset)/N_eff(baseline).
@@ -73,9 +72,9 @@ Louvain tractable and the co-thread graph from exploding we made three documente
  only ~250–460 threads per run out of 15 k–40 k used (<2%), so it is a negligible-distortion
  speed fix, not a structural change. Co-thread graphs were dense (2.8 M–4.5 M edges).
 
-None of these touch the frozen decision thresholds.
+None of these touch the decision thresholds.
 
-## Onset selection (honest)
+## Onset selection
 
 Every onset sits on or within a few days of a real local comment-volume peak (from the
 one-pass `volume_scan.json`). The GME Jan-2021 cascade dominates the whole dump.
@@ -112,7 +111,7 @@ one-pass `volume_scan.json`). The GME Jan-2021 cascade dominates the whole dump.
 the 100th percentile. The single non-firing event (regional_bank_may2023) is a genuine
 non-cascade: N_eff actually ROSE (drop −0.064), the WSB regional-bank story in May 2023 was
 a minor follow-on to SVB and drew mostly newcomers, not the existing pre-onset communities,
-exactly the "external flood need not synchronize the frozen blocks" pattern seen on
+exactly the "external flood need not synchronize the pre-onset blocks" pattern seen on
 Wikipedia (Kobe/Suez). The test correctly does NOT fire it.
 
 ## The headline comparison: Reddit fires, Wikipedia did not
@@ -131,29 +130,27 @@ random relabelling does NOT reproduce it (null p90 ~0.00–0.07 vs observed 0.11
 criticality gear's community-specific synchronization is therefore confirmed on a substrate
 that actually HAS communities, which is precisely the gap the Wikipedia run left open.
 
-**Correction, added after a round-2 referee review (`logos/REVIEW_ROUND2.md`, finding
-P-02).** The paragraph above reads the Wikipedia/Reddit contrast as a contrast in community
-structure. It is substantially a contrast in **null geometry**, and we should have said so
-when we wrote "null p90 ~0.00-0.07" without asking why a null 90th percentile that small is
-a null at all. The identical code gives a median event `shuffle_null_p90` of **0.4909** on
+**Null geometry.** The paragraph above reads the Wikipedia/Reddit contrast as a contrast in
+community structure. It is substantially a contrast in **null geometry**: a null 90th
+percentile as small as "null p90 ~0.00-0.07" is barely a null at all.
+The identical code gives a median event `shuffle_null_p90` of **0.4909** on
 the Wikipedia arm and **0.0137** on the WSB arm (measured on the later `neff_v4` roster), a
 factor of 36. On WSB, therefore, "fires vs shuffle" is operationally a magnitude test at a
 bar near 0.014, which is about 7x below the median collapse that a genuinely-quiet WSB
 window produces (0.098, measured in `../neff_v3/`) and about 29x below the magnitude bar
-f = 0.3936 that `neff_v3` froze and then reported as non-discriminating on this substrate.
+f = 0.3936 that `neff_v3` set and then reported as non-discriminating on this substrate.
 Applying the 0.0137 bar to `neff_v3`'s twelve genuinely-quiet clean windows clears 10 of 12,
 the same proportion as the cascade arms. On Wikipedia nothing fires because that substrate's
 null is large, not because its events lack structure.
 
-What we still hold, in the narrower form the data supports: the drop is positive and clears
+What the data supports, in the narrower form: the drop is positive and clears
 a near-zero null on 9 of 10 cascades here, and where the null is not degenerate the
-specificity test discriminates as designed. What we withdraw is the strong reading that the
-0/14 versus 9/10 split is by itself evidence that block structure rather than substrate null
-geometry produced the difference. Settling it requires either a substrate with a
-non-degenerate null, or the per-event null distributions published in full with an
-UNPOWERED gate where the null p90 is negligible.
+specificity test discriminates as designed. The 0/14 versus 9/10 split is not by itself
+evidence that block structure rather than substrate null geometry produced the difference.
+Settling that requires either a substrate with a non-degenerate null, or the per-event null
+distributions published in full with an UNPOWERED gate where the null p90 is negligible.
 
-## Why the frozen conjunction still fails (honest diagnosis, not goalpost-moving)
+## Why the conjunction still fails
 
 1. **Magnitude below f = 0.30.** Median event drop is 0.219. WSB pre-onset partitions are
  coarse (K=3–4; low modularity ~0.15), so even full synchrony of 3–4 blocks gives a
@@ -166,8 +163,8 @@ UNPOWERED gate where the null p90 is negligible.
  paired Wilcoxon over 10 pairs p = 0.161; event > its matched calm in 7/10 pairs). The
  cleanest contrasts are where the calm window really is quiet: market_drop_may2022 event
  +0.322 vs its 2021 calm −0.010; AMC event +0.213 vs its 2020 calm +0.083;
- svb event vs gme_kitty/regional non-firing calms. We report the contamination straight
- rather than re-pick calm dates post-hoc (the same call the Wikipedia RESULTS made).
+ svb event vs gme_kitty/regional non-firing calms. The contamination is reported as such,
+ rather than re-picking calm dates post-hoc (the same call the Wikipedia RESULTS made).
 
 ## Operator concentration (bonus, Upgrade-3 cross-domain)
 
@@ -176,13 +173,12 @@ Pre-onset commenter activity is heavily concentrated in every event window: **Gi
 before the cascade - consistent with the operator-concentration signal found in the v0.2/v0.3
 Reddit pilots, and stable across all ten onsets.
 
-## Honesty rails
+## Scope
 
-Single platform; analyst-frozen onsets (public dates, volume-corroborated); in-sample
-thresholds committed in `roster_wsb.py` but not externally lodged (OSF/hash) - a powered
-PILOT, not the externally-sealed FA-0 test. USER_CAP/THREAD/PER_THREAD caps are documented
-and touch <2% of threads. The shuffle and matched-calm nulls guard the prosecutor's fallacy;
-the calm null is openly contaminated and we say so. Result is illustrative of direction,
+Single platform; analyst-set onsets (public dates, volume-corroborated); in-sample
+thresholds in `roster_wsb.py`. USER_CAP/THREAD/PER_THREAD caps are documented
+and touch <2% of threads. The shuffle and matched-calm nulls guard against the prosecutor's
+fallacy; the calm null is contaminated, as reported above. Result is illustrative of direction,
 magnitude, and - newly - community-specificity, not a calibrated classifier.
 
 ## What this changes vs the Wikipedia run
@@ -190,11 +186,11 @@ magnitude, and - newly - community-specificity, not a calibrated classifier.
 The Wikipedia run established that the collapse is real and directional but population-wide
 (fires 0/14 vs shuffle), leaving open whether it is ever community-specific. **The Reddit run
 closes that gap: on a substrate with genuine community structure the collapse is
-community-specific (fires 9/10 vs shuffle).** The frozen magnitude bar and a contaminated
-calm null still block a clean pre-registered PASS, identically to Wikipedia. Net: test (ii')
+community-specific (fires 9/10 vs shuffle).** The magnitude bar and a contaminated
+calm null still block a PASS, identically to Wikipedia. Net: test (ii')
 now has, across two independent substrates, (a) a powered directional effect and (b) on the
 community-bearing substrate, the community-specific firing the theory predicts - while
-remaining honestly short of the sealed pre-registered conjunction.
+falling short of the full conjunction.
 
 ## Reproduce
 

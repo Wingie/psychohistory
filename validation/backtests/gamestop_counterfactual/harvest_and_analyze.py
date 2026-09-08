@@ -489,7 +489,7 @@ to show GME spiking alone — the data show the opposite.
 
 ---
 
-## Honest caveats
+## Caveats
 
 - **Proxy, not price.** Reddit mention-density measures *attention*, not market
   short-interest or price. The independently-documented market facts (GME SI

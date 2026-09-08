@@ -1,7 +1,7 @@
-# Temporal falsification tests for the bounded-psychohistory paper
+# Temporal tests for the bounded-psychohistory paper
 
-Three falsification tests, each a `py -3.12` script with robust field
-auto-detection, an explicit null / base rate, and an honest verdict.
+Three tests, each a `py -3.12` script with robust field auto-detection, an
+explicit null / base rate, and a stated verdict.
 
 | # | script | tests | conserved quantity / signature |
 |---|--------|-------|--------------------------------|
@@ -105,7 +105,7 @@ py -3.12 test_blocks_sync.py data/monthly_submissions.json \
     --window 6 --shock 2022-02-01 2020-03-01
 ```
 
-## Honesty notes baked into the scripts
+## Scope notes baked into the scripts
 - **Zero-sum:** the simplex constraint sum(shares)=1 forces *some* negative
   co-movement mechanically; the permutation null is what turns "shares trade off"
   into an actual test.

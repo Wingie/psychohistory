@@ -28,7 +28,7 @@ wrong it is quoted, so the inversion is visible rather than silent.
 | a tower is a vertical slice; "models + dispatcher" rejected | **half wrong** — the rejection hit *proxies* and still stands; the slice describes one tower's internals, not the system |
 | routing once, per segment, learned | **survives, and grows** — the router must also pick a SEQUENCE and a DEPTH |
 | one dispatch instead of L round trips | **survives and understates itself ~1600×** once the channel is compressed. This is the spine |
-| the KV retraction | **survives, and finally reads correctly** |
+| the KV correction | **survives, and finally reads correctly** |
 | depth-coherent specialisation is the research bet | **demoted** — specialisation comes from data, not from owning contiguous depths |
 | sparse upcycling to add a tower | **replaced** by continued finetuning on new data |
 | batching collapses at B/N | **mostly dissolves** — each pool batches its own tower |
@@ -130,7 +130,7 @@ Two consequences, neither optional:
    gradients. Train dense, where a hop is a memory copy; serve compressed, where
    it is a network. The codec still has to be trained *in*, not bolted on.
 
-## The KV retraction predicted the design
+## The KV correction predicted the design
 
 > "KV cache: this claim was wrong, and the implementation refuted it… at equal
 > total depth gives *identical* cache sizes."
@@ -168,7 +168,7 @@ Not refuted — **relegated**, to a question about one tower's internals.
 
 **The new central bet** is the second half of the communication claim: that a
 compressed learned channel preserves enough for a tower to build on and correct
-another tower's work. Falsifiable, cheap, unrun.
+another tower's work. Measurable, cheap, unrun.
 
 ## Adding a tower
 
@@ -216,7 +216,7 @@ In order now:
 2. **Can tower B build on tower A's codes?** Not designed anywhere. Nearest
    sketch is the steering-prefix injection in
    `probe_results/composition_experiment_design.md:192-229`. This is the "build
-   on and correct" claim and it has no falsifier yet.
+   on and correct" claim and it has no measurement yet.
 3. **Does a cascade need a zero-init gate?** Already measured: chaining costs
    +0.3915 nats at the first repetition and degrades monotonically
    (`chain_depth_init`). `logos.tex:1419` — *"a cascade is viable only if its
