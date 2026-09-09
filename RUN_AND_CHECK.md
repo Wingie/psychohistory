@@ -201,3 +201,40 @@ Empirical contact with the real world is now **materially stronger than at the p
 - **Internal sims (C): 8/8 done; math (F): 9/10 effectively done** (Kuramoto K_c empirical 0.969 vs 1.0). **Citation/factual (G): ALL DONE** → `FACT_CHECK.md` (17 PASS / 1 precision FIX).
 
 The framing this cycle: **the observation layer now matches the theory and recovers signals the scalar proxy could not (semantic early-warning, concentration invariant, blind near-decomposability); a first forward forecast and the GitHub replication both came back as partial results rather than confirmations; and the load-bearing infrastructure is still missing.** The remaining gaps are (1) the full coupled engine + a forward forecast that *beats* persistence, (2) a powered pre-outcome labelled roster, and (3) the open reanalysis corpus / multi-year conservation dump.
+
+
+## Concentration, focusing and recovery (added 2026-09-09)
+
+`validation/sims/concentration/concentration_blowup.py` runs the paper's Eq. (master) with
+the endogenous closure as an aggregation-diffusion equation and writes `RESULTS.md`:
+
+    cd validation/sims/concentration && uv run --with numpy python concentration_blowup.py
+
+Read: total mass flat to 2e-14 in every arm; threshold in beta/D between 40 and 50 where the
+peak share and Dirichlet energy turn from relaxing to growing; recovery times against the
+moving unperturbed reference in L2 and gradient norms, CENSORED where the window closed
+first; a finite-time fit of the peak that is poor on a finite graph (alpha 0.03 to 0.12).
+
+Open, in order:
+
+1. **Fourth box on the (iii') roster.** Re-adjudicate the 24 cascades with a *focusing*
+   option beside B/N/R. Rule: peak share of the attention density grows into onset while the
+   series total stays inside the item (i) tolerance. Report the focusing fraction of the
+   former-R cascades. Needs the per-cascade density series, which the WSB harvest has.
+2. **T\* fit on a real series.** Fit max_x rho ~ (T* - t)^-alpha on the pre-onset peak share
+   for each endogenous WSB cascade; report fitted T* against realised onset and the alpha.
+   The synthetic fit is poor because the graph saturates; the real series is the test.
+3. **Estimate beta/D per block.** The dimensionless ratio the regime monitor should carry.
+   Fit D from calm-window relaxation of a topic's share toward the block mean and beta from
+   the uphill flux; report the ratio per block per window and whether cascades sit above the
+   synthetic-style threshold for that block's graph.
+4. **Perturbation-response on the engine.** The EnKF slice can perturb one member and read
+   separation from the unperturbed member in a declared norm with censoring, on the
+   r/AskEconomics series. Report recovery step or CENSORED per window, both norms.
+5. **Re-partition after onset.** Re-run community detection on the post-onset graph and
+   stitch identities to the frozen pre-onset blocks; report how much of the onset activity
+   the re-partitioned N_eff sees that the frozen one did not (the newcomer inflow of
+   `NEFF_COLLAPSE_SYNTHESIS.md`).
+6. **Demo A on the site** now runs the aggregation-diffusion form with a drift slider that
+   crosses the threshold; the `math` page carries Correction 2. The tutorial page does not
+   yet mention concentration.

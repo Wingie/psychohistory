@@ -133,42 +133,51 @@ function fillCanon(){
 
 const A_N = 12, A_TARGET = 6; // topic #7 is index 6
 let aState = null, aStep = 0, aTimer = null, aDrift = 0.5;
+const A_DIFF = 0.04;          // diffusion along the ring (the regulariser)
+const A_SEED = 0.004;         // small head start for topic #7, so the drift has a gradient to climb
 
 function aInit(){
-  // uniform probability vector
   aState = new Float64Array(A_N).fill(1 / A_N);
+  aState[A_TARGET] += A_SEED;
+  for (let i = 0; i < A_N; i++) if (i !== A_TARGET) aState[i] -= A_SEED / (A_N - 1);
   aStep = 0;
 }
 
-/* One step of the graph master equation. Each topic exchanges mass with its
-   ring neighbours (conservative Laplacian, rows sum to zero) plus a belief
-   drift that biases flow toward the target topic. Total mass is invariant. */
+/* One step of the graph master equation, the paper's Eq. (master) with its
+   own belief closure: diffusion D along the ring, plus a preferential-attachment
+   drift that moves attention UPHILL in popularity -- flow i->j at rate
+   beta * max(p_j - p_i, 0) * p_i. Rows of the generator sum to zero, so total
+   mass is invariant to machine precision; nothing renormalises it. This is an
+   aggregation-diffusion equation (the Keller-Segel family): below a
+   drift-to-diffusion threshold the uniform state is stable, above it the
+   density focuses while the total stays exactly 1. */
 function aStepOnce(){
-  const p = aState, n = A_N, t = A_TARGET, drift = aDrift;
+  const p = aState, n = A_N, beta = aDrift * 0.8;   // beta/D = 20 * slider; threshold on this ring sits near 11
   const flow = new Float64Array(n);
-  const diff = 0.04;            // symmetric diffusion to neighbours
   for (let i = 0; i < n; i++) {
-    const L = (i - 1 + n) % n, R = (i + 1) % n;
-    flow[i] += diff * (p[L] - p[i]) + diff * (p[R] - p[i]);
-  }
-  // belief drift: pull a fraction of every non-target topic's mass toward target
-  for (let i = 0; i < n; i++) {
-    if (i === t) continue;
-    const move = drift * 0.05 * p[i];   // proportional, so it can never go negative
-    flow[i] -= move;
-    flow[t] += move;
+    const R = (i + 1) % n;
+    const d = A_DIFF * (p[R] - p[i]);           // diffusion, symmetric
+    flow[i] += d; flow[R] -= d;
+    const up = beta * Math.max(p[R] - p[i], 0) * p[i];   // i -> R uphill
+    const dn = beta * Math.max(p[i] - p[R], 0) * p[R];   // R -> i uphill
+    flow[i] += dn - up; flow[R] += up - dn;
   }
   for (let i = 0; i < n; i++) p[i] += flow[i];
-  // renormalize defensively against float drift (keeps total at exactly 1)
-  let s = 0; for (let i = 0; i < n; i++) s += p[i];
-  for (let i = 0; i < n; i++) p[i] /= s;
   aStep++;
+}
+
+function aDirichlet(p){
+  let e = 0;
+  for (let i = 0; i < p.length; i++) { const d = p[(i+1)%p.length] - p[i]; e += d*d; }
+  return e;
 }
 
 function aRender(){
   const p = Array.from(aState);
   let total = p.reduce((a,b)=>a+b,0);
   let hhi = p.reduce((a,b)=>a+b*b,0);
+  const peak = Math.max(...p);
+  const dir = aDirichlet(p);
   const colors = p.map((_,i)=> i===A_TARGET ? C.cyan : C.gold);
   if (hasPlotly) {
     Plotly.react('chartA', [{
@@ -182,16 +191,24 @@ function aRender(){
     }), PLOT_CFG);
   }
   document.getElementById('aTotal').textContent = total.toFixed(6);
-  document.getElementById('aPeak').textContent  = p[A_TARGET].toFixed(3);
+  document.getElementById('aPeak').textContent  = peak.toFixed(3);
   document.getElementById('aHHI').textContent   = hhi.toFixed(3);
+  document.getElementById('aDir').textContent   = dir.toExponential(2);
   document.getElementById('aStep').textContent  = aStep;
   const v = document.getElementById('aVerdict');
-  if (p[A_TARGET] > 0.4) {
+  const uniform = 1 / A_N;
+  if (peak > 0.4) {
+    v.className = 'verdict warn';
+    v.innerHTML = `<b>Total flat, arrangement broken.</b> One topic holds ${(peak*100).toFixed(0)}% of attention and the Dirichlet energy is up by orders of magnitude. The total never moved off 1.000000, and it was never going to: the total is not the quantity that reads this.`;
+  } else if (aStep > 50 && peak < uniform * 1.2) {
     v.className = 'verdict good';
-    v.innerHTML = `<b>Conserved &amp; concentrated.</b> Topic #7 now holds ${(p[A_TARGET]*100).toFixed(0)}% of attention — drawn entirely from the others. The total never moved off 1.000000.`;
+    v.innerHTML = `<b>Below threshold.</b> Diffusion beats the drift: the head start on topic #7 is relaxing back toward uniform. Same conserved total as above; the concentration observables tell the two cases apart.`;
+  } else if (peak > uniform * 1.5) {
+    v.className = 'verdict warn';
+    v.innerHTML = `<b>Focusing.</b> Peak share and Dirichlet energy are rising while the total sits at 1.000000. Above the drift-to-diffusion threshold the density concentrates under its own drift, with no external shock and no coupling parameter crossing anything.`;
   } else {
     v.className = 'verdict good';
-    v.innerHTML = `<b>Conserved.</b> Attention is reallocated, never created — the total is invariant to the drift.`;
+    v.innerHTML = `<b>Conserved.</b> Attention is reallocated, never created. Run it and watch which of the four readouts moves.`;
   }
 }
 
@@ -215,7 +232,7 @@ function wireDemoA(){
   const drift = document.getElementById('aDrift');
   drift.addEventListener('input', ()=>{
     aDrift = parseFloat(drift.value);
-    document.getElementById('aDriftVal').textContent = aDrift.toFixed(2);
+    document.getElementById('aDriftVal').textContent = 'beta/D = ' + (aDrift * 20).toFixed(0);
   });
   document.getElementById('aRun').addEventListener('click', aRun);
   document.getElementById('aReset').addEventListener('click', aResetFn);
