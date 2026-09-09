@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Psychohistory — three kinds of control</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="glyph">◈</span>Psychohistory</a>
+    <span class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="math.html">The math</a>
+      <a href="tests.html">Tests &amp; data</a>
+      <a href="steering.html">Steering</a>
+      <a href="control.html" class="active">Control</a>
+      <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
+    </span>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">Home</a> / Control</div>
+    <h1>Three kinds of control, one equation</h1>
+    <p class="lead">The paper's control section lives at the critical point: a diverging susceptibility, a minimal push, a branch selected. That is the rare case. The same transport equation that produces the critical point also says what control looks like on either side of it, and the ordinary case, a population held below threshold or walked toward it without anyone pushing on the state, is the one this page is about. Nothing here is a control law. It is a reading of where the levers sit.</p>
+  </div>
+</header>
+
+<!-- ============ 1. THE EQUATION ============ -->
+<section id="equation">
+  <div class="wrap">
+    <div class="eyebrow">1 · The equation and its one number</div>
+    <h2>Attention focuses under its own drift</h2>
+    <p class="lead">Take the attention density $\rho$ over topics and the paper's own belief closure: attention flows uphill toward what already has attention, at a rate proportional to the attention already there, against a diffusion $D$ that flows downhill.</p>
+    <div class="math-block">
+      <h3>The focusing form of the transport equation</h3>
+      <div class="math-eq">$$\partial_t \rho \;=\; D\,\Delta\rho \;-\; \nabla\!\cdot\!\big(\rho\,\beta\,\nabla(M\rho)\big), \qquad \int\rho\,dx = 1 .$$</div>
+      <p class="math-where"><b>Where:</b> <code>D</code> is diffusion (idle exploration, exposure to unlike topics: the regulariser); <code>β</code> is the strength of the belief drift; <code>M</code> is the topic affinity, which says which topics are adjacent and how popularity in one pulls attention from the other. The drift term is quadratic in $\rho$, the diffusion term is linear. That asymmetry is the whole story.</p>
+      <p class="math-where"><b>What it is:</b> an aggregation-diffusion equation, the Keller–Segel family. Below a threshold in the drift-to-diffusion ratio the uniform state is stable and a concentration relaxes away. Above it the density focuses onto a shrinking set. The total is conserved on both sides, so the total is not the quantity that reads which side you are on.</p>
+      <div class="math-eq">$$\mathrm{Pe} \;=\; \frac{\beta\,\lVert M\rVert}{D}$$</div>
+      <p class="math-where"><b>The number.</b> One dimensionless ratio per community, the drift over the diffusion. On the paper's 40-node generator the threshold sits between 40 and 50 (<code>validation/sims/concentration/</code>); on the 12-topic ring below it sits near 11. Its value is a property of the community's topic graph, and its <em>derivative in time</em> is the control signal this page is about.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. THE THREE REGIMES ============ -->
+<section id="regimes">
+  <div class="wrap">
+    <div class="eyebrow">2 · Three regimes, three levers</div>
+    <h2>Control means a different thing on each side of the threshold</h2>
+    <div class="card" style="padding-top:16px;padding-bottom:8px">
+      <table class="maptable">
+        <thead><tr><th>Regime</th><th>What a push on the state does</th><th>What you can control</th><th>The lever</th><th>Who holds it today</th></tr></thead>
+        <tbody>
+          <tr><td><b>Below threshold</b><br><span class="dim">Pe below critical</span></td><td class="dim">decays back toward the moving reference</td><td><b>the coefficients</b>, not the state</td><td class="dim">$\beta$, $D$, $M$: which topics are adjacent, how much attention leaks sideways, how strongly popularity feeds itself</td><td class="dim">recommender systems, media diets, platform design</td></tr>
+          <tr><td><b>Above threshold, before saturation</b><br><span class="dim">Pe above critical</span></td><td class="dim">is amplified</td><td><b>the direction</b>, not the destination</td><td class="dim">a small push along the gradient the crowd is already climbing</td><td class="dim">the operator: a Roaring Kitty, a regulator on a Sunday evening</td></tr>
+          <tr><td><b>The singular time</b><br><span class="dim">the continuation is not unique</span></td><td class="dim">selects which continuation the system lands on</td><td><b>the branch</b></td><td class="dim">whatever acts at that moment; the equation no longer decides</td><td class="dim">rare; the deposit guarantee is the worked case</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card concept wide" style="margin-top:18px">
+      <h3>Below threshold: the coefficient lever</h3>
+      <p>A push on the state is wasted here; it decays. What persists is a change to the coefficients. Move two topics adjacent in $M$, lower $D$ for a community by narrowing what it sees, raise $\beta$ by rewarding what is already popular. Each of those moves the <em>threshold toward the population</em> rather than the population toward the threshold. It is slow, it is invisible in the state observables, and it is how a community is loaded without anyone pushing on anything. The paper carries this as the strategic drift term $b^{\mathrm{strat}}$ and treats it as one more input. In the focusing reading it is the main lever, because it decides which regime the community is in.</p>
+      <p class="testhonest"><b>§</b> Measurable: the ratio $\beta\lVert M\rVert/D$ per community, tracked in time. A ratio that rises while the state still reads calm is a population being loaded. Estimating $D$ from calm-window relaxation and $\beta$ from the uphill flux is open item 3 in <code>RUN_AND_CHECK.md</code>.</p>
+    </div>
+
+    <div class="card concept wide" style="margin-top:14px">
+      <h3>Above threshold: the direction lever</h3>
+      <p>Once the drift outruns the diffusion, a small push is amplified rather than absorbed, so control of the state is cheap. What is chosen is the direction, along the gradient the crowd is already climbing. The destination is set by the dynamics: the density piles onto the topic that was already winning. This is the operator regime the paper's control section describes, and the perturbation demo below shows the amplification directly: the separation between a kicked and an unkicked run grows instead of shrinking.</p>
+    </div>
+
+    <div class="card concept wide" style="margin-top:14px">
+      <h3>The singular time: selection</h3>
+      <p>Past a focusing singularity the equation stops determining the continuation. For Navier–Stokes, a finite energy guarantees a weak continuation exists and does not make it unique. Here the finite attention budget carries the system through the singular time, and which continuation it lands on is a selection. That is "predict the transition, not the branch," stated as a well-posedness failure rather than as a diverging susceptibility. Whoever acts at that moment picks the branch, and the paper's governance conditions are about who that may be.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. DEMO ============ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="eyebrow">3 · Live demo</div>
+    <h2>A push, on each side of the threshold</h2>
+    <div class="card demo-card" id="demoCtl">
+      <div class="demo-head"><span class="demo-tag">DEMO · recovery against a moving reference</span><h3>Two trajectories, one kick</h3></div>
+      <p class="dim">Twelve topics on a ring, the focusing equation above. Two copies of the same system run side by side. At step 60 one copy is kicked by a small divergence-free perturbation. The chart is their separation in the $L^2$ norm; the reference is the <em>unkicked copy at the same step</em>, never the state at the time of the kick. Recovery is the first step the separation falls under 10% of its value at the kick. If the window closes first the reading is <b>censored</b>: not observed to return, which is not the same as observed not to return.</p>
+      <div id="chartCtl" class="chart"></div>
+      <div class="controls">
+        <div class="ctrl">
+          <label>Drift-to-diffusion ratio (threshold near 11 on this ring) <b id="ctlPeVal">beta/D = 6</b></label>
+          <input type="range" id="ctlPe" min="0" max="30" step="1" value="6" />
+        </div>
+        <div style="display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap">
+          <button class="btn" id="ctlRun">Run 600 steps →</button>
+          <button class="btn ghost" id="ctlReset">Reset</button>
+        </div>
+      </div>
+      <div class="kv" style="margin-top:10px">
+        <dt>total mass, both copies</dt><dd><b id="ctlTotal" style="color:var(--green)">1.000000 / 1.000000</b></dd>
+        <dt>separation at kick</dt><dd><b id="ctlSep0">—</b></dd>
+        <dt>separation now</dt><dd><b id="ctlSep" style="color:var(--cyan)">—</b></dd>
+        <dt>peak share (kicked copy)</dt><dd><b id="ctlPeak">0.083</b></dd>
+        <dt>recovery</dt><dd><b id="ctlRec">—</b></dd>
+      </div>
+      <div class="verdict info" id="ctlVerdict">Set the ratio, run, and read which regime you are in from the shape of the separation curve.</div>
+    </div>
+    <p class="testhonest"><b>§</b> Read on this ring with the settings above: recovery at 94 steps for ratio 0, 128 at 6, 196 at 9, 462 at 11, then censored with the separation up fourteenfold at 13. The lengthening return is critical slowing-down read directly from a perturbation rather than inferred from autocorrelation, and it is what the paper's early-warning layer was trying to see through a scalar proxy.</p>
+    <p class="testhonest"><b>§</b> Every choice in the recovery definition changes the number: the norm (an $L^2$ separation of densities and a gradient-norm separation give different recovery steps on the paper's generator), the size of the kick, the tolerance, the window. There is no recovery time until those are declared. The same run in the repository reports both norms and marks censoring.</p>
+  </div>
+</section>
+
+<!-- ============ 4. GOVERNANCE ============ -->
+<section id="signtest">
+  <div class="wrap">
+    <div class="eyebrow">4 · The second sign test</div>
+    <h2>Loading a population is offensive before anything moves</h2>
+    <p class="lead">The paper's governance sign test scores interventions on the state: defensive if they raise $N_{\mathrm{eff}}$ and lower synchrony, offensive if they do the reverse. That test cannot see the coefficient lever, because a change to $\beta$, $D$ or $M$ moves nothing in the state until the threshold is crossed. It needs a companion.</p>
+    <div class="card" style="padding-top:16px">
+      <table class="maptable">
+        <thead><tr><th>Test</th><th>Defensive</th><th>Offensive</th><th>Reads</th></tr></thead>
+        <tbody>
+          <tr><td>State (the paper's)</td><td class="dim">raises $N_{\mathrm{eff}}$, lowers $r$</td><td class="dim">lowers $N_{\mathrm{eff}}$, raises $r$</td><td class="dim">a push, once it has moved something</td></tr>
+          <tr><td>Coefficient (this page)</td><td class="dim">raises $D$ relative to $\beta$: exposure to unlike topics, idle exploration, adjacency that leaks</td><td class="dim">lowers $D$ or raises $\beta$ for a community: narrows what it sees, rewards what is already winning</td><td class="dim">the threshold moving toward the population, whether or not anything has moved yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:14px">The two tests are the same lever read at two grains. The defensive move in the transport equation's own terms is raising diffusion. That is a statement about platform design, not about crisis response, and it is where most real control already happens.</p>
+  </div>
+</section>
+
+<!-- ============ 5. LIMITS ============ -->
+<section id="limits">
+  <div class="wrap">
+    <div class="eyebrow">5 · What the equation does not give</div>
+    <h2>Two things it will not tell you</h2>
+    <div class="card concept wide">
+      <p><b>Which branch.</b> Above threshold the equation gives the direction and, at the singular time, nothing at all. The branch is chosen by whoever acts, under whatever objective they hold, and no amount of resolution in the equation changes that. That is why the paper places the objective-chooser outside the machine.</p>
+      <p><b>A true singularity on a finite graph.</b> On twelve or forty topics the peak does not blow up; it saturates. Attention piles onto one topic and stays there. In social terms that saturated state is the whole population talking about one thing, which is the block-synchronisation gear's $N_{\mathrm{eff}} \to 1$ read in topic coordinates rather than block coordinates. The paper still carries those as two pieces of machinery. Joining them is the next piece of mathematics, and this page is written in the coordinates where the lever is visible.</p>
+    </div>
+    <p class="note" style="margin-top:18px">Where this came from: <a href="math.html#conservation">Correction 2 on the math page</a> · the run: <code>validation/sims/concentration/RESULTS.md</code> · the paper: Remark "What the total cannot tell you" and the fourth tipping type in the criticality section.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="provlinks">
+      <a href="index.html">▸ Home</a>
+      <a href="math.html">▸ The math</a>
+      <a href="tests.html">▸ Tests &amp; data</a>
+      <a href="../psychohistory.pdf">▸ the paper (PDF)</a>
+      <a href="../validation/sims/concentration/concentration_blowup.py">▸ the concentration run (Python)</a>
+    </div>
+    <p class="faint">The demo runs the same twelve-topic aggregation-diffusion equation as Demo A on the math page; it checks internal consistency of the reading, never anything about a real population. Equations render with KaTeX and charts with Plotly; both need internet.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  const N = 12, T = 6, DIFF = 0.04, KICK_AT = 60, STEPS = 600, TOL = 0.1;
+  let pe = 6, base = null, kicked = null, step = 0, sep0 = null, sepHist = [], recStep = null, timer = null;
+
+  function init(){
+    base = new Float64Array(N).fill(1/N);
+    base[T] += 0.004; for (let i=0;i<N;i++) if (i!==T) base[i] -= 0.004/(N-1);
+    kicked = null; step = 0; sep0 = null; sepHist = []; recStep = null;
+  }
+  function stepOnce(p){
+    const beta = pe * DIFF, f = new Float64Array(N);
+    for (let i=0;i<N;i++){
+      const R=(i+1)%N, d = DIFF*(p[R]-p[i]); f[i]+=d; f[R]-=d;
+      const up = beta*Math.max(p[R]-p[i],0)*p[i], dn = beta*Math.max(p[i]-p[R],0)*p[R];
+      f[i]+=dn-up; f[R]+=up-dn;
+    }
+    for (let i=0;i<N;i++) p[i]+=f[i];
+  }
+  function l2(a,b){ let s=0; for (let i=0;i<N;i++){ const d=a[i]-b[i]; s+=d*d; } return Math.sqrt(s); }
+  function sum(a){ let s=0; for (let i=0;i<N;i++) s+=a[i]; return s; }
+  function kick(){
+    kicked = Float64Array.from(base);
+    // divergence-free: zero-mean, so both copies keep total 1
+    const r = []; let m=0; for (let i=0;i<N;i++){ r[i]=Math.sin(i*2.3+0.7)*1e-3; m+=r[i]; }
+    for (let i=0;i<N;i++) kicked[i] += r[i]-m/N;
+    sep0 = l2(kicked, base);
+  }
+  function advance(){
+    if (step === KICK_AT) kick();
+    stepOnce(base); if (kicked) stepOnce(kicked);
+    step++;
+    if (kicked){
+      const s = l2(kicked, base); sepHist.push([step, s]);
+      if (recStep === null && s <= TOL*sep0) recStep = step;
+    }
+  }
+  function render(){
+    const el = id => document.getElementById(id);
+    if (hasPlotly) {
+      Plotly.react('chartCtl', [{
+        type:'scatter', mode:'lines', x: sepHist.map(v=>v[0]), y: sepHist.map(v=>v[1]),
+        line:{ color: C.cyan, width: 2 }, name:'separation'
+      }, sep0 ? { type:'scatter', mode:'lines', x:[KICK_AT, KICK_AT+STEPS], y:[TOL*sep0, TOL*sep0],
+        line:{ color: C.gold, width:1, dash:'dot' }, name:'10% of kick' } : {}],
+        baseLayout({ yaxis:{ type:'log', gridcolor:C.grid, title:{ text:'L2 separation from the unkicked copy', font:{size:11} } },
+                     xaxis:{ gridcolor:'rgba(0,0,0,0)', title:{ text:'step', font:{size:11} }, range:[0, KICK_AT+STEPS] },
+                     showlegend:false }), PLOT_CFG);
+    }
+    el('ctlTotal').textContent = sum(base).toFixed(6) + ' / ' + (kicked ? sum(kicked).toFixed(6) : '—');
+    el('ctlSep0').textContent = sep0 ? sep0.toExponential(2) : '—';
+    el('ctlSep').textContent = sepHist.length ? sepHist[sepHist.length-1][1].toExponential(2) : '—';
+    el('ctlPeak').textContent = Math.max(...(kicked||base)).toFixed(3);
+    const v = el('ctlVerdict');
+    if (!kicked) { el('ctlRec').textContent = '—'; return; }
+    const last = sepHist[sepHist.length-1][1];
+    if (recStep !== null) {
+      el('ctlRec').textContent = 'step ' + recStep + ' (' + (recStep-KICK_AT) + ' after the kick)';
+      v.className = 'verdict good';
+      v.innerHTML = '<b>Below threshold.</b> The kick decays back toward the moving reference. A push on the state is wasted here; the lever that persists is the coefficients, the ratio itself.';
+    } else if (last > 3*sep0) {
+      el('ctlRec').textContent = 'CENSORED at step ' + step + ' (separation growing)';
+      v.className = 'verdict crit';
+      v.innerHTML = '<b>Above threshold.</b> The separation is growing: the same small kick is amplified, not absorbed. Cheap control of the direction, no control of the destination. The total on both copies reads 1.000000 throughout.';
+    } else {
+      el('ctlRec').textContent = (step >= KICK_AT+STEPS ? 'CENSORED: window closed at step ' + step : 'not yet, step ' + step);
+      v.className = 'verdict warn';
+      v.innerHTML = (step >= KICK_AT+STEPS
+        ? '<b>Censored.</b> Not observed to return inside the window. Near the threshold recovery slows and a longer window may still see it return; well above it both copies focus onto the same topic and the kick is carried into the focused state rather than erased. Either way the reading is about the window and the norm as much as about the system.'
+        : '<b>Running.</b> Watching whether the separation falls under the dotted line.');
+    }
+  }
+  function run(){
+    if (timer) return;
+    const end = KICK_AT + STEPS;
+    function tick(){ for (let k=0;k<4 && step<end;k++) advance(); render();
+      if (step < end) timer = requestAnimationFrame(tick); else timer = null; }
+    timer = requestAnimationFrame(tick);
+  }
+  function reset(){ if (timer){ cancelAnimationFrame(timer); timer=null; } init(); render(); }
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const s = document.getElementById('ctlPe');
+    s.addEventListener('input', ()=>{ pe = parseInt(s.value,10); document.getElementById('ctlPeVal').textContent = 'beta/D = ' + pe; reset(); });
+    document.getElementById('ctlRun').addEventListener('click', run);
+    document.getElementById('ctlReset').addEventListener('click', reset);
+    init(); render();
+  });
+})();
+</script>
+</body>
+</html>

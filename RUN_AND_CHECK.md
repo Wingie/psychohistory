@@ -235,6 +235,8 @@ Open, in order:
    stitch identities to the frozen pre-onset blocks; report how much of the onset activity
    the re-partitioned N_eff sees that the frozen one did not (the newcomer inflow of
    `NEFF_COLLAPSE_SYNTHESIS.md`).
-6. **Demo A on the site** now runs the aggregation-diffusion form with a drift slider that
-   crosses the threshold; the `math` page carries Correction 2. The tutorial page does not
-   yet mention concentration.
+6. **Site.** Demo A runs the aggregation-diffusion form with a drift slider that crosses the
+   threshold; the `math` page carries Correction 2; `control.html` states the three regimes of
+   control (coefficients below threshold, direction above it, branch at the singular time),
+   the drift-over-diffusion number, the coefficient sign test, and a live two-trajectory
+   recovery demo with censoring. The tutorial page does not yet mention concentration.
