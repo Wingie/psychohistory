@@ -74,12 +74,66 @@ A matched pair of accelerators just reproduces the published setting and settles
 
 ### Tier 2: one 8-GPU node
 
-| ID | Test | What it settles | Pri |
-|---|---|---|---|
-| **F2** | **Branch-Adapt-Route at 7B to 70B**, ≥4 experts, against a matched **jointly** post-trained baseline | **The closest reachable proxy for the paper's central bet.** BAR is published at 7B with 4 experts; the architecture applies it at 2.8T with 5 towers, a 400-fold extrapolation. Reaching 70B halves it in log terms and tests the failure mode that worsens with scale: stronger experts make misroutes more expensive while the router still trains on far less signal | **P0** |
-| **F6** | **Compliance mask × quantile balancer.** Mask experts to `−∞` (paper Eq. 10) inside a QB-routed model and measure the shift in quantile thresholds for every *other* token in the batch | **Nobody has looked at this and it is a plausible bug.** Masking changes the routing distribution, which is what the quantile solver balances. A compliance control that silently degrades unrelated users' routing is a governance failure, not a perf bug | **P0** |
-| **F7** | **FaaSMoE cold-start p95** at large expert sizes | Published evaluation is on a 2.7B model, roughly 1000× smaller than a tower. Cold start is the obvious killer at interactive latency and scale-to-zero makes it worse | P1 |
-|: | **AIQ per domain in practice.** Run the metric stack of paper §11.2, AIQ as the primary scalar, APGR with CPT(50%) as the secondary pair, per domain, on a real multi-model ensemble, with the RouterBench oracle line reported only chance-corrected | Without a cost-quality curve there is no way to tell a well-routed ensemble from a bag of models with a lookup table. **This row used to read "routing efficiency η in practice", and η is retired** (§11.2, finding A-02): AIQ does not fragment under the domain-crossed-with-size partition of §3.5, where η is a ratio of differences that does not aggregate at all. Adopted from published work, unvalidated here | P1 |
+| ID | Test | What it settles | Budget | Pri |
+|---|---|---|---|---|
+| **F2** | **Branch-Adapt-Route at 7B to 70B**, ≥4 experts, against a matched **jointly** post-trained baseline | **The closest reachable proxy for the paper's central bet.** BAR is published at 7B with 4 experts; the architecture applies it at 2.8T with 5 towers, a 400-fold extrapolation. Reaching 70B halves it in log terms and tests the failure mode that worsens with scale: stronger experts make misroutes more expensive while the router still trains on far less signal | **~26,442 to 35,242 GPU-h [derived]** (2 arms x 2 scales; see §2a) | **P0** |
+| **F6** | **Compliance mask × quantile balancer.** Mask experts to `−∞` (paper Eq. 10) inside a QB-routed model and measure the shift in quantile thresholds for every *other* token in the batch | **Nobody has looked at this and it is a plausible bug.** Masking changes the routing distribution, which is what the quantile solver balances. A compliance control that silently degrades unrelated users' routing is a governance failure, not a perf bug | **~8 to 10 GPU-h [derived], marginal to F2** (inference-only sweep on F2's checkpoint; see §2a) | **P0** |
+| **F7** | **FaaSMoE cold-start p95** at large expert sizes | Published evaluation is on a 2.7B model, roughly 1000× smaller than a tower. Cold start is the obvious killer at interactive latency and scale-to-zero makes it worse | not re-derived (P1, out of scope for the compute-grant P0 ask) | P1 |
+|: | **AIQ per domain in practice.** Run the metric stack of paper §11.2, AIQ as the primary scalar, APGR with CPT(50%) as the secondary pair, per domain, on a real multi-model ensemble, with the RouterBench oracle line reported only chance-corrected | Without a cost-quality curve there is no way to tell a well-routed ensemble from a bag of models with a lookup table. **This row used to read "routing efficiency η in practice", and η is retired** (§11.2, finding A-02): AIQ does not fragment under the domain-crossed-with-size partition of §3.5, where η is a ratio of differences that does not aggregate at all. Adopted from published work, unvalidated here | not re-derived | P1 |
+
+#### 2a. F2 and F6 budgets, derived 2026-09-08
+
+**Neither row carried a GPU-h figure before this pass.** Both are derived below rather than
+estimated, on one input the ledger does not have and this derivation states as an assumption
+rather than hides: the **post-training token budget** for F2's continued-joint-training arms.
+Everything downstream of that one number is arithmetic on public hardware constants.
+
+**Hardware.** One 8-GPU node of NVIDIA A100 80GB SXM: 312 TFLOPS dense BF16/FP16 Tensor
+Core peak per GPU, no sparsity (NVIDIA A100 datasheet, "Peak Performance" table) — 2,496
+TFLOPS aggregate. MFU band **30% to 40%** sustained, the range commonly reported for
+Megatron-style dense-transformer training on A100 clusters at this parameter range (the
+same style of banded assumption `F9_PREREGISTRATION.md` §8.1 uses for the 3090's 25-35%
+band, cited there to the GA102 whitepaper). **This band is the one hardware constant
+here with no direct external source** — everything else traces to the A100 datasheet,
+Kaplan et al. 2020, or F9's own precedent — and it is the second-largest lever on the
+total after `D`, so a measured-MFU report on A100 would raise it to the same standard
+as the rest. Sustained node throughput: **748.8 to 998.4
+TFLOPS**. GPU-h is counted as 8 x wall-clock node-hours, the convention a grant allocation
+is denominated in.
+
+**F2 training-FLOPs model.** `FLOPs = 6*N*D` (forward+backward, Kaplan et al. 2020's
+standard approximation — a generic constant, not the ledger's F9-specific 2.526 GFLOP/token
+figure, which was calibrated to that architecture's tokenizer and does not generalize).
+**Assumption, flagged for owner/domain sign-off before submission:** `D = 0.2*N` tokens per
+arm. This sits well below Chinchilla-optimal pretraining (~20 tokens/param) because the
+experts are already pretrained and F2 is a joint continued-training/adaptation run, not
+pretraining from random init — matching how F13/F14 already treat continued-pretraining
+on this same ledger as materially cheaper than pretraining. **This is the single largest
+unverified input in the ask and the arithmetic below is a direct multiple of it**; halving
+or doubling it halves or doubles every figure that follows.
+
+**Second implicit assumption:** `6ND` is applied to the full `N`, so both arms are
+costed as full-parameter training rather than PEFT/LoRA. That follows F2's own wording
+("jointly post-trained"), but anyone revisiting the token budget should know it stacks
+on top of `D = 0.2*N`, and that a LoRA baseline would cost materially less.
+
+Two arms per scale (BAR-routed vs. the matched jointly post-trained baseline), one seed
+each — the same "one seed buys no within-arm variance" caveat `F9_PREREGISTRATION.md`
+raised about its own original budget applies here and is not re-solved by this derivation.
+
+| Scale | N | D = 0.2N | FLOPs/arm = 1.2*N^2 | Node-h/arm (30-40% MFU) | GPU-h/arm (x8) | GPU-h, 2 arms |
+|---|---|---|---|---|---|---|
+| 7B | 7e9 | 1.4e9 | 5.88e19 | 16.4 to 21.8 | 131 to 174 | 262 to 348 |
+| 70B | 7e10 | 1.4e10 | 5.88e21 | 1,636 to 2,181 | 13,090 to 17,447 | 26,180 to 34,894 |
+
+**F2 total: 262 + 26,180 to 348 + 34,894 = ~26,442 to 35,242 GPU-h.**
+
+**F6.** Inference-only (no gradient step), on F2's checkpoint (zero marginal training
+cost, same framing as F5 being a by-product of F9). `FLOPs = 2*N*tokens` (forward-only).
+Assumed sweep: mask each of 4 experts individually plus an unmasked control, 50M tokens per
+configuration, at 7B — 5 x 50e6 = 2.5e8 tokens total. `2*7e9*2.5e8 = 3.5e18` FLOPs. At
+748.8-998.4 TFLOPS node throughput: 3,505 to 4,674 s = 0.97 to 1.3 node-h, x8 = **~8 to 10
+GPU-h**, consistent with this row's own "One node. Cheap" line in §5.
 
 ### Tier 3: unreachable
 
