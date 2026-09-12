@@ -18,6 +18,7 @@
       <a href="math.html">The math</a>
       <a href="tests.html" class="active">Tests &amp; data</a>
       <a href="steering.html">Steering</a>
+      <a href="control.html">Control</a>
       <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
     </span>
   </div>
@@ -61,6 +62,7 @@
           <tr><td>(ii′)</td><td>Dynamic N<sub>eff</sub> collapse is community-specific before endogenous cascades</td><td class="sc-pass">MEASURED</td><td class="dim">9/12 fire against their own block-label shuffle null, binomial p = 1.7×10⁻⁷</td></tr>
           <tr><td>(iii)</td><td>Early warning (critical slowing-down) precedes cascades</td><td class="sc-partial">PARTIAL</td><td class="dim">beats calm null p = 0.02; can't tell endo/exo (AUC 0.60)</td></tr>
           <tr><td>(iii′)</td><td>A substantive fraction of cascades are slow B-tipping</td><td class="sc-refuted">DOES NOT CARRY</td><td class="dim">B-fraction 0.33 &lt; π_B = 0.60; mostly R-tipping shocks</td></tr>
+          <tr><td>(iii″)</td><td>Focusing: cascades are concentration singularities of the transport equation, a fourth tipping type the B/N/R rule cannot name</td><td class="sc-pending">OPEN</td><td class="dim">synthetic threshold measured (β/D between 40 and 50 on the paper's own generator, total conserved to 1e-14 throughout); real-series T* fit and a fourth adjudication box not yet run</td></tr>
           <tr><td>(i)</td><td>Attention / activity is conserved (zero-sum) at ecosystem scale</td><td class="sc-contradicted">CONTRADICTED</td><td class="dim">finance-subreddit basket ballooned ~14× in the mania</td></tr>
           <tr><td>(ii)</td><td>Blocks are independent in calm windows</td><td class="sc-partial">WEAK SUPPORT</td><td class="dim">macro N<sub>eff</sub> 1.90 of 8, bottoms 0.47 at a real shock</td></tr>
           <tr><td>(iv)</td><td>Forecast skill in the smooth regime beats baselines</td><td class="sc-pending">PENDING</td><td class="dim">awaits a live world-model training run</td></tr>
@@ -167,7 +169,7 @@
         <div class="statbox warn"><div class="sb-num">0.33 &lt; 0.60</div><div class="sb-lbl">B-tipping fraction vs the π_B decision bar</div></div>
         <div class="statbox"><div class="sb-num">24</div><div class="sb-lbl">labelled cascades; most are sudden R-tipping shocks</div></div>
       </div>
-      <p class="testhonest"><b>§</b> The bet failed. Most real cascades arrive as sudden rate-induced shocks with no slow warning — which is exactly why early warning (iii) is only a partial positive. The two results are consistent.</p>
+      <p class="testhonest"><b>§</b> The bet failed. Most real cascades arrive as sudden shocks with no slow warning — which is exactly why early warning (iii) is only a partial positive. The two results are consistent. One reading the rule could not express: the paper's own transport equation is an aggregation-diffusion equation, whose singularities are <em>focusing</em> events (density concentrating under its own drift while the total stays conserved), not bifurcations, and not rate-induced either. A rater given only B, N and R boxes files a focusing event under R. Test (iii″) adds the fourth box and the instrument that reads it, a finite-time fit of the peak share; see <code>validation/sims/concentration/</code>.</p>
     </div>
 
     <!-- conservation -->

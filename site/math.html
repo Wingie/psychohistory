@@ -24,6 +24,7 @@
       <a href="math.html" class="active">The math</a>
       <a href="tests.html">Tests &amp; data</a>
       <a href="steering.html">Steering</a>
+      <a href="control.html">Control</a>
       <a class="pdf" href="../psychohistory.pdf">Paper ▸</a>
     </span>
   </div>
@@ -69,17 +70,18 @@
       <div class="math-eq">$$\frac{\partial \rho}{\partial t} + \nabla\!\cdot J = s(x,t), \qquad \int \rho\,dx = 1.$$</div>
       <p class="math-where"><b>Where:</b> <code>ρ</code> is the attention density (a probability measure that integrates to 1); <code>J</code> is the attention flux (how attention flows between topics); <code>s</code> is a small source/sink term for genuine entry and exit of attention into the system. With $s\!\approx\!0$ the integral of $\rho$ is invariant: attention moves, it is not created.</p>
       <p class="dim">This is the Fokker–Planck / Toscani "conserved normalized measure" reading. <span class="tag-correction">Correction 1</span></p>
+      <p class="math-where"><b>What the total cannot tell you.</b> A conserved total says nothing about how the mass is arranged. Write the flux with the paper's own belief closure, drift toward already-popular neighbours plus diffusion $D$: that is an aggregation-diffusion equation, the Keller–Segel family, and its known behaviour is that above a drift-to-diffusion threshold the density <em>focuses</em> onto a shrinking set while $\int\rho$ stays exactly fixed. The observables that read this are the peak share $\max_x \rho$ and the Dirichlet energy $\sum_{\text{edges}} (\rho_i-\rho_j)^2$ (the enstrophy analogue), not the total. The conserved budget does not constrain the dynamics; it sets the threshold at which concentration outruns diffusion. What control means on each side of that threshold is its own page: <a href="control.html">three kinds of control</a>. <span class="tag-correction">Correction 2</span></p>
       <p class="math-where"><b>What the naive version got wrong:</b> a softmax over topic scores is <em>not</em> a conservation law — it is a normalization applied at each instant, which is a category error. The conserved object is a probability measure transported by a continuity equation, not a softmax output. The distinction matters because only the transport reading gives you fluxes, drift, and the SVB-style 48-hour reallocation dynamics.</p>
     </div>
 
     <!-- DEMO A -->
     <div class="card demo-card" id="demoA">
       <div class="demo-head"><span class="demo-tag">DEMO A · L2</span><h3>Attention conservation + belief drift</h3></div>
-      <p class="dim">Twelve topics share a fixed attention budget on a ring. A belief drift biases flow toward topic #7 (cyan). Move the drift; watch attention <em>concentrate</em> while the total stays pinned at exactly 1.000000.</p>
+      <p class="dim">Twelve topics share a fixed attention budget on a ring, with diffusion $D$ between neighbours and a preferential-attachment drift that moves attention uphill in popularity. Topic #7 (cyan) starts with a small head start. Below the drift-to-diffusion threshold the head start relaxes away; above it the density focuses under its own drift. The total stays pinned at exactly 1.000000 in both cases, so read the peak and the Dirichlet energy, not the total.</p>
       <div id="chartA" class="chart"></div>
       <div class="controls">
         <div class="ctrl">
-          <label>Belief drift toward topic #7 <b id="aDriftVal">0.50</b></label>
+          <label>Drift-to-diffusion ratio (β at fixed D; the ring focuses above about 11) <b id="aDriftVal">beta/D = 10</b></label>
           <input type="range" id="aDrift" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div style="display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap">
@@ -91,6 +93,7 @@
         <dt>total mass</dt><dd><b id="aTotal" style="color:var(--green)">1.000000</b> (the conserved quantity)</dd>
         <dt>peak share</dt><dd><b id="aPeak" style="color:var(--cyan)">0.083</b> on topic #7</dd>
         <dt>HHI</dt><dd><b id="aHHI">0.083</b> (concentration index)</dd>
+        <dt>Dirichlet energy</dt><dd><b id="aDir" style="color:var(--gold)">0</b> (sum of squared neighbour differences; the enstrophy analogue)</dd>
         <dt>step</dt><dd><b id="aStep">0</b></dd>
       </div>
       <div class="verdict good" id="aVerdict"></div>
@@ -126,6 +129,7 @@
       <div class="math-eq">$$N_{\mathrm{eff}} \;=\; \frac{\operatorname{Var}_t\!\big(x_k(t)\big)}{\operatorname{Var}_t\!\big(\bar x(t)\big)} \quad\text{(macro variance-ratio, the canonical estimator).}$$</div>
       <p class="math-where"><b>Where:</b> $x_k(t)$ is the activity of block $k$ over time, $\bar x(t)=\frac1K\sum_k x_k(t)$ is the population mean. If the $K$ blocks are independent, the mean's variance is $1/K$ of a single block's, so $N_{\mathrm{eff}}\!\approx\!K$. If they synchronize, $\bar x$ swings as hard as any single block and $N_{\mathrm{eff}}\!\to\!1$: the law of large numbers has evaporated.</p>
       <p class="dim">There is a closed-form Kish/Pearson version, $N_{\mathrm{eff}}=K/\big(1+(K-1)\bar\rho\big)$, where $\bar\rho$ is the mean cross-block correlation. <span class="tag-correction">Correction 2</span></p>
+      <p class="math-where"><b>What the total cannot tell you.</b> A conserved total says nothing about how the mass is arranged. Write the flux with the paper's own belief closure, drift toward already-popular neighbours plus diffusion $D$: that is an aggregation-diffusion equation, the Keller–Segel family, and its known behaviour is that above a drift-to-diffusion threshold the density <em>focuses</em> onto a shrinking set while $\int\rho$ stays exactly fixed. The observables that read this are the peak share $\max_x \rho$ and the Dirichlet energy $\sum_{\text{edges}} (\rho_i-\rho_j)^2$ (the enstrophy analogue), not the total. The conserved budget does not constrain the dynamics; it sets the threshold at which concentration outruns diffusion. What control means on each side of that threshold is its own page: <a href="control.html">three kinds of control</a>. <span class="tag-correction">Correction 2</span></p>
       <p class="math-where"><b>What the naive version got wrong:</b> estimating $\bar\rho$ from the Pearson correlation of <em>fluctuations</em> badly understates synchronization — in the verified E4 simulation it stays near 64 while the system collapses to 1. The macro variance-ratio is the estimator that actually tracks the collapse (61 → 1). The Kish form is shown in red on the demo precisely so you can watch it mislead.</p>
     </div>
 

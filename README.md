@@ -97,6 +97,8 @@ py -3.12 validation/github/replicate_github.py
 
 ## Key results (see `RUN_AND_CHECK.md` and each `RESULTS.md`)
 
+- **The total cannot read concentration.** The paper's own transport equation with its belief closure is an aggregation-diffusion (Keller-Segel) equation. Run on the paper's generator (`validation/sims/concentration/`), total attention is conserved to 2e-14 in every arm while, above a drift-to-diffusion threshold between 40 and 50, the peak share and the Dirichlet energy grow by two orders of magnitude. Below it a seeded concentration relaxes. The same run measures recovery as two-trajectory separation against a moving reference in two norms, with censoring when the window closes. This adds a fourth tipping type, *focusing*, to the B/N/R rule and an open item (iii'') that re-reads the bifurcation-mix roster against it.
+
 | Result | What it found | Standing |
 |---|---|---|
 | **Dynamic N_eff collapse — community-specificity** (`validation/neff_v4/`) | The criticality gear's prediction on a fresh roster: **9 of 12** r/wallstreetbets cascades collapse past their own block-label shuffle null, binomial *p* = 1.7×10⁻⁷. Depth on one substrate rather than breadth: three overlapping looks at WSB (11 of 12 v4 windows share days with a prior run's window). The Wikipedia arm is a different substrate and the rule does not carry to it — neither the event arm (0/14) nor the calm arm (0/10) fires, and identical code gives a median event null p90 of 0.4909 there against 0.0137 on WSB. | Measured on WSB; substrate-specific. |
