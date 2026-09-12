@@ -86,10 +86,14 @@ def summarise(tr):
 
 # ---- 1+2. sweep the drift-to-diffusion ratio at fixed total mass ---------
 D = 0.05
+# Bound to names so the header below cannot drift from what the sweep ran; it
+# said 3000 steps, which was run()'s default rather than this call's T.
+T_STEPS = 6000
+DT = 0.02
 seed_kick = rng.normal(0, 1e-3, n); seed_kick -= seed_kick.mean()
 sweep = []
 for beta in [0.0, 1.0, 2.0, 2.5, 3.0, 3.5, 4.0, 8.0, 16.0, 32.0]:
-    tr = run(beta, D, T=6000, kick=seed_kick)
+    tr = run(beta, D, T=T_STEPS, dt=DT, kick=seed_kick)
     s = summarise(tr)
     # time for p_max to double from its start, if it ever does
     pm = tr.max(1)
@@ -164,7 +168,8 @@ out = {"n": n, "D": D, "sweep": sweep, "tstar_beta32": tfit, "tstar_beta8": tfit
 json.dump(out, open(os.path.join(HERE, "results.json"), "w"), indent=1)
 
 lines = ["# Concentration and recovery on the transport equation", "",
-         f"n={n} topic nodes, random graph (p=0.15), D={D}, dt=0.02, 3000 steps.",
+         f"n={n} topic nodes, random graph (p=0.15), D={D}, dt={DT}, "
+         f"{T_STEPS} steps.",
          "Total mass is the paper's conservation check. p_max and the Dirichlet",
          "energy are the concentration observables. All three from one run.", "",
          "| beta/D | mass err | p_max start -> end | Dirichlet start -> end | min p end | p_max doubles at |",

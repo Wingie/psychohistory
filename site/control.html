@@ -176,15 +176,8 @@
     base[T] += 0.004; for (let i=0;i<N;i++) if (i!==T) base[i] -= 0.004/(N-1);
     kicked = null; step = 0; sep0 = null; sepHist = []; recStep = null;
   }
-  function stepOnce(p){
-    const beta = pe * DIFF, f = new Float64Array(N);
-    for (let i=0;i<N;i++){
-      const R=(i+1)%N, d = DIFF*(p[R]-p[i]); f[i]+=d; f[R]-=d;
-      const up = beta*Math.max(p[R]-p[i],0)*p[i], dn = beta*Math.max(p[i]-p[R],0)*p[R];
-      f[i]+=dn-up; f[R]+=up-dn;
-    }
-    for (let i=0;i<N;i++) p[i]+=f[i];
-  }
+  // ringStep is app.js's, loaded above: one copy of the equation, so the constants cannot drift between this page and the Attention figure.
+  function stepOnce(p){ ringStep(p, N, DIFF, pe * DIFF); }
   function l2(a,b){ let s=0; for (let i=0;i<N;i++){ const d=a[i]-b[i]; s+=d*d; } return Math.sqrt(s); }
   function sum(a){ let s=0; for (let i=0;i<N;i++) s+=a[i]; return s; }
   function kick(){

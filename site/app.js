@@ -151,18 +151,22 @@ function aInit(){
    aggregation-diffusion equation (the Keller-Segel family): below a
    drift-to-diffusion threshold the uniform state is stable, above it the
    density focuses while the total stays exactly 1. */
-function aStepOnce(){
-  const p = aState, n = A_N, beta = aDrift * 0.8;   // beta/D = 20 * slider; threshold on this ring sits near 11
+function ringStep(p, n, diff, beta){
   const flow = new Float64Array(n);
   for (let i = 0; i < n; i++) {
     const R = (i + 1) % n;
-    const d = A_DIFF * (p[R] - p[i]);           // diffusion, symmetric
+    const d = diff * (p[R] - p[i]);             // diffusion, symmetric
     flow[i] += d; flow[R] -= d;
     const up = beta * Math.max(p[R] - p[i], 0) * p[i];   // i -> R uphill
     const dn = beta * Math.max(p[i] - p[R], 0) * p[R];   // R -> i uphill
     flow[i] += dn - up; flow[R] += up - dn;
   }
   for (let i = 0; i < n; i++) p[i] += flow[i];
+}
+
+function aStepOnce(){
+  // beta/D = 20 * slider; threshold on this ring sits near 11
+  ringStep(aState, A_N, A_DIFF, aDrift * 0.8);
   aStep++;
 }
 
