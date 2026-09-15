@@ -5,6 +5,8 @@
 # (ARC Evals/METR 2022, UK AISI 2023, US AISI 2023, etc).
 # aiid_incidents: approximate new incident records per year (AIID + AIAAIC
 # order of magnitude). See README.md for honesty notes.
+# 2026 is a partial year (through September), extrapolated from the 2025 row
+# plus the dated events listed in README.md; refresh from OECD.AI and AIID.
 year,policy_cum,eval_orgs_cum,aiid_incidents
 2012,2,0,2
 2013,3,0,3
@@ -20,3 +22,4 @@ year,policy_cum,eval_orgs_cum,aiid_incidents
 2023,800,6,125
 2024,1000,10,160
 2025,1100,12,180
+2026,1200,13,200

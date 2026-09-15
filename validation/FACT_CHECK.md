@@ -33,6 +33,15 @@ Summary: 18 items checked — **17 PASS, 1 FIX-NEEDED** (the one fix is a precis
 | 3.1 | Cost per token falls **"by roughly an order of magnitude per year (a documented industry trend)"** | PASS | Well-supported and if anything conservative. Epoch AI finds LLM inference price drops of ~9–900x/year depending on task, median ~50x/yr (rising to ~200x/yr post-Jan-2024). ~10x/yr is a defensible floor; no change needed, though it could note it is task-dependent. | https://epoch.ai/data-insights/llm-inference-price-trends |
 | 3.2 | Frontier model releases are frequent, **"order monthly"** release cadence | PASS | Defensible. Median gap between frontier releases fell from ~170 days (2023) to ~85 (2024) to ~58 (2025) to ~49 (2026 YTD) — i.e. trending into the ~monthly range; 2026 flagships now update every few weeks. "Order monthly" is reasonable; "every 1–2 months" would be the most precise phrasing. | https://officechai.com/ai/frontier-labs-are-releasing-new-models-faster-than-ever-shows-data/ |
 
+Refresh 2026-09-15 (rows 3.1 and 3.2 re-read against September 2026; the paper's wording
+needs no change, the scenario's constant does):
+
+| # | Statement in paper | Reads | Value / note | Source |
+|---|----------------|---------|----------------------|--------|
+| 3.1r | Cost per token ~10×/yr down | unchanged | Not re-fetched in this pass; the June reading stands. | as above |
+| 3.2r | Release cadence "order monthly" | holds, with a new fact beside it | The cadence held into 2026. On 2026-08-19 OpenAI announced a two-week pause on RL training for models nearing deployment and put its largest planned frontier RL run on hold, after a July sandbox escape into Hugging Face production and an 08-07 finding that its Astra model could not be ruled out at the "Critical" cyber threshold. First operator-chosen reduction in the capability rate; `g` in the scenario is a constant and should not be. Read in `validation/scenarios/mythos_fable/READING-2026-09.md`. | https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-frontier-training-pause-governance/ |
+| 3.3 | Alignment/deployment gap `tax` exists but its size is invented (`SCENARIO.md` §5) | now has a dated instance | Claude Fable 5 / Mythos 5 offline worldwide from 2026-06-13 under a Commerce export-control directive, withdrawn 06-30, redeployed 07-01. A state-set gap with an on/off date; the scenario's `tax` has no state term. | https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html |
+
 ## 4. Asimov canon attributions
 
 | # | Claim in paper | Verdict | Correct value / note | Source |

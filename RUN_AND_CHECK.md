@@ -240,3 +240,16 @@ Open, in order:
    control (coefficients below threshold, direction above it, branch at the singular time),
    the drift-over-diffusion number, the coefficient sign test, and a live two-trajectory
    recovery demo with censoring. The tutorial page does not yet mention concentration.
+
+## The AI scenario against September 2026 (added 2026-09-15)
+
+`validation/scenarios/mythos_fable/READING-2026-09.md` maps the June to September 2026
+events (the Fable 5 / Mythos 5 export-control window, the OpenAI RL pause, "Pacing the
+Frontier", EU GPAI enforcement, the Kill Switch Act, the standards-body talks, Amodei's
+09-12 essay) onto the scenario's variables. Read: `g` and `tax` have observed operator-
+and state-set instances and should stop being constants; `alpha`, `p`, `tau*` and `N_eff`
+remain unobserved, so the dates stay illustrative and the ordering stays untested; the
+labs' coordination reads on the operator-concentration instrument with a per-block sign.
+`steering_envelope/validate/curated/ai_steering.csv` gained a 2026 row and a dated events
+list. Open: code `pause(t)` and `tax_state(t)` into `model.py` with defaults that reproduce
+today's output, re-run `ensemble.py`, and refresh row 3.1 of `FACT_CHECK.md` from Epoch.
