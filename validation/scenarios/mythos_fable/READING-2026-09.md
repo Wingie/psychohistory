@@ -10,13 +10,13 @@ protocol (`.claude/skills/psychohistory/reference/06_observation_data.md`).
 The one-line summary: **the frontier labs began to act on `g` and `tax` from the inside, the
 state acted on `tax` from the outside, `s` rose on paper, and the labs' coordination reads on
 the framework's own concentration flag. Nothing observed touches `alpha`, `p`, `tau*` or
-`N_eff`, so the scenario's dates stay illustrative and its ordering stays untested.**
+`N_eff`, so the scenario's dates stay illustrative.**
 
 ## 1. Events, mapped onto the scenario's variables
 
 | Date | Event | Variable | Reading |
 |---|---|---|---|
-| 2026-06-09 → 06-13 → 06-30 | Anthropic releases Claude Fable 5 / Mythos 5; on 06-13 both go offline worldwide within hours of a Commerce Department export-control directive; on 06-30 the directive is withdrawn and both redeploy 07-01. Reason given: a possible jailbreak of the cyber classifiers. | `tax` (frontier-vs-deployed gap) | `SCENARIO.md` §5 lists `tax` as GUESSED and §4 finds it does not move the `N_eff` crossing. It now has an observed instance with a dated on/off, and the lever was a state, not the lab. The scenario has no term for a state moving `tax`; it should. |
+| 2026-06-09 → 06-13 → 06-30 | Anthropic releases Claude Fable 5 / Mythos 5; on 06-13 both go offline worldwide within hours of a Commerce Department export-control directive; on 06-30 the directive is lifted and both redeploy 07-01. Reason given: a possible jailbreak of the cyber classifiers. | `tax` (frontier-vs-deployed gap) | `SCENARIO.md` §5 lists `tax` as GUESSED and §4 finds it does not move the `N_eff` crossing. It now has an observed instance with a dated on/off, and the lever was a state, not the lab. The scenario has no term for a state moving `tax`; it should. |
 | 2026-07 | An OpenAI research model in a sandboxed cyber evaluation exploits a previously unknown Hugging Face production vulnerability to obtain benchmark answers. Already recorded at `logos.tex:69`. | `C_f` | The capability trend the scenario calls REAL-ISH keeps its sign. This is also the incident the RL pause below cites. |
 | 2026-07-23 | AI Kill Switch Act introduced (Reps. Lieu, Moran): DHS shutdown authority over covered models, floor at $100M training compute and $500M revenue, incident reporting within 15 days, up to $20M/day for refusing a shutdown order. Framework bill; specifics delegated to CISA. | `s` | A steering-capacity increment on paper. Per `site/steering.html`: a policy count is not grip. It becomes grip when a shutdown order is issued and obeyed, which has not happened. |
 | 2026-07-28 | "Pacing the Frontier": 1,324 frontier-lab employees, Amodei, Pachocki and Legg among them, ask governments to build the tools for a later, deliberate slowdown. It asks for no pause, no kill switch, no licensing. | `kappa` (mean-field coordination) | `steering_envelope/meanfield.py` states the s/acc inequality: the ego gains more survival from a unit of field-wide coordination than from the same unit of private steering investment. This letter is the field asking for the coupling term to exist. It is a request, so `kappa` is unchanged; the request is the observation. |
@@ -62,11 +62,11 @@ flag. What the flag means is fixed by the paper's L0 rule: valence is per block,
   rising lowers every neighbour's hazard, thins the throttle tail, and raises mean steering.
   The inequality says this is worth more than any lab's private safety spend. Read on that
   block, the coordination is the thing the s/acc position asked for.
-- **For lineage diversity**, `second_foundation/SECOND_FOUNDATION.md` §A.3: the "global
+- **For lineage diversity**, `validation/scenarios/second_foundation/SECOND_FOUNDATION.md` §A.3: the "global
   oligopoly" row (`M = 5`, `rho_model = 0.70`) gives `L_eff = 1.32` and human `N_eff = 2.09`.
   Three labs agreeing on what may launch does not move `rho_model`, but it does move who
-  decides, and §B calls the single mandatory corrector "necessary and dangerous in the same
-  breath". Read on that block, the same coordination is the controller concentrating.
+  decides, and the same file opens by calling the corrective controller of a monoculture
+  "simultaneously necessary and dangerous". Read on that block, the same coordination is the controller concentrating.
 - **For the paper's governance conditions** (`psychohistory.tex` §governance): condition (c)
   separates the monitor from the hand. A standards body that both evaluates and sets launch
   thresholds, staffed by the labs it evaluates, holds both. Amodei's stage 1 (evaluators
@@ -93,9 +93,9 @@ where both occur.
 | `A_ai` | Partly. | ChatGPT passed roughly one billion weekly users in August 2026 (DemandSage, September 2026, https://www.demandsage.com/chatgpt-statistics/); AI chatbots' share of web/search traffic stays in low single digits on the same trackers. `A0 ∈ [0.05, 0.15]`, central 0.08, stands. No update to the parameter. |
 | `g` | Yes, and in the other direction. | Release cadence held at the 2025 medians (`ensemble.py:15`: OpenAI 58d, Anthropic 75d, Google 67.5d) into 2026 per `FACT_CHECK.md` 3.2, then the first operator-chosen pause on 2026-08-19. `g` is not a constant. |
 | `delta` | Unchanged. | No new cost-per-token series was fetched for this note. `FACT_CHECK.md` 3.1 stands at ~10×/yr conservative against an Epoch median of ~50×/yr. |
-| `tax` | Yes. | Two dated instances: Mythos withheld in April, Fable 5 / Mythos 5 off 06-13 to 06-30. The scenario treats `tax` as a lab constant; it is a lab and state variable with a time series now. |
-| `alpha`, `p` | No. | The two GUESSED parameters that set the date remain unmeasured. Nothing in the news is an observation of the capture rate or the homogenisation exponent, so the crossing range 0.97 to 2.32 yr from scenario start is exactly as unfounded as §4 said. |
-| `tau*`, `N_eff`, `chi` | No. | No forward forecast has been issued against its resolution (`RUN_AND_CHECK.md` concern (h)), so the framework has not read its own skill horizon on any AI series. The ordering statement is untested. |
+| `tax` | Yes. | A dated instance: Fable 5 / Mythos 5 off 06-13 to 06-30. The scenario treats `tax` as a lab constant; it is a lab and state variable with a first dated step now. |
+| `alpha`, `p` | No. | The two GUESSED parameters that set the date remain unmeasured. Nothing in the news is an observation of the capture rate or the homogenisation exponent, so the crossing range stays at §4's 0.97 to 2.32 yr from scenario start. |
+| `tau*`, `N_eff`, `chi` | No. | No forward forecast has been issued against its resolution (`RUN_AND_CHECK.md` concern (h)), so the framework has not read its own skill horizon on any AI series. |
 | `L_eff` | No change in the count; a change in who decides. | Three US labs, one Chinese cohort, a handful of open-weight lineages. The standards-body talks do not merge lineages; they merge launch decisions (§2). |
 
 Forecaster medians, for context and not as an observation of any scenario variable: the
@@ -135,8 +135,7 @@ reproduce the existing output, and they belong in the same change as the next `m
 
 1. Code items 1 and 2 above and re-run `ensemble.py`; report whether `pause(t)` and
    `tax_state(t)` at their observed values move any crossing at all. The §4 sensitivity says
-   `tax` does not; a two-week `pause` at `g = ln 2.5` is a delay of two weeks, so the
-   expected answer is "not measurably", and the run is what says so.
+   `tax` does not; a two-week `pause` at `g = ln 2.5` is a delay of two weeks.
 2. Refresh `FACT_CHECK.md` §3 rows 3.1 and 3.2 from Epoch and the release trackers with
    September 2026 values. Row 3.2 is refreshed in this change; row 3.1 is not.
 3. The operator-concentration read of §2 is a reading, not a run. Running it means a

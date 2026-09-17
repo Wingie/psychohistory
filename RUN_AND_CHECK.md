@@ -248,7 +248,7 @@ events (the Fable 5 / Mythos 5 export-control window, the OpenAI RL pause, "Paci
 Frontier", EU GPAI enforcement, the Kill Switch Act, the standards-body talks, Amodei's
 09-12 essay) onto the scenario's variables. Read: `g` and `tax` have observed operator-
 and state-set instances and should stop being constants; `alpha`, `p`, `tau*` and `N_eff`
-remain unobserved, so the dates stay illustrative and the ordering stays untested; the
+remain unobserved, so the dates stay illustrative; the
 labs' coordination reads on the operator-concentration instrument with a per-block sign.
 `steering_envelope/validate/curated/ai_steering.csv` gained a 2026 row and a dated events
 list. Open: code `pause(t)` and `tax_state(t)` into `model.py` with defaults that reproduce

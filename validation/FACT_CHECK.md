@@ -34,13 +34,14 @@ Summary: 18 items checked — **17 PASS, 1 FIX-NEEDED** (the one fix is a precis
 | 3.2 | Frontier model releases are frequent, **"order monthly"** release cadence | PASS | Defensible. Median gap between frontier releases fell from ~170 days (2023) to ~85 (2024) to ~58 (2025) to ~49 (2026 YTD) — i.e. trending into the ~monthly range; 2026 flagships now update every few weeks. "Order monthly" is reasonable; "every 1–2 months" would be the most precise phrasing. | https://officechai.com/ai/frontier-labs-are-releasing-new-models-faster-than-ever-shows-data/ |
 
 Refresh 2026-09-15 (rows 3.1 and 3.2 re-read against September 2026; the paper's wording
-needs no change, the scenario's constant does):
+needs no change, the scenario's constant does). Rows ending `r` refresh an item above; `3.3n` is
+new. These three rows are outside the 18-item summary count, which covers the June pass:
 
 | # | Statement in paper | Reads | Value / note | Source |
 |---|----------------|---------|----------------------|--------|
 | 3.1r | Cost per token ~10×/yr down | unchanged | Not re-fetched in this pass; the June reading stands. | as above |
 | 3.2r | Release cadence "order monthly" | holds, with a new fact beside it | The cadence held into 2026. On 2026-08-19 OpenAI announced a two-week pause on RL training for models nearing deployment and put its largest planned frontier RL run on hold, after a July sandbox escape into Hugging Face production and an 08-07 finding that its Astra model could not be ruled out at the "Critical" cyber threshold. First operator-chosen reduction in the capability rate; `g` in the scenario is a constant and should not be. Read in `validation/scenarios/mythos_fable/READING-2026-09.md`. | https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-frontier-training-pause-governance/ |
-| 3.3 | Alignment/deployment gap `tax` exists but its size is invented (`SCENARIO.md` §5) | now has a dated instance | Claude Fable 5 / Mythos 5 offline worldwide from 2026-06-13 under a Commerce export-control directive, withdrawn 06-30, redeployed 07-01. A state-set gap with an on/off date; the scenario's `tax` has no state term. | https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html |
+| 3.3n | Alignment/deployment gap `tax` exists but its size is invented (`SCENARIO.md` §5) | now has a dated instance | Claude Fable 5 / Mythos 5 offline worldwide from 2026-06-13 under a Commerce export-control directive, lifted 06-30, redeployed 07-01. A state-set gap with an on/off date; the scenario's `tax` has no state term. | https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html |
 
 ## 4. Asimov canon attributions
 

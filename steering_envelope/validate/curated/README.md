@@ -81,7 +81,7 @@ AI scenario (`validation/scenarios/mythos_fable/READING-2026-09.md` has
 the sources and the reading):
 
 - 2026-06-13 to 06-30: Claude Fable 5 / Mythos 5 offline worldwide under a
-  US export-control directive, withdrawn 06-30. A state-set deployment gap.
+  US export-control directive, lifted 06-30. A state-set deployment gap.
 - 2026-07-23: AI Kill Switch Act introduced in the US House. Policy count.
 - 2026-07-28: "Pacing the Frontier", 1,324 frontier-lab signers asking for
   slowdown tools. A coordination request, not a policy.
