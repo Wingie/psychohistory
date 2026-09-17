@@ -68,6 +68,33 @@ Incident Database + AIAAIC. These series enter only the leading-indicator
 ratio chart (`ai_proxy.py`), never a fitted hazard: there is no outcome
 data for AI corners yet, and the module says so.
 
+The 2026 row (added 2026-09-15) is a partial year through September,
+carried forward from 2025 at the same order of magnitude. `eval_orgs_cum`
+rises by one for the European Commission's enforcement powers over
+general-purpose AI models, applicable from 2026-08-02, because that is the
+first institution in the series with a legal right of access to a model for
+evaluation. `policy_cum` and `aiid_incidents` are extrapolated, not
+counted; refresh both from OECD.AI and AIID before fitting anything.
+
+Dated 2026 events behind that row, each with the variable it moves in the
+AI scenario (`validation/scenarios/mythos_fable/READING-2026-09.md` has
+the sources and the reading):
+
+- 2026-06-13 to 06-30: Claude Fable 5 / Mythos 5 offline worldwide under a
+  US export-control directive, lifted 06-30. A state-set deployment gap.
+- 2026-07-23: AI Kill Switch Act introduced in the US House. Policy count.
+- 2026-07-28: "Pacing the Frontier", 1,324 frontier-lab signers asking for
+  slowdown tools. A coordination request, not a policy.
+- 2026-08-02: EU AI Act general-purpose model obligations enforceable.
+  Evaluation institution with model access.
+- 2026-08-19: OpenAI pauses RL training for models nearing deployment,
+  largest planned run on hold. An operator-chosen reduction in velocity.
+- 2026-08-27: joint cyber-defence letter, 128 organisations including all
+  three US frontier labs. Coordination on defence.
+- 2026-09-12: Amodei's "We Must Pace the Frontier": embedded third-party
+  evaluators with employee-level access, adopted unilaterally. Evaluation
+  capacity if the access is granted; counted in the next row, not this one.
+
 ## Licenses
 
 - JST Macrohistory Database: free for non-commercial research use, cite

@@ -63,7 +63,7 @@ pdflatex logos.tex
 pdflatex logos.tex
 pdflatex logos.tex              # THREE times: pass 2 still reports "Label(s) may have changed"
 ```
-Requires a TeX distribution (MiKTeX or TeX Live). A pre-built `psychohistory.pdf` is included; no `logos.pdf` is committed, so build it.
+Requires a TeX distribution (MiKTeX or TeX Live). Pre-built `psychohistory.pdf` and `logos.pdf` are both committed; rebuild after editing either source.
 
 `logos.tex` compiles. Verified on MiKTeX at commit `dde58df`: **32 pages, exit code 0, zero undefined references, zero undefined citations.** It needs a third `pdflatex` pass, unlike `psychohistory.tex`, because pass 2 still reports "Label(s) may have changed"; two passes leave stale cross-references.
 
