@@ -109,12 +109,18 @@ calibrated classifier" for the operator detector (`:734`: thresholds not held-ou
 So the decision tower on this side is not RL at current data sizes; it is proper-scoring-rule
 fitting of the detectors that exist:
 
-| Detector | As a typed question | Label | Records available |
-|---|---|---|---|
-| `validation/backtests/major_player_signal/detector.py` | Score over {gradual-internal, sudden-external} | the roster's mechanism label | `early_warning_battery/roster.md`, 10 rows |
-| `validation/bifurcation_mix/classify.py` | Choice over {B, N, R, F} | the adjudicated tipping type | `classification_table.md`, 24 cascades, plus the (iii″) fourth-box re-read |
-| the regime monitor (`validation/engine/`) | Noul "onset within the window" | onset dates | WSB windows, 12 (v4) |
-| the EnKF pushforward | Score over the bracket ladder of the series | the realised value | `enkf_oneblock.py`, the r/AskEconomics series |
+| Detector | Mechanics | As a typed question | Label | Records available |
+|---|---|---|---|---|
+| `validation/backtests/major_player_signal/detector.py` | `DEC` | Score over {gradual-internal, sudden-external} | the roster's mechanism label | `early_warning_battery/roster.md`, 10 rows |
+| `validation/bifurcation_mix/classify.py` | `DEC` | Choice over {B, N, R, F} | the adjudicated tipping type | `classification_table.md`, 24 cascades, plus the (iii″) fourth-box re-read |
+| the regime monitor (`validation/engine/`) | `DEC` | Noul "onset within the window" | onset dates | WSB windows, 12 (v4) |
+| the EnKF pushforward | `SIM` (the Kalman-filter instance) | Score over the bracket ladder of the series | the realised value | `enkf_oneblock.py`, the r/AskEconomics series |
+
+The mechanics column uses `logos-harness/logos/arch/kinds.py`: `DEC` is one prefill and a typed
+question with a calibrated probability, `SIM` is one prefill and a score over the next
+observation. The EnKF pushforward is `SIM` because it predicts the next observation; its
+Kalman-filter form is one instance of that mechanics, not a fifth kind. Which detectors a grown
+roster turns into `DEC` questions is read off the roster, not written here.
 
 At n between 10 and 24 the calibrator is the cheap one `F9_MEASUREMENT_PLAN.md` §8.2 already
 registers, temperature or Platt scaling of the detector's own scores, with reliability diagrams
@@ -143,7 +149,14 @@ warns about.
 3. The governance tower's three nouls arrive with the governance build
    (`flowstate-agents/wip-specs/logos/wip.md` §3); the head, the labels and the ledger fields
    are ready for them.
-4. On this side: Platt-scale `major_player_signal/detector.py` on the ten-row roster and draw
-   the reliability diagram; report Brier, reliability, resolution against the base rate. Small,
-   and it is the calibrated classifier the paper says it owes.
+4. Done, 2026-09-19: `validation/calibration/platt.py` (`RESULTS.md` and `results.json`
+   beside it). Platt on `operator_led_score` reaches only the 3 roster events `results.json`
+   scores (the other 7 need weekly caches not in the tree; the module names them). Leave-one-out
+   at n=3 the fit carries nothing: Brier 0.262 against a base-rate 0.222. The early-warning
+   battery scores all 10: raw AUC 0.583 on `z`, LOO Brier 0.351 against 0.240, reliability
+   0.349, which is the battery's own "no separation" reading on a proper score. The two-feature
+   logit on `(f_existing, log a_abrupt)` for the SUBSTANTIVE B-vs-R reading over the 24
+   cascades: LOO Brier 0.251 against 0.222, LOO AUC 0.445; the hard thresholds score 0.417
+   (accuracy 0.583). The calibrated classifier the paper owes now exists and its number is
+   that the detectors, as scored today, do not separate the labels out of sample.
 5. K5 (F13 limb b) is unchanged and unrun; the decision tower does not discharge it.
