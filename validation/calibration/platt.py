@@ -302,8 +302,9 @@ def bnr_fit(bins: int = 5) -> dict:
     p_loo = loo(X, y)
     hard = np.array([1.0 if structural_label(r["f_existing"], r["a_abrupt"]) == "B" else 0.0
                      for r in rows])
-    assert all(structural_label(r["f_existing"], r["a_abrupt"]) == r["structural"]
-               for r in rows), "classify.py thresholds moved; the table is stale"
+    if not all(structural_label(r["f_existing"], r["a_abrupt"]) == r["structural"]
+               for r in rows):
+        raise CalibrationError("classify.py thresholds moved; the table is stale")
     return {
         "name": "bnr substantive B vs R",
         "n": len(rows),
