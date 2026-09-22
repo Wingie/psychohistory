@@ -189,7 +189,7 @@ That alternative is to choose a partition, train a tower per part, and route ove
 
 Concretely: the parameter budget is divided across $N$ towers of about 2.8T total parameters each, $N$ being a capacity choice in the same sense that an expert count is (\S\ref{sec:emergent}). Each tower is internally a heterogeneous mixture-of-experts (\S\ref{sec:microsparsity}) with hybrid linear and latent attention (\S\ref{sec:attention}). A shared trunk builds the representation the router reads, the router dispatches each segment to one tower, and a shared head consumes the result. Training is joint throughout; \S\ref{sec:lineage} makes the towers' shared pretraining lineage an explicit parameter, which governs \emph{initialisation} rather than whether the corpus is split.
 
-\textbf{Table~\ref{tab:scaling} prints $N = 5$ and names the towers Code, Life Sciences, Mathematics, Logic and Administration. Those names are an illustration of what specialisation might look like if it emerged, and nothing in the architecture produces them.} They are retained because the arithmetic needs a number, and $N = 5$ is that number. They should not be read as an assignment, and \S\ref{sec:f11five} reports the measurement that shows why: asked which of those five a model's gradients actually separate, the answer matches the naming in neither direction. Safety in particular is not among them --- it is a router-level decision, not a tower (\S\ref{sec:governance}).
+\textbf{Table~\ref{tab:scaling} prints $N = 5$ and names the towers Code, Life Sciences, Mathematics, Logic and Administration. Those names are an illustration of what specialisation might look like if it emerged, and nothing in the architecture produces them.} They are retained because the arithmetic needs a number, and $N = 5$ is that number. They should not be read as an assignment, and \S\ref{sec:f11five} reports the measurement that shows why: asked which of those five a model's gradients actually separate, the answer matches the naming in neither direction. Safety in particular is not among them --- it is not a domain at all but the governance mechanics of \S\ref{sec:mechanics}: a tower that reports, and a switch the caller holds (\S\ref{sec:governance}).
 
 Beyond the data argument, two properties motivate the split:
 
@@ -336,6 +336,30 @@ On the \textbf{size axis} the arrangement is a distillation ladder, one parent p
 The size axis is close to free on the two quantities Proposition~\ref{prop:binding} says are binding. A 7B and a 70B tier alongside a 2.8T parent add $7.7\times10^{10}$ parameters, which is \textbf{2.75 percent} of the tower, or 40.9~GB at MXFP4's true 4.25 bits, well under one accelerator. Training them by distillation at $D = 20N$ costs $6 \times 7\times10^{10} \times 1.4\times10^{12} = 5.88\times10^{23}$ FLOPs for the 70B tier and $5.88\times10^{21}$ for the 7B, a total of $5.9\times10^{23}$, which against the tower's own $2.2$ to $3.1\times10^{25}$ is 1.9 to 2.7 percent. Both costs land near the same small number, which is a coincidence of $D=20N$ and worth no more weight than that.
 
 \textbf{The ``four towers, not five'' verdict survives this unchanged.} The criterion above is stated entirely on the domain axis: corpus disjointness, objective conflict and update cadence are all properties of what a tower is trained on and for, not of how large it is. Mathematics and Logic still fail all three axes as the criterion is argued --- and \S\ref{sec:f11five} reports that the measurement refutes that verdict, which is a fact about the criterion rather than about the size axis. What the size axis changes is the number of served artifacts, not the number of domains, and \S\ref{sec:routereval} notes the consequence for evaluation: a two-dimensional partition multiplies the arm count, and any metric that takes a maximum over arms degrades as it grows. The full specification of the ladder, including the distillation schedule and the reuse protocol, is in \texttt{logos/LADDER\_ARCHITECTURE.md}; we do not import it here, because the paper's claim is only that the second axis exists, is cheap, and does not disturb the first.
+
+\subsection{Four mechanics, and a roster that is grown}
+\label{sec:mechanics}
+
+Domain and size are the two axes above. There is a third, and it is orthogonal to both: \emph{how a tower runs}. Four mechanics cover every tower the companion harness builds, and they name nothing about what a tower is for.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+code & mechanics & what it returns \\
+\midrule
+\texttt{RSN} & a text turn with tools, its own dispatch and its own halt & an answer, or a hop \\
+\texttt{SIM} & one prefill and a score over the next observation, latent rollouts & a distribution \\
+\texttt{DEC} & one prefill and typed questions with calibrated probabilities, no text & probabilities \\
+\texttt{GOV} & \texttt{RSN} mechanics carrying three yes/no readouts and the handshake toolbox & a report; the switch stays with the caller \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A \texttt{SIM} tower predicts the next observation, which is what makes it a world model rather than a policy; the weather ladder and the next emulator tile are one head shape at two cardinalities. A \texttt{DEC} tower is the typed-decision shape of \S\ref{sec:observation}: it emits no text, and every answer is a probability scored against an environmental label. The governance tower is \texttt{RSN} mechanics with a typed end-of-turn readout, and enforcement is never inside it.
+
+What a tower \emph{is} on a substrate is not assigned. The roster is grown: it starts from one reasoning tower and one governance tower, a simulator where the substrate has a next observation, and when the adjudicator's yield stalls a tower is cloned from the one with the best pass rate and routed by hash, while a tower that receives no traffic is retired. A tower's name on the wire is its learned prompt codes, and a substrate's name is a learned key: a short code sequence seeded from that substrate's data through the shared compressor, trained like a prompt, and prepended to every question on it. The three-letter codes are the only names written down.
+
+Two consequences follow for the wire. First, a typed question travels as codes: each option is its latent through the shared compressor behind a reserved marker entry that data can never produce, so the question is portable across nodes, its width is set per ask, and the signing and encryption of \S\ref{sec:governance} cover it unchanged. The marker positions are read by a small scorer, a masked softmax over the hidden states at the markers, so a roster of any size is one question. Second, no router stands in front of a \texttt{DEC} tower. A decision layer that both scored and dispatched would be the concentrated controller \S\ref{sec:governance} warns against; the dispatch question is itself a typed question whose options are the roster's prompt codes, answered by the tower that holds the question.
 
 \section{The router}
 \label{sec:router}
@@ -1017,6 +1041,8 @@ Putting them together gives a statement we take as the paper's thesis.
 
 One route around the martingale is documented and it does not escape the bound. Con\-fi\-dence-weighted debate improves correctness only under the assumption that confidence is positively correlated with correctness, and the calibration that buys that correlation is itself purchased with external supervision: reinforcement-learning calibration on a hand-curated harder subset with known answers \cite{zhu2026debate}. The exogenous signal moves from the debate into the calibrator; it is not removed. That is the pattern the bound predicts, and it is the strongest piece of evidence for the bound that the debate literature supplies.
 
+The same pattern is what a calibrated typed head is. A \texttt{DEC} tower (\S\ref{sec:mechanics}) answers with probabilities trained by a proper scoring rule against outcomes the environment settles, and its temperature is fitted afterwards on held-out rows. That fit is where the exogenous signal enters: the head's confidence correlates with correctness exactly to the extent that settled outcomes were paid for, and a head fitted on labels averaged from other models has bought nothing. The calibrator is built in, and the bound is unchanged.
+
 This is a synthesis of established results, not a new claim, and we want to be exact about which parts are ours. The martingale result, the pass@$k$ boundary result, the degeneration theorem, and the code-executor existence proof all belong to their authors. What we add is three things.
 
 First, the bound is the answer to this paper's own question. Sections \ref{sec:scaling} to \ref{sec:cost} lift every other constraint on a 10T system, and this one is left standing. An operator who has solved compute, corpus, and memory has a system whose ceiling is set by how fast the world corrects it.
@@ -1053,7 +1079,7 @@ The loop, which the companion specification \texttt{logos/}\allowbreak\texttt{LO
 \item Score the divergence between their predictive distributions. Discard candidates where they already agree: a settled disagreement is where the environment's verdict carries information the ensemble did not already hold, and an agreed prediction that turns out right is self-confirmation.
 \item Act on the environment.
 \item Let the environment settle the disagreement.
-\item Score Eq.~\eqref{eq:yield}.
+\item Score Eq.~\eqref{eq:yield}. In the four mechanics of \S\ref{sec:mechanics}, $P_M$ in Eq.~\eqref{eq:yield} is what a \texttt{SIM} tower emits, the prediction over the next observation; the divergence and the yield are read off it, and the \texttt{DEC} readout on every node is the calibrated probability that the trajectory will be confirmed, scored against the same settlement.
 \item Admit the trajectory weighted by yield, and accumulate rather than replace, per result (3).
 \item Retrain, and repeat. Disagreement shrinks where the environment has been explored, which pushes generation toward the frontier without being told to.
 \end{enumerate}
