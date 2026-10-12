@@ -173,3 +173,42 @@ The one **correction to the world-facts**: the draft says the defenders' problem
 4. **P1**: Correct `logos.tex:363`. It says the 12% tensor-core die-area figure "could not be traced to a primary document"; it is in the closing sentence of the abstract of arXiv 2603.08713, which the same remark cites twice (finding C-03). A false negative provenance claim about a paper the draft cites is worse than the sourcing gap it was meant to disclose: it puts every other negative provenance claim in the draft in doubt, and there are several.
 5. **P2**: Confirm whether "Kimi K2.7" exists or should read K2 / K3.
 6. **P2**: Add a bibitem for arXiv 2604.09175 or stop listing it under §6 as supplied. It is currently listed as supplied and is absent from `logos.tex` (finding X-16).
+
+---
+
+## 10. Added 2026-10-12: arXiv 2610.13113 (Koh et al., SynthSelf)
+
+**Status: VERIFIED** against the arXiv HTML of v1 (submitted 2026-10-09). Read in full: main text, Tables 1 to 5, Appendices A to D. Cited as `koh2026synthself` in `logos.tex` §"One knob" (`sec:lineage`) and the new §"What admission by yield costs in retention" (`sec:admitshift`). Every number quoted in `logos.tex` was checked against the table it cites.
+
+### 10.1 What it is, and what it is not
+
+A two-model training recipe. A Qwen2.5-Instruct student (0.5B, 1.5B, 3B) is fine-tuned on demonstrations that a larger same-family model (Qwen2.5-7B or 14B) has rewritten in its own words, with the gold answer in the rewrite prompt, keeping a rewrite only when its extracted answer matches the gold. It is plain SFT on the kept rewrites.
+
+**It is not a version of the towers.** It has one student, one teacher, no message channel, no dispatch, no specialisation between models, and no environment in the loop. Three parts of it do connect to LOGOS, and those are what the paper now cites it for:
+
+1. **Lineage (λ).** Table 2 is a measurement on the axis `sec:lineage` names. Same-family rewrites sit at student NLL 1.014 / 0.658 (science / tool), cross-family at 1.342 / 0.843, and acquisition follows NLL rather than rewriter accuracy. A size family is not on the three-rung ladder (not branches of one checkpoint, not independent), which is why the paper places it between rungs.
+2. **Admission by yield.** §2.2.1's shift-forgetting correlation (ρ = −0.85 over 23 corpora, under LoRA r=16) and the OpenR1 HI/MID/LO ordering bear directly on step 6 of the loop. Self-generated, check-filtered actions match their lowest-shift arm. Yield-selected observation targets are the loop's highest-shift tokens. The paper now asks for a fixed, ungated retention panel in step 7.
+3. **Phase A in `logos-harness`.** Adapting Qwen3-0.6B towers on trajectories other models wrote is their plain-SFT condition. A same-family rewrite with the recorded tool call held fixed and matched exactly is the cheap remedy they measured.
+
+### 10.2 Adversarial review of the source
+
+Checked against the paper's own tables. Each item is something to know before leaning on a number.
+
+| # | Finding | Where | What it changes for us |
+|---|---|---|---|
+| S-1 | The rewriter sees the gold response and is told to keep the same final answer (Appendix A, Prompts A to C). Data-generation accuracy (Tab. 2, 99.0 / 82.9) therefore measures instruction compliance, not the rewriter solving the task. | App. A, Tab. 2 | The "stronger aligner writes more correct data" contrast is weaker than it reads. We quote the accuracy figure only as what it is. |
+| S-2 | Every cell is one seed (42, Tab. 5). Several headline gaps are within a point: Medicine 1.5B +0.5 / −0.2 against off/on-policy distillation; Medicine 3B SynthSelf 57.3 against base 57.5. | Tab. 1, Tab. 5 | `logos.tex` carries the direction of the λ result and says the gap size is soft. |
+| S-3 | No task sequence was run. Every acquisition run starts from the base and trains on one set; "continual" in the title is one step. | §3.1, Tab. 1 | The paper says how the effect compounds over repeated loop rounds is outside what was measured. |
+| S-4 | Retention under SynthSelf is below the untrained base on average (41.7 against 42.8), and SS-1 (the 7B rewriter) is below base in 11 of its 12 per-scale cells, the exception being Chemistry 1.5B at 45.0 against 43.9. Fig. 1(a)'s "near-zero forgetting" is the medicine average (42.4 against 42.8). | Tab. 1 | `logos.tex` says it "forgets less than SFT and still forgets". |
+| S-5 | The abstract says acquisition and forgetting "correlate linearly" with shift. The only coefficient given is a Spearman rank correlation, for forgetting only, with no interval. Experiment 2 has three arms and gives no coefficient. | §2.2.1 | We quote ρ = −0.85 for forgetting only and describe Experiment 2 as an ordering. |
+| S-6 | Experiment 2's LO arm differs from HI/MID in two ways at once: it is lower-shift and it is correctness-filtered self-generation. Shift and data quality are not separated. | §2.2.1 | Our "actions look like the LO arm" reading rests on both properties, and LOGOS actions have both, so this does not weaken the use we make of it. |
+| S-7 | Table 2 compares two same-family rewriters against two cross-family ones that are also roughly 2 to 4× larger. Family and size are confounded; there is no same-size cross-family control. | Tab. 2 | `logos.tex` attributes the gap to "coming out of one family" and names the two-per-group limit. A size-matched control would be the next measurement. |
+| S-8 | The §2.2.1 diagnostics run LoRA r=16 at lr 1e-4 for 1 epoch; the main runs are full fine-tuning at 5e-5 for 2 epochs. The LoRA result is the one that bears on adapters. | App. B, Tab. 5 | `sec:admitshift` cites the LoRA figure specifically for that reason. |
+| S-9 | Experiment 1 is described as "23 diverse math training datasets", but Table 3's off-target group is code and general instruction data (opc-sft, SCP-116K, tulu-3, KodCode, OpenCodeReasoning). NuminaMath-1.5 (2025-02) is grouped pre-cutoff against a 2024-09 cutoff. | §2.2.1, Tab. 3 | None for us; noted so the "math" label is not repeated. |
+| S-10 | `re-invoke (Lu and Lab, 2025)` is cited as an off-policy continual method. Not traced further; outside what we cite. | §1 | None. |
+
+Two items an automated read flagged as inconsistencies were checked and are **correct in the source**: the 69.9% FLOPs reduction in §1 is the mean of the per-domain 76.9% and 62.9% from Table 2, and the "17.1% for tool use" dataset shrinkage in §4 is 100 − 82.9, the tool-use rejection rate in Table 2.
+
+### 10.3 What it would take to use the recipe in the harness
+
+Not built. Stated so the next session does not need to rederive it. `scripts/adapt_towers.py` reads `<root>/<family>/<id>/steps.txt`. A rewrite pass would sit outside the repo with the corpora (the ingest pipeline was deliberately removed from `logos-harness`), use a larger Qwen3 as rewriter, rewrite only the free-text reasoning between tool calls, and keep a trajectory only when every tool call after rewriting matches the recording byte for byte. Measuring it means a Phase A run on rewritten against original trajectories at matched tokens, with a fixed retention panel on both arms.
