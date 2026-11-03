@@ -119,8 +119,9 @@ fitting of the detectors that exist:
 The mechanics column uses `logos-harness/logos/arch/kinds.py`: `DEC` is one prefill and a typed
 question with a calibrated probability, `SIM` is one prefill and a score over the next
 observation. The EnKF pushforward is `SIM` because it predicts the next observation; its
-Kalman-filter form is one instance of that mechanics, not a fifth kind. Which detectors a grown
-roster turns into `DEC` questions is read off the roster, not written here.
+Kalman-filter form is one instance of that mechanics, not a fifth kind. The roster on this
+substrate holds one `DEC` tower and one `SIM` tower, so every `DEC` row above is a question to the
+same tower, and what it is good at comes from its own data.
 
 At n between 10 and 24 the calibrator is the cheap one `F9_MEASUREMENT_PLAN.md` §8.2 already
 registers, temperature or Platt scaling of the detector's own scores, with reliability diagrams

@@ -170,17 +170,14 @@ Not refuted — **relegated**, to a question about one tower's internals.
 compressed learned channel preserves enough for a tower to build on and correct
 another tower's work. Measurable, cheap, unrun.
 
-## Adding a tower
+## Where a tower comes from
 
-The old mechanism cloned the highest-load tower, froze trunk and head, admitted
-at low probability. Its own stated risk was *"two towers initialised identically
-will not diverge without a pressure that rewards divergence"* — now measured and
-confirmed.
-
-New mechanism: a tower is a copy of a parent finetuned on new data. Divergence
-comes from the corpus, which removes that failure. What replaces the freeze/admit
-schedule is **codebook stability** — adding a tower must not invalidate the codes
-every existing tower already speaks. Open question 1.
+The roster is fixed by kind: one each of `RSN`, `SIM` and `DEC` per substrate,
+up to what VRAM holds. Each tower is a copy of a parent finetuned on its own data, and that data is
+the only source of its specialisation, because towers fed the same data do not
+diverge (measured above). What the fixed roster depends on is **codebook
+stability**: a tower's training must not invalidate the codes every other tower
+already speaks. Open question 1.
 
 ## The batching objection mostly dissolves
 
