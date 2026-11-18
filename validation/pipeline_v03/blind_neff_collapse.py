@@ -31,7 +31,6 @@ from itertools import combinations
 
 import numpy as np
 import networkx as nx
-import community as community_louvain
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -89,15 +88,8 @@ def blind_partition(G):
     """Louvain on G. Returns (partition dict, modularity, K) for the largest
     connected component (community detection on a disconnected graph just bundles
     isolates)."""
-    if G.number_of_edges() == 0:
-        return {}, float("nan"), 0
-    # operate on giant component for a meaningful modularity
-    comps = sorted(nx.connected_components(G), key=len, reverse=True)
-    GC = G.subgraph(comps[0]).copy()
-    part = community_louvain.best_partition(GC, weight="weight", random_state=42)
-    mod = community_louvain.modularity(part, GC, weight="weight")
-    K = len(set(part.values()))
-    return part, float(mod), int(K)
+    part, mod, K = C.louvain_giant_component(G)
+    return part, mod, int(K)
 
 
 def block_activity_series(partition, activity_by_actor):

@@ -5,6 +5,7 @@ Run on CPU: python -m pytest validation/neff_v5 -q
 import datetime as dt
 import itertools
 import os
+import subprocess
 import sys
 
 import numpy as np
@@ -152,3 +153,85 @@ def test_runner_records_missing_harvests_as_no_data(tmp_path, monkeypatch):
     monkeypatch.setattr(run_v5, "WIKI_DATA", str(tmp_path / "none"))
     assert {r["status"] for r in run_v5.run_wsb_v4(2, 0)} == {"NO_DATA"}
     assert run_v5.run_wiki(2, 0)[0]["status"] == "NO_DATA"
+
+
+def test_summary_reports_event_and_calm_arms_apart():
+    runs = [
+        dict(substrate="wiki", arm="event", status="OK", obs_over_null_mass=3.0,
+             sparsity=0.0, null_pctile_of_obs=1.0, coupling_mass=0.3, null_mass_mean=0.1,
+             null_mass_p90=0.2, nnz_pairs=3),
+        dict(substrate="wiki", arm="event", status="OK", obs_over_null_mass=2.0,
+             sparsity=0.5, null_pctile_of_obs=0.9, coupling_mass=0.6, null_mass_mean=0.3,
+             null_mass_p90=0.7, nnz_pairs=1),
+        dict(substrate="wiki", arm="calm", status="OK", obs_over_null_mass=0.0,
+             sparsity=1.0, null_pctile_of_obs=0.0, coupling_mass=0.0, null_mass_mean=0.1,
+             null_mass_p90=0.2, nnz_pairs=0),
+        dict(substrate="wiki", arm="calm", status="TRIVIAL_PARTITION"),
+        dict(substrate="ecosystem", status="OK", obs_over_null_mass=2.8,
+             sparsity=0.48, null_pctile_of_obs=1.0, coupling_mass=2.21, null_mass_mean=0.78,
+             null_mass_p90=1.15, nnz_pairs=10),
+    ]
+    s = run_v5.summarize(runs)
+    assert s["wiki"]["n_runs"] == 4 and s["wiki"]["n_ok"] == 3
+    assert s["wiki"]["by_arm"]["event"]["median_obs_over_null_mass"] == 2.5
+    assert s["wiki"]["by_arm"]["calm"]["median_obs_over_null_mass"] == 0.0
+    assert s["wiki"]["by_arm"]["calm"]["n_ok_all_zero_fit"] == 1
+    assert s["wiki"]["by_arm"]["event"]["pooled_obs_over_null_mass"] == pytest.approx(0.9 / 0.4)
+    assert s["wiki"]["by_arm"]["event"]["frac_ok_above_null_p90"] == 0.5
+    assert s["wiki"]["by_arm"]["calm"]["n_runs"] == 2
+    assert "by_arm" not in s["ecosystem"]
+
+
+def test_block_top_articles_skip_focal_and_rank_by_members():
+    contribs = {"u1": [{"title": "Focal"}, {"title": "A"}, {"title": "A"}, {"title": "B"}],
+                "u2": [{"title": "A"}, {"title": "C"}],
+                "u3": [{"title": "D"}]}
+    part = {"u1": 0, "u2": 0, "u3": 1}
+    out = run_v5.block_top_articles(contribs, part, "Focal", n=2)
+    assert out == {"b0": ["A", "B"], "b1": ["D"]}
+
+
+LOUVAIN_PROBE = """
+import json, random, sys
+import networkx as nx
+sys.path.insert(0, sys.argv[1])
+import common as C
+rng = random.Random(7)
+names = [f"editor_{i:03d}" for i in range(60)]
+G = nx.Graph()
+for i in range(60):
+    for j in range(i + 1, 60):
+        if rng.random() < (0.10 if i // 15 == j // 15 else 0.06):
+            G.add_edge(names[i], names[j], weight=rng.randint(1, 4))
+G.add_nodes_from(f"lurker_{i:03d}" for i in range(100))
+part, mod, K = C.louvain_giant_component(G)
+print(json.dumps([sorted(part.items()), round(mod, 12), K]))
+"""
+
+
+def test_louvain_partition_does_not_depend_on_hash_seed():
+    pytest.importorskip("networkx")
+    pytest.importorskip("community")
+    common_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pipeline_v03")
+    outs = set()
+    for h in ("0", "1", "2", "3", "4", "5"):
+        env = dict(os.environ, PYTHONHASHSEED=h)
+        r = subprocess.run([sys.executable, "-c", LOUVAIN_PROBE, common_dir], env=env,
+                           capture_output=True, text=True, check=True)
+        outs.add(r.stdout)
+    assert len(outs) == 1
+
+
+def test_wiki_coedit_graph_drops_the_focal_article_under_its_current_title():
+    pytest.importorskip("networkx")
+    pytest.importorskip("matplotlib")
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wikipedia"))
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pipeline_v03"))
+    import neff_collapse_wiki as NW
+    rec = dict(title="Queen Elizabeth II", resolved_title="Elizabeth II",
+               editor_contribs={"u1": [{"title": "Elizabeth II"}, {"title": "Liz Truss"}],
+                                "u2": [{"title": "Elizabeth II"}],
+                                "u3": [{"title": "Liz Truss"}]})
+    assert NW.focal_titles(rec) == {"Queen Elizabeth II", "Elizabeth II"}
+    G = NW.coedit_graph(rec["editor_contribs"], NW.focal_titles(rec))
+    assert sorted(G.edges()) == [("u1", "u3")]

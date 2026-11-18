@@ -26,7 +26,6 @@ from itertools import combinations
 
 import numpy as np
 import networkx as nx
-import community as community_louvain
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -50,14 +49,22 @@ def parse_ts(ts):
     return dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ")
 
 
+def focal_titles(rec):
+    """Every title the focal article goes by in a harvested run: the roster title and,
+    when the API resolved a redirect or a page move, the article's current title."""
+    return {t for t in (rec.get("title"), rec.get("resolved_title")) if t}
+
+
 def coedit_graph(editor_contribs, focal_title):
     """editor-editor weighted graph; edge weight = # OTHER articles co-edited.
-    Focal article excluded so blocks reflect distinct interests, not the focal clique."""
+    Focal article excluded so blocks reflect distinct interests, not the focal clique.
+    focal_title is one title or a set of titles for the same article."""
+    focal = {focal_title} if isinstance(focal_title, str) else set(focal_title)
     article_editors = defaultdict(set)
     for ed, contribs in editor_contribs.items():
         for c in contribs:
             t = c.get("title")
-            if t and t != focal_title:
+            if t and t not in focal:
                 article_editors[t].add(ed)
     G = nx.Graph()
     G.add_nodes_from(editor_contribs.keys())
@@ -73,13 +80,7 @@ def coedit_graph(editor_contribs, focal_title):
 
 
 def blind_partition(G):
-    if G.number_of_edges() == 0:
-        return {}, float("nan"), 0
-    comps = sorted(nx.connected_components(G), key=len, reverse=True)
-    GC = G.subgraph(comps[0]).copy()
-    part = community_louvain.best_partition(GC, weight="weight", random_state=42)
-    mod = community_louvain.modularity(part, GC, weight="weight")
-    return part, float(mod), len(set(part.values()))
+    return C.louvain_giant_component(G)
 
 
 def block_bucket_matrix(focal_revs, partition, onset, lo, hi):
@@ -161,7 +162,7 @@ def analyze_run(rec):
     onset_lo = onset - dt.timedelta(days=3)
     onset_hi = onset + dt.timedelta(days=R.POST_DAYS + 1)
 
-    G = coedit_graph(rec["editor_contribs"], title)
+    G = coedit_graph(rec["editor_contribs"], focal_titles(rec))
     part, mod, K = blind_partition(G)
     out = dict(title=title, onset=onset_iso, arm=arm, K_blocks=K, modularity=mod,
                n_nodes=G.number_of_nodes(), n_edges=G.number_of_edges(),
@@ -231,8 +232,7 @@ def main():
     frac_fire = (len(fires) / len(ev)) if ev else None
     calm_p90 = float(np.percentile(ca_drops, 90)) if ca_drops else None
 
-    # SUPPLEMENTARY (not part of the frozen decision): quantify the event-vs-calm
-    # separation that is the primary directional prediction.
+    # Supplementary event-vs-calm separation, outside the decision rule.
     mw_p = wil_p = n_paired = None
     try:
         from scipy.stats import mannwhitneyu, wilcoxon
