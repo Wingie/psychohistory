@@ -1,0 +1,221 @@
+{
+  "summary": {
+    "wsb_v4": {
+      "n_runs": 12,
+      "n_ok": 0,
+      "n_no_data": 12,
+      "median_obs_over_null_mass": null,
+      "median_sparsity": null,
+      "median_null_pctile_of_obs": null
+    },
+    "wiki": {
+      "n_runs": 1,
+      "n_ok": 0,
+      "n_no_data": 1,
+      "median_obs_over_null_mass": null,
+      "median_sparsity": null,
+      "median_null_pctile_of_obs": null
+    },
+    "ecosystem": {
+      "n_runs": 1,
+      "n_ok": 1,
+      "n_no_data": 0,
+      "median_obs_over_null_mass": 2.8247982934155655,
+      "median_sparsity": 0.47619047619047616,
+      "median_null_pctile_of_obs": 1.0
+    }
+  },
+  "runs": [
+    {
+      "substrate": "wsb_v4",
+      "label": "covid_crash_mar2020",
+      "onset": "2020-03-16",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "vaccine_monday_nov2020",
+      "onset": "2020-11-09",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "archegos_blowup_mar2021",
+      "onset": "2021-03-26",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "coinbase_ipo_apr2021",
+      "onset": "2021-04-14",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "jpow_75bp_jun2022",
+      "onset": "2022-06-15",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "cs_cds_oct2022",
+      "onset": "2022-10-03",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "nvda_ai_aug2023",
+      "onset": "2023-08-23",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "powell_pivot_dec2023",
+      "onset": "2023-12-13",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "nvda_earnings_feb2024",
+      "onset": "2024-02-21",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "nvda_split_jun2024",
+      "onset": "2024-06-07",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "china_stimulus_sep2024",
+      "onset": "2024-09-24",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wsb_v4",
+      "label": "djt_election_nov2024",
+      "onset": "2024-11-06",
+      "status": "NO_DATA"
+    },
+    {
+      "substrate": "wiki",
+      "label": "*",
+      "status": "NO_DATA",
+      "path": "/home/flowstate/psychohistory-potts/validation/wikipedia/data"
+    },
+    {
+      "substrate": "ecosystem",
+      "label": "finance_basket_weekly_2020_06_2021_06",
+      "blocks": [
+        "wallstreetbets",
+        "investing",
+        "stocks",
+        "StockMarket",
+        "options",
+        "pennystocks",
+        "CryptoCurrency"
+      ],
+      "weeks": [
+        "2020-06-01",
+        "2021-06-28"
+      ],
+      "dropped_partial_blocks": [
+        "GME",
+        "Superstonk",
+        "amcstock"
+      ],
+      "n_windows": 56,
+      "n_blocks": 7,
+      "q": 2,
+      "lam": 0.18640921521975484,
+      "n_pairs": 21,
+      "nnz_pairs": 11,
+      "sparsity": 0.47619047619047616,
+      "coupling_mass": 2.212754384771561,
+      "null_mass_mean": 0.7833318187459112,
+      "null_mass_sd": 0.29760103969525187,
+      "null_mass_p90": 1.1545273861332463,
+      "obs_over_null_mass": 2.8247982934155655,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 3.5801442063853637,
+      "nlpl_fields_only": 4.789936064254186,
+      "fit_converged": true,
+      "fit_iters": 71,
+      "top_couplings": [
+        {
+          "a": "investing",
+          "b": "stocks",
+          "strength": 0.6094134775015654,
+          "J": 0.6094134775015654
+        },
+        {
+          "a": "stocks",
+          "b": "StockMarket",
+          "strength": 0.4635009473213925,
+          "J": 0.4635009473213925
+        },
+        {
+          "a": "wallstreetbets",
+          "b": "options",
+          "strength": 0.2518251601552491,
+          "J": 0.2518251601552491
+        },
+        {
+          "a": "StockMarket",
+          "b": "pennystocks",
+          "strength": 0.20165000517559145,
+          "J": 0.20165000517559145
+        },
+        {
+          "a": "wallstreetbets",
+          "b": "stocks",
+          "strength": 0.18869640606814359,
+          "J": 0.18869640606814359
+        },
+        {
+          "a": "investing",
+          "b": "options",
+          "strength": 0.15328048193570015,
+          "J": 0.15328048193570015
+        },
+        {
+          "a": "stocks",
+          "b": "pennystocks",
+          "strength": 0.12489945407220064,
+          "J": 0.12489945407220064
+        },
+        {
+          "a": "StockMarket",
+          "b": "options",
+          "strength": 0.08327111425462584,
+          "J": 0.08327111425462584
+        },
+        {
+          "a": "StockMarket",
+          "b": "CryptoCurrency",
+          "strength": 0.063438259266389,
+          "J": 0.063438259266389
+        },
+        {
+          "a": "wallstreetbets",
+          "b": "investing",
+          "strength": 0.052012124007839264,
+          "J": 0.052012124007839264
+        }
+      ],
+      "status": "OK"
+    }
+  ],
+  "params": {
+    "q": 2,
+    "discretize": "diff",
+    "n_null": 50,
+    "seed": 20261118,
+    "lam": "potts_fit.default_lam: 1.0 * sqrt(log K / T)",
+    "field_ridge": 0.001,
+    "null": "each block's time order permuted independently"
+  }
+}
