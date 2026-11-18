@@ -31,8 +31,7 @@ GITHUB_ONSETS = {
     "superagi":     "2023-06-04",
     "agentgpt":     "2023-04-09",
 }
-# The 8 repos of the LLM-agent cohort that are usable (babyagi dropped as
-# degenerate per github/RESULTS.md; gharchive_probe is not a repo).
+# Usable LLM-agent repos: babyagi is degenerate (github/RESULTS.md), gharchive_probe is not a repo.
 GITHUB_REPOS = ["autogpt", "langchain", "gpt_engineer", "metagpt",
                 "superagi", "agentgpt", "privategpt", "agentgpt"]
 GITHUB_REPOS = ["autogpt", "langchain", "gpt_engineer", "metagpt",
@@ -203,3 +202,29 @@ def percentile_rank(value, pool):
     if not pool:
         return float("nan")
     return float(np.mean([p < value for p in pool]))
+
+
+def louvain_giant_component(G, random_state=42):
+    """Louvain on the largest connected component of G, independent of PYTHONHASHSEED.
+
+    python-louvain walks string-keyed sets, so with string node names the same graph
+    and random_state can give a different partition in each interpreter. Nodes are
+    relabelled to integers in sorted-name order before the call and mapped back.
+    Returns (partition dict keyed by the original node names, modularity, K).
+    """
+    import networkx as nx
+    import community as community_louvain
+
+    if G.number_of_edges() == 0:
+        return {}, float("nan"), 0
+    comps = sorted(nx.connected_components(G), key=lambda c: (-len(c), min(map(str, c))))
+    nodes = sorted(comps[0], key=str)
+    idx = {u: i for i, u in enumerate(nodes)}
+    H = nx.Graph()
+    H.add_nodes_from(range(len(nodes)))
+    H.add_weighted_edges_from(sorted(
+        (min(idx[a], idx[b]), max(idx[a], idx[b]), d.get("weight", 1))
+        for a, b, d in G.subgraph(nodes).edges(data=True)))
+    part = community_louvain.best_partition(H, weight="weight", random_state=random_state)
+    mod = community_louvain.modularity(part, H, weight="weight")
+    return {nodes[i]: b for i, b in part.items()}, float(mod), len(set(part.values()))

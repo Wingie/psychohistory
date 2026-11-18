@@ -5,22 +5,55 @@
       "n_ok": 0,
       "n_no_data": 12,
       "median_obs_over_null_mass": null,
+      "pooled_obs_over_null_mass": null,
+      "n_ok_all_zero_fit": 0,
+      "frac_ok_above_null_p90": null,
       "median_sparsity": null,
       "median_null_pctile_of_obs": null
     },
     "wiki": {
-      "n_runs": 1,
-      "n_ok": 0,
-      "n_no_data": 1,
-      "median_obs_over_null_mass": null,
-      "median_sparsity": null,
-      "median_null_pctile_of_obs": null
+      "n_runs": 40,
+      "n_ok": 25,
+      "n_no_data": 0,
+      "median_obs_over_null_mass": 2.3265098176923473,
+      "pooled_obs_over_null_mass": 4.140964103386011,
+      "n_ok_all_zero_fit": 8,
+      "frac_ok_above_null_p90": 0.56,
+      "median_sparsity": 0.8333333333333334,
+      "median_null_pctile_of_obs": 0.94,
+      "by_arm": {
+        "calm": {
+          "n_runs": 20,
+          "n_ok": 11,
+          "n_no_data": 0,
+          "median_obs_over_null_mass": 3.1836891083194225,
+          "pooled_obs_over_null_mass": 6.109868096762228,
+          "n_ok_all_zero_fit": 4,
+          "frac_ok_above_null_p90": 0.5454545454545454,
+          "median_sparsity": 0.8333333333333334,
+          "median_null_pctile_of_obs": 0.96
+        },
+        "event": {
+          "n_runs": 20,
+          "n_ok": 14,
+          "n_no_data": 0,
+          "median_obs_over_null_mass": 2.100648898594969,
+          "pooled_obs_over_null_mass": 2.9793383332786143,
+          "n_ok_all_zero_fit": 4,
+          "frac_ok_above_null_p90": 0.5714285714285714,
+          "median_sparsity": 0.8333333333333334,
+          "median_null_pctile_of_obs": 0.94
+        }
+      }
     },
     "ecosystem": {
       "n_runs": 1,
       "n_ok": 1,
       "n_no_data": 0,
       "median_obs_over_null_mass": 2.8247982934155655,
+      "pooled_obs_over_null_mass": 2.8247982934155655,
+      "n_ok_all_zero_fit": 0,
+      "frac_ok_above_null_p90": 1.0,
       "median_sparsity": 0.47619047619047616,
       "median_null_pctile_of_obs": 1.0
     }
@@ -100,9 +133,1687 @@
     },
     {
       "substrate": "wiki",
-      "label": "*",
-      "status": "NO_DATA",
-      "path": "/home/flowstate/psychohistory-potts/validation/wikipedia/data"
+      "label": "Bitcoin",
+      "onset": "2020-04-14",
+      "arm": "calm",
+      "resolved_title": "Bitcoin",
+      "K_blocks": 4,
+      "modularity": 0.1851338873499539,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.0075441490080108056,
+      "null_mass_sd": 0.04255106052462361,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.7633835697710414,
+      "nlpl_fields_only": 0.7633835697704698,
+      "fit_converged": true,
+      "fit_iters": 58,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Antisemitism in the British Labour Party",
+          "COVID-19 pandemic",
+          "Radiohead"
+        ],
+        "b1": [
+          "COVID-19 pandemic in Spain",
+          "Impact of the COVID-19 pandemic on sports",
+          "2020 Russia\u2013Saudi Arabia oil price war"
+        ],
+        "b2": [
+          "Sky blue",
+          "Transsexual",
+          "'t"
+        ],
+        "b3": [
+          "Roger Ver",
+          "SARS-CoV-2",
+          "Satoshi Nakamoto"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Bitcoin",
+      "onset": "2021-04-14",
+      "arm": "event",
+      "resolved_title": "Bitcoin",
+      "K_blocks": 7,
+      "modularity": 0.33327907986111116,
+      "n_windows": 111,
+      "n_blocks": 7,
+      "q": 2,
+      "lam": 0.13240363312070172,
+      "n_pairs": 21,
+      "nnz_pairs": 1,
+      "sparsity": 0.9523809523809523,
+      "coupling_mass": 0.1911050413451685,
+      "null_mass_mean": 0.053491073557991854,
+      "null_mass_sd": 0.08598341426806307,
+      "null_mass_p90": 0.1903460020582527,
+      "obs_over_null_mass": 3.572652942513553,
+      "null_pctile_of_obs": 0.94,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.755882830373034,
+      "nlpl_fields_only": 1.7906894077242395,
+      "fit_converged": true,
+      "fit_iters": 164,
+      "top_couplings": [
+        {
+          "a": "b2",
+          "b": "b6",
+          "strength": 0.1911050413451685,
+          "J": 0.1911050413451685
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Matt Gaetz sexual misconduct allegations",
+          "Bill Clinton",
+          "Elon Musk"
+        ],
+        "b1": [
+          "Automatic Train Protection (United Kingdom)",
+          "1958 in literature",
+          "1995 PPG Indy Car World Series"
+        ],
+        "b2": [
+          "Jordan Peterson",
+          "Murder of Sarah Everard",
+          "Aimee Knight"
+        ],
+        "b3": [
+          "GameStop short squeeze",
+          "GameStop",
+          "GeForce RTX 30 series"
+        ],
+        "b4": [
+          "Autism",
+          "Civilization",
+          "Khela Hobe"
+        ],
+        "b5": [
+          "Airbus A380",
+          "Aki Yli-Salom\u00e4ki",
+          "Aksaray (electoral district)"
+        ],
+        "b6": [
+          "Blockchain",
+          "Bitcoin Cash",
+          "Bitcoin protocol"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Boeing 737 MAX",
+      "onset": "2018-03-10",
+      "arm": "calm",
+      "resolved_title": "Boeing 737 MAX",
+      "K_blocks": 3,
+      "modularity": 0.23355,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 2,
+      "sparsity": 0.33333333333333337,
+      "coupling_mass": 0.6915678226046126,
+      "null_mass_mean": 0.02256627909381135,
+      "null_mass_sd": 0.06189766520589715,
+      "null_mass_p90": 0.06298311818449748,
+      "obs_over_null_mass": 30.646072386575703,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.7953090204901979,
+      "nlpl_fields_only": 0.9111780339626021,
+      "fit_converged": true,
+      "fit_iters": 57,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.3598422422011879,
+          "J": 0.3598422422011879
+        },
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.3317255804034247,
+          "J": 0.3317255804034247
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Airbus A350",
+          "Airbus A400M Atlas",
+          "ArmaLite AR-15"
+        ],
+        "b1": [
+          "Iran Aseman Airlines Flight 3704",
+          "Saratov Airlines Flight 703",
+          "Virgin America"
+        ],
+        "b2": [
+          "Airbus A320neo family",
+          "Airbus A350",
+          "Airbus A380"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Boeing 737 MAX",
+      "onset": "2019-03-10",
+      "arm": "event",
+      "resolved_title": "Boeing 737 MAX",
+      "K_blocks": 3,
+      "modularity": 0.10831100610310199,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 1,
+      "sparsity": 0.6666666666666667,
+      "coupling_mass": 0.1710702548389899,
+      "null_mass_mean": 0.028188081635977028,
+      "null_mass_sd": 0.060094407730466905,
+      "null_mass_p90": 0.08474982680761678,
+      "obs_over_null_mass": 6.0688860295001215,
+      "null_pctile_of_obs": 0.96,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.9712175924759758,
+      "nlpl_fields_only": 0.9983604270663491,
+      "fit_converged": true,
+      "fit_iters": 166,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.1710702548389899,
+          "J": 0.1710702548389899
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Aeroper\u00fa Flight 603",
+          "Air France Flight 447",
+          "Airbus A380"
+        ],
+        "b1": [
+          "Ceridwen Fraser",
+          "Leptomeningeal collateral circulation",
+          "Microsomal epoxide hydrolase"
+        ],
+        "b2": [
+          "Boeing 787 Dreamliner",
+          "Boeing 737",
+          "Boeing 747-8"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Credit Suisse",
+      "onset": "2022-03-19",
+      "arm": "calm",
+      "resolved_title": "Credit Suisse",
+      "K_blocks": 4,
+      "modularity": 0.29772777901537095,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 1,
+      "sparsity": 0.8333333333333334,
+      "coupling_mass": 0.43105989121230376,
+      "null_mass_mean": 0.023136443489186774,
+      "null_mass_sd": 0.08239371767675419,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": 18.631208007996875,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.5890467333473253,
+      "nlpl_fields_only": 0.6443779494299491,
+      "fit_converged": true,
+      "fit_iters": 114,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.43105989121230376,
+          "J": 0.43105989121230376
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Alexander Abramov",
+          "Alexei Motlokhov",
+          "Andrey Guryev"
+        ],
+        "b1": [
+          "A Cinderella Story",
+          "Gospel",
+          "Gulabrao Patil"
+        ],
+        "b2": [
+          "Russo-Ukrainian war (2022\u2013present)",
+          "List of Solanum species",
+          "Mykola Kravchenko"
+        ],
+        "b3": [
+          "Truth Social",
+          "America First Political Action Conference",
+          "Charlie D'Agata"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Credit Suisse",
+      "onset": "2023-03-19",
+      "arm": "event",
+      "resolved_title": "Credit Suisse",
+      "K_blocks": 3,
+      "modularity": 0.3341488200534457,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 2,
+      "sparsity": 0.33333333333333337,
+      "coupling_mass": 0.3325471445639814,
+      "null_mass_mean": 0.031457141455429875,
+      "null_mass_sd": 0.07976705904208925,
+      "null_mass_p90": 0.14367613018419037,
+      "obs_over_null_mass": 10.571435584353765,
+      "null_pctile_of_obs": 0.98,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.7615605810362246,
+      "nlpl_fields_only": 0.8002620049731369,
+      "fit_converged": true,
+      "fit_iters": 194,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.19476651826626207,
+          "J": 0.19476651826626207
+        },
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.1377806262977193,
+          "J": 0.1377806262977193
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Silicon Valley Bank",
+          "15-minute city",
+          "2023 Nigerian presidential election"
+        ],
+        "b1": [
+          "2023 United States banking crisis",
+          "UBS",
+          "2022\u20132023 Brazilian election protests"
+        ],
+        "b2": [
+          "John Wick: Chapter 4",
+          "Alicia Garza",
+          "Alta\u2013Aurelia Community School District"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Diego Maradona",
+      "onset": "2019-11-26",
+      "arm": "calm",
+      "resolved_title": "Diego Maradona",
+      "K_blocks": 2,
+      "modularity": 0.21875,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Diego Maradona",
+      "onset": "2020-11-25",
+      "arm": "event",
+      "resolved_title": "Diego Maradona",
+      "K_blocks": 4,
+      "modularity": 0.40696416204986147,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 1,
+      "sparsity": 0.8333333333333334,
+      "coupling_mass": 0.04522455884031473,
+      "null_mass_mean": 0.11647354665897718,
+      "null_mass_sd": 0.10319424082242835,
+      "null_mass_p90": 0.24151276873791946,
+      "obs_over_null_mass": 0.38828180421712144,
+      "null_pctile_of_obs": 0.3,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.7177390197735494,
+      "nlpl_fields_only": 1.723455095825322,
+      "fit_converged": true,
+      "fit_iters": 88,
+      "top_couplings": [
+        {
+          "a": "b1",
+          "b": "b3",
+          "strength": 0.04522455884031473,
+          "J": 0.04522455884031473
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Giorgio Chiellini",
+          "Kevin De Bruyne",
+          "Adam Lallana"
+        ],
+        "b1": [
+          "Johan Cruyff",
+          "Paolo Maldini",
+          "Ruud Gullit"
+        ],
+        "b2": [
+          "2021 Formula One World Championship",
+          "Jellystone!",
+          "List of programmes broadcast by Cartoon Network (India)"
+        ],
+        "b3": [
+          "63rd Annual Grammy Awards",
+          "Arjun Kapoor",
+          "Battle of the Trench"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Donald Trump",
+      "onset": "2020-01-07",
+      "arm": "calm",
+      "resolved_title": "Donald Trump",
+      "K_blocks": 5,
+      "modularity": 0.18751380216214714,
+      "n_windows": 111,
+      "n_blocks": 5,
+      "q": 2,
+      "lam": 0.12041362320169367,
+      "n_pairs": 10,
+      "nnz_pairs": 8,
+      "sparsity": 0.19999999999999996,
+      "coupling_mass": 1.1350177825154533,
+      "null_mass_mean": 0.29267559773316576,
+      "null_mass_sd": 0.15104544856716806,
+      "null_mass_p90": 0.4641679128771356,
+      "obs_over_null_mass": 3.878074534762739,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 2.636999998408658,
+      "nlpl_fields_only": 2.931561525436198,
+      "fit_converged": true,
+      "fit_iters": 84,
+      "top_couplings": [
+        {
+          "a": "b2",
+          "b": "b3",
+          "strength": 0.23692116562068827,
+          "J": 0.23692116562068827
+        },
+        {
+          "a": "b1",
+          "b": "b4",
+          "strength": 0.21998528453013166,
+          "J": 0.21998528453013166
+        },
+        {
+          "a": "b0",
+          "b": "b4",
+          "strength": 0.19851926904297346,
+          "J": 0.19851926904297346
+        },
+        {
+          "a": "b0",
+          "b": "b3",
+          "strength": 0.14165929662990484,
+          "J": 0.14165929662990484
+        },
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.11809827565851093,
+          "J": 0.11809827565851093
+        },
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.09611678665732283,
+          "J": 0.09611678665732283
+        },
+        {
+          "a": "b2",
+          "b": "b4",
+          "strength": 0.06265823089851653,
+          "J": -0.06265823089851653
+        },
+        {
+          "a": "b1",
+          "b": "b3",
+          "strength": 0.061059473477404605,
+          "J": 0.061059473477404605
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Impeachment inquiry into Donald Trump",
+          "2019 Trump\u2013Ukraine scandal",
+          "First impeachment of Donald Trump"
+        ],
+        "b1": [
+          "Boris Johnson",
+          "Star Wars: The Rise of Skywalker",
+          "Juice Wrld"
+        ],
+        "b2": [
+          "Tulsi Gabbard",
+          "Fox News",
+          "John Birch Society"
+        ],
+        "b3": [
+          "Assassination of Qasem Soleimani",
+          "Qasem Soleimani",
+          "2019 Turkish offensive into northeastern Syria"
+        ],
+        "b4": [
+          "2020 Democratic Party presidential primaries",
+          "President of the United States",
+          "2020 Republican Party presidential primaries"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Donald Trump",
+      "onset": "2021-01-06",
+      "arm": "event",
+      "resolved_title": "Donald Trump",
+      "K_blocks": 5,
+      "modularity": 0.1614990339158628,
+      "n_windows": 111,
+      "n_blocks": 5,
+      "q": 2,
+      "lam": 0.12041362320169367,
+      "n_pairs": 10,
+      "nnz_pairs": 5,
+      "sparsity": 0.5,
+      "coupling_mass": 0.6024423014270381,
+      "null_mass_mean": 0.2867886688870211,
+      "null_mass_sd": 0.1519077056357191,
+      "null_mass_p90": 0.4968798698691929,
+      "obs_over_null_mass": 2.100648898594969,
+      "null_pctile_of_obs": 0.96,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 3.0468493524792932,
+      "nlpl_fields_only": 3.192996030745796,
+      "fit_converged": true,
+      "fit_iters": 53,
+      "top_couplings": [
+        {
+          "a": "b1",
+          "b": "b2",
+          "strength": 0.21633156430650802,
+          "J": 0.21633156430650802
+        },
+        {
+          "a": "b3",
+          "b": "b4",
+          "strength": 0.13138648450310325,
+          "J": 0.13138648450310325
+        },
+        {
+          "a": "b1",
+          "b": "b3",
+          "strength": 0.1199179950242779,
+          "J": 0.1199179950242779
+        },
+        {
+          "a": "b0",
+          "b": "b4",
+          "strength": 0.1063811012182823,
+          "J": 0.1063811012182823
+        },
+        {
+          "a": "b2",
+          "b": "b4",
+          "strength": 0.028425156374866645,
+          "J": -0.028425156374866645
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "2020 United States presidential election",
+          "Attempts to overturn the 2020 United States presidential election",
+          "Brad Raffensperger"
+        ],
+        "b1": [
+          "Joe Biden",
+          "Mike Pence",
+          "Barack Obama"
+        ],
+        "b2": [
+          "United States racial unrest (2020\u20132023)",
+          "2020 United States presidential election",
+          "Amy Coney Barrett"
+        ],
+        "b3": [
+          "President-elect of the United States",
+          "Presidential transition of Joe Biden",
+          "Brodie Lee"
+        ],
+        "b4": [
+          "Second Nagorno-Karabakh War",
+          "COVID-19 pandemic",
+          "Decolonization"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Evergrande Group",
+      "onset": "2020-09-20",
+      "arm": "calm",
+      "resolved_title": "Evergrande Group",
+      "K_blocks": 0,
+      "modularity": NaN,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Evergrande Group",
+      "onset": "2021-09-20",
+      "arm": "event",
+      "resolved_title": "Evergrande Group",
+      "K_blocks": 4,
+      "modularity": 0.5355555555555556,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 1,
+      "sparsity": 0.8333333333333334,
+      "coupling_mass": 0.49271966235520337,
+      "null_mass_mean": 0.0,
+      "null_mass_sd": 0.0,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": null,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.598880848833793,
+      "nlpl_fields_only": 0.6626310107452117,
+      "fit_converged": true,
+      "fit_iters": 118,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.49271966235520337,
+          "J": 0.49271966235520337
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "East West Bank",
+          "Supreme Leader of Afghanistan",
+          "Taliban"
+        ],
+        "b1": [
+          "Altria",
+          "Bulgari",
+          "2011\u201312 Syracuse Orange men's basketball team"
+        ],
+        "b2": [
+          "2020 Summer Olympics opening ceremony",
+          "AUKUS",
+          "Triantha occidentalis"
+        ],
+        "b3": [
+          "Carlos Vila Nova",
+          "Mercedes-Benz EQA",
+          "Suleiman Abdul Rahman"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "FTX",
+      "onset": "2021-11-08",
+      "arm": "calm",
+      "resolved_title": "FTX",
+      "K_blocks": 3,
+      "modularity": 0.33590963139120095,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.007558828267068987,
+      "null_mass_sd": 0.05291179786948291,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.46713459717980077,
+      "nlpl_fields_only": 0.46713459717980127,
+      "fit_converged": true,
+      "fit_iters": 48,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Deep States",
+          "List of Yale University people",
+          "List of shipwrecks in November 1878"
+        ],
+        "b1": [
+          "Sam Bankman-Fried",
+          "Bitstamp",
+          "COVID-19 vaccine"
+        ],
+        "b2": [
+          "Avalanche (blockchain platform)",
+          "Non-fungible token",
+          "USDC (cryptocurrency)"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "FTX",
+      "onset": "2022-11-08",
+      "arm": "event",
+      "resolved_title": "FTX",
+      "K_blocks": 2,
+      "modularity": 0.30000000000000004,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "GameStop",
+      "onset": "2020-01-26",
+      "arm": "calm",
+      "resolved_title": "GameStop",
+      "K_blocks": 2,
+      "modularity": 0.12244897959183669,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "GameStop",
+      "onset": "2021-01-25",
+      "arm": "event",
+      "resolved_title": "GameStop",
+      "K_blocks": 2,
+      "modularity": 0.25788534021027576,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Joe Biden",
+      "onset": "2019-11-08",
+      "arm": "calm",
+      "resolved_title": "Joe Biden",
+      "K_blocks": 4,
+      "modularity": 0.1495332796470712,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 1,
+      "sparsity": 0.8333333333333334,
+      "coupling_mass": 0.054311840564458036,
+      "null_mass_mean": 0.0593487691098142,
+      "null_mass_sd": 0.07501536547343876,
+      "null_mass_p90": 0.16971230333614623,
+      "obs_over_null_mass": 0.9151300250888735,
+      "null_pctile_of_obs": 0.68,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.425558186123124,
+      "nlpl_fields_only": 1.4323435944063927,
+      "fit_converged": true,
+      "fit_iters": 80,
+      "top_couplings": [
+        {
+          "a": "b1",
+          "b": "b2",
+          "strength": 0.054311840564458036,
+          "J": 0.054311840564458036
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "2020 Democratic Party presidential primaries",
+          "2019 Kentucky gubernatorial election",
+          "2020 United States presidential election"
+        ],
+        "b1": [
+          "2019 Trump\u2013Ukraine scandal",
+          "Hunter Biden",
+          "Donald Trump"
+        ],
+        "b2": [
+          "2019\u20132020 Hong Kong protests",
+          "Saudi-led intervention in the Yemeni civil war",
+          "2014 Jerusalem unrest"
+        ],
+        "b3": [
+          "George W. Bush",
+          "Barack Obama",
+          "Dwight D. Eisenhower"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Joe Biden",
+      "onset": "2020-11-07",
+      "arm": "event",
+      "resolved_title": "Joe Biden",
+      "K_blocks": 5,
+      "modularity": 0.19489868804553906,
+      "n_windows": 111,
+      "n_blocks": 5,
+      "q": 2,
+      "lam": 0.12041362320169367,
+      "n_pairs": 10,
+      "nnz_pairs": 5,
+      "sparsity": 0.5,
+      "coupling_mass": 0.5174083640748319,
+      "null_mass_mean": 0.20271677488577083,
+      "null_mass_sd": 0.11801978001472814,
+      "null_mass_p90": 0.36487345461480514,
+      "obs_over_null_mass": 2.552370736789726,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 2.348210567806337,
+      "nlpl_fields_only": 2.443050029428688,
+      "fit_converged": true,
+      "fit_iters": 126,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b3",
+          "strength": 0.14463448010997582,
+          "J": 0.14463448010997582
+        },
+        {
+          "a": "b3",
+          "b": "b4",
+          "strength": 0.1339278768828488,
+          "J": 0.1339278768828488
+        },
+        {
+          "a": "b1",
+          "b": "b3",
+          "strength": 0.10117787519295661,
+          "J": 0.10117787519295661
+        },
+        {
+          "a": "b0",
+          "b": "b4",
+          "strength": 0.08254937245573439,
+          "J": -0.08254937245573439
+        },
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.055118759433316275,
+          "J": 0.055118759433316275
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Donald Trump",
+          "Kamala Harris",
+          "2020 United States presidential election"
+        ],
+        "b1": [
+          "Amy Coney Barrett",
+          "Hunter Biden",
+          "Joe Biden 2020 presidential campaign"
+        ],
+        "b2": [
+          "HMS Temeraire (1798)",
+          "Operation PBFortune",
+          "SMS Dresden (1907)"
+        ],
+        "b3": [
+          "Ruth Bader Ginsburg",
+          "United States Electoral College",
+          "Academy Award for Best Supporting Actor"
+        ],
+        "b4": [
+          "Kamala Harris",
+          "2020 United States Senate elections",
+          "2020 United States presidential election"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Kobe Bryant",
+      "onset": "2019-01-26",
+      "arm": "calm",
+      "resolved_title": "Kobe Bryant",
+      "K_blocks": 2,
+      "modularity": 0.07851239669421492,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Kobe Bryant",
+      "onset": "2020-01-26",
+      "arm": "event",
+      "resolved_title": "Kobe Bryant",
+      "K_blocks": 3,
+      "modularity": 0.15424036281179143,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.04051543454624621,
+      "null_mass_sd": 0.07795896848605774,
+      "null_mass_p90": 0.15897070937442748,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.8754224002612497,
+      "nlpl_fields_only": 0.8754224002612516,
+      "fit_converged": true,
+      "fit_iters": 38,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Drake (musician)",
+          "Fujian",
+          "Kevin Garnett"
+        ],
+        "b1": [
+          "Michael Jordan",
+          "LeBron James",
+          "Bill Russell"
+        ],
+        "b2": [
+          "Blake Griffin",
+          "LeBron James",
+          "Al Harrington"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "NATO",
+      "onset": "2021-02-24",
+      "arm": "calm",
+      "resolved_title": "NATO",
+      "K_blocks": 2,
+      "modularity": 0.21875,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "NATO",
+      "onset": "2022-02-24",
+      "arm": "event",
+      "resolved_title": "NATO",
+      "K_blocks": 4,
+      "modularity": 0.2269666360575452,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 1,
+      "sparsity": 0.8333333333333334,
+      "coupling_mass": 0.1647842620334325,
+      "null_mass_mean": 0.01678724316489728,
+      "null_mass_sd": 0.06416662262055088,
+      "null_mass_p90": 0.018678926550096585,
+      "obs_over_null_mass": 9.816040693209366,
+      "null_pctile_of_obs": 0.94,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.7719257681645308,
+      "nlpl_fields_only": 0.791725835615102,
+      "fit_converged": true,
+      "fit_iters": 105,
+      "top_couplings": [
+        {
+          "a": "b1",
+          "b": "b2",
+          "strength": 0.1647842620334325,
+          "J": 0.1647842620334325
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Nord Stream 1",
+          "2022 Kazakh unrest",
+          "2022 Hunga Tonga\u2013Hunga Ha\u02bbapai eruption and tsunami"
+        ],
+        "b1": [
+          "Russo-Ukrainian war",
+          "2022 Winter Olympics",
+          "Balance of payments"
+        ],
+        "b2": [
+          "Boeing B-52 Stratofortress",
+          "Canadian Armed Forces",
+          "FGM-148 Javelin"
+        ],
+        "b3": [
+          "Cold War",
+          "United Front Work Department",
+          "United Kingdom"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Notre-Dame de Paris",
+      "onset": "2018-04-15",
+      "arm": "calm",
+      "resolved_title": "Notre-Dame de Paris",
+      "K_blocks": 3,
+      "modularity": 0.20516800584368156,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 1,
+      "sparsity": 0.6666666666666667,
+      "coupling_mass": 0.5971129959541626,
+      "null_mass_mean": 0.020821965024228558,
+      "null_mass_sd": 0.06730944351883081,
+      "null_mass_p90": 0.011871111126857755,
+      "obs_over_null_mass": 28.677072277249454,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.5334392282242796,
+      "nlpl_fields_only": 0.6275573303603363,
+      "fit_converged": true,
+      "fit_iters": 65,
+      "top_couplings": [
+        {
+          "a": "b1",
+          "b": "b2",
+          "strength": 0.5971129959541626,
+          "J": 0.5971129959541626
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "A Quiet Place",
+          "Amtrak",
+          "List of monument and memorial controversies in the United States"
+        ],
+        "b1": [
+          "April 14",
+          "Aztec society",
+          "Brachyura"
+        ],
+        "b2": [
+          "Francis Bacon",
+          "Frida Kahlo",
+          "Maca\u00fabas"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Notre-Dame de Paris",
+      "onset": "2019-04-15",
+      "arm": "event",
+      "resolved_title": "Notre-Dame de Paris",
+      "K_blocks": 3,
+      "modularity": 0.2985513807152558,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.008218369123561317,
+      "null_mass_sd": 0.04026162174128405,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.5308045637240363,
+      "nlpl_fields_only": 0.5308045637240391,
+      "fit_converged": true,
+      "fit_iters": 63,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Ben Kingsley",
+          "2015 Shoreham Airshow crash",
+          "2017\u201318 European windstorm season"
+        ],
+        "b1": [
+          "Baarish (film)",
+          "Bonaldo Giaiotti",
+          "Caledonian Forest"
+        ],
+        "b2": [
+          "1920 Haiyuan earthquake",
+          "1989 Tiananmen Square protests and massacre",
+          "Aidan Gallagher"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "OpenAI",
+      "onset": "2021-11-30",
+      "arm": "calm",
+      "resolved_title": "OpenAI",
+      "K_blocks": 2,
+      "modularity": 0.0,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "OpenAI",
+      "onset": "2022-11-30",
+      "arm": "event",
+      "resolved_title": "OpenAI",
+      "K_blocks": 2,
+      "modularity": 0.22000000000000006,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Queen Elizabeth II",
+      "onset": "2021-09-08",
+      "arm": "calm",
+      "resolved_title": "Elizabeth II",
+      "K_blocks": 4,
+      "modularity": 0.1486481677966979,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 3,
+      "sparsity": 0.5,
+      "coupling_mass": 0.4877721885664613,
+      "null_mass_mean": 0.1532097425253756,
+      "null_mass_sd": 0.15827937618725144,
+      "null_mass_p90": 0.41171627681088224,
+      "obs_over_null_mass": 3.1836891083194225,
+      "null_pctile_of_obs": 0.96,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.6336561753791878,
+      "nlpl_fields_only": 1.7267495436360292,
+      "fit_converged": true,
+      "fit_iters": 141,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.23626818617097484,
+          "J": 0.23626818617097484
+        },
+        {
+          "a": "b1",
+          "b": "b2",
+          "strength": 0.1286722704440057,
+          "J": 0.1286722704440057
+        },
+        {
+          "a": "b2",
+          "b": "b3",
+          "strength": 0.12283173195148077,
+          "J": 0.12283173195148077
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Andrew Cuomo",
+          "Barack Obama",
+          "Islamic Emirate of Afghanistan (1996\u20132001)"
+        ],
+        "b1": [
+          "Meghan, Duchess of Sussex",
+          "Anne, Princess Royal",
+          "Prince Edward, Duke of Edinburgh"
+        ],
+        "b2": [
+          "Charles III",
+          "Edward VII",
+          "George VI"
+        ],
+        "b3": [
+          "Edmond H. Fischer",
+          "Franck Berrier",
+          "Jean-Paul Belmondo"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Queen Elizabeth II",
+      "onset": "2022-09-08",
+      "arm": "event",
+      "resolved_title": "Elizabeth II",
+      "K_blocks": 3,
+      "modularity": 0.26828931334485784,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 2,
+      "sparsity": 0.33333333333333337,
+      "coupling_mass": 0.381226145578923,
+      "null_mass_mean": 0.10097244672740553,
+      "null_mass_sd": 0.11269424023081434,
+      "null_mass_p90": 0.2701212704879202,
+      "obs_over_null_mass": 3.7755462795520445,
+      "null_pctile_of_obs": 0.98,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.4254250299529874,
+      "nlpl_fields_only": 1.4987609845539354,
+      "fit_converged": true,
+      "fit_iters": 72,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.28512333606221263,
+          "J": 0.28512333606221263
+        },
+        {
+          "a": "b0",
+          "b": "b1",
+          "strength": 0.09610280951671035,
+          "J": 0.09610280951671035
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Liz Truss",
+          "Olivia Newton-John",
+          "July\u2013September 2022 Conservative Party leadership election"
+        ],
+        "b1": [
+          "List of longest-reigning monarchs",
+          "Queen Victoria",
+          "Commonwealth realm"
+        ],
+        "b2": [
+          "July 2022 United Kingdom government crisis",
+          "Boris Johnson",
+          "July\u2013September 2022 Conservative Party leadership election"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Robinhood (company)",
+      "onset": "2020-01-29",
+      "arm": "calm",
+      "resolved_title": "Robinhood (company)",
+      "K_blocks": 3,
+      "modularity": 0.2160493827160493,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 1,
+      "sparsity": 0.6666666666666667,
+      "coupling_mass": 0.29531073300791916,
+      "null_mass_mean": 0.0,
+      "null_mass_sd": 0.0,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": null,
+      "null_pctile_of_obs": 1.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.49949737676621014,
+      "nlpl_fields_only": 0.533818283238234,
+      "fit_converged": true,
+      "fit_iters": 114,
+      "top_couplings": [
+        {
+          "a": "b0",
+          "b": "b2",
+          "strength": 0.29531073300791916,
+          "J": 0.29531073300791916
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Slavery in the United States",
+          "Star Wars: The Rise of Skywalker",
+          "Volkswagen emissions scandal"
+        ],
+        "b1": [
+          "Gracenote",
+          "(C6)-CP 47,497",
+          "(C9)-CP 47,497"
+        ],
+        "b2": [
+          "Rudy Giuliani",
+          "1990 Manitoba general election",
+          "2008 Mumbai attacks"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Robinhood (company)",
+      "onset": "2021-01-28",
+      "arm": "event",
+      "resolved_title": "Robinhood (company)",
+      "K_blocks": 2,
+      "modularity": 0.08503401360544216,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Silicon Valley Bank",
+      "onset": "2022-03-10",
+      "arm": "calm",
+      "resolved_title": "Silicon Valley Bank",
+      "K_blocks": 0,
+      "modularity": NaN,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Silicon Valley Bank",
+      "onset": "2023-03-10",
+      "arm": "event",
+      "resolved_title": "Silicon Valley Bank",
+      "K_blocks": 1,
+      "modularity": 0.0,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Suez Canal",
+      "onset": "2020-03-23",
+      "arm": "calm",
+      "resolved_title": "Suez Canal",
+      "K_blocks": 2,
+      "modularity": 0.21875,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Suez Canal",
+      "onset": "2021-03-23",
+      "arm": "event",
+      "resolved_title": "Suez Canal",
+      "K_blocks": 4,
+      "modularity": 0.4756944444444444,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.0037057024245606496,
+      "null_mass_sd": 0.025939916971924548,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.778316100415455,
+      "nlpl_fields_only": 0.7783161004154426,
+      "fit_converged": true,
+      "fit_iters": 48,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Titanic conspiracy theories",
+          "World War II",
+          "1913 coup"
+        ],
+        "b1": [
+          "Algerian War",
+          "Abd el-Krim",
+          "Aden"
+        ],
+        "b2": [
+          "Poland",
+          "Shenzhen",
+          "V-weapons"
+        ],
+        "b3": [
+          "Anne Hathaway",
+          "ISBN",
+          "Shrek (franchise)"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Terra (blockchain)",
+      "onset": "2021-05-09",
+      "arm": "calm",
+      "resolved_title": "Terra (blockchain)",
+      "K_blocks": 0,
+      "modularity": NaN,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Terra (blockchain)",
+      "onset": "2022-05-09",
+      "arm": "event",
+      "resolved_title": "Terra (blockchain)",
+      "K_blocks": 0,
+      "modularity": NaN,
+      "status": "TRIVIAL_PARTITION"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Twitter",
+      "onset": "2021-10-27",
+      "arm": "calm",
+      "resolved_title": "X (social network)",
+      "K_blocks": 6,
+      "modularity": 0.47899929111531186,
+      "n_windows": 111,
+      "n_blocks": 6,
+      "q": 2,
+      "lam": 0.12705108106684,
+      "n_pairs": 15,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.017431672997722067,
+      "null_mass_sd": 0.07204217810128574,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.314466686148851,
+      "nlpl_fields_only": 1.3144666861487482,
+      "fit_converged": true,
+      "fit_iters": 102,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Instagram",
+          "Clubhouse (app)",
+          "Aly Goni"
+        ],
+        "b1": [
+          "Cyber Intelligence Sharing and Protection Act",
+          "Deaths in March 2021",
+          "Debbie Stabenow"
+        ],
+        "b2": [
+          "Amazon Cooperation Treaty Organization",
+          "Australia",
+          "Bank of the South"
+        ],
+        "b3": [
+          "\u00c9ric Zemmour",
+          "Shang-Chi and the Legend of the Ten Rings",
+          "2020 Afghanistan flood"
+        ],
+        "b4": [
+          "The Rolling Stones",
+          "Adam Levine",
+          "Adele"
+        ],
+        "b5": [
+          "Diablo II: Resurrected",
+          "Squid Game",
+          "System Shock"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Twitter",
+      "onset": "2022-10-27",
+      "arm": "event",
+      "resolved_title": "X (social network)",
+      "K_blocks": 4,
+      "modularity": 0.3362918083900227,
+      "n_windows": 111,
+      "n_blocks": 4,
+      "q": 2,
+      "lam": 0.11175481371496926,
+      "n_pairs": 6,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.041042446062099745,
+      "null_mass_sd": 0.10467681959000526,
+      "null_mass_p90": 0.14029426222375968,
+      "obs_over_null_mass": 0.0,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.1212322175890101,
+      "nlpl_fields_only": 1.1212322175890128,
+      "fit_converged": true,
+      "fit_iters": 64,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Acquisition of Twitter by Elon Musk",
+          "Activision",
+          "Bayonetta 3"
+        ],
+        "b1": [
+          "October 2022 Conservative Party leadership election",
+          "2022 Chinese military exercises around Taiwan",
+          "2022 Crimean Bridge explosion"
+        ],
+        "b2": [
+          "Rishi Sunak",
+          "Sustainable fashion",
+          "The Jesuit Relations"
+        ],
+        "b3": [
+          "2002 Gujarat violence",
+          "Alvin and the Chipmunks",
+          "Beechcraft Bonanza"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Volodymyr Zelenskyy",
+      "onset": "2021-02-24",
+      "arm": "calm",
+      "resolved_title": "Volodymyr Zelenskyy",
+      "K_blocks": 3,
+      "modularity": 0.48139780972856766,
+      "n_windows": 111,
+      "n_blocks": 3,
+      "q": 2,
+      "lam": 0.09948571759815077,
+      "n_pairs": 3,
+      "nnz_pairs": 0,
+      "sparsity": 1.0,
+      "coupling_mass": 0.0,
+      "null_mass_mean": 0.0,
+      "null_mass_sd": 0.0,
+      "null_mass_p90": 0.0,
+      "obs_over_null_mass": null,
+      "null_pctile_of_obs": 0.0,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 0.5808485228156276,
+      "nlpl_fields_only": 0.5808485228156349,
+      "fit_converged": true,
+      "fit_iters": 89,
+      "top_couplings": [],
+      "block_top_articles": {
+        "b0": [
+          "Abdurrahman Wahid",
+          "Abolhassan Banisadr",
+          "Adly Mansour"
+        ],
+        "b1": [
+          "January 6 United States Capitol attack",
+          "Petro Poroshenko",
+          "Alexei Navalny"
+        ],
+        "b2": [
+          "What? Where? When?",
+          "2014 Simferopol incident",
+          "2021 Russian protests"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "substrate": "wiki",
+      "label": "Volodymyr Zelenskyy",
+      "onset": "2022-02-24",
+      "arm": "event",
+      "resolved_title": "Volodymyr Zelenskyy",
+      "K_blocks": 5,
+      "modularity": 0.2512417777777778,
+      "n_windows": 111,
+      "n_blocks": 5,
+      "q": 2,
+      "lam": 0.12041362320169367,
+      "n_pairs": 10,
+      "nnz_pairs": 1,
+      "sparsity": 0.9,
+      "coupling_mass": 0.15306105686823024,
+      "null_mass_mean": 0.09389357570211615,
+      "null_mass_sd": 0.11663254963308847,
+      "null_mass_p90": 0.25218861258217,
+      "obs_over_null_mass": 1.6301547334167676,
+      "null_pctile_of_obs": 0.74,
+      "null_k": 50,
+      "null_seed": 20261118,
+      "nlpl": 1.7631065308991674,
+      "nlpl_fields_only": 1.7844183272096592,
+      "fit_converged": true,
+      "fit_iters": 110,
+      "top_couplings": [
+        {
+          "a": "b2",
+          "b": "b4",
+          "strength": 0.15306105686823024,
+          "J": 0.15306105686823024
+        }
+      ],
+      "block_top_articles": {
+        "b0": [
+          "Russo-Ukrainian war",
+          "Vladimir Putin",
+          "Donetsk People's Republic"
+        ],
+        "b1": [
+          "Megan Thee Stallion",
+          "Joe Biden",
+          "Prey//IV"
+        ],
+        "b2": [
+          "Betty White",
+          "Stem Player",
+          "2021 North Shropshire by-election"
+        ],
+        "b3": [
+          "Prelude to the 2022 Russian invasion of Ukraine",
+          "Freedom Convoy",
+          "January 6 United States Capitol attack"
+        ],
+        "b4": [
+          "Chamillionaire",
+          "Anna Delvey",
+          "Donda 2"
+        ]
+      },
+      "status": "OK"
     },
     {
       "substrate": "ecosystem",

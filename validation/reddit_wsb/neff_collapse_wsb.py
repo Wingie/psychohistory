@@ -30,7 +30,6 @@ from itertools import combinations
 
 import numpy as np
 import networkx as nx
-import community as community_louvain
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -118,13 +117,7 @@ def cothread_graph(comments, user_cap, thread_cap, per_thread_cap, seed=42):
 
 
 def blind_partition(G):
-    if G.number_of_edges() == 0:
-        return {}, float("nan"), 0
-    comps = sorted(nx.connected_components(G), key=len, reverse=True)
-    GC = G.subgraph(comps[0]).copy()
-    part = community_louvain.best_partition(GC, weight="weight", random_state=42)
-    mod = community_louvain.modularity(part, GC, weight="weight")
-    return part, float(mod), len(set(part.values()))
+    return C.louvain_giant_component(G)
 
 
 def block_bucket_matrix(comments, partition, lo, hi):
@@ -251,10 +244,7 @@ def analyze_run(label, onset_iso, arm, comments):
         out["status"] = "TRIVIAL_PARTITION"
         return out
 
-    # Precompute per-USER bucket matrices ONCE for the three windows; the observed
-    # collapse and all 300 shuffles are then pure numpy on these (block reassignment =
-    # a one-hot matmul). This is the only way to keep 300 shuffles tractable on the
-    # huge WSB comment files (one bucketing pass over comments instead of 300).
+    # Per-user bucket matrices once, so each of the 300 shuffles is a one-hot matmul.
     nodes = list(part.keys())
     user_index = {u: i for i, u in enumerate(nodes)}
     block_of = np.array([part[u] for u in nodes])

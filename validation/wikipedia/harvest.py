@@ -53,6 +53,13 @@ def iso(d):
     return d.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def resolve_title(title):
+    """The article's current title after redirects; usercontribs reports this one."""
+    d = _get(dict(action="query", titles=title, redirects=1))
+    pages = (d.get("query", {}) or {}).get("pages", [])
+    return pages[0].get("title", title) if pages else title
+
+
 def focal_revisions(title, start_newer, end_older):
     """All (user, timestamp) revisions of `title` in (end_older, start_newer]."""
     revs, cont = [], None
@@ -97,7 +104,11 @@ def harvest_run(title, onset_iso, arm):
     path = os.path.join(DATA, slug(title, onset_iso, arm))
     if os.path.exists(path):
         sys.stderr.write(f"  skip (cached) {title} [{arm}] {onset_iso}\n")
-        return json.load(open(path, encoding="utf-8"))
+        rec = json.load(open(path, encoding="utf-8"))
+        if "resolved_title" not in rec:
+            rec["resolved_title"] = resolve_title(title)
+            json.dump(rec, open(path, "w", encoding="utf-8"))
+        return rec
 
     onset = dt.date.fromisoformat(onset_iso)
     base_start = dt.datetime.combine(onset - dt.timedelta(days=R.BASELINE_DAYS), dt.time())
@@ -127,7 +138,7 @@ def harvest_run(title, onset_iso, arm):
         if (i + 1) % 25 == 0:
             sys.stderr.write(f"    .. {i+1}/{len(editors)} editors, {N_CALLS[0]} calls\n")
 
-    rec = dict(title=title, onset=onset_iso, arm=arm,
+    rec = dict(title=title, resolved_title=resolve_title(title), onset=onset_iso, arm=arm,
                params=dict(baseline_days=R.BASELINE_DAYS, post_days=R.POST_DAYS,
                            editor_cap=R.EDITOR_CAP),
                focal_revs=revs, pre_onset_editors=editors,

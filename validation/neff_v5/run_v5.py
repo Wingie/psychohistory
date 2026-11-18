@@ -109,11 +109,12 @@ def run_wiki(k, seed):
             import neff_collapse_wiki as NW
             import roster as RW
             run = json.load(open(os.path.join(WIKI_DATA, f), encoding="utf-8"))
-            rec.update(label=run.get("title"), onset=run.get("onset"), arm=run.get("arm"))
+            rec.update(label=run.get("title"), onset=run.get("onset"), arm=run.get("arm"),
+                       resolved_title=run.get("resolved_title"))
             o = dt.date.fromisoformat(run["onset"])
             lo = o - dt.timedelta(days=RW.BASELINE_DAYS)
             hi = o + dt.timedelta(days=RW.POST_DAYS + 1)
-            G = NW.coedit_graph(run["editor_contribs"], run["title"])
+            G = NW.coedit_graph(run["editor_contribs"], NW.focal_titles(run))
             part, mod, K = NW.blind_partition(G)
             rec.update(K_blocks=K, modularity=mod)
             if K < 3:
@@ -123,11 +124,25 @@ def run_wiki(k, seed):
                           for rv in run["focal_revs"] if rv.get("ts"))
                 M, blocks = daily_block_matrix(events, part, lo, hi)
                 rec.update(potts_run(M, [f"b{b}" for b in blocks], k, seed))
+                rec["block_top_articles"] = block_top_articles(
+                    run["editor_contribs"], part, NW.focal_titles(run))
                 rec["status"] = "OK"
         except Exception as e:
             rec.update(status="ERROR", err=f"{type(e).__name__}: {e}")
         out.append(rec)
     return out
+
+
+def block_top_articles(editor_contribs, partition, focal_titles, n=3):
+    """Per block, the n articles (focal titles excluded) edited by the most block members."""
+    focal = {focal_titles} if isinstance(focal_titles, str) else set(focal_titles)
+    per_block = defaultdict(lambda: defaultdict(int))
+    for user, b in partition.items():
+        for title in {c.get("title") for c in editor_contribs.get(user, [])}:
+            if title and title not in focal:
+                per_block[b][title] += 1
+    return {f"b{b}": [t for t, _ in sorted(per_block[b].items(), key=lambda kv: (-kv[1], kv[0]))[:n]]
+            for b in sorted(set(partition.values()))}
 
 
 def run_ecosystem(k, seed):
@@ -146,22 +161,38 @@ def run_ecosystem(k, seed):
     return [rec]
 
 
+def _summary_of(rs):
+    ok = [r for r in rs if r.get("status") == "OK"]
+    ratios = [r["obs_over_null_mass"] for r in ok if r.get("obs_over_null_mass") is not None]
+    null_sum = sum(r["null_mass_mean"] for r in ok)
+    return dict(
+        n_runs=len(rs), n_ok=len(ok),
+        n_no_data=sum(1 for r in rs if r.get("status") == "NO_DATA"),
+        median_obs_over_null_mass=float(np.median(ratios)) if ratios else None,
+        pooled_obs_over_null_mass=(float(sum(r["coupling_mass"] for r in ok) / null_sum)
+                                   if null_sum > 0 else None),
+        n_ok_all_zero_fit=sum(1 for r in ok if r["nnz_pairs"] == 0),
+        frac_ok_above_null_p90=(float(np.mean([r["coupling_mass"] > r["null_mass_p90"]
+                                               for r in ok])) if ok else None),
+        median_sparsity=float(np.median([r["sparsity"] for r in ok])) if ok else None,
+        median_null_pctile_of_obs=(float(np.median([r["null_pctile_of_obs"] for r in ok]))
+                                   if ok else None),
+    )
+
+
 def summarize(runs):
+    """Per substrate, and per arm inside a substrate whose runs carry one (wiki: the
+    event window and its matched calm window a year earlier are reported apart)."""
     by = defaultdict(list)
     for r in runs:
         by[r["substrate"]].append(r)
     out = {}
     for sub, rs in by.items():
-        ok = [r for r in rs if r.get("status") == "OK"]
-        ratios = [r["obs_over_null_mass"] for r in ok if r.get("obs_over_null_mass") is not None]
-        out[sub] = dict(
-            n_runs=len(rs), n_ok=len(ok),
-            n_no_data=sum(1 for r in rs if r.get("status") == "NO_DATA"),
-            median_obs_over_null_mass=float(np.median(ratios)) if ratios else None,
-            median_sparsity=float(np.median([r["sparsity"] for r in ok])) if ok else None,
-            median_null_pctile_of_obs=(float(np.median([r["null_pctile_of_obs"] for r in ok]))
-                                       if ok else None),
-        )
+        out[sub] = _summary_of(rs)
+        arms = sorted({r["arm"] for r in rs if r.get("arm")})
+        if arms:
+            out[sub]["by_arm"] = {a: _summary_of([r for r in rs if r.get("arm") == a])
+                                  for a in arms}
     return out
 
 
